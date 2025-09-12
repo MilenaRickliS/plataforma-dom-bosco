@@ -2,14 +2,19 @@ import { BrowserRouter } from 'react-router-dom'
 import RoutesApp from './routes';
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
+import Navbar from "./components/site/Header";
+import AuthProvider from "./contexts/auth";
 
 
 function App() {
   return (
-    <BrowserRouter>      
+    <AuthProvider>
+      <BrowserRouter>
+        <Header/>
         <ToastContainer autoClose={3000} />
-        <RoutesApp/>
-    </BrowserRouter>
+        <RoutesApp />
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

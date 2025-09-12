@@ -1,0 +1,30 @@
+nav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: "10px 20px";
+    background: #1e40af;
+    color: #fff;
+}
+.logo{
+    font-weight: bold;
+    font-size: "18px"
+}
+menu{
+    display: flex;
+    gap: 20px
+}
+link{
+    color: #fff;
+    text-decoration: none
+}
+button {
+    background: #facc15; 
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    cursor: pointer;    
+    color: #000;
+    font-weight: bold;
+    text-decoration: none
+}
