@@ -3,7 +3,7 @@ import Footer from "../../../components/site/Footer";
 
 export default function Comunidade() {
   return (
-    <div id="root">
+    <div className="page">
         <Header />
         <main>
                 
