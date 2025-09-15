@@ -1,10 +1,14 @@
 import Header from "../../../components/site/Header";
+import Footer from "../../../components/site/Footer";
 
 export default function ProjetosCursos() {
   return (
-    <div>
-      <Header />
-      
+    <div id="root">
+        <Header />
+        <main>
+                
+        </main>
+        <Footer />
     </div>
   );
 }
