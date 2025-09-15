@@ -13,64 +13,65 @@ import ProximosEventos from '../pages/site/ProximosEventos';
 import EventosDetalhes from '../pages/site/EventosDetalhes';
 import Contato from '../pages/site/Contato';
 
-import Private from './private';
+// import Private from './private';
 
-import InicioAluno from '../pages/portal_aluno/Inicio';
-import AgendaAluno from '../pages/portal_aluno/Agenda';
-import VideosAluno from '../pages/portal_aluno/Videos';
-import VideosDetalhesAluno from '../pages/portal_aluno/VideosDetalhes';
-import NotasAluno from '../pages/portal_aluno/Notas';
-import DocumentosAluno from '../pages/portal_aluno/Documentos';
-import AjudaAluno from '../pages/portal_aluno/Ajuda';
-import AvisosAluno from '../pages/portal_aluno/Avisos';
-import PerfilAluno from '../pages/portal_aluno/Perfil';
-import TurmaAluno from '../pages/portal_aluno/Turma';
-import AtividadesAluno from '../pages/portal_aluno/Atividades';
-import AtivDetalheAluno from '../pages/portal_aluno/AtivDetalhe';
-import AlunosAluno from '../pages/portal_aluno/Alunos';
+// import InicioAluno from '../pages/portal_aluno/Inicio';
+// import AgendaAluno from '../pages/portal_aluno/Agenda';
+// import VideosAluno from '../pages/portal_aluno/Videos';
+// import VideosDetalhesAluno from '../pages/portal_aluno/VideosDetalhes';
+// import NotasAluno from '../pages/portal_aluno/Notas';
+// import DocumentosAluno from '../pages/portal_aluno/Documentos';
+// import AjudaAluno from '../pages/portal_aluno/Ajuda';
+// import AvisosAluno from '../pages/portal_aluno/Avisos';
+// import PerfilAluno from '../pages/portal_aluno/Perfil';
+// import TurmaAluno from '../pages/portal_aluno/Turma';
+// import AtividadesAluno from '../pages/portal_aluno/Atividades';
+// import AtivDetalheAluno from '../pages/portal_aluno/AtivDetalhe';
+// import AlunosAluno from '../pages/portal_aluno/Alunos';
 
-import InicioAdm from '../pages/adm/Inicio';
+// import InicioAdm from '../pages/adm/Inicio';
 
-import InicioProfessor from '../pages/adm/portal_professor/Inicio';
-import AgendaProfessor from '../pages/adm/portal_professor/Agenda';
-import VideosProfessor from '../pages/adm/portal_professor/Videos';
-import VideosDetalhesProfessor from '../pages/adm/portal_professor/DetalhesVideo';
-import AddVideos from '../pages/adm/portal_professor/AddVideos';
-import NotasProfessor from '../pages/adm/portal_professor/Notas';
-import DocumentosProfessor from '../pages/adm/portal_professor/Documentos';
-import AjudaProfessor from '../pages/adm/portal_professor/Ajuda';
-import AvisosProfessor from '../pages/adm/portal_professor/Avisos';
-import PostAvisosProfessor from '../pages/adm/portal_professor/PostAvisos';
-import PerfilProfessor from '../pages/adm/portal_professor/Perfil';
-import TurmaProfessor from '../pages/adm/portal_professor/Turma';
-import AddAtividadeProfessor from '../pages/adm/portal_professor/AddAtividade';
-import AtividadesProfessor from '../pages/adm/portal_professor/Atividades';
-import AtivDetalheProfessor from '../pages/adm/portal_professor/AtivDetalhes';
-import AlunosProfessor from '../pages/adm/portal_professor/Alunos';
-import ChamadaProfessor from '../pages/adm/portal_professor/Chamada';
-import TodasChamadasProfessor from '../pages/adm/portal_professor/TodasChamadas';
+// import InicioProfessor from '../pages/adm/portal_professor/Inicio';
+// import AgendaProfessor from '../pages/adm/portal_professor/Agenda';
+// import VideosProfessor from '../pages/adm/portal_professor/Videos';
+// import VideosDetalhesProfessor from '../pages/adm/portal_professor/DetalhesVideo';
+// import AddVideos from '../pages/adm/portal_professor/AddVideos';
+// import NotasProfessor from '../pages/adm/portal_professor/Notas';
+// import DocumentosProfessor from '../pages/adm/portal_professor/Documentos';
+// import AjudaProfessor from '../pages/adm/portal_professor/Ajuda';
+// import AvisosProfessor from '../pages/adm/portal_professor/Avisos';
+// import PostAvisosProfessor from '../pages/adm/portal_professor/PostAvisos';
+// import PerfilProfessor from '../pages/adm/portal_professor/Perfil';
+// import TurmaProfessor from '../pages/adm/portal_professor/Turma';
+// import AddAtividadeProfessor from '../pages/adm/portal_professor/AddAtividade';
+// import AtividadesProfessor from '../pages/adm/portal_professor/Atividades';
+// import AtivDetalheProfessor from '../pages/adm/portal_professor/AtivDetalhes';
+// import AlunosProfessor from '../pages/adm/portal_professor/Alunos';
+// import ChamadaProfessor from '../pages/adm/portal_professor/Chamada';
+// import TodasChamadasProfessor from '../pages/adm/portal_professor/TodasChamadas';
 
-import InicioRefeicao from '../pages/adm/refeicao/Inicio';
-import AdicionarRefeicao from '../pages/adm/refeicao/Adicionar';
-import UploadRefeicao from '../pages/adm/refeicao/Upload';
-import RelatoriosRefeicao from '../pages/adm/refeicao/Relatorios';
-import RegistrosRefeicao from '../pages/adm/refeicao/Registros';
+// import InicioRefeicao from '../pages/adm/refeicao/Inicio';
+// import AdicionarRefeicao from '../pages/adm/refeicao/Adicionar';
+// import UploadRefeicao from '../pages/adm/refeicao/Upload';
+// import RelatoriosRefeicao from '../pages/adm/refeicao/Relatorios';
+// import RegistrosRefeicao from '../pages/adm/refeicao/Registros';
 
-import MenuGestao from '../pages/adm/site/Menu';
-import GaleriaGestao from '../pages/adm/site/Galeria';
-import EventosGestao from '../pages/adm/site/Eventos';
-import CriarEventoGestao from '../pages/adm/site/CriarEvento';
-import ProjetosCursosGestao from '../pages/adm/site/ProjetosCursos';
-import CriarProjetosCursosGestao from '../pages/adm/site/CriarProjetosCursos';
-import ComunidadeGestao from '../pages/adm/site/Comunidade';
-import CriarProjetosGestao from '../pages/adm/site/CriarProjetos';
-import CursosGestao from '../pages/adm/site/Cursos';
-import CursosDetalhesGestao from '../pages/adm/site/CursosDetalhes';
+// import MenuGestao from '../pages/adm/site/Menu';
+// import GaleriaGestao from '../pages/adm/site/Galeria';
+// import EventosGestao from '../pages/adm/site/Eventos';
+// import CriarEventoGestao from '../pages/adm/site/CriarEvento';
+// import ProjetosCursosGestao from '../pages/adm/site/ProjetosCursos';
+// import CriarProjetosCursosGestao from '../pages/adm/site/CriarProjetosCursos';
+// import ComunidadeGestao from '../pages/adm/site/Comunidade';
+// import CriarProjetosGestao from '../pages/adm/site/CriarProjetos';
+// import CursosGestao from '../pages/adm/site/Cursos';
+// import CursosDetalhesGestao from '../pages/adm/site/CursosDetalhes';
 
 
 function RoutesApp(){
   return(
     <Routes>
+      <Route path="/login" element={ <Login/> } />  
       <Route path="/" element={<Inicio/>}/>
       <Route path="/sobre" element={<Sobre/>}/>
       <Route path="/galeria" element={<Galeria/>}/>
@@ -81,9 +82,10 @@ function RoutesApp(){
       <Route path="/eventos" element={<Eventos/>}/>
       <Route path="/proximos-eventos" element={<ProximosEventos/>}/>
       <Route path="/detalhes-evento" element={<EventosDetalhes/>}/>
-      <Route path="/contato" element={<Contato/>}/>
-
-      <Route path="/login" element={ <Login/> } />      
+      <Route path="/contato" element={<Contato/>}/>  
+      
+      {/* 
+        
       
       <Route path="/inicio-aluno" element={ <Private rota="aluno"><InicioAluno/></Private> } />
       <Route path="/agenda-aluno" element={ <Private rota="aluno"><AgendaAluno/></Private> } />
@@ -135,7 +137,7 @@ function RoutesApp(){
       <Route path="/comunidade-gestao" element={ <Private rota="admin"><ComunidadeGestao/></Private> } />
       <Route path="/criar-projeto-gestao" element={ <Private rota="admin"><CriarProjetosGestao/></Private> } />
       <Route path="/cursos-gestao" element={ <Private rota="admin"><CursosGestao/></Private> } />
-      <Route path="/detalhes-curso-gestao" element={ <Private rota="admin"><CursosDetalhesGestao/></Private> } />
+      <Route path="/detalhes-curso-gestao" element={ <Private rota="admin"><CursosDetalhesGestao/></Private> } /> */}
     
     </Routes>
   )

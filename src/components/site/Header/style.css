@@ -1,30 +1,63 @@
 nav{
+    position: fixed;       
+    top: 0;                
+    left: 0;
+    width: 100%;          
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: "10px 20px";
-    background: #1e40af;
-    color: #fff;
+    align-items: center;    
+    z-index: 1000;        
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); 
 }
-.logo{
-    font-weight: bold;
-    font-size: "18px"
+.logo img{
+    height: 80px;
 }
-menu{
+.menu{
     display: flex;
-    gap: 20px
+    gap: 30px;
+    
 }
-link{
-    color: #fff;
-    text-decoration: none
-}
-button {
-    background: #facc15; 
-    border: none;
-    padding: 8px 15px;
-    border-radius: 6px;
-    cursor: pointer;    
-    color: #000;
+.link{
+    color: #1E3B7D;
     font-weight: bold;
-    text-decoration: none
+    text-decoration: none;
+    font-family: "Poppins", sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: 0.3s;
+    position: relative;
+    padding: 8px 16px;
+
+}
+.link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 2px solid black;
+  border-radius: 50%;
+  transform: rotate(-10deg);
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.link:hover::after {
+  opacity: 1;
+}
+
+.login{
+    background-color: #1E3B7D;
+    color: #fff;
+    border-radius: 60px;    
+    padding: 15px 25px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 10px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+.login:hover {
+  background-color: #063dbe;
 }

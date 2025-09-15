@@ -1,8 +1,8 @@
 import { BrowserRouter } from 'react-router-dom'
-import RoutesApp from './routes';
+import RoutesApp from './routes/index';
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
-import Navbar from "./components/site/Header";
+import Header from "./components/site/Header";
 import AuthProvider from "./contexts/auth";
 
 
