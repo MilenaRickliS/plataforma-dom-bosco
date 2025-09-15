@@ -1,34 +1,50 @@
-import { Link } from "react-router-dom";
 import { useContext } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { AuthContext } from "../../../contexts/auth";
-import './style.css';
-import logo from '../../../assets/logo2.png';
-import { PiStarFourBold } from "react-icons/pi";
+import { PiStarFourBold, PiStarFourFill } from "react-icons/pi";
 import { MdOutlineArrowCircleRight } from "react-icons/md";
+import logo from '../../../assets/logo2.png';
+import './style.css';
 
 export default function Header() {
   const { signed } = useContext(AuthContext);
+  const location = useLocation();
+
+  const links = [
+    { path: "/", label: "HOME" },
+    { path: "/sobre", label: "SOBRE NÓS" },
+    { path: "/educacao", label: "EDUCAÇÃO" },
+    { path: "/comunidade", label: "COMUNIDADE" },
+    { path: "/eventos", label: <>NÓTICIAS &<br />EVENTOS</> },
+    { path: "/contato", label: "CONTATO" },
+  ];
 
   return (
     <nav>
       <div className="logo">
         <Link to="/">
-          <img src={logo} alt="Logo"/>
+          <img src={logo} alt="Logo" />
         </Link>
       </div>
 
       <div className="menu">
-        <Link className="link" to="/"><PiStarFourBold/> HOME</Link>
-        <Link className="link" to="/sobre"><PiStarFourBold/> SOBRE NÓS</Link>
-        <Link className="link" to="/educacao"><PiStarFourBold/> EDUCAÇÃO</Link>
-        <Link className="link" to="/comunidade"><PiStarFourBold/> COMUNIDADE</Link>
-        <Link className="link" to="/eventos"><PiStarFourBold/> NÓTICIAS &<br />EVENTOS</Link>
-        <Link className="link" to="/contato"><PiStarFourBold/> CONTATO</Link>
+        {links.map((link) => (
+          <Link
+            key={link.path}
+            className={`link ${location.pathname === link.path ? "active" : ""}`}
+            to={link.path}
+          >
+            {location.pathname === link.path ? <PiStarFourFill /> : <PiStarFourBold />}
+            {link.label}
+          </Link>
+        ))}
       </div>
 
       <div>
-        {!signed ? (   
-          <Link className="login" to="/login">LOGIN <MdOutlineArrowCircleRight /></Link>
+        {!signed ? (
+          <Link className="login" to="/login">
+            LOGIN <MdOutlineArrowCircleRight />
+          </Link>
         ) : (
           <span>Bem-vindo!</span>
         )}
@@ -36,4 +52,3 @@ export default function Header() {
     </nav>
   );
 }
-

@@ -41,9 +41,14 @@ nav{
   transition: 0.3s;
 }
 
-.link:hover::after {
-  opacity: 1;
+.link.active::after {
+  opacity: 1; 
 }
+
+.link:hover::after {
+  opacity: 0.5; 
+}
+
 
 .login{
     background-color: #1E3B7D;
