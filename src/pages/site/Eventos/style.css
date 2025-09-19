@@ -1,0 +1,48 @@
+.container-eventos{
+    background: #A556D3;
+    background: linear-gradient(90deg,rgba(165, 86, 211, 1) 25%, rgba(21, 185, 204, 1) 100%, rgba(21, 185, 204, 1) 100%);
+}
+.inicio-eventos{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 300px;
+}
+.titulo-prox{
+    margin-right: 50px;
+}
+.titulo-prox h1{
+    color: #fff;
+}
+.titulo-prox a{
+    color: #fff;
+    text-decoration-line: underline;
+    text-decoration-thickness: 2px;
+    text-decoration-style: solid;
+    text-decoration-color: #D8BB18;
+    transition: all 0.3s ease;
+}
+.titulo-prox a:hover{
+    color: #D8BB18;
+}
+.prox-eventos{
+    display: flex;
+}
+.exemplo-evento{
+    width: 300px;
+    height: 300px;
+    background-color: rgba(0, 0, 0, 0.6); 
+    margin: 10px;
+    text-align: center;
+}
+.exemplo-evento a{
+    background-color: #7B4C96;
+    color: #fff;
+    font-family: "BM HANNA", sans-serif;
+    text-decoration: none;
+    padding: 10px;
+    transition: all 0.3s ease;
+}
+.exemplo-evento a:hover{
+    background-color: #15B9CC;
+}
