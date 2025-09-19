@@ -29,6 +29,11 @@ export default function Login() {
         <button className="google-btn" onClick={signInGoogle}>
           <FcGoogle className="google-icon" /> Entrar com Google
         </button>
+        <div style={{ marginTop: '20px' }}>
+          <button onClick={() => signInGoogle("aluno")}>Simular Aluno</button>
+          <button onClick={() => signInGoogle("professor")}>Simular Professor</button>
+          <button onClick={() => signInGoogle("admin")}>Simular Admin</button>
+        </div>
       </div>
     </div>
   );

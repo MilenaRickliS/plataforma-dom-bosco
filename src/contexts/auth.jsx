@@ -27,22 +27,55 @@ export default function AuthProvider({ children }) {
     return () => unsub();
   }, []);
 
-  async function signInGoogle() {
-    try {
-      const result = await signInWithPopup(auth, provider);
-      const email = result.user.email;
+  // async function signInGoogle() {
+  //   try {
+  //     const result = await signInWithPopup(auth, provider);
+  //     const email = result.user.email;
 
-      if (
-        email !== rotas.aluno &&
-        email !== rotas.professor &&
-        email !== rotas.admin
-      ) {
-        await signOut(auth);
-        alert("Email não autorizado!");
-        return;
+  //     if (
+  //       email !== rotas.aluno &&
+  //       email !== rotas.professor &&
+  //       email !== rotas.admin
+  //     ) {
+  //       await signOut(auth);
+  //       alert("Email não autorizado!");
+  //       return;
+  //     }
+
+  //     setUser(result.user);
+  //   } catch (error) {
+  //     console.error("Erro ao logar: ", error);
+  //   }
+  // }
+  async function signInGoogle(simulatedRole) {
+    try {
+      let resultUser;
+
+      if (simulatedRole) {
+      
+        resultUser = { 
+          email: rotas[simulatedRole], 
+          displayName: simulatedRole.toUpperCase() 
+        };
+      } else {
+        
+        const result = await signInWithPopup(auth, provider);
+        const email = result.user.email;
+
+        if (
+          email !== rotas.aluno &&
+          email !== rotas.professor &&
+          email !== rotas.admin
+        ) {
+          await signOut(auth);
+          alert("Email não autorizado!");
+          return;
+        }
+
+        resultUser = result.user;
       }
 
-      setUser(result.user);
+      setUser(resultUser);
     } catch (error) {
       console.error("Erro ao logar: ", error);
     }
