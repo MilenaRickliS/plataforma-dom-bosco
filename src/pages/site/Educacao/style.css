@@ -1,0 +1,229 @@
+h1{
+    margin: 0 auto;
+    text-align: center;
+    font-family: "BM HANNA", sans-serif;
+    color: black;
+    font-size: 50px;
+
+}
+.carrosel-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.carrosel-cursos{
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 20px;
+    -ms-overflow-style: none;
+    scrollbar-width: none; 
+}
+.carrosel-cursos::-webkit-scrollbar {
+  display: none;
+}
+
+.carrosel-cursos::-webkit-scrollbar-thumb {
+  background: #000000;
+  border-radius: 10px;
+}
+
+.carrosel-cursos a {
+  flex: 0 0 300px;  
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 15px;
+  color: #000;
+  text-decoration: none;
+  border-radius: 15px;
+  border: 2px solid black;
+  background-size: cover;
+  background-position: center;
+  user-select: none; 
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.carrosel-cursos a::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.3);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 15px;
+}
+
+.carrosel-cursos a:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  z-index: 2;
+  color: #fff;
+}
+
+.carrosel-cursos a:hover::after {
+  opacity: 1;
+}
+.carrosel-cursos a h3,
+.carrosel-cursos a p {
+  position: relative;
+  z-index: 2;
+}
+.arrow {
+  font-size: 80px;
+  color: #000000;
+  cursor: pointer;
+  margin: 0 10px;
+}
+.curso1{
+    background-image: url('../../../assets/site/fundo-jovem.jpg');
+    background-size: cover;   
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 15px;
+    border: 2px solid black;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+}
+.curso1 h3{
+    font-family: "BM HANNA", sans-serif;
+    font-size: 40px;
+    margin-bottom: 0px;
+    text-align: center;
+}
+.curso1 p{
+    font-family: "Poppins", sans-serif;
+    font-size: 15px;
+}
+
+.curso2{
+    background-image: url('../../../assets/site/fundo-musica.jpg');
+    background-size: cover;   
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 15px;
+    border: 2px solid black;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+}
+.curso2 h3{
+    font-family: "BM HANNA", sans-serif;
+    font-size: 40px;
+    margin-bottom: 0px;
+    text-align: center;
+}
+.curso2 p{
+    font-family: "Poppins", sans-serif;
+    font-size: 15px;
+}
+
+.curso3{
+    background-image: url('../../../assets/site/fundo-informatica.jpg');
+    background-size: cover;   
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 15px;
+    border: 2px solid black;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+}
+.curso3 h3{
+    font-family: "BM HANNA", sans-serif;
+    font-size: 40px;
+    margin-bottom: 0px;
+    text-align: center;
+}
+.curso3 p{
+    font-family: "Poppins", sans-serif;
+    font-size: 15px;
+}
+
+.curso4{
+    background-image: url('../../../assets/site/fundo-esportes.jpg');
+    background-size: cover;   
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 15px;
+    border: 2px solid black;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+}
+.curso4 h3{
+    font-family: "BM HANNA", sans-serif;
+    font-size: 40px;
+    text-align: center;
+}
+.curso4 p{
+    font-family: "Poppins", sans-serif;
+    font-size: 15px;
+}
+
+.curso5{
+    background-image: url('../../../assets/site/fundo-pre.jpg');
+    background-size: cover;   
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 15px;
+    border: 2px solid black;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+}
+.curso5 h3{
+    font-family: "BM HANNA", sans-serif;
+    font-size: 40px;
+    margin-bottom: 0px;
+    text-align: center;
+}
+.curso5 p{
+    font-family: "Poppins", sans-serif;
+    font-size: 15px;
+}
+
+.projetos{
+    display: flex;
+    justify-content:center;
+    margin-bottom: 20px;
+}
+.proj-titulo{
+    margin-left: 30px;
+    margin-right: 50px;
+}
+.arrow2{
+    color: #000;
+    margin: 15px;
+    font-size: 60px;
+}
+.link-proj{
+    border-radius: 10px;
+    background-color: #8E3838;
+    color: #fff;
+    border: 2px solid black;
+    font-family: "BM HANNA", sans-serif;
+    text-decoration: none;
+    padding: 10px 30px;
+    font-size: 25px;
+    transition: all 0.3s ease;
+}
+.link-proj:hover{
+    background-color: #4b1212;
+}
+.proj-view{
+    display: flex;
+}
+.exemplo{
+    background-color: #fff;
+    border-radius: 30px;
+    border: 2px solid black;
+    width: 250px;
+    height: 300px;
+    margin: 10px;
+}

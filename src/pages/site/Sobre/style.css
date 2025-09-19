@@ -1,5 +1,36 @@
 .ver-galeria{
+    position: relative;
     background-color: #354E36;
     display: flex;
     justify-content: center;
+    align-items: center;
+    padding: 30px;
+    min-height: 320px;
+}
+.ver-galeria img{
+    position: absolute;
+    top: -15px;
+    left: 50px;
+    height: 350px;
+    width: auto;
+
+}
+
+.ver-galeria div{
+    color: #fff;
+    max-width: 55%;
+    margin-left: 10px;
+}
+
+.link-galeria{
+    font-family: "BM HANNA", sans-serif;
+    color: #fff;
+    font-size: 30px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+.link-galeria:hover{
+    font-size: 35px;
+    color:aquamarine;
+    text-decoration: underline;
 }
