@@ -1,6 +1,9 @@
 import { useContext, useEffect } from "react";
 import { AuthContext } from "../../contexts/auth";
 import { useNavigate } from "react-router-dom";
+import { FcGoogle } from "react-icons/fc"; 
+import logo from '../../assets/logo2.png';
+import './style.css';
 
 export default function Login() {
   const { signInGoogle, signed, getRota } = useContext(AuthContext);
@@ -16,11 +19,17 @@ export default function Login() {
   }, [signed, getRota, navigate]);
 
   return (
-    <div style={{ textAlign: "center", marginTop: "100px" }}>
-      <h1>Login</h1>
-      <button onClick={signInGoogle}>
-        Entrar com Google
-      </button>
+    <div className="fundo-login">
+      <div className="titulo-login">
+        <img src={logo} alt="Logo" />
+        <p>Instituto Assistencial Dom Bosco - Portal do Aluno</p>
+      </div>
+      <div className="bemvindo-login">
+        <h1>Bem-vindo!</h1>
+        <button className="google-btn" onClick={signInGoogle}>
+          <FcGoogle className="google-icon" /> Entrar com Google
+        </button>
+      </div>
     </div>
   );
 }

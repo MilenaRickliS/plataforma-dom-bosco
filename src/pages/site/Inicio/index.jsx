@@ -7,8 +7,8 @@ export default function Inicio() {
     <div className="page">
       <Header />
       <main>
-        <h1>Bem-vindo ao Sistema</h1>
-        <p>Esta é a página inicial</p>
+        <h1>Bem-vindo</h1>
+        
       </main>
       <Footer />
     </div>
