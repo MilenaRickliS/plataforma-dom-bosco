@@ -32,10 +32,11 @@ h1{
 .carrosel-cursos a {
   flex: 0 0 300px;  
   height: 250px;
+  min-width: 450px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 15px;
+  padding: 30px;
   color: #000;
   text-decoration: none;
   border-radius: 15px;
@@ -89,6 +90,7 @@ h1{
     color: black;
     text-align: center;
     text-decoration: none;
+    
 }
 .curso1 h3{
     font-family: "BM HANNA", sans-serif;

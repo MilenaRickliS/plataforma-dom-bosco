@@ -27,24 +27,24 @@ export default function Footer() {
                 <br/>
                 <Link to = '/sobre' className="link-footer">Sobre nós</Link>
                 <ul>
-                    <li><a href="#">História</a></li>
-                    <li><a href="#">Filosofia salesiana</a></li>
-                    <li><a href="#">Equipe</a></li>
-                    <li><a href="#">Galeria</a></li>
+                    <li><a href="/sobre">História</a></li>
+                    <li><a href="/sobre">Filosofia salesiana</a></li>
+                    <li><a href="/sobre">Equipe</a></li>
+                    <li><a href="/galeria">Galeria</a></li>
                 </ul>
             </div>
             
             <div>
                 <Link to = '/educacao' className="link-footer">Educação</Link>
                 <ul>
-                    <li><a href="#">Cursos</a></li>
-                    <li><a href="#">Jovem Aprendiz</a></li>
-                    <li><a href="#">Projetos e oficina</a></li>
+                    <li><a href="/educacao">Cursos</a></li>
+                    <li><a href="/detalhes-curso">Jovem Aprendiz</a></li>
+                    <li><a href="/projetos&oficinas">Projetos e oficina</a></li>
                 </ul>
                 <Link to = '/comunidade' className="link-footer">Comunidade</Link>
                 <ul>
-                    <li><a href="#">Projetos sociais e voluntariado</a></li>
-                    <li><a href="#">Parcerias</a></li>
+                    <li><a href="/comunidade">Projetos sociais e voluntariado</a></li>
+                    <li><a href="/comunidade">Parcerias</a></li>
                     <li><a href="#">Seja um parceiro!</a></li>
                 </ul>
             </div>
@@ -52,7 +52,7 @@ export default function Footer() {
             <div>
                 <Link to = '/eventos' className="link-footer">Nóticias & Eventos</Link>
                 <ul>
-                    <li><a href="#">Eventos/Inscrições</a></li>
+                    <li><a href="/eventos">Eventos/Inscrições</a></li>
                     <li><a href="#">Blog</a></li>
                 </ul>
                 <Link to = '/contato' className="link-footer">Contato</Link>
