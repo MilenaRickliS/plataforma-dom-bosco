@@ -1,111 +1,44 @@
 import Header from "../../../components/site/Header";
 import Footer from "../../../components/site/Footer";
 import { Link } from "react-router-dom";
-import { useRef } from "react";
-import { IoArrowForwardCircleOutline, IoArrowBackCircleOutline } from "react-icons/io5";
-
 import './style.css';
 
 export default function Educacao() {
-  const scrollRef = useRef(null);
-  const isDown = useRef(false);
-  const startX = useRef(0);
-  const scrollLeft = useRef(0);
-
-  const handleMouseDown = (e) => {
-    isDown.current = true;
-    startX.current = e.pageX - scrollRef.current.offsetLeft;
-    scrollLeft.current = scrollRef.current.scrollLeft;
-  };
-
-  const handleMouseLeave = () => {
-    isDown.current = false;
-  };
-
-  const handleMouseUp = () => {
-    isDown.current = false;
-  };
-
-  const handleMouseMove = (e) => {
-    if (!isDown.current) return;
-    e.preventDefault();
-    const x = e.pageX - scrollRef.current.offsetLeft;
-    const walk = (x - startX.current) * 1; 
-    scrollRef.current.scrollLeft = scrollLeft.current - walk;
-  };
-
-  const scroll = (dir) => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollBy({
-        left: dir === "left" ? -300 : 300,
-        behavior: "smooth"
-      });
-    }
-  };
+  
+  const cursos = [
+    { id: 1, nome: "Jovem Aprendiz", subtitulo: "A oportunidade que abre portas para o seu futuro!", bg: "linear-gradient(135deg, #6a11cb 0%, #2575fc 100%)" },
+    { id: 2, nome: "Música", subtitulo: "Aprenda a tocar instrumentos do básico ao avançado com professores capacitados!", bg: "linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%)" },
+    { id: 3, nome: "Informática", subtitulo: "Uso básico de computador e internet, Office/Google, e-mail e nuvem, segurança online e noções de hardware/programação para o dia a dia.", bg: "linear-gradient(135deg, #43cea2 0%, #185a9d 100%)" },
+    { id: 4, nome: "Esportes", subtitulo: "Aprenda ou aprimore suas habilidades no seu esporte favorito!", bg: "linear-gradient(135deg, #f7971e 0%, #ffd200 100%)" },
+    { id: 5, nome: "Pré-aprendizagem", subtitulo: "Estimula o aprendizado de habilidades essenciais!", bg: "linear-gradient(135deg, #ff512f 0%, #dd2476 100%)" },
+  ];
 
   return (
     <div className="page">
-        <Header />
-        <main>
-          <h1>Cursos</h1>
-          <div className="carrosel-container">
-            <IoArrowBackCircleOutline className="arrow" onClick={() => scroll("left")} />
-            <div className="carrosel-cursos" ref={scrollRef}
-              onMouseDown={handleMouseDown}
-              onMouseLeave={handleMouseLeave}
-              onMouseUp={handleMouseUp}
-              onMouseMove={handleMouseMove}>
-              <Link to="/detalhes-curso" className="curso1">
-                <h3>Jovem<br/>Aprendiz</h3>
-                <p>A oportunidade que abre portas para o seu futuro!</p>
-              </Link>
-              <Link to="/detalhes-curso" className="curso2">
-                <h3>Música</h3>
-                <p>Aprenda a tocar instrumentos do básico ao avançado com professores capacitados!</p>
-              </Link>
-              <Link to="/detalhes-curso" className="curso3">
-                <h3>Informática</h3>
-                <p>Uso básico de computador e internet, Office/Google, e-mail e nuvem, segurança online e noções de hardware/programação para o dia a dia.</p>
-              </Link>
-              <Link to="/detalhes-curso" className="curso4">
-                <h3>Esportes</h3>
-                <p>Aprenda ou aprimore suas habilidades no seu esporte favorito!</p>
-              </Link>
-              <Link to="/detalhes-curso" className="curso5">
-                <h3>Pré-<br/>apredizagem</h3>
-                <p>Estimula o aprendizado de habilidades essenciais!</p>
-              </Link>
-            </div>
-            <IoArrowForwardCircleOutline className="arrow" onClick={() => scroll("right")} />
+      <Header />
+      <main>
+        <h1>Cursos</h1>
+        <div className="menu-cursos">
+            {cursos.map((curso) => (
+              <div key={curso.id} className="card-curso">
+                <h4>{curso.nome}</h4>
+                <p>{curso.subtitulo}</p>
+                <Link to={curso.link}>Saiba mais!</Link>
+              </div>
+            ))}
           </div>
-          <div className="projetos">
-            <div className="proj-titulo">
-                <h1>Projetos e<br/>Oficina</h1>
-                <div className="arrow2">
-                  <IoArrowBackCircleOutline />
-                  <IoArrowForwardCircleOutline />
-                </div>
-                <Link to="/projetos&oficinas" className="link-proj">Ver todos</Link>
-            </div>
-            <div className="proj-view">
-              <div className="exemplo">
-                Projeto 1
-              </div>
-              <div className="exemplo">
-                Projeto 2
-              </div>
-              <div className="exemplo">
-                Projeto 3
-              </div>
-              <div className="exemplo">
-                Projeto 4
-              </div>
-            </div>
-            
-          </div>
-                
-        </main>
-        <Footer />
+        <br/>
+
+        <div className="projetos">          
+            <h1>
+              Projetos e<br />Oficina
+            </h1>
+            <Link to="/projetos&oficinas" className="link-proj">Ver todos</Link>
+          
+
+        </div>
+      </main>
+      <Footer />
     </div>
   );
 }

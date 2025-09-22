@@ -1,7 +1,7 @@
 .footer {
   background: #0a2d68;
   color: white;
-  padding: 30px;
+  padding: 20px 0px;
   font-family: "Poppins", sans-serif;
   width: 100%;
   margin-top: auto;
@@ -114,4 +114,114 @@
 .footer-logo {
     height: 40px;
     margin-right: 15px;
+}
+
+@media (max-width: 1024px) {
+  .footer {
+    padding: 20px 0px;
+    text-align: center;
+  }
+  .footer-top {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .social-icons {
+    gap: 30px;
+  }
+
+  .footer-links {
+    flex-wrap: wrap;
+    gap: 40px;
+    text-align: center;
+  }
+
+  .footer-links div {
+    margin: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer {
+    padding: 20px 0px;
+    text-align: center;
+  }
+
+  .footer-top {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .social-icons {
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+
+  .social-icons a {
+    width: 45px;
+    height: 45px;
+    font-size: 20px;
+  }
+
+  .doacao-btn {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+
+  .footer-links {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .footer-links div {
+    margin: 10px 0;
+  }
+
+  .footer-links .link-footer {
+    font-size: 16px;
+  }
+
+  .footer-links a {
+    font-size: 13px;
+  }
+
+  #login-footer {
+    font-size: 16px;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    font-size: 11px;
+    gap: 8px;
+  }
+
+  .footer-logo {
+    margin: 0 auto 10px auto;
+    height: 35px;
+  }
+}
+
+@media (max-width: 480px) {
+  .social-icons {
+    gap: 10px;
+  }
+
+  .social-icons a {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+
+  .doacao-btn {
+    font-size: 13px;
+    padding: 6px 12px;
+  }
+
+  .footer-links .link-footer {
+    font-size: 15px;
+  }
+
+  .footer-bottom {
+    font-size: 10px;
+  }
 }

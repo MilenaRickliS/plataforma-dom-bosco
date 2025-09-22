@@ -6,13 +6,14 @@
     align-items: center;
     padding: 30px;
     min-height: 320px;
+    gap: 20px;
 }
 .ver-galeria img{
-    position: absolute;
-    top: -15px;
-    left: 50px;
-    height: 350px;
-    width: auto;
+    position: relative; 
+  height: 350px;
+  width: auto;
+  max-width: 100%;
+  border-radius: 10px;
 
 }
 
@@ -33,4 +34,33 @@
     font-size: 35px;
     color:aquamarine;
     text-decoration: underline;
+}
+
+@media (max-width: 900px) {
+  .ver-galeria {
+    flex-direction: column; 
+    text-align: center;
+    min-height: auto;
+  }
+
+  .ver-galeria img {
+    height: auto;
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  .ver-galeria div {
+    max-width: 100%;
+    margin-left: 0;
+  }
+
+  .link-galeria {
+    font-size: 22px;
+    display: inline-block;
+    margin-top: 15px;
+  }
+
+  .link-galeria:hover {
+    font-size: 24px;
+  }
 }
