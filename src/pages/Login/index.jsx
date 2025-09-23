@@ -14,7 +14,7 @@ export default function Login() {
       const rota = getRota();
       if (rota === "aluno") navigate("/inicio-aluno");
       if (rota === "professor") navigate("/inicio-professor");
-      if (rota === "admin") navigate("/menu-gestao");
+      if (rota === "admin") navigate("/inicio-adm");
     }
   }, [signed, getRota, navigate]);
 

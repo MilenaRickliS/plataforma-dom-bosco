@@ -13,7 +13,7 @@ import ProximosEventos from '../pages/site/ProximosEventos';
 import EventosDetalhes from '../pages/site/EventosDetalhes';
 import Contato from '../pages/site/Contato';
 
-// import Private from './private';
+import Private from './private';
 
 // import InicioAluno from '../pages/portal_aluno/Inicio';
 // import AgendaAluno from '../pages/portal_aluno/Agenda';
@@ -29,7 +29,7 @@ import Contato from '../pages/site/Contato';
 // import AtivDetalheAluno from '../pages/portal_aluno/AtivDetalhe';
 // import AlunosAluno from '../pages/portal_aluno/Alunos';
 
-// import InicioAdm from '../pages/adm/Inicio';
+import InicioAdm from '../pages/adm/Inicio';
 
 // import InicioProfessor from '../pages/adm/portal_professor/Inicio';
 // import AgendaProfessor from '../pages/adm/portal_professor/Agenda';
@@ -50,22 +50,22 @@ import Contato from '../pages/site/Contato';
 // import ChamadaProfessor from '../pages/adm/portal_professor/Chamada';
 // import TodasChamadasProfessor from '../pages/adm/portal_professor/TodasChamadas';
 
-// import InicioRefeicao from '../pages/adm/refeicao/Inicio';
-// import AdicionarRefeicao from '../pages/adm/refeicao/Adicionar';
-// import UploadRefeicao from '../pages/adm/refeicao/Upload';
-// import RelatoriosRefeicao from '../pages/adm/refeicao/Relatorios';
-// import RegistrosRefeicao from '../pages/adm/refeicao/Registros';
+import InicioRefeicao from '../pages/adm/refeicao/Inicio';
+import AdicionarRefeicao from '../pages/adm/refeicao/Adicionar';
+import UploadRefeicao from '../pages/adm/refeicao/Upload';
+import RelatoriosRefeicao from '../pages/adm/refeicao/Relatorios';
+import RegistrosRefeicao from '../pages/adm/refeicao/Registros';
 
-// import MenuGestao from '../pages/adm/site/Menu';
-// import GaleriaGestao from '../pages/adm/site/Galeria';
-// import EventosGestao from '../pages/adm/site/Eventos';
-// import CriarEventoGestao from '../pages/adm/site/CriarEvento';
-// import ProjetosCursosGestao from '../pages/adm/site/ProjetosCursos';
-// import CriarProjetosCursosGestao from '../pages/adm/site/CriarProjetosCursos';
-// import ComunidadeGestao from '../pages/adm/site/Comunidade';
-// import CriarProjetosGestao from '../pages/adm/site/CriarProjetos';
-// import CursosGestao from '../pages/adm/site/Cursos';
-// import CursosDetalhesGestao from '../pages/adm/site/CursosDetalhes';
+import MenuGestao from '../pages/adm/site/Menu';
+import GaleriaGestao from '../pages/adm/site/Galeria';
+import EventosGestao from '../pages/adm/site/Eventos';
+import CriarEventoGestao from '../pages/adm/site/CriarEvento';
+import ProjetosCursosGestao from '../pages/adm/site/ProjetosCursos';
+import CriarProjetosCursosGestao from '../pages/adm/site/CriarProjetosCursos';
+import ComunidadeGestao from '../pages/adm/site/Comunidade';
+import CriarProjetosGestao from '../pages/adm/site/CriarProjetos';
+import CursosGestao from '../pages/adm/site/Cursos';
+import CursosDetalhesGestao from '../pages/adm/site/CursosDetalhes';
 
 
 function RoutesApp(){
@@ -83,6 +83,25 @@ function RoutesApp(){
       <Route path="/proximos-eventos" element={<ProximosEventos/>}/>
       <Route path="/detalhes-evento" element={<EventosDetalhes/>}/>
       <Route path="/contato" element={<Contato/>}/>  
+
+      <Route path="/inicio-adm" element={ <Private rota="admin"><InicioAdm/></Private> } />
+
+      <Route path="/inicio-refeicao" element={ <Private rota="admin"><InicioRefeicao/></Private> } />
+      <Route path="/adicionar-refeicao" element={ <Private rota="admin"><AdicionarRefeicao/></Private> } />
+      <Route path="/upload-refeicao" element={ <Private rota="admin"><UploadRefeicao/></Private> } />
+      <Route path="/relatorios-refeicao" element={ <Private rota="admin"><RelatoriosRefeicao/></Private> } />
+      <Route path="/registros-refeicao" element={ <Private rota="admin"><RegistrosRefeicao/></Private> } />
+
+      <Route path="/menu-gestao" element={ <Private rota="admin"><MenuGestao/></Private> } />
+      <Route path="/galeria-gestao" element={ <Private rota="admin"><GaleriaGestao/></Private> } />
+      <Route path="/eventos-gestao" element={ <Private rota="admin"><EventosGestao/></Private> } />
+      <Route path="/criar-evento-gestao" element={ <Private rota="admin"><CriarEventoGestao/></Private> } />
+      <Route path="/projetos-de-cursos-gestao" element={ <Private rota="admin"><ProjetosCursosGestao/></Private> } />
+      <Route path="/criar-projetos-de-cursos-gestao" element={ <Private rota="admin"><CriarProjetosCursosGestao/></Private> } />
+      <Route path="/comunidade-gestao" element={ <Private rota="admin"><ComunidadeGestao/></Private> } />
+      <Route path="/criar-projeto-gestao" element={ <Private rota="admin"><CriarProjetosGestao/></Private> } />
+      <Route path="/cursos-gestao" element={ <Private rota="admin"><CursosGestao/></Private> } />
+      <Route path="/detalhes-curso-gestao" element={ <Private rota="admin"><CursosDetalhesGestao/></Private> } />
       
       {/* 
         
@@ -120,24 +139,7 @@ function RoutesApp(){
       <Route path="/chamada-professor" element={ <Private rota="professor"><ChamadaProfessor/></Private> } />
       <Route path="/todas-chamadas-professor" element={ <Private rota="professor"><TodasChamadasProfessor/></Private> } />
 
-      <Route path="/inicio-adm" element={ <Private rota="admin"><InicioAdm/></Private> } />
-
-      <Route path="/inicio-refeicao" element={ <Private rota="admin"><InicioRefeicao/></Private> } />
-      <Route path="/adicionar-refeicao" element={ <Private rota="admin"><AdicionarRefeicao/></Private> } />
-      <Route path="/upload-refeicao" element={ <Private rota="admin"><UploadRefeicao/></Private> } />
-      <Route path="/relatorios-refeicao" element={ <Private rota="admin"><RelatoriosRefeicao/></Private> } />
-      <Route path="/registros-refeicao" element={ <Private rota="admin"><RegistrosRefeicao/></Private> } />
-
-      <Route path="/menu-gestao" element={ <Private rota="admin"><MenuGestao/></Private> } />
-      <Route path="/galeria-gestao" element={ <Private rota="admin"><GaleriaGestao/></Private> } />
-      <Route path="/eventos-gestao" element={ <Private rota="admin"><EventosGestao/></Private> } />
-      <Route path="/criar-evento-gestao" element={ <Private rota="admin"><CriarEventoGestao/></Private> } />
-      <Route path="/projetos-de-cursos-gestao" element={ <Private rota="admin"><ProjetosCursosGestao/></Private> } />
-      <Route path="/criar-projetos-de-cursos-gestao" element={ <Private rota="admin"><CriarProjetosCursosGestao/></Private> } />
-      <Route path="/comunidade-gestao" element={ <Private rota="admin"><ComunidadeGestao/></Private> } />
-      <Route path="/criar-projeto-gestao" element={ <Private rota="admin"><CriarProjetosGestao/></Private> } />
-      <Route path="/cursos-gestao" element={ <Private rota="admin"><CursosGestao/></Private> } />
-      <Route path="/detalhes-curso-gestao" element={ <Private rota="admin"><CursosDetalhesGestao/></Private> } /> */}
+     */}
     
     </Routes>
   )

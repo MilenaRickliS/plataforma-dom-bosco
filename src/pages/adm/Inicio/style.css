@@ -1,0 +1,65 @@
+.fundo-admin{
+    border: 5px solid #ffffff;
+    background-color: #98BEBA;
+    border-radius: 20px;
+    margin: 20px;
+    min-height: 90%;
+    display: flex;
+    flex-direction: column;
+}
+.titulo-admin{
+    border-bottom: 3px solid #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+}
+.titulo-admin img{
+    height: 70px;
+}
+.titulo-admin p{
+    font-family: "BM HANNA", sans-serif;
+    color: #354E36;
+}
+.bemvindo-admin{
+    flex: 1; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;     
+    text-align: center;
+}
+.bemvindo-admin h1 {
+    color: #3E6EAD;
+}
+.link-refeicao{
+    border: 2px solid black;
+    background-color: #FBBC05;
+    font-family: "BM HANNA", sans-serif;
+    color: #000;
+    text-decoration: none;
+    border-radius: 20px;
+    padding: 30px;
+    margin: 20px;
+    transition: all 0.3s ease;
+}
+.link-refeicao:hover{
+    background-color: #094943;
+    color: #ffffff;
+}
+
+.link-gestao{
+    border: 2px solid black;
+    background-color: #A8C7FA;
+    font-family: "BM HANNA", sans-serif;
+    color: #000;
+    text-decoration: none;
+    border-radius: 20px;
+    padding: 30px;
+    margin: 20px;
+    transition: all 0.3s ease;
+}
+.link-gestao:hover{
+    background-color: #094943;
+    color: #ffffff;
+}
