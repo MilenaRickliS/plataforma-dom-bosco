@@ -1,0 +1,52 @@
+h2{
+    color: black;
+    font-family: "BM HANNA", sans-serif;
+}
+.titulo-ref{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+}
+.titulo-ref img{
+    height: 70px;
+}
+.opcoes-ref {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
+  gap: 20px;
+  border-radius: 30px;
+  padding: 30px;
+}
+
+.opcao1 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #FBBC05;          
+  border-radius: 15px;
+  padding: 20px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.opcao1:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.opcao1 svg {
+  font-size: 28px;
+  margin-bottom: 10px;
+  color: #000000;
+}
+
+.opcao1 a {
+  color: black;
+  text-decoration: none;
+  font-family: "BM HANNA", sans-serif;
+  font-size: 16px;
+  text-align: center;
+}
