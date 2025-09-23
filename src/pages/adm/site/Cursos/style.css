@@ -1,0 +1,48 @@
+.voltar-para-menu{
+    border-radius: 20px;
+    border: 2px solid black;
+    background-color: white;
+    text-decoration: none;
+    padding: 10px 30px;
+    color: black;
+    font-weight: bold;
+    font-family: "BM HANNA", sans-serif;
+   margin: 10px;
+   transition: all 0.3s ease;
+}
+.voltar-para-menu:hover{
+    background-color: #1E3B7D;
+    color: #fff;
+}
+.container-gestao{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
+
+}
+.container-gestao p{
+    color: black;
+    font-weight: bold;
+    font-family: "BM HANNA", sans-serif;
+    font-size: 17px;
+}
+
+.editar-curso{
+    border: 3px solid #000;
+    font-family: "BM HANNA", sans-serif;
+    padding: 36px;
+    border-radius: 8px;
+    color: black;
+    text-decoration: none;
+    text-align: center;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    transition: all 0.3s ease;    
+}
+.editar-curso:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.3);
+    filter: brightness(1.05);
+}

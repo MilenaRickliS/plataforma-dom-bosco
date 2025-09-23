@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import logo from '../../../../assets/logo2.png';
 import './style.css';
-import { FaLongArrowAltRight } from "react-icons/fa";
+import { IoIosArrowForward } from "react-icons/io";
 
 export default function MenuGestao() {
     return (
@@ -11,7 +11,7 @@ export default function MenuGestao() {
                     <img src={logo} alt="Logo" />
                     <p>Gestão Site Instituto</p>
                 </div>
-                <Link to="/inicio-adm" className="voltar-adm" >Voltar <FaLongArrowAltRight /></Link>
+                <Link to="/inicio-adm" className="voltar-adm">Voltar<IoIosArrowForward /></Link>
             </div>
             <p className="p-opcoes">Bem-vindo! Escolha uma das opções abaixo a editar:</p>
             <div className="opcoes-menug">
