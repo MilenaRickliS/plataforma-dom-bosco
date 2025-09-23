@@ -42,6 +42,7 @@
     padding: 30px;
     margin: 20px;
     transition: all 0.3s ease;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 .link-refeicao:hover{
     background-color: #094943;
@@ -58,8 +59,25 @@
     padding: 30px;
     margin: 20px;
     transition: all 0.3s ease;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 .link-gestao:hover{
     background-color: #094943;
+    color: #ffffff;
+}
+.logout{
+    border: 2px solid black;
+    font-family: "BM HANNA", sans-serif;
+    color: #000000;
+    background-color: #853126;
+    font-size: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    cursor: pointer;
+}
+.logout:hover{
+    background-color: #833732;
     color: #ffffff;
 }
