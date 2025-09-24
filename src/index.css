@@ -67,6 +67,18 @@ main {
   display: flex;
   flex-direction: column;
 }
+.layout {
+  display: flex;
+}
+.page2 {
+  margin-left: 80px;   
+  transition: margin-left .5s ease;
+  flex: 1;
+  padding: 20px;
+}
+#sidebar.open-sidebar ~ .page2 {
+  margin-left: 15%; 
+}
 .eventos-page {
   background: linear-gradient(
     90deg,
