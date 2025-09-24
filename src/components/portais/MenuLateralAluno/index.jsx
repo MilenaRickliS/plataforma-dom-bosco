@@ -12,7 +12,7 @@ import { AuthContext } from "../../../contexts/auth";
 import logo from "../../../assets/logo.png";
 
 function MenuLateralAluno() {
-  const [isOpen, setIsOpen] = useState(true); 
+  const [isOpen, setIsOpen] = useState(false); 
   const { logout } = useContext(AuthContext); 
   const location = useLocation();
 

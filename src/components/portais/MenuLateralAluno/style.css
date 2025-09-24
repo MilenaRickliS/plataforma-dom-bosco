@@ -128,7 +128,6 @@
     font-size: 14px;
     transition: width .6s;
     height: 0px;
-    color: #0a0a0a;
 }
 
 #sidebar.open-sidebar {
