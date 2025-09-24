@@ -105,8 +105,8 @@ function RoutesApp(){
 
       <Route path="/inicio-aluno" element={ <Private rota="aluno"><InicioAluno/></Private> } />
       <Route path="/agenda-aluno" element={ <Private rota="aluno"><AgendaAluno/></Private> } />
-      <Route path="/videos-aluno" element={ <Private rota="aluno"><VideosAluno/></Private> } />
-      <Route path="/video-aluno" element={ <Private rota="aluno"><VideosDetalhesAluno/></Private> } />
+      <Route path="/videos-professores" element={ <Private rota="aluno"><VideosAluno/></Private> } />
+      <Route path="/video-detalhes" element={ <Private rota="aluno"><VideosDetalhesAluno/></Private> } />
       <Route path="/notas-aluno" element={ <Private rota="aluno"><NotasAluno/></Private> } />
       <Route path="/documentos-aluno" element={ <Private rota="aluno"><DocumentosAluno/></Private> } />
       <Route path="/ajuda-aluno" element={ <Private rota="aluno"><AjudaAluno/></Private> } />
