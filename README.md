@@ -1,12 +1,88 @@
-# React + Vite
+# Plataforma do Instituto Assitencial Dom Bosco - Guarapuava PR
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicação web desenvolvida em **React + Vite** para gestão e navegação da Plataforma do Instituto Assitencial Dom Bosco - Guarapuava PR.  
+O projeto ainda está sendo desenvolvido...
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Tecnologias
 
-## Expanding the ESLint configuration
+- [React](https://react.dev/) — biblioteca para interfaces de usuário  
+- [Vite](https://vitejs.dev/) — bundler e dev server rápido  
+- [JavaScript](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript)  
+- [CSS](https://developer.mozilla.org/pt-BR/docs/Web/CSS)  
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 📂 Estrutura do projeto
+
+```
+plataforma-dom-bosco/
+├── public/              # Arquivos estáticos
+├── src/                 # Código-fonte principal
+│   ├── assets/          # Imagens                
+│   ├── components/      # Componentes reutilizáveis
+│   ├── contexts/        # Para o gerenciamento da autenticação
+│   ├── fonts/           # Fontes do projeto
+│   ├── pages/           # Páginas da aplicação
+│   ├── routes/          # Rotas da aplicação
+│   ├── services/        # Conexão com o Firebase
+│   ├── index.css        # Estilo comum de toda aplicação
+│   └── App.jsx          # Arquivo principal
+├── index.html           # HTML base
+├── package.json         # Dependências e scripts
+├── vite.config.js       # Configuração do Vite
+└── eslint.config.js     # Regras de linting
+```
+
+---
+
+## 🛠️ Pré-requisitos
+
+- Node.js (>= 18)  
+- npm ou yarn  
+
+---
+
+## ▶️ Como rodar o projeto
+
+1. Clone o repositório  
+   ```bash
+   git clone https://github.com/MilenaRickliS/plataforma-dom-bosco.git
+   ```
+
+2. Acesse a pasta do projeto  
+   ```bash
+   cd plataforma-dom-bosco
+   ```
+
+3. Instale as dependências  
+   ```bash
+   npm install
+   # ou
+   yarn
+   ```
+
+4. Execute em ambiente de desenvolvimento  
+   ```bash
+   npm run dev
+   ```
+
+5. Abra no navegador:  
+   ```
+   http://localhost:5173
+   ```
+
+---
+
+
+🙋‍♀️ Desenvolvedores
+
+Bruno Thomé
+🔗 GitHub
+
+Milena Rickli Silvério Kriger
+🔗 GitHub
+
+Paulo Cesar Matsuda Almeida
+🔗 GitHub
