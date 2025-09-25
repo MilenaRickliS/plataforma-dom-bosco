@@ -1,4 +1,5 @@
 import MenuLateralAluno from "../../../components/portais/MenuLateralAluno";
+import MenuTopoAluno from "../../../components/portais/MenuTopoAluno";
 
 export default function Notas() {
   return (
@@ -6,6 +7,7 @@ export default function Notas() {
       <MenuLateralAluno />  
       <div className="page2">
         <main>
+            <MenuTopoAluno/>
           <h1>Conteúdo do Aluno</h1>
         </main>
       </div>
