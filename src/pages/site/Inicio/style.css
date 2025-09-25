@@ -1,0 +1,71 @@
+.inicio-main {
+  padding: 40px 24px;
+}
+
+.inicio-hero {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.inicio-image-wrapper {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.inicio-image {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  display: block;
+}
+
+.inicio-title {
+  flex: 1;
+  font-family: "Poppins", sans-serif;
+  font-weight: 800;
+  font-size: 3rem;
+  line-height: 1.1;
+  color: #161616;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.inicio-title .line {
+  display: inline-block;
+}
+
+.inicio-title .sonha { color: #ac0000; -webkit-text-stroke: 0.8px #000; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; }
+.inicio-title .aprende { color: #0043b8; -webkit-text-stroke: 0.8px #000; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; }
+.inicio-title .conquista { color: #008b1a; -webkit-text-stroke: 0.8px #000; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; }
+
+.inicio-title .cta {
+  position: relative;
+  display: inline-block;
+}
+.inicio-title .cta::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 100%;
+  bottom: -6px;
+  height: 6px;
+  background: #b49000; 
+  border-radius: 3px;
+}
+
+@media (max-width: 900px) {
+  .inicio-hero { flex-direction: column; text-align: center; }
+  .inicio-title { font-size: 2.4rem; }
+}
+
+@media (max-width: 600px) {
+  .inicio-title { font-size: 2rem; }
+  .inicio-image { max-width: 380px; }
+}
