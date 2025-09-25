@@ -92,6 +92,7 @@
     right: 15px;
 }
 
+
 @media (max-width: 768px) {
   .menu-turma {
     font-size: 14px;
@@ -114,6 +115,7 @@
   }
 }
 
+
 @media (max-width: 600px) {
   .ativ-sala {
     flex-direction: column; 
@@ -121,13 +123,14 @@
   }
 
   .prox-ativ,
-  .ativ {
+  .atividade { 
     width: 100%; 
     min-width: unset;
   }
 
   .atividade {
-    width: 100%; /
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
 
@@ -144,9 +147,10 @@
     min-width: unset;
   }
 }
-@media (max-width: 380px) {
-    .atividade{
-        padding: 10px;
 
-    }
+
+@media (max-width: 380px) {
+  .atividade{
+      padding: 10px;
+  }
 }
