@@ -1,3 +1,25 @@
+.botao-postar{
+    background: #A556D3;
+    background: linear-gradient(90deg,rgba(165, 86, 211, 1) 25%, rgba(21, 185, 204, 1) 100%, rgba(21, 185, 204, 1) 100%);
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    padding: 20px;
+    border-radius: 30px;
+    margin: 20px;
+    max-width: 100%;
+    box-sizing: border-box;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.botao-postar:hover {
+    transform: scale(1.05); 
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2); 
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
 .container-video{
     display: flex;
     flex-direction: column;

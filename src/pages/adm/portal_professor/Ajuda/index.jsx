@@ -8,7 +8,7 @@ export default function Ajuda() {
       <div className="page2">
         <main>
             <MenuTopoProfessor/>
-          <h1>Conteúdo do Professor</h1>
+          
         </main>
       </div>
     </div>

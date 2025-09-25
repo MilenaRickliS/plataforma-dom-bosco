@@ -63,13 +63,18 @@
     color: #cc9900;
     cursor: pointer;
 }
+
 .atividade{
+    position: relative;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
     gap: 15px;
+    background-color: white;
+    color: black;
+    border-radius: 20px;
+    padding: 20px;
     text-decoration: none;
     transition: all 0.2s ease;
+
 }
 .atividade:hover{
    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
@@ -80,6 +85,11 @@
     border-radius: 50%;
     padding: 15px;
     flex-shrink: 0;
+}
+.atividade svg:last-child {
+    position: absolute;
+    top: 15px;
+    right: 15px;
 }
 
 @media (max-width: 768px) {
@@ -104,6 +114,24 @@
   }
 }
 
+@media (max-width: 600px) {
+  .ativ-sala {
+    flex-direction: column; 
+    gap: 20px; 
+  }
+
+  .prox-ativ,
+  .ativ {
+    width: 100%; 
+    min-width: unset;
+  }
+
+  .atividade {
+    width: 100%; /
+  }
+}
+
+
 @media (max-width: 480px) {
   .menu-turma {
     flex-direction: column;
@@ -115,4 +143,10 @@
     width: 100%; 
     min-width: unset;
   }
+}
+@media (max-width: 380px) {
+    .atividade{
+        padding: 10px;
+
+    }
 }

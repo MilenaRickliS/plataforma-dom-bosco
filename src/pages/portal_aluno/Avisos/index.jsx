@@ -8,7 +8,7 @@ export default function Avisos() {
       <div className="page2">
         <main>
             <MenuTopoAluno/>
-          <h1>Conteúdo do Aluno</h1>
+         
         </main>
       </div>
     </div>
