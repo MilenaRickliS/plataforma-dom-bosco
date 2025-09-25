@@ -55,3 +55,27 @@
 .google-icon {
   font-size: 20px;
 }
+
+.voltar-home-wrapper{
+  display: flex;
+  justify-content: flex-start;
+}
+.voltar-home{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 20px;
+  border: 2px solid black;
+  background-color: white;
+  text-decoration: none;
+  padding: 8px 18px;
+  color: black;
+  font-weight: bold;
+  font-family: "BM HANNA", sans-serif;
+  margin: 14px;
+  transition: all 0.3s ease;
+}
+.voltar-home:hover{
+  background-color: #1E3B7D;
+  color: #fff;
+}
