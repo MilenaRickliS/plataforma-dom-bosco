@@ -8,7 +8,7 @@ export default function VideosDetalhes() {
       <div className="page2">
         <main>
             <MenuTopoAluno/>
-          <h1>Conteúdo do Aluno</h1>
+          <h1>Vídeos detalhes</h1>
         </main>
       </div>
     </div>
