@@ -1,7 +1,8 @@
 import { useContext, useEffect } from "react";
 import { AuthContext } from "../../contexts/auth";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc"; 
+import { IoIosArrowBack } from "react-icons/io";
 import logo from '../../assets/logo2.png';
 import './style.css';
 
@@ -20,6 +21,9 @@ export default function Login() {
 
   return (
     <div className="fundo-login">
+      <div className="voltar-home-wrapper">
+        <Link to="/" className="voltar-home"><IoIosArrowBack /> Voltar para Home</Link>
+      </div>
       <div className="titulo-login">
         <img src={logo} alt="Logo" />
         <p>Instituto Assistencial Dom Bosco - Portal do Aluno</p>
