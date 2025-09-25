@@ -1,11 +1,14 @@
 import MenuLateralProfessor from "../../../../components/portais/MenuLateralProfessor";
+import MenuTopoProfessor from "../../../../components/portais/MenuTopoProfessor";
+
 export default function AddAtividade() {
   return (
     <div className="layout">
       <MenuLateralProfessor />  
       <div className="page2">
         <main>
-          <h1>Conteúdo do Professor</h1>
+            <MenuTopoProfessor/>
+            <h1>Conteúdo do Professor</h1>
         </main>
       </div>
     </div>

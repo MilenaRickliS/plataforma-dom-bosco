@@ -1,4 +1,6 @@
 import MenuLateralProfessor from "../../../../components/portais/MenuLateralProfessor";
+import MenuTopoProfessor from "../../../../components/portais/MenuTopoProfessor";
+
 
 export default function Inicio() {
   return (
@@ -6,6 +8,7 @@ export default function Inicio() {
       <MenuLateralProfessor />  
       <div className="page2">
         <main>
+            <MenuTopoProfessor/>
           <h1>Conteúdo do Professor</h1>
         </main>
       </div>
