@@ -1,7 +1,8 @@
 .inicio-menug{
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content:flex-start;
+    flex-direction: column;
+    align-items: start;
 }
 .titulo-menug{
     display: flex;

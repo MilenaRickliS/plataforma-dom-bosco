@@ -1,17 +1,18 @@
 import { Link } from "react-router-dom";
 import logo from '../../../../assets/logo2.png';
 import './style.css';
-import { IoIosArrowForward } from "react-icons/io";
+import { IoIosArrowBack } from "react-icons/io";
 
 export default function MenuGestao() {
     return (
         <div>
             <div className="inicio-menug">
+                <Link to="/inicio-adm" className="voltar-adm"><IoIosArrowBack />Voltar</Link>
                 <div className="titulo-menug">
                     <img src={logo} alt="Logo" />
                     <p>Gestão Site Instituto</p>
                 </div>
-                <Link to="/inicio-adm" className="voltar-adm">Voltar<IoIosArrowForward /></Link>
+                
             </div>
             <p className="p-opcoes">Bem-vindo! Escolha uma das opções abaixo a editar:</p>
             <div className="opcoes-menug">
