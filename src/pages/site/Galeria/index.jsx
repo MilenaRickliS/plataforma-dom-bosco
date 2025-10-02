@@ -66,7 +66,7 @@ export default function Galeria() {
   };
 
   return (
-    <div className="page">
+    <div className="galeria-page">
       <Header />
       <main className="galeria-main">
         <div className="galeria-container">

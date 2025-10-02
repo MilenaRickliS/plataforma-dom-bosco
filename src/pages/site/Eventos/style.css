@@ -1,7 +1,4 @@
-.container-eventos{
-    background: #A556D3;
-    background: linear-gradient(90deg,rgba(165, 86, 211, 1) 25%, rgba(21, 185, 204, 1) 100%, rgba(21, 185, 204, 1) 100%);
-}
+
 .inicio-eventos{
     display: flex;
     justify-content: center;
