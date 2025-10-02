@@ -6,8 +6,8 @@ const router = Router();
 // Emails autorizados 
 const rotas = {
   "milena.silverio2506@gmail.com": "aluno",
-  "professor@gmail.com": "professor",
-  "admin@gmail.com": "admin"
+  "engs-milenasilverio@camporeal.edu.br": "professor",
+  "jogos.mi2506@gmail.com": "admin"
 };
 
 router.post("/login", async (req, res) => {
