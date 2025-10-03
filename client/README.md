@@ -10,14 +10,15 @@ O projeto ainda está sendo desenvolvido...
 - [React](https://react.dev/) — biblioteca para interfaces de usuário  
 - [Vite](https://vitejs.dev/) — bundler e dev server rápido  
 - [JavaScript](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript)  
-- [CSS](https://developer.mozilla.org/pt-BR/docs/Web/CSS)  
+- [CSS](https://developer.mozilla.org/pt-BR/docs/Web/CSS)
+- [Firebase](https://firebase.google.com/)  
 
 ---
 
 ## 📂 Estrutura do projeto
 
 ```
-plataforma-dom-bosco/
+plataforma-dom-bosco/client
 ├── public/              # Arquivos estáticos
 ├── src/                 # Código-fonte principal
 │   ├── assets/          # Imagens                
@@ -33,6 +34,18 @@ plataforma-dom-bosco/
 ├── package.json         # Dependências e scripts
 ├── vite.config.js       # Configuração do Vite
 └── eslint.config.js     # Regras de linting
+```
+
+plataforma-dom-bosco/server
+├── node_modules/          # Arquivos Node
+├── src/                   # Backend
+│   ├── routes/
+│     ├── auth.js          # Autenticação                
+│     └── depoimentos.js   # Depoimentos         
+│   └── firebaseAdmin.js   # Configurações Firebase
+├── gitignore              # Arquivo Git
+├── package.json           # Dependências e scripts
+└── server.js    # Principal arquivo
 ```
 
 ---
