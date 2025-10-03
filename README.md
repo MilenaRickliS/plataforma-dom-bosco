@@ -35,7 +35,7 @@ plataforma-dom-bosco/client
 ├── vite.config.js       # Configuração do Vite
 └── eslint.config.js     # Regras de linting
 ```
-
+```
 plataforma-dom-bosco/server
 ├── node_modules/          # Arquivos Node
 ├── src/                   # Backend
