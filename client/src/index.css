@@ -19,7 +19,8 @@
 }
 
 html, body {
-  height: 100%;
+  width: 100%;
+  min-height: 100vh;
   margin: 0;
   padding: 0;
 }
@@ -47,32 +48,12 @@ html, body {
 }
 
 body{
-  margin: 0;
-  padding: 0;
+
   display: flex;
   flex-direction: column;  
-  min-height: 150vh;
-  background: linear-gradient(270deg, #EDF0FC, #CCE4F5, #cacaca);
-  background-size: 300% 300%;
-  animation: wave 12s ease-in-out infinite;
+  background-color: #D1E0F0;
 }
 
-@keyframes wave {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-@keyframes aurora {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
 main {
   flex: 1; 
   width: 100%;
@@ -101,8 +82,6 @@ main {
     rgba(165, 86, 211, 1) 25%,
     rgba(21, 185, 204, 1) 100%
   );
-  background-size: 400% 400%;
-  animation: aurora 10s ease infinite;
   flex: 1;
   display: flex;
   flex-direction: column;  

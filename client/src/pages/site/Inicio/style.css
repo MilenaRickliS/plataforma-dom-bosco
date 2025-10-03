@@ -1,3 +1,6 @@
+/* inicio */
+
+
 .inicio-main {
   padding: 40px 24px;
 }
@@ -60,12 +63,201 @@
   border-radius: 3px;
 }
 
+/* sobre */
+
+.sessao-sobre{
+  background-color: #D8BB18;
+  width: 100%;
+  margin: 0;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  font-family: "BM HANNA", sans-serif;
+  color: #000;
+}
+.div-sobre{
+  position: relative;
+  padding-bottom: 40px;
+  background-color: #E4DEBD;
+}
+.div-sobre h3{
+  font-size: 35px;
+}
+.sobre1 div{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  
+}
+.sobre1 span{
+  font-weight: bold;
+  font-size: 35px;
+}
+.sobre1 p{
+  font-family: "Poppins", sans-serif;
+  margin-left: 15px;
+  font-size: 20px;
+}
+.link-sobre{
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  font-weight: bold;
+  background-color: #A66131;
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 30px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+.link-sobre:hover{
+  background-color: #b14a00;
+  text-decoration: underline;
+}
+
+/* eventos */
+
+.sessao-eventos{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.div-eventos h3{
+  font-family: "BM HANNA", sans-serif;
+  color: #000;
+  font-size: 35px;
+}
+.div-eventos a{
+  background-color: #1F4396;
+  color: #fff;
+  border-radius: 30px;
+  padding: 20px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+.div-eventos a:hover{
+  background-color: #0b245e;
+}
+.botoes{
+  color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 50px;
+  cursor: pointer;
+  padding-bottom: 40px;
+}
+.eventos{
+  display: flex;
+  margin-left: 25px;
+}
+.post-evento{
+  background-color: #fff;
+  border-radius: 15px;
+  padding: 120px 90px;
+  margin-left: 10px;
+}
+
+/* convite site salensianos */
+
+.sessao-site{
+    width: 100%;
+    background-color: #8E3838;
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    margin-top: 25px;
+    gap: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+.convite{
+    flex: 1;
+    font-family: "BM HANNA", sans-serif;
+    font-size: 30px;
+    padding: 15px;
+}
+.convite p{
+    color: #FEF9DF;
+}
+.convite span{
+    color: #0AB8F8;
+}
+.convite a{
+    color: #3E6EAD;
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 12px 18px;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 15px;
+    transition: all 0.3s ease;
+}
+
+.convite a:hover {
+    background-color: #3E6EAD;
+    color: #fff;
+}
+.sessao-site img{    
+    max-width: 50%;
+    height: auto;
+    opacity: 75%;
+    border-radius: 12px;
+}
+
+
+/* responsividade */
+
 @media (max-width: 900px) {
   .inicio-hero { flex-direction: column; text-align: center; }
   .inicio-title { font-size: 2.4rem; }
+    .sessao-eventos{
+    flex-direction: column;
+  }
+  .sessao-site {
+    flex-direction: column;      
+    text-align: center;           
+  }
+
+  .sessao-site img {
+    max-width: 100%;         
+    margin-top: 20px;
+  }
+
+  .convite {
+    font-size: 22px;              
+    padding: 10px;
+  }
+
+  .convite a {
+    font-size: 16px;
+    padding: 10px 15px;
+  }
 }
 
 @media (max-width: 600px) {
   .inicio-title { font-size: 2rem; }
   .inicio-image { max-width: 380px; }
+  .sobre1 div{ flex-direction: column;}
+  .eventos{
+    flex-direction: column;
+  }
 }
+@media (max-width: 500px) {
+  .convite {
+    font-size: 18px;             
+  }
+  .div-sobre h3{
+  font-size: 25px;
+}
+.sobre1 span{
+  font-size: 25px;
+}
+.sobre1 p{
+  font-size: 15px;
+}
+}
+
