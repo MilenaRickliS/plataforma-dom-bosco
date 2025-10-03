@@ -13,12 +13,12 @@ export default function Footer() {
     <footer className="footer">
         <div className="footer-top">
             <div className="social-icons">
-                <a href="#"><FaInstagram/></a>
-                <a href="#"><FaFacebookF/></a>
-                <a href="#"><FaYoutube/></a>
-                <a href="#"><FaWhatsapp/></a>
+                <a href="https://www.instagram.com/iadbguarapuava/"><FaInstagram/></a>
+                <a href="https://www.facebook.com/IADBGuarapuava"><FaFacebookF/></a>
+                <a href="https://www.youtube.com/c/SalesianosSul"><FaYoutube/></a>
+                <a href="https://api.whatsapp.com/send/?phone=5542984055914&text&type=phone_number&app_absent=0"><FaWhatsapp/></a>
             </div>
-            <a href="#" className="doacao-btn">Faça uma doação!</a>
+            <a href="https://iadb.doardigital.com.br/doacao" className="doacao-btn">Faça uma doação!</a>
         </div>
 
         <div className="footer-links">
@@ -45,7 +45,7 @@ export default function Footer() {
                 <ul>
                     <li><a href="/comunidade">Projetos sociais e voluntariado</a></li>
                     <li><a href="/comunidade">Parcerias</a></li>
-                    <li><a href="#">Seja um parceiro!</a></li>
+                    <li><a href="http://iadbguarapuava.com.br/seja-um-parceiro/">Seja um parceiro!</a></li>
                 </ul>
             </div>
         
