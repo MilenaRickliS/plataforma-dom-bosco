@@ -18,6 +18,13 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: "Bonheur Royale";
+  src: url('./fonts/Bonheur_Royale,Poppins/Bonheur_Royale/BonheurRoyale-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
 html, body {
   width: 100%;
   min-height: 100vh;
@@ -58,6 +65,11 @@ main {
   flex: 1; 
   width: 100%;
   margin-top: 120px;
+}
+.sobre-main{
+  flex: 1; 
+  width: 100%;
+  margin-top: 70px;
 }
 .page {
   flex: 1;             

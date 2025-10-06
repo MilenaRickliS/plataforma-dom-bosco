@@ -9,6 +9,12 @@ import instituto from "../../../assets/site/local2 (2).png";
 import { IoIosStarOutline } from "react-icons/io";
 import { IoPin,  IoRocket } from "react-icons/io5";
 import { FaArrowRight, FaArrowLeft } from "react-icons/fa6";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import { LiaLightbulbSolid } from "react-icons/lia";
+import { TbCrossFilled } from "react-icons/tb";
+import { PiHeartDuotone } from "react-icons/pi";
 import adriano from "../../../assets/equipe/Adriano-Fragozo-768x512.jpg";
 import crislaine from "../../../assets/equipe/Crislaine-Losso-Gechele-768x512.jpeg";
 import diego from "../../../assets/equipe/Diego-da-Silva-768x512.jpg";
@@ -32,25 +38,49 @@ import viviane from "../../../assets/equipe/Viviane-Aparecida-768x512.jpeg";
 
 
 export default function Sobre() {
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 800,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,      
+    autoplaySpeed: 4000, 
+    arrows: false,
+  };
+  const NextArrow = ({ onClick }) => (
+    <div className="arrow-equipe arrow-equipe-right" onClick={onClick}>
+      <FaArrowRight />
+    </div>
+  );
+
+  const PrevArrow = ({ onClick }) => (
+    <div className="arrow-equipe arrow-equipe-left" onClick={onClick}>
+      <FaArrowLeft />
+    </div>
+  );
+
   return (
     <div className="page">
         <Header />
-        <main>
-          <section>
+        <main className="sobre-main">
+          <section className="inicio-sobre">
             <img src={jovens} alt="jovens"/>
-            <div>
-              <h2>Instituto Assistencial Dom Bosco:<br/>o lugar certo para quem quer crescer!</h2>
+            <div className="fazer-parte">
+              <h2>Instituto Assistencial Dom Bosco: o lugar certo para quem quer crescer!</h2>
               <Link to="https://linktr.ee/iadbguarapuava?fbclid=PAZXh0bgNhZW0CMTEAAadQF_7QCdI4kK_rNe_PrE1gHAkCWdUl1NhFXvClUsq8Te0YWR3-F8sQi13bJA_aem_ly9CNBKwfBqnXQ9xKXA1cA">Quero fazer parte!</Link>
             </div>
           </section>
 
-          {/* <section>
-            <div>
-              <div>
-                <img src={equipe} alt="equipe"/>
-                <img src={instituto} alt="local" />
+          <section className="historia-section">
+            <div className="historia">
+              <div className="imagens-historia">
+                <div className="img-principal">
+                  <img src={equipe} alt="equipe" className="principal"/>
+                  <img src={instituto} alt="local" className="img-secundaria" />
+                </div>
               </div>
-              <div>
+              <div className="texto-historia">
                 <h2>Nossa História</h2>
                 <p><IoIosStarOutline />Nossa história começou em 1977, com o Oratório Domingos Sávio, criado pelo Pe. Honorino Muraro. Nos fins de semana, o Irmão Vicente reunia a galera para esportes e lazer — que eram raridade na época!</p>
                 <p>Com o tempo, o espaço cresceu e, com a chegada do Irmão Aroldo Martins, ganhou ainda mais vida: marcenaria, artesanato, datilografia, violão e muito mais passaram a fazer parte do dia a dia.</p>
@@ -58,147 +88,111 @@ export default function Sobre() {
                 <p><IoPin />Hoje, em Guarapuava  PR, somos o Instituto Assistencial Dom Bosco, sob direção do Pe. Enri Clemente Leigman. Continuamos firmes no propósito: atender adolescentes e jovens de forma personalizada, ajudando-os a se tornarem protagonistas da própria história, preparados para o trabalho e para a vida.<IoRocket /></p>
               </div>              
             </div>
-            <div>
-              <div>
-                <h3>Missão</h3>
-                <p>Acolher adolescentes e jovens do meio popular, despertando seu protagonismo através do Sistema Preventivo de Dom Bosco.</p>
-              </div>
-              <div>
-                <h3>Visão</h3>
-                <p>Ser uma entidade de referência na transformação social, junto aos adolescentes e jovens no crescimento humano e cristão.</p>
-              </div>
-              <div>
-                <h3>Valores</h3>
-                <p>Respeito, confiança e responsabilidade: pilares que formam nossa caminhada junto aos jovens.</p>
-              </div>
+            <div className="carrossel-mvv">
+              <Slider {...settings}> 
+                <div className="mvv-item missao">
+                  <h3>Missão</h3>
+                  <p>
+                    Acolher adolescentes e jovens do meio popular, despertando seu
+                    protagonismo através do Sistema Preventivo de Dom Bosco.
+                  </p>
+                </div>
+                <div className="mvv-item visao">
+                  <h3>Visão</h3>
+                  <p>
+                    Ser uma entidade de referência na transformação social, junto aos
+                    adolescentes e jovens no crescimento humano e cristão.
+                  </p>
+                </div>
+                <div className="mvv-item valores">
+                  <h3>Valores</h3>
+                  <p>
+                    Respeito, confiança e responsabilidade: pilares que formam nossa
+                    caminhada junto aos jovens.
+                  </p>
+                </div>
+              </Slider>
             </div>
           </section>
 
-          <section>
+          <section className="filosofia">
             <h2>Filosofia Salesiana</h2>
-            <div>
+            <div className="pilares">
               <div>
-                <h3>Razão</h3>
+                <h3><LiaLightbulbSolid />Razão</h3>
                 <p>Educar para a dimensão crítica: favorece o espírito crítico e a formação de convicções pessoais. Usa-se a persuasão em forma preventiva e motivadora.</p>
               </div>
               <div>
-                <h3>Religião</h3>
+                <h3><TbCrossFilled />Religião</h3>
                 <p>Que os jovens descubram o sentido da vida e a alegria de viver na graça de Deus. É ajudar os jovens a encontrarem na fé respostas a seus urgentes problemas.</p>
               </div>
               <div>
-                <h3>Amorevolleza</h3>
+                <h3><PiHeartDuotone />Amorevolleza</h3>
                 <p>É o sincero afeto para com o jovem; isso gera confiança em si mesmo, ajudando-o a crescer no amadurecimento afetivo. “Que os jovens não somente sejam amados, mas sintam que são amados”.</p>
               </div>
             </div>
           </section>
 
-          <section>
+          <section className="equipe-section">
             <h2>Nossa equipe</h2>
-            <FaArrowLeft />
-            <div>
-              <div>
-                <img src={enri} alt="Enri"/>
-                <p>P. Enri Clemente Leigman</p>
-                <p>Diretoria</p>
-              </div>
-              <div>
-                <img src={michely} alt="Michely"/>
-                <p>Michely Nunes dos Santos</p>
-                <p>Coordenadora Administrativa</p>
-              </div>
-              <div>
-                <img src={lorayne} alt="Lorayne"/>
-                <p>Lorayne Cordeiro de Lima</p>
-                <p>Coordenadora Educativa Pastoral</p>
-              </div>
-              <div>
-                <img src={maria} alt="Maria"/>
-                <p>Maria Antonia Alves Rosa</p>
-                <p>Coordenadora do Jovem Aprendiz</p>
-              </div>
-              <div>
-                <img src={viviane} alt="Viviane"/>
-                <p>Viviane Aparecida</p>
-                <p>Serviços Gerais</p>
-              </div>
-              <div>
-                <img src={gabriel} alt="Gabriel"/>
-                <p>Gabriel Santos de Paula</p>
-                <p>Diretor Executivo</p>
-              </div>
-              <div>
-                <img src={jislaine} alt="Jislaine"/>
-                <p>Jislaine Pires</p>
-                <p>Orientadora Pedagógica</p>
-              </div>
-              <div>
-                <img src={mariana} alt="Mariana"/>
-                <p>Marina de Campos</p>
-                <p>Educadora Social</p>
-              </div>
-              <div>
-                <img src={susana} alt="Susana"/>
-                <p>Susana Aparecida</p>
-                <p>Cozinheira</p>
-              </div>
-              <div>
-                <img src={nilton} alt="Nilton"/>
-                <p>Nilton Kaio Bobloski Xistiuk</p>
-                <p>Educador Social</p>
-              </div>
-              <div>
-                <img src={livia} alt="Livia"/>
-                <p>Lívia Menon Follador</p>
-                <p>Comunicadora</p>
-              </div>
-              <div>
-                <img src={joelma} alt="Joelma"/>
-                <p>Joelma Silvério de Moraes</p>
-                <p>Educador de Patio</p>
-              </div>
-              <div>
-                <img src={adriano} alt="Adriano"/>
-                <p>Adriano Fragozo</p>
-                <p>Porteiro</p>
-              </div>
-              <div>
-                <img src={silvete} alt="Silvete"/>
-                <p>Silvete Kovalski</p>
-                <p>Assistente Social</p>
-              </div>
-              <div>
-                <img src={crislaine} alt="Crislaine"/>
-                <p>Crislaine Losso Gechele</p>
-                <p>Educador Social</p>
-              </div>
-              <div>
-                <img src={diego} alt="Diego"/>
-                <p>P. Diego Silva</p>
-                <p>Assessor de Pastoral</p>
-              </div>
-              <div>
-                <img src={eduardo} alt="Eduardo"/>
-                <p>Eduardo Elias do Nascimento</p>
-                <p>Auxiliar Administrativo</p>
-              </div>
-              <div>
-                <img src={ester} alt="Ester"/>
-                <p>Ester da Silva</p>
-                <p>Cozinheira</p>
-              </div>
-              <div>
-                <img src={edilson} alt="Edilson"/>
-                <p>Edilson Carlos de Lima</p>
-                <p>Educador Social</p>
-              </div>
-              <div>
-                <img src={dioni} alt="Dioni"/>
-                <p>Dioni Furquim Falcão</p>
-                <p>Serviços Gerais</p>
-              </div>
-            </div>
-            <FaArrowRight />
-          </section> */}
+
+            <Slider
+              {...{
+                dots: false,
+                infinite: true,
+                speed: 700,
+                slidesToShow: 4,
+                slidesToScroll: 1,
+                autoplay: true,
+                autoplaySpeed: 3000,
+                nextArrow: <NextArrow />,
+                prevArrow: <PrevArrow />,
+                responsive: [
+                  {
+                    breakpoint: 1024,
+                    settings: { slidesToShow: 3 },
+                  },
+                  {
+                    breakpoint: 768,
+                    settings: { slidesToShow: 2 },
+                  },
+                  {
+                    breakpoint: 480,
+                    settings: { slidesToShow: 1 },
+                  },
+                ],
+              }}
+            >
+              {[
+                { img: enri, nome: "P. Enri Clemente Leigman", cargo: "Diretoria" },
+                { img: michely, nome: "Michely Nunes dos Santos", cargo: "Coord. Administrativa" },
+                { img: lorayne, nome: "Lorayne Cordeiro de Lima", cargo: "Coord. Educativa Pastoral" },
+                { img: maria, nome: "Maria Antonia Alves Rosa", cargo: "Coord. Jovem Aprendiz" },
+                { img: viviane, nome: "Viviane Aparecida", cargo: "Serviços Gerais" },
+                { img: gabriel, nome: "Gabriel Santos de Paula", cargo: "Diretor Executivo" },
+                { img: jislaine, nome: "Jislaine Pires", cargo: "Orientadora Pedagógica" },
+                { img: mariana, nome: "Marina de Campos", cargo: "Educadora Social" },
+                { img: susana, nome: "Susana Aparecida", cargo: "Cozinheira" },
+                { img: nilton, nome: "Nilton Kaio Bobloski Xistiuk", cargo: "Educador Social" },
+                { img: livia, nome: "Lívia Menon Follador", cargo: "Comunicadora" },
+                { img: joelma, nome: "Joelma Silvério de Moraes", cargo: "Educadora de Pátio" },
+                { img: adriano, nome: "Adriano Fragozo", cargo: "Porteiro" },
+                { img: silvete, nome: "Silvete Kovalski", cargo: "Assistente Social" },
+                { img: crislaine, nome: "Crislaine Losso Gechele", cargo: "Educadora Social" },
+                { img: diego, nome: "P. Diego Silva", cargo: "Assessor de Pastoral" },
+                { img: eduardo, nome: "Eduardo Elias do Nascimento", cargo: "Aux. Administrativo" },
+                { img: ester, nome: "Ester da Silva", cargo: "Cozinheira" },
+                { img: edilson, nome: "Edilson Carlos de Lima", cargo: "Educador Social" },
+                { img: dioni, nome: "Dioni Furquim Falcão", cargo: "Serviços Gerais" },
+              ].map((pessoa, i) => (
+                <div className="card-equipe" key={i}>
+                  <img src={pessoa.img} alt={pessoa.nome} />
+                  <p className="nome">{pessoa.nome}</p>
+                  <p className="cargo">{pessoa.cargo}</p>
+                </div>
+              ))}
+            </Slider>
+          </section>
 
           <div className="ver-galeria">
             <img src={local} alt="foto estrutura"/>
