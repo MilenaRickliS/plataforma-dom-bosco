@@ -67,8 +67,7 @@
   border: none;
   font-weight: bold;
   font-size: 1rem;
-  cursor: pointer;
-  align-self: start;
+  cursor: pointer;  
   border-radius: 20px;
   transition: all 0.3s ease;
 }
