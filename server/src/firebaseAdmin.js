@@ -1,18 +1,20 @@
 import admin from "firebase-admin";
-import fs from "fs";
-import path from "path";
+import dotenv from "dotenv";
 
-const serviceAccountPath = path.resolve("./dombosco-7b2ee-firebase-adminsdk-fbsvc-0fa0a18458.json");
+dotenv.config();
 
-if (!fs.existsSync(serviceAccountPath)) {
-  throw new Error("JSON da conta de serviço não encontrado!");
-}
-
-const serviceAccount = JSON.parse(fs.readFileSync(serviceAccountPath, "utf8"));
+console.log("🔥 Firebase carregando com:");
+console.log("PROJECT_ID:", process.env.FIREBASE_PROJECT_ID);
+console.log("EMAIL:", process.env.FIREBASE_CLIENT_EMAIL);
+console.log("PRIVATE_KEY existe?", !!process.env.FIREBASE_PRIVATE_KEY);
 
 if (!admin.apps.length) {
   admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
+    credential: admin.credential.cert({
+      project_id: process.env.FIREBASE_PROJECT_ID,
+      client_email: process.env.FIREBASE_CLIENT_EMAIL,
+      private_key: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n"),
+    }),
   });
 }
 

@@ -49,7 +49,6 @@
 
 .historia-section {
   padding: 60px 20px;
-
 }
 
 .historia {
@@ -58,6 +57,7 @@
   justify-content: center;
   gap: 60px;
   flex-wrap: wrap;
+  
 }
 
 .img-principal {
@@ -173,6 +173,7 @@
   padding: 60px 20px;
   position: relative;
   font-family: "BM HANNA", sans-serif;
+  background-color: #dddfdf;
 }
 
 .equipe-section h2 {

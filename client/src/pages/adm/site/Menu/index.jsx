@@ -1,9 +1,78 @@
+import { useState, useEffect } from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import logo from '../../../../assets/logo2.png';
 import './style.css';
 import { IoIosArrowBack } from "react-icons/io";
+import { FiUpload } from "react-icons/fi";
 
 export default function MenuGestao() {
+    const [membros, setMembros] = useState([]);
+    const [nome, setNome] = useState("");
+    const [cargo, setCargo] = useState("");
+    const [foto, setFoto] = useState(null);
+    const [preview, setPreview] = useState("");
+    const [editando, setEditando] = useState(null);
+
+    const fetchEquipe = async () => {
+        const res = await axios.get("http://localhost:5000/api/equipe");
+        setMembros(res.data);
+    };
+
+    useEffect(() => {
+        fetchEquipe();
+    }, []);
+
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        setFoto(file);
+        setPreview(URL.createObjectURL(file));
+    };
+
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (!nome || !cargo) return alert("Preencha nome e cargo!");
+
+        const formData = new FormData();
+        formData.append("nome", nome);
+        formData.append("cargo", cargo);
+        if (foto) formData.append("foto", foto);
+
+        try {
+        if (editando) {
+            await axios.put(`http://localhost:5000/api/equipe/${editando}`, formData);
+            alert("Membro atualizado!");
+        } else {
+            await axios.post("http://localhost:5000/api/equipe", formData);
+            alert("Membro adicionado!");
+        }
+        setNome("");
+        setCargo("");
+        setFoto(null);
+        setPreview("");
+        setEditando(null);
+        fetchEquipe();
+        } catch (error) {
+        console.error(error);
+        alert("Erro ao salvar membro.");
+        }
+    };
+
+    const handleDelete = async (id) => {
+        if (window.confirm("Tem certeza que deseja excluir este membro?")) {
+        await axios.delete(`http://localhost:5000/api/equipe/${id}`);
+        fetchEquipe();
+        }
+    };
+
+
+    const handleEdit = (membro) => {
+        setEditando(membro.id);
+        setNome(membro.nome);
+        setCargo(membro.cargo);
+        setPreview(membro.foto);
+    };
+
     return (
         <div>
             <div className="inicio-menug">
@@ -21,6 +90,70 @@ export default function MenuGestao() {
                 <Link to="/projetos-de-cursos-gestao">PROJETOS E OFICINAS</Link> 
                 <Link to="/comunidade-gestao">PROJETOS SOCIAIS E VOLUNTARIADO</Link>   
                 <Link to="/cursos-gestao">CURSOS</Link>                  
+            </div>
+
+            <div className="gestao-equipe">
+                 <h2>Gerenciar Equipe</h2>
+
+                <form className="form-equipe" onSubmit={handleSubmit}>
+                    <input
+                    type="text"
+                    placeholder="Nome Completo"
+                    value={nome}
+                    onChange={(e) => setNome(e.target.value)}
+                    />
+                    <input
+                    type="text"
+                    placeholder="Cargo"
+                    value={cargo}
+                    onChange={(e) => setCargo(e.target.value)}
+                    />
+                    <label htmlFor="foto" className="label-foto">
+                        <FiUpload size={18} style={{ marginRight: "8px" }} />Escolher imagem
+                    </label>
+                    <input
+                        id="foto"
+                        type="file"
+                        accept="image/*"
+                        onChange={handleFileChange}
+                        style={{ display: "none" }}
+                    />
+
+                    {preview && (
+                    <img
+                        src={preview}
+                        alt="preview"
+                        style={{
+                        width: "120px",
+                        height: "120px",
+                        borderRadius: "50%",
+                        margin: "10px auto",
+                        display: "block",
+                        }}
+                    />
+                    )}
+                    {foto && <p className="nome-arquivo">📁 {foto.name}</p>}
+
+                    <button type="submit">
+                    {editando ? "Salvar alterações" : "Adicionar membro"}
+                    </button>
+                </form>
+
+                <div className="lista-equipe">
+                    {membros.map((membro) => (
+                    <div key={membro.id} className="card-equipe-admin">
+                        <img src={membro.foto} alt={membro.nome} />
+                        <div>
+                        <p><strong>{membro.nome}</strong></p>
+                        <p>{membro.cargo}</p>
+                        </div>
+                        <div className="acoes">
+                        <button onClick={() => handleEdit(membro)}>Editar</button>
+                        <button onClick={() => handleDelete(membro.id)}>Excluir</button>
+                        </div>
+                    </div>
+                    ))}
+                </div>
             </div>
         </div>
     );

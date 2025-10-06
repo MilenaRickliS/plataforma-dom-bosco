@@ -1,10 +1,12 @@
 import Header from "../../../components/site/Header";
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import Footer from "../../../components/site/Footer";
 import local from '../../../assets/site/salao.png';
 import './style.css';
 import jovens from "../../../assets/site/grupojovens.png";
-import equipe from "../../../assets/site/Desperta-ai_10.08-7-768x512.webp";
+import equipefoto from "../../../assets/site/Desperta-ai_10.08-7-768x512.webp";
 import instituto from "../../../assets/site/local2 (2).png";
 import { IoIosStarOutline } from "react-icons/io";
 import { IoPin,  IoRocket } from "react-icons/io5";
@@ -15,29 +17,10 @@ import "slick-carousel/slick/slick-theme.css";
 import { LiaLightbulbSolid } from "react-icons/lia";
 import { TbCrossFilled } from "react-icons/tb";
 import { PiHeartDuotone } from "react-icons/pi";
-import adriano from "../../../assets/equipe/Adriano-Fragozo-768x512.jpg";
-import crislaine from "../../../assets/equipe/Crislaine-Losso-Gechele-768x512.jpeg";
-import diego from "../../../assets/equipe/Diego-da-Silva-768x512.jpg";
-import dioni from "../../../assets/equipe/Dioni-Furquim-Falcao-768x512.jpeg";
-import edilson from "../../../assets/equipe/Edilson-Carlos-de-Lima-768x1024.jpeg";
-import eduardo from "../../../assets/equipe/Eduardo-Elias-768x512.jpg";
-import enri from "../../../assets/equipe/Enri-Clemente-Leigman-1152x1536.jpeg";
-import ester from "../../../assets/equipe/Ester-da-Silva-768x512.jpg";
-import gabriel from "../../../assets/equipe/Gabriel-Santos-de-Paula-768x512.jpg";
-import jislaine from "../../../assets/equipe/Jislaine-Pires-768x512.jpeg";
-import joelma from "../../../assets/equipe/Joelma-Silverio-de-Moraes-768x512.jpg";
-import livia from "../../../assets/equipe/Livia-Menon-Follador-2-768x512.jpg";
-import lorayne from "../../../assets/equipe/Lorayne-Cordeiro-de-Lima-768x512.jpeg";
-import maria from "../../../assets/equipe/Maria-Antonia-Alves-Rosa-768x512.jpeg";
-import mariana from "../../../assets/equipe/Maria-Antonia-Alves-Rosa-768x512.jpeg";
-import michely from "../../../assets/equipe/Michely-Nunes-dos-Santos-1024x682.jpeg";
-import nilton from "../../../assets/equipe/Nilton-Kaio-Bobloski-Xistiuk-768x512.jpeg";
-import silvete from "../../../assets/equipe/Silvete-Kovalski-768x512.jpg";
-import susana from "../../../assets/equipe/Susana-Aparecida-768x512.jpg";
-import viviane from "../../../assets/equipe/Viviane-Aparecida-768x512.jpeg";
 
 
 export default function Sobre() {
+  const [equipe, setEquipe] = useState([]);
   const settings = {
     dots: true,
     infinite: true,
@@ -59,6 +42,9 @@ export default function Sobre() {
       <FaArrowLeft />
     </div>
   );
+  useEffect(() => {
+    axios.get("http://localhost:5000/api/equipe").then(res => setEquipe(res.data));
+  }, []);
 
   return (
     <div className="page">
@@ -76,7 +62,7 @@ export default function Sobre() {
             <div className="historia">
               <div className="imagens-historia">
                 <div className="img-principal">
-                  <img src={equipe} alt="equipe" className="principal"/>
+                  <img src={equipefoto} alt="equipe" className="principal"/>
                   <img src={instituto} alt="local" className="img-secundaria" />
                 </div>
               </div>
@@ -133,6 +119,7 @@ export default function Sobre() {
             </div>
           </section>
 
+
           <section className="equipe-section">
             <h2>Nossa equipe</h2>
 
@@ -163,34 +150,14 @@ export default function Sobre() {
                 ],
               }}
             >
-              {[
-                { img: enri, nome: "P. Enri Clemente Leigman", cargo: "Diretoria" },
-                { img: michely, nome: "Michely Nunes dos Santos", cargo: "Coord. Administrativa" },
-                { img: lorayne, nome: "Lorayne Cordeiro de Lima", cargo: "Coord. Educativa Pastoral" },
-                { img: maria, nome: "Maria Antonia Alves Rosa", cargo: "Coord. Jovem Aprendiz" },
-                { img: viviane, nome: "Viviane Aparecida", cargo: "Serviços Gerais" },
-                { img: gabriel, nome: "Gabriel Santos de Paula", cargo: "Diretor Executivo" },
-                { img: jislaine, nome: "Jislaine Pires", cargo: "Orientadora Pedagógica" },
-                { img: mariana, nome: "Marina de Campos", cargo: "Educadora Social" },
-                { img: susana, nome: "Susana Aparecida", cargo: "Cozinheira" },
-                { img: nilton, nome: "Nilton Kaio Bobloski Xistiuk", cargo: "Educador Social" },
-                { img: livia, nome: "Lívia Menon Follador", cargo: "Comunicadora" },
-                { img: joelma, nome: "Joelma Silvério de Moraes", cargo: "Educadora de Pátio" },
-                { img: adriano, nome: "Adriano Fragozo", cargo: "Porteiro" },
-                { img: silvete, nome: "Silvete Kovalski", cargo: "Assistente Social" },
-                { img: crislaine, nome: "Crislaine Losso Gechele", cargo: "Educadora Social" },
-                { img: diego, nome: "P. Diego Silva", cargo: "Assessor de Pastoral" },
-                { img: eduardo, nome: "Eduardo Elias do Nascimento", cargo: "Aux. Administrativo" },
-                { img: ester, nome: "Ester da Silva", cargo: "Cozinheira" },
-                { img: edilson, nome: "Edilson Carlos de Lima", cargo: "Educador Social" },
-                { img: dioni, nome: "Dioni Furquim Falcão", cargo: "Serviços Gerais" },
-              ].map((pessoa, i) => (
-                <div className="card-equipe" key={i}>
-                  <img src={pessoa.img} alt={pessoa.nome} />
+              {equipe.map(pessoa => (
+                <div className="card-equipe" key={pessoa.id}>
+                  <img src={pessoa.foto} alt={pessoa.nome} />
                   <p className="nome">{pessoa.nome}</p>
                   <p className="cargo">{pessoa.cargo}</p>
                 </div>
               ))}
+
             </Slider>
           </section>
 
