@@ -1,14 +1,72 @@
+import { useState } from "react";
 import Header from "../../../components/site/Header";
 import Footer from "../../../components/site/Footer";
 import './style.css';
 import { FaPhone } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
 import { IoIosPin } from "react-icons/io";
+import axios from "axios";
 
 export default function Contato() {
+  const [formData, setFormData] = useState({
+    nome: "",
+    email: "",
+    telefone: "",
+    assunto: "",
+    mensagem: "",
+  });
+  const [toast, setToast] = useState({ message: "", type: "" });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const validarEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { nome, email, telefone, assunto, mensagem } = formData;
+
+    
+    if (!nome || !email || !telefone || !assunto || !mensagem) {
+      mostrarToast("Preencha todos os campos!", "erro");
+      return;
+    }
+
+    if (!validarEmail(email)) {
+      mostrarToast("Digite um e-mail válido!", "erro");
+      return;
+    }
+
+    try {
+      await axios.post("http://localhost:5000/api/enviar-email", formData);
+      mostrarToast("Mensagem enviada com sucesso!", "sucesso");
+      setFormData({
+        nome: "",
+        email: "",
+        telefone: "",
+        assunto: "",
+        mensagem: "",
+      });
+    } catch (error) {
+      console.error(error);
+      mostrarToast("Erro ao enviar a mensagem. Tente novamente.", "erro");
+    }
+  };
+
+  const mostrarToast = (mensagem, tipo) => {
+    setToast({ message: mensagem, type: tipo });
+    setTimeout(() => setToast({ message: "", type: "" }), 3000);
+  };
+
   return (
     <div className="page">
         <Header />
+        {toast.message && (
+          <div className={`toast ${toast.type}`}>
+            {toast.message}
+          </div>
+        )}
         <main>
           <h1>Contato</h1>
           <p className="subtitulo-contato">Tem alguma dúvida ou sugestão.<br/>Entre em contato conosco agora mesmo!</p>
@@ -24,12 +82,12 @@ export default function Contato() {
                 <p><IoIosPin /> R. Padre Caetano Vendrami, 303 - Vila Carli, Guarapuava - PR, 85040-050</p>
               </div>
             </div>
-            <form id="form-contato" className="form-contato">
-              <input type="text" name="nome" placeholder="Nome completo" />
-              <input type="text" name="email" placeholder="E-mail" />
-              <input type="text" name="telefone" placeholder="Telefone"  />
-              <input type="text" name="assunto" placeholder="Assunto" />
-              <textarea name="mensagem" placeholder="Escreva sua mensagem" />
+            <form className="form-contato" onSubmit={handleSubmit}>
+              <input type="text" name="nome" placeholder="Nome completo" value={formData.nome} onChange={handleChange} />
+              <input type="text" name="email" placeholder="E-mail" value={formData.email} onChange={handleChange} />
+              <input type="text" name="telefone" placeholder="Telefone" value={formData.telefone} onChange={handleChange} />
+              <input type="text" name="assunto" placeholder="Assunto" value={formData.assunto} onChange={handleChange} />
+              <textarea name="mensagem" placeholder="Escreva sua mensagem" value={formData.mensagem} onChange={handleChange} />
               <button type="submit">Enviar</button>
             </form>
           </div>
