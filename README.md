@@ -11,7 +11,8 @@ O projeto ainda está sendo desenvolvido...
 - [Vite](https://vitejs.dev/) — bundler e dev server rápido  
 - [JavaScript](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript)  
 - [CSS](https://developer.mozilla.org/pt-BR/docs/Web/CSS)
-- [Firebase](https://firebase.google.com/)  
+- [Firebase](https://firebase.google.com/) 
+- [Cloudinary](https://cloudinary.com/) 
 
 ---
 
@@ -40,12 +41,12 @@ plataforma-dom-bosco/server
 ├── node_modules/          # Arquivos Node
 ├── src/                   # Backend
 │   ├── routes/
-│     ├── auth.js          # Autenticação                
+│     ├── auth.js          # Autenticação 
+│     ├── equipe.js        # Gestão equipe                
 │     └── depoimentos.js   # Depoimentos         
 │   └── firebaseAdmin.js   # Configurações Firebase
-├── gitignore              # Arquivo Git
 ├── package.json           # Dependências e scripts
-└── server.js    # Principal arquivo
+└── server.js              # Principal arquivo
 ```
 
 ---
@@ -64,24 +65,39 @@ plataforma-dom-bosco/server
    git clone https://github.com/MilenaRickliS/plataforma-dom-bosco.git
    ```
 
-2. Acesse a pasta do projeto  
+2. Acesse a pasta server  
    ```bash
-   cd plataforma-dom-bosco
+   cd server
    ```
 
 3. Instale as dependências  
+   ```bash
+   npm init
+   ```
+
+4. Execute o backend 
+   ```bash
+   node server.js
+   ```
+   
+5. Acesse a pasta do projeto  
+   ```bash
+   cd client
+   ```
+
+6. Instale as dependências  
    ```bash
    npm install
    # ou
    yarn
    ```
 
-4. Execute em ambiente de desenvolvimento  
+7. Execute em ambiente de desenvolvimento  
    ```bash
    npm run dev
    ```
 
-5. Abra no navegador:  
+8. Abra no navegador:  
    ```
    http://localhost:5173
    ```
