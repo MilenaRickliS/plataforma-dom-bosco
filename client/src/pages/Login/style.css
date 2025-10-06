@@ -1,5 +1,5 @@
 .fundo-login{
-    border: 5px solid #1E3B7D;
+    
     border-radius: 20px;
     margin: 20px;
     min-height:60%;
@@ -7,7 +7,7 @@
     flex-direction: column;
 }
 .titulo-login{
-    border-bottom: 3px solid #1E3B7D;
+    
     display: flex;
     justify-content: center;
     align-items: center;
