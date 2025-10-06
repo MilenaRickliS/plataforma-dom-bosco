@@ -18,6 +18,7 @@ export default function Inicio() {
     empresa: "",
     mensagem: "",
   });
+  const [toast, setToast] = useState({ message: "", type: "" });
   const carrosselRef = useRef(null);
   const scroll = (direction) => {
     const container = carrosselRef.current;
@@ -40,6 +41,11 @@ export default function Inicio() {
       setDepoimentos([]);
     });
 }, []);
+
+  const mostrarToast = (mensagem, tipo) => {
+      setToast({ message: mensagem, type: tipo });
+      setTimeout(() => setToast({ message: "", type: "" }), 3000);
+    };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -70,31 +76,30 @@ export default function Inicio() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!form.nome.trim() || !form.telefone.trim() || !form.empresa.trim() || !form.mensagem.trim()) {
-      alert("Todos os campos são obrigatórios.");
-      return;
-    }
-    const regexLetras = /^[A-Za-zÀ-ú\s]+$/;
-    if (!regexLetras.test(form.nome)) {
-      alert("O nome só pode conter letras e acentos.");
-      return;
-    }
-    if (!regexLetras.test(form.empresa)) {
-      alert("A empresa só pode conter letras e acentos.");
-      return;
-    }
-    if (form.mensagem.trim().split(/\s+/).length < 5) {
-      alert("A mensagem precisa ter pelo menos 5 palavras.");
-      return;
-    }
+    const { nome, telefone, empresa, mensagem } = form;
 
-    if (!form.nome || !form.mensagem) {
-      alert("Nome e mensagem são obrigatórios.");
+    
+    const regexLetras = /^[A-Za-zÀ-ú\s]+$/;
+    const telefoneNumeros = telefone.replace(/\D/g, "");
+
+    if (!nome.trim() || !telefone.trim() || !empresa.trim() || !mensagem.trim()) {
+      mostrarToast("Preencha todos os campos!", "erro");
       return;
     }
-      const numerosTelefone = form.telefone.replace(/\D/g, "");
-    if (numerosTelefone.length < 10 || numerosTelefone.length > 11) {
-      alert("Telefone inválido.");
+    if (!regexLetras.test(nome)) {
+      mostrarToast("O nome deve conter apenas letras e acentos.", "erro");
+      return;
+    }
+    if (!regexLetras.test(empresa)) {
+      mostrarToast("A empresa deve conter apenas letras e acentos.", "erro");
+      return;
+    }
+    if (telefoneNumeros.length < 10 || telefoneNumeros.length > 11) {
+      mostrarToast("Digite um telefone válido.", "erro");
+      return;
+    }
+    if (mensagem.trim().split(/\s+/).length < 5) {
+      mostrarToast("A mensagem deve ter pelo menos 5 palavras.", "erro");
       return;
     }
     try {
@@ -107,15 +112,22 @@ export default function Inicio() {
       const novo = await res.json();
       setDepoimentos([...depoimentos, novo]);
       setForm({ nome: "", telefone: "", empresa: "", mensagem: "" });
+      mostrarToast("Depoimento enviado com sucesso!", "sucesso");
     } catch (err) {
       console.error(err);
-      alert("Erro ao enviar depoimento.");
+      mostrarToast("Erro ao enviar depoimento. Tente novamente.", "erro");
     }
   };
 
   return (
     <div className="page">
       <Header />
+      
+      {toast.message && (
+        <div className={`toast ${toast.type}`}>
+          {toast.message}
+        </div>
+      )}
       <main className="inicio-main">
         <section className="inicio-hero">
           <div className="inicio-image-wrapper">

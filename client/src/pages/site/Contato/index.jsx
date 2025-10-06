@@ -17,11 +17,27 @@ export default function Contato() {
   });
   const [toast, setToast] = useState({ message: "", type: "" });
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const validarEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const validarTexto = (texto) => /^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/.test(texto.trim());
+  
+   const formatarTelefone = (valor) => {
+    let v = valor.replace(/\D/g, ""); 
+    if (v.length > 11) v = v.slice(0, 11);
+    if (v.length <= 10) {
+      return v.replace(/(\d{2})(\d{4})(\d{0,4})/, "($1) $2-$3");
+    } else {
+      return v.replace(/(\d{2})(\d{5})(\d{0,4})/, "($1) $2-$3");
+    }
   };
 
-  const validarEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const handleChange = (e) => {
+    let { name, value } = e.target;
+
+    if (name === "telefone") {
+      value = formatarTelefone(value);
+    }
+    setFormData({ ...formData, [name]: value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -33,8 +49,28 @@ export default function Contato() {
       return;
     }
 
+    if (!validarTexto(nome)) {
+      mostrarToast("O nome deve conter apenas letras e acentos.", "erro");
+      return;
+    }
+
     if (!validarEmail(email)) {
-      mostrarToast("Digite um e-mail válido!", "erro");
+      mostrarToast("Digite um e-mail válido (ex: exemplo@site.com).", "erro");
+      return;
+    }
+
+    if (telefone.replace(/\D/g, "").length < 10) {
+      mostrarToast("Digite um telefone válido.", "erro");
+      return;
+    }
+
+    if (!validarTexto(assunto)) {
+      mostrarToast("O assunto deve conter apenas letras e acentos.", "erro");
+      return;
+    }
+
+    if (mensagem.trim().length < 3) {
+      mostrarToast("A mensagem não pode estar vazia.", "erro");
       return;
     }
 

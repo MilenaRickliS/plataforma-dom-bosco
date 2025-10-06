@@ -13,12 +13,22 @@ export default function MenuGestao() {
     const [foto, setFoto] = useState(null);
     const [preview, setPreview] = useState("");
     const [editando, setEditando] = useState(null);
+    const [toast, setToast] = useState({ message: "", type: "" });
 
-    const fetchEquipe = async () => {
-        const res = await axios.get("http://localhost:5000/api/equipe");
-        setMembros(res.data);
+    const mostrarToast = (mensagem, tipo) => {
+        setToast({ message: mensagem, type: tipo });
+        setTimeout(() => setToast({ message: "", type: "" }), 3000);
     };
 
+    const fetchEquipe = async () => {
+        try {
+        const res = await axios.get("http://localhost:5000/api/equipe");
+        setMembros(res.data);
+        } catch (error) {
+        console.error(error);
+        mostrarToast("Erro ao carregar equipe.", "erro");
+        }
+    };
     useEffect(() => {
         fetchEquipe();
     }, []);
@@ -31,7 +41,23 @@ export default function MenuGestao() {
 
       const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!nome || !cargo) return alert("Preencha nome e cargo!");
+        const regexNome = /^[A-Za-zÀ-ú\s]+$/;
+        const regexCargo = /^[A-Za-zÀ-ú0-9\s]+$/;
+
+        if (!nome.trim() || !cargo.trim()) {
+        mostrarToast("Preencha todos os campos!", "erro");
+        return;
+        }
+
+        if (!regexNome.test(nome)) {
+        mostrarToast("O nome deve conter apenas letras e acentos.", "erro");
+        return;
+        }
+
+        if (!regexCargo.test(cargo)) {
+        mostrarToast("O cargo só pode conter letras, acentos e números.", "erro");
+        return;
+        }
 
         const formData = new FormData();
         formData.append("nome", nome);
@@ -41,11 +67,12 @@ export default function MenuGestao() {
         try {
         if (editando) {
             await axios.put(`http://localhost:5000/api/equipe/${editando}`, formData);
-            alert("Membro atualizado!");
+            mostrarToast("Membro atualizado com sucesso!", "sucesso");
         } else {
             await axios.post("http://localhost:5000/api/equipe", formData);
-            alert("Membro adicionado!");
+            mostrarToast("Membro adicionado com sucesso!", "sucesso");
         }
+
         setNome("");
         setCargo("");
         setFoto(null);
@@ -54,14 +81,20 @@ export default function MenuGestao() {
         fetchEquipe();
         } catch (error) {
         console.error(error);
-        alert("Erro ao salvar membro.");
+        mostrarToast("Erro ao salvar membro. Tente novamente.", "erro");
         }
     };
 
     const handleDelete = async (id) => {
         if (window.confirm("Tem certeza que deseja excluir este membro?")) {
-        await axios.delete(`http://localhost:5000/api/equipe/${id}`);
-        fetchEquipe();
+        try {
+            await axios.delete(`http://localhost:5000/api/equipe/${id}`);
+            fetchEquipe();
+            mostrarToast("Membro excluído com sucesso!", "sucesso");
+        } catch (error) {
+            console.error(error);
+            mostrarToast("Erro ao excluir membro.", "erro");
+        }
         }
     };
 
@@ -71,10 +104,12 @@ export default function MenuGestao() {
         setNome(membro.nome);
         setCargo(membro.cargo);
         setPreview(membro.foto);
+        mostrarToast("Modo de edição ativado.", "sucesso");
     };
 
     return (
         <div>
+             {toast.message && <div className={`toast ${toast.type}`}>{toast.message}</div>}
             <div className="inicio-menug">
                 <Link to="/inicio-adm" className="voltar-adm"><IoIosArrowBack />Voltar</Link>
                 <div className="titulo-menug">
