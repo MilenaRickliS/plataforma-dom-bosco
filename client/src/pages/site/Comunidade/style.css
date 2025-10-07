@@ -35,8 +35,11 @@
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 25px;
   padding: 20px;
+  transition: all 0.4s ease;
 }
-
+.grid-projetos.modo-destaque .card-projeto:not(.ativo) {
+  display: none;
+}
 .card-projeto {
   background-color: #fff;
   border-radius: 12px;
@@ -45,7 +48,33 @@
   text-align: center;
   transition: transform 0.3s ease;
 }
+.card-projeto.ativo {
+  grid-column: 1 / -1; 
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: left;
+  padding: 30px;
+  font-size: 1rem;
+}
+.card-projeto.ativo img {
+  height: 300px;
+  object-fit: cover;
+  border-radius: 10px;
+  width: 100%;
+}
 
+.card-projeto.ativo h3 {
+  font-size: 1.6rem;
+  margin-top: 15px;
+  color: #1E3B7D;
+}
+
+.card-projeto.ativo p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-top: 10px;
+  color: #000;
+}
 .card-projeto:hover {
   transform: scale(1.02);
 }
@@ -70,19 +99,20 @@
   font-size: 0.9rem;
   margin-top: 8px;
   min-height: 50px;
+  text-align: justify;
 }
 .btn-lermais {
-  background-color: transparent;
-  color: #ac0000;
+  background: transparent;
   border: none;
+  color: #1E3B7D;
   cursor: pointer;
   font-weight: 600;
   margin-top: 5px;
-  transition: color 0.2s;
+  transition: color 0.2s ease;
 }
 
 .btn-lermais:hover {
-  color: #e00000;
+  color: #3463d1;
 }
 .paginacao-comunidade {
   display: flex;
@@ -93,8 +123,8 @@
 
 .paginacao-comunidade button {
   border: none;
-  background-color: #ffd900;
-  color: #000;
+  background-color: #1E3B7D;
+  color: #fff;
   padding: 8px 12px;
   border-radius: 6px;
   cursor: pointer;
@@ -103,12 +133,12 @@
 }
 
 .paginacao-comunidade button:hover {
-  background-color: #f6c400;
+  background-color: #02091b;
 }
 
 .paginacao-comunidade .ativo {
-  background-color: #000;
-  color: #ffd900;
+  background-color: #02091b;
+  color: #fff;
 }
 /* parceirias*/
 .parceiros-section {

@@ -27,7 +27,9 @@ export default function ComunidadeGestao() {
   const fetchProjetos = async () => {
     try {
       const res = await axios.get("http://localhost:5000/api/projetos");
-      setProjetos(res.data);
+      const ordenados = res.data.sort((a, b) => new Date(b.dataProjeto) - new Date(a.dataProjeto));
+      setProjetos(ordenados);
+
     } catch (err) {
       showToast("Erro ao carregar projetos!", "erro");
     }
@@ -201,9 +203,12 @@ export default function ComunidadeGestao() {
           </button>
         </form>
 
-        <div className="grid-projetos-gestao">
+        <div className={`grid-projetos-gestao ${Object.values(abertos).some(v => v) ? "modo-destaque" : ""}`}>
           {projetos.map((p) => (
-            <div key={p.id} className="card-projeto-gestao">
+            <div
+              key={p.id}
+              className={`card-projeto-gestao ${abertos[p.id] ? "ativo" : ""}`}
+            >
               <img src={p.imagemUrl} alt={p.titulo} />
               <h3>{p.titulo}</h3>
               <small className="data-projeto">
@@ -237,6 +242,7 @@ export default function ComunidadeGestao() {
             </div>
           ))}
         </div>
+
       </div>
 
       {toast && (

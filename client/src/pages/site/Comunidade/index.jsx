@@ -15,11 +15,16 @@ export default function Comunidade() {
   const [projetos, setProjetos] = useState([]);
   const [paginaAtual, setPaginaAtual] = useState(1);
   const [abertos, setAbertos] = useState({}); 
-  const porPagina = 6; 
+  const porPagina = 4; 
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/projetos").then((res) => setProjetos(res.data));
+    axios.get("http://localhost:5000/api/projetos").then((res) => {
+      
+      const ordenados = res.data.sort((a, b) => new Date(b.dataProjeto) - new Date(a.dataProjeto));
+      setProjetos(ordenados);
+    });
   }, []);
+
 
 
   const totalPaginas = Math.ceil(projetos.length / porPagina);
@@ -46,14 +51,18 @@ export default function Comunidade() {
         </p>
 
         <section className="projetos-section">
-          <div className="grid-projetos">
+          <div className={`grid-projetos ${Object.values(abertos).some(v => v) ? "modo-destaque" : ""}`}>
             {projetosPaginados.map((p) => (
-              <div key={p.id} className="card-projeto">
+              <div
+                key={p.id}
+                className={`card-projeto ${abertos[p.id] ? "ativo" : ""}`}
+              >
                 <img src={p.imagemUrl} alt={p.titulo} />
                 <h3>{p.titulo}</h3>
                 <small className="data-projeto">
                   Realizado em {new Date(p.dataProjeto).toLocaleDateString("pt-BR")}
                 </small>
+
                 <p>
                   {abertos[p.id]
                     ? p.descricao
@@ -61,6 +70,7 @@ export default function Comunidade() {
                     ? p.descricao.substring(0, 100) + "..."
                     : p.descricao}
                 </p>
+
                 {p.descricao.length > 100 && (
                   <button
                     onClick={() => toggleDescricao(p.id)}
@@ -73,8 +83,7 @@ export default function Comunidade() {
             ))}
           </div>
 
-          
-          {totalPaginas > 1 && (
+          {totalPaginas > 1 && !Object.values(abertos).some(v => v) && (
             <div className="paginacao-comunidade">
               <button
                 onClick={() => setPaginaAtual((p) => Math.max(p - 1, 1))}
@@ -102,6 +111,7 @@ export default function Comunidade() {
             </div>
           )}
         </section>
+
 
         <section className="parceiros-section">
           <h1>Parcerias</h1>
