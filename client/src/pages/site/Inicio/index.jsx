@@ -7,9 +7,6 @@ import { IoArrowBackCircleOutline, IoArrowForwardCircleOutline } from "react-ico
 import equipe from "../../../assets/site/equipe.jpg";
 
 
-
-// adicionar fonte de acordo com o projeto - bruno
-
 export default function Inicio() {
   const [depoimentos, setDepoimentos] = useState([]);
   const [form, setForm] = useState({
