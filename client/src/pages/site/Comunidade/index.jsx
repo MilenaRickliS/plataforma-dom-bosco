@@ -10,12 +10,15 @@ import parceiro1 from "../../../assets/parcerias/logo-parceiro-1.webp";
 import parceiro2 from "../../../assets/parcerias/logo-parceiro-2.webp";
 import parceiro3 from "../../../assets/parcerias/logo-parceiro-3.webp";
 import rede from "../../../assets/parcerias/logo-rede-salesiana.webp";
+import { FaSearch } from "react-icons/fa";
 
 export default function Comunidade() {
   const [projetos, setProjetos] = useState([]);
   const [paginaAtual, setPaginaAtual] = useState(1);
   const [abertos, setAbertos] = useState({}); 
   const porPagina = 4; 
+  const [filtroNome, setFiltroNome] = useState("");
+
 
   useEffect(() => {
     axios.get("http://localhost:5000/api/projetos").then((res) => {
@@ -26,7 +29,6 @@ export default function Comunidade() {
   }, []);
 
 
-
   const totalPaginas = Math.ceil(projetos.length / porPagina);
   const inicio = (paginaAtual - 1) * porPagina;
   const fim = inicio + porPagina;
@@ -35,6 +37,12 @@ export default function Comunidade() {
   const toggleDescricao = (id) => {
     setAbertos((prev) => ({ ...prev, [id]: !prev[id] }));
   };
+
+  const projetosFiltrados = projetosPaginados.filter((p) => {
+    const nomeMatch = p.titulo.toLowerCase().includes(filtroNome.toLowerCase());
+    return nomeMatch;
+  });
+
 
   return (
     <div className="page">
@@ -51,36 +59,62 @@ export default function Comunidade() {
         </p>
 
         <section className="projetos-section">
-          <div className={`grid-projetos ${Object.values(abertos).some(v => v) ? "modo-destaque" : ""}`}>
-            {projetosPaginados.map((p) => (
-              <div
-                key={p.id}
-                className={`card-projeto ${abertos[p.id] ? "ativo" : ""}`}
-              >
-                <img src={p.imagemUrl} alt={p.titulo} />
-                <h3>{p.titulo}</h3>
-                <small className="data-projeto">
-                  Realizado em {new Date(p.dataProjeto).toLocaleDateString("pt-BR")}
-                </small>
-
-                <p>
-                  {abertos[p.id]
-                    ? p.descricao
-                    : p.descricao.length > 100
-                    ? p.descricao.substring(0, 100) + "..."
-                    : p.descricao}
-                </p>
-
-                {p.descricao.length > 100 && (
-                  <button
-                    onClick={() => toggleDescricao(p.id)}
-                    className="btn-lermais"
-                  >
-                    {abertos[p.id] ? "Mostrar menos" : "Ler mais"}
-                  </button>
-                )}
+          
+          {!Object.values(abertos).some(v => v) && (
+            <div className="filtros-comunidade">
+              <div className="input-wrapper">
+                <FaSearch className="icone-pesquisa" />
+                <input
+                  type="text"
+                  placeholder="Pesquisar por nome do projeto..."
+                  value={filtroNome}
+                  onChange={(e) => setFiltroNome(e.target.value)}
+                  className="input-filtro"
+                />
               </div>
-            ))}
+            </div>
+          )}
+
+
+
+          <div className={`grid-projetos ${Object.values(abertos).some(v => v) ? "modo-destaque" : ""}`}>
+            {projetosFiltrados.length > 0 ? (
+              projetosFiltrados.map((p) => (
+                <div
+                  key={p.id}
+                  className={`card-projeto ${abertos[p.id] ? "ativo" : ""}`}
+                >
+                  <img src={p.imagemUrl} alt={p.titulo} />
+                  <h3>{p.titulo}</h3>
+                  <small className="data-projeto">
+                    Realizado em {new Date(p.dataProjeto).toLocaleDateString("pt-BR")}
+                  </small>
+
+                  <div
+                    className="descricao-projeto"
+                    dangerouslySetInnerHTML={{
+                      __html: abertos[p.id]
+                        ? p.descricao.replace(/\n/g, "<br>")
+                        : p.descricao.length > 100
+                        ? p.descricao.substring(0, 100).replace(/\n/g, "<br>") + "..."
+                        : p.descricao.replace(/\n/g, "<br>")
+                    }}
+                  />
+
+
+                  {p.descricao.length > 100 && (
+                    <button
+                      onClick={() => toggleDescricao(p.id)}
+                      className="btn-lermais"
+                    >
+                      {abertos[p.id] ? "Mostrar menos -" : "Ler mais +"}
+                    </button>
+                  )}
+                </div>
+              ))
+            ) : (
+              <p className="sem-resultados">Nenhum projeto encontrado.</p>
+            )}
           </div>
 
           {totalPaginas > 1 && !Object.values(abertos).some(v => v) && (
@@ -111,6 +145,7 @@ export default function Comunidade() {
             </div>
           )}
         </section>
+
 
 
         <section className="parceiros-section">

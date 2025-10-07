@@ -347,3 +347,58 @@
 .btn-excluir:hover {
   transform: scale(1.05);
 }
+
+/* Barra de pesquisa */
+.filtros-gestao {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px auto;
+  width: 100%;
+  max-width: 700px;
+}
+
+.input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.input-filtro {
+  width: 100%;
+  padding: 10px 14px 10px 38px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.95rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-filtro:focus {
+  border-color: #00c3ff;
+  box-shadow: 0 0 5px rgba(0, 195, 255, 0.3);
+  outline: none;
+}
+
+.icone-pesquisa {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #555;
+  font-size: 18px;
+  pointer-events: none;
+}
+
+
+.descricao-projeto {
+  white-space: pre-wrap; 
+  color: #000;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.95rem;
+  text-align: justify;
+}
+.descricao-projeto br + br {
+  margin-bottom: 6px;
+  display: block;
+  content: "";
+}

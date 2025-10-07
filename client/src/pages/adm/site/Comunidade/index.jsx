@@ -5,12 +5,8 @@ import { IoIosArrowBack } from "react-icons/io";
 import { MdModeEditOutline } from "react-icons/md";
 import { IoMdTrash } from "react-icons/io";
 import { FiUpload } from "react-icons/fi";
-import { FaRegCalendarAlt } from "react-icons/fa";
+import { FaRegCalendarAlt, FaSearch } from "react-icons/fa";
 import "./style.css";
-
-
-// falta estilizar o calendario
-
 
 export default function ComunidadeGestao() {
   const [titulo, setTitulo] = useState("");
@@ -22,14 +18,15 @@ export default function ComunidadeGestao() {
   const [preview, setPreview] = useState(null);
   const [abertos, setAbertos] = useState({});
   const [toast, setToast] = useState(null);
+  const [filtro, setFiltro] = useState("");
 
-  
   const fetchProjetos = async () => {
     try {
       const res = await axios.get("http://localhost:5000/api/projetos");
-      const ordenados = res.data.sort((a, b) => new Date(b.dataProjeto) - new Date(a.dataProjeto));
+      const ordenados = res.data.sort(
+        (a, b) => new Date(b.dataProjeto) - new Date(a.dataProjeto)
+      );
       setProjetos(ordenados);
-
     } catch (err) {
       showToast("Erro ao carregar projetos!", "erro");
     }
@@ -39,20 +36,17 @@ export default function ComunidadeGestao() {
     fetchProjetos();
   }, []);
 
-  
   const showToast = (mensagem, tipo = "sucesso") => {
     setToast({ mensagem, tipo });
     setTimeout(() => setToast(null), 3000);
   };
 
-  
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setImagem(file);
     if (file) setPreview(URL.createObjectURL(file));
   };
 
-  
   const validarFormulario = () => {
     const tituloRegex = /^[A-Za-zÀ-ÿ0-9\s.,!?'"-]+$/;
     if (!titulo.trim() || !descricao.trim() || !dataProjeto) {
@@ -68,11 +62,6 @@ export default function ComunidadeGestao() {
       showToast("A descrição deve conter pelo menos 50 palavras.", "erro");
       return false;
     }
-    if (!dataProjeto) {
-      showToast("Selecione a data do projeto!", "erro");
-      return false;
-    }
-
     const hoje = new Date();
     if (new Date(dataProjeto) > hoje) {
       showToast("A data do projeto não pode ser no futuro.", "erro");
@@ -85,7 +74,6 @@ export default function ComunidadeGestao() {
     return true;
   };
 
-  
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validarFormulario()) return;
@@ -120,14 +108,7 @@ export default function ComunidadeGestao() {
     setEditando(projeto.id);
     setTitulo(projeto.titulo);
     setDescricao(projeto.descricao);
-    if (projeto.dataProjeto) {
-    const dataFormatada = new Date(projeto.dataProjeto)
-      .toISOString()
-      .split("T")[0]; 
-    setDataProjeto(dataFormatada);
-  } else {
-    setDataProjeto("");
-  }
+    setDataProjeto(projeto.dataProjeto ? new Date(projeto.dataProjeto).toISOString().split("T")[0] : "");
     setPreview(projeto.imagemUrl);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -147,6 +128,11 @@ export default function ComunidadeGestao() {
   const toggleDescricao = (id) => {
     setAbertos((prev) => ({ ...prev, [id]: !prev[id] }));
   };
+
+  
+  const projetosFiltrados = projetos.filter((p) =>
+    p.titulo.toLowerCase().includes(filtro.toLowerCase())
+  );
 
   return (
     <div className="comunidade-gestao-page">
@@ -177,7 +163,6 @@ export default function ComunidadeGestao() {
               value={dataProjeto}
               onChange={(e) => setDataProjeto(e.target.value)}
               required
-              
             />
             <span className="icon-calendario">
               <FaRegCalendarAlt />
@@ -196,60 +181,91 @@ export default function ComunidadeGestao() {
             hidden
           />
 
-          {preview && <img src={preview} alt="Pré-visualização" className="preview-img" />}
+          {preview && (
+            <img src={preview} alt="Pré-visualização" className="preview-img" />
+          )}
 
           <button type="submit">
             {editando ? "Atualizar projeto" : "Salvar projeto"}
           </button>
         </form>
 
-        <div className={`grid-projetos-gestao ${Object.values(abertos).some(v => v) ? "modo-destaque" : ""}`}>
-          {projetos.map((p) => (
-            <div
-              key={p.id}
-              className={`card-projeto-gestao ${abertos[p.id] ? "ativo" : ""}`}
-            >
-              <img src={p.imagemUrl} alt={p.titulo} />
-              <h3>{p.titulo}</h3>
-              <small className="data-projeto">
-                Realizado em {new Date(p.dataProjeto).toLocaleDateString("pt-BR")}
-              </small>
-              <p>
-                {abertos[p.id]
-                  ? p.descricao
-                  : p.descricao.length > 100
-                  ? p.descricao.substring(0, 100) + "..."
-                  : p.descricao}
-              </p>
-
-              {p.descricao.length > 100 && (
-                <button
-                  onClick={() => toggleDescricao(p.id)}
-                  className="btn-lermais"
-                >
-                  {abertos[p.id] ? "Mostrar menos" : "Ler mais"}
-                </button>
-              )}
-
-              <div className="acoes">
-                <button onClick={() => handleEdit(p)} className="btn-editar">
-                  <MdModeEditOutline /> Editar
-                </button>
-                <button onClick={() => handleDelete(p.id)} className="btn-excluir">
-                  <IoMdTrash /> Excluir
-                </button>
-              </div>
-            </div>
-          ))}
+        
+        <div className="filtros-gestao">
+          <div className="input-wrapper">
+            <FaSearch className="icone-pesquisa" />
+            <input
+              type="text"
+              placeholder="Pesquisar projeto por nome..."
+              value={filtro}
+              onChange={(e) => setFiltro(e.target.value)}
+              className="input-filtro"
+            />
+          </div>
         </div>
 
+        
+        <div
+          className={`grid-projetos-gestao ${
+            Object.values(abertos).some((v) => v) ? "modo-destaque" : ""
+          }`}
+        >
+          {projetosFiltrados.length > 0 ? (
+            projetosFiltrados.map((p) => (
+              <div
+                key={p.id}
+                className={`card-projeto-gestao ${
+                  abertos[p.id] ? "ativo" : ""
+                }`}
+              >
+                <img src={p.imagemUrl} alt={p.titulo} />
+                <h3>{p.titulo}</h3>
+                <small className="data-projeto">
+                  Realizado em{" "}
+                  {new Date(p.dataProjeto).toLocaleDateString("pt-BR")}
+                </small>
+
+                <div
+                  className="descricao-projeto"
+                  dangerouslySetInnerHTML={{
+                    __html: abertos[p.id]
+                      ? p.descricao.replace(/\n/g, "<br>")
+                      : p.descricao.length > 100
+                      ? p.descricao.substring(0, 100).replace(/\n/g, "<br>") +
+                        "..."
+                      : p.descricao.replace(/\n/g, "<br>"),
+                  }}
+                />
+
+                {p.descricao.length > 100 && (
+                  <button
+                    onClick={() => toggleDescricao(p.id)}
+                    className="btn-lermais"
+                  >
+                    {abertos[p.id] ? "Mostrar menos" : "Ler mais"}
+                  </button>
+                )}
+
+                <div className="acoes">
+                  <button onClick={() => handleEdit(p)} className="btn-editar">
+                    <MdModeEditOutline /> Editar
+                  </button>
+                  <button
+                    onClick={() => handleDelete(p.id)}
+                    className="btn-excluir"
+                  >
+                    <IoMdTrash /> Excluir
+                  </button>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p className="sem-resultados">Nenhum projeto encontrado.</p>
+          )}
+        </div>
       </div>
 
-      {toast && (
-        <div className={`toast ${toast.tipo}`}>
-          {toast.mensagem}
-        </div>
-      )}
+      {toast && <div className={`toast ${toast.tipo}`}>{toast.mensagem}</div>}
     </div>
   );
 }

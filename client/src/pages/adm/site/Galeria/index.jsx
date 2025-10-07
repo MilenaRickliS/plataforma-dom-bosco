@@ -42,8 +42,32 @@ export default function GaleriaGestao() {
 
   const handleUpload = async (e) => {
     e.preventDefault();
-    if (!imagem || !titulo) return showToast("Preencha todos os campos!", "erro");
+    
+      
+    if (!titulo.trim() || !imagem) {
+      showToast("Preencha todos os campos!", "erro");
+      return;
+    }
 
+    
+    const tituloRegex = /^[A-Za-zÀ-ÿ0-9\s.,!?'"-]+$/;
+    if (!tituloRegex.test(titulo)) {
+      showToast("O título só pode conter letras, números e acentos.", "erro");
+      return;
+    }
+
+    
+    if (titulo.length < 3) {
+      showToast("O título deve ter pelo menos 3 caracteres.", "erro");
+      return;
+    }
+
+    if (titulo.length > 100) {
+      showToast("O título não pode ultrapassar 100 caracteres.", "erro");
+      return;
+    }
+
+    
     const formData = new FormData();
     formData.append("image", imagem);
     formData.append("title", titulo);
@@ -72,6 +96,17 @@ export default function GaleriaGestao() {
   };
 
   const handleEdit = async (id) => {
+    if (!novoTitulo.trim()) {
+      showToast("O título não pode ficar vazio!", "erro");
+      return;
+    }
+
+    const tituloRegex = /^[A-Za-zÀ-ÿ0-9\s.,!?'"-]+$/;
+    if (!tituloRegex.test(novoTitulo)) {
+      showToast("O título só pode conter letras, números e acentos.", "erro");
+      return;
+    }
+
     try {
       await axios.put(`http://localhost:5000/api/galeria/${id}`, { title: novoTitulo });
       setEditando(null);
@@ -81,6 +116,7 @@ export default function GaleriaGestao() {
       showToast("Erro ao editar imagem ❌", "erro");
     }
   };
+
 
   return (
     <div className="galeria-gestao-page">
