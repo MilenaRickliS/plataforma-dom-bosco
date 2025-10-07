@@ -9,7 +9,8 @@ import equipe from "../../../assets/site/equipe.jpg";
 
 export default function Inicio() {
   const [depoimentos, setDepoimentos] = useState([]);
-  const [loaded, setLoaded] = useState(false);
+  const videoRef = useRef(null);
+  const [muted, setMuted] = useState(true);
   const [form, setForm] = useState({
     nome: "",
     telefone: "",
@@ -116,27 +117,10 @@ export default function Inicio() {
       mostrarToast("Erro ao enviar depoimento. Tente novamente.", "erro");
     }
   };
-
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://www.instagram.com/embed.js";
-    script.async = true;
-    script.onload = () => setLoaded(true);
-    document.body.appendChild(script);
-    return () => document.body.removeChild(script);
-  }, []);
-
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://www.instagram.com/embed.js";
-    script.async = true;
-    document.body.appendChild(script);
-
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
-
+  const toggleMute = () => {
+    setMuted(!muted);
+    videoRef.current.muted = !videoRef.current.muted;
+  };
 
 
   return (
@@ -152,13 +136,17 @@ export default function Inicio() {
         <section className="inicio-hero"> 
           <div className="inicio-image-wrapper">
             <video
+              ref={videoRef}
               className="inicio-video"
-              src="./src/assets/site/Quer saber um pouco mais sobre nós▶ Dê play no vídeo e descubra nosso impacto em mais de 40 anos.mp4"
+              src="/src/assets/site/Quer saber um pouco mais sobre nós▶ Dê play no vídeo e descubra nosso impacto em mais de 40 anos.mp4"
               autoPlay
               loop
-              muted
+              muted={muted}
               playsInline
             />
+            <button onClick={toggleMute} className="mute-btn">
+              {muted ? "🔇 Ativar som" : "🔊 Silenciar"}
+            </button>
           </div>
 
           <h1 className="inicio-title">
