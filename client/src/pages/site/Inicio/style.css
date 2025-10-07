@@ -20,11 +20,12 @@
   justify-content: center;
 }
 
-.inicio-image {
+.inicio-video {
   width: 100%;
   max-width: 500px;
-  height: auto;
-  display: block;
+  border-radius: 20px;
+  object-fit: cover;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
 
 .inicio-title {
@@ -51,6 +52,8 @@
 .inicio-title .cta {
   position: relative;
   display: inline-block;
+  color: #161616;
+  transition: all 0.3s ease;
 }
 .inicio-title .cta::after {
   content: "";
@@ -62,7 +65,9 @@
   background: #b49000; 
   border-radius: 3px;
 }
-
+.inicio-title .cta:hover {
+  color: #b49000;
+}
 /* sobre */
 
 .sessao-sobre{

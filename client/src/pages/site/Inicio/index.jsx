@@ -9,6 +9,7 @@ import equipe from "../../../assets/site/equipe.jpg";
 
 export default function Inicio() {
   const [depoimentos, setDepoimentos] = useState([]);
+  const [loaded, setLoaded] = useState(false);
   const [form, setForm] = useState({
     nome: "",
     telefone: "",
@@ -116,6 +117,28 @@ export default function Inicio() {
     }
   };
 
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://www.instagram.com/embed.js";
+    script.async = true;
+    script.onload = () => setLoaded(true);
+    document.body.appendChild(script);
+    return () => document.body.removeChild(script);
+  }, []);
+
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://www.instagram.com/embed.js";
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
+
+
   return (
     <div className="page">
       <Header />
@@ -126,12 +149,15 @@ export default function Inicio() {
         </div>
       )}
       <main className="inicio-main">
-        <section className="inicio-hero">
+        <section className="inicio-hero"> 
           <div className="inicio-image-wrapper">
-            <img
-              className="inicio-image"
-              src="/src/assets/site/transferir__1_-removebg-preview.png"
-              alt="Jovem participando"
+            <video
+              className="inicio-video"
+              src="./src/assets/site/Quer saber um pouco mais sobre nós▶ Dê play no vídeo e descubra nosso impacto em mais de 40 anos.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
             />
           </div>
 
@@ -142,9 +168,11 @@ export default function Inicio() {
               <span> e </span>
               <span className="conquista">conquista</span>!
             </span>
-            <span className="line cta">Bora fazer parte?</span>
+            <Link to="https://linktr.ee/iadbguarapuava?fbclid=PAZXh0bgNhZW0CMTEAAaeMxM1YWi0X1Vvw1BIGcfkkarCU6pIsVvN2Nll2VxxnrGcDkbcZTRR0BBhV1w_aem_8Tlkya6eB_wFMcrslJ27_Q"><span className="line cta">Bora fazer parte?</span></Link>
           </h1>
         </section>
+
+
         <br/>
         <section className="sessao-sobre">
           <div className="div-sobre">
