@@ -272,11 +272,12 @@
 }
 .ver-galeria img{
     position: relative; 
-  height: 350px;
-  width: auto;
-  max-width: 100%;
-  border-radius: 10px;
-
+    height: 450px;
+    width: auto;
+    max-width: 100%;
+    border-radius: 10px;
+    margin-top: -80px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
 .ver-galeria div{
