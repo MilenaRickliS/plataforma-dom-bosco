@@ -21,16 +21,7 @@ import { PiHeartDuotone } from "react-icons/pi";
 
 export default function Sobre() {
   const [equipe, setEquipe] = useState([]);
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 800,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,      
-    autoplaySpeed: 4000, 
-    arrows: false,
-  };
+  
   const NextArrow = ({ onClick }) => (
     <div className="arrow-equipe arrow-equipe-right" onClick={onClick}>
       <FaArrowRight />
@@ -74,30 +65,29 @@ export default function Sobre() {
                 <p><IoPin />Hoje, em Guarapuava  PR, somos o Instituto Assistencial Dom Bosco, sob direção do Pe. Enri Clemente Leigman. Continuamos firmes no propósito: atender adolescentes e jovens de forma personalizada, ajudando-os a se tornarem protagonistas da própria história, preparados para o trabalho e para a vida.<IoRocket /></p>
               </div>              
             </div>
-            <div className="carrossel-mvv">
-              <Slider {...settings}> 
-                <div className="mvv-item missao">
-                  <h3>Missão</h3>
-                  <p>
-                    Acolher adolescentes e jovens do meio popular, despertando seu
-                    protagonismo através do Sistema Preventivo de Dom Bosco.
-                  </p>
-                </div>
-                <div className="mvv-item visao">
-                  <h3>Visão</h3>
-                  <p>
-                    Ser uma entidade de referência na transformação social, junto aos
-                    adolescentes e jovens no crescimento humano e cristão.
-                  </p>
-                </div>
-                <div className="mvv-item valores">
-                  <h3>Valores</h3>
-                  <p>
-                    Respeito, confiança e responsabilidade: pilares que formam nossa
-                    caminhada junto aos jovens.
-                  </p>
-                </div>
-              </Slider>
+            
+            <div className="mvv-container">
+              <div className="mvv-item missao">
+                <h3>Missão</h3>
+                <p>
+                  Acolher adolescentes e jovens do meio popular, despertando seu
+                  protagonismo através do Sistema Preventivo de Dom Bosco.
+                </p>
+              </div>
+              <div className="mvv-item visao">
+                <h3>Visão</h3>
+                <p>
+                  Ser uma entidade de referência na transformação social, junto aos
+                  adolescentes e jovens no crescimento humano e cristão.
+                </p>
+              </div>
+              <div className="mvv-item valores">
+                <h3>Valores</h3>
+                <p>
+                  Respeito, confiança e responsabilidade: pilares que formam nossa
+                  caminhada junto aos jovens.
+                </p>
+              </div>
             </div>
           </section>
 
