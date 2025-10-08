@@ -190,7 +190,7 @@
   border-color: #00c3ff;
 }
 
-.form-projeto button {
+.button-salvar {
     font-family: "Poppins", sans-serif;
     background: #e9d527;
     border: 1px solid #000000;
@@ -204,7 +204,7 @@
     margin-top: 10px;
 }
 
-.form-projeto button:hover {
+.button-salvar:hover {
   background: #ffee00;
   transform: scale(1.03);
 }

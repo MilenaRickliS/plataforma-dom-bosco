@@ -34,14 +34,19 @@ export default function EventosGestao() {
     if (window.confirm("Deseja realmente excluir este evento?")) {
       try {
         await axios.delete(`http://localhost:5000/api/eventos/${id}`);
-        setMensagem("Evento excluído com sucesso!");
+        setToast({ mensagem: "Evento excluído com sucesso!", tipo: "sucesso" });
         fetchEventos();
         setTimeout(() => setMensagem(""), 3000);
       } catch (error) {
         console.error("Erro ao excluir evento:", error);
-        setMensagem("Erro ao excluir evento!");
+        mostrarToast("Erro ao excluir evento!", "erro");
       }
     }
+  };
+
+  const mostrarToast = (mensagem, tipo) => {
+    setToast({ mensagem, tipo });
+    setTimeout(() => setToast(null), 3000);
   };
 
   return (
@@ -112,7 +117,7 @@ export default function EventosGestao() {
 
               <div className="botoes-evento">
                 <Link
-                  to={`/criar-evento-gestao?id=${evento.id}`}
+                  to={`/criar-evento?id=${evento.id}`}
                   className="editar-evento"
                 >
                   <MdModeEditOutline /> Editar

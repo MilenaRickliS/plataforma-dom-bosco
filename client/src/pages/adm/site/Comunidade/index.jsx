@@ -7,6 +7,9 @@ import { IoMdTrash } from "react-icons/io";
 import { FiUpload } from "react-icons/fi";
 import { FaRegCalendarAlt, FaSearch } from "react-icons/fa";
 import "./style.css";
+import DatePicker from "react-datepicker";
+import { ptBR } from "date-fns/locale";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function ComunidadeGestao() {
   const [titulo, setTitulo] = useState("");
@@ -157,17 +160,17 @@ export default function ComunidadeGestao() {
             onChange={(e) => setDescricao(e.target.value)}
           />
 
-          <div className="input-data-wrapper">
-            <input
-              type="date"
-              value={dataProjeto}
-              onChange={(e) => setDataProjeto(e.target.value)}
-              required
-            />
-            <span className="icon-calendario">
-              <FaRegCalendarAlt />
-            </span>
-          </div>
+          <div className="campo-data-hora">
+              <FaRegCalendarAlt className="icone-calendario" />
+              <DatePicker
+                selected={dataProjeto}
+                onChange={(date) => setDataProjeto(date)}
+                dateFormat="dd/MM/yyyy"
+                placeholderText="Selecione a data do projeto"
+                locale={ptBR}
+                className="input-datepicker"
+              />
+            </div>
 
           <label htmlFor="file-upload" className="projeto-label">
             <FiUpload size={20} />
@@ -185,7 +188,7 @@ export default function ComunidadeGestao() {
             <img src={preview} alt="Pré-visualização" className="preview-img" />
           )}
 
-          <button type="submit">
+          <button type="submit" className="button-salvar">
             {editando ? "Atualizar projeto" : "Salvar projeto"}
           </button>
         </form>
