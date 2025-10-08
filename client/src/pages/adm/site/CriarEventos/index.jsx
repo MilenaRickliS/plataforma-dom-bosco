@@ -134,6 +134,9 @@ export default function CriarEventoGestao() {
     if (!id && !imagem) {
       return "Selecione uma imagem";
     }
+    if (!form.cep || !regexCEP.test(form.cep)) {
+      return "CEP inválido (use o formato 00000-000)";
+    }
     if (!form.rua || !regexLetras.test(form.rua)) {
       return "Rua inválida (somente letras e acentos)";
     }
@@ -149,9 +152,7 @@ export default function CriarEventoGestao() {
     if (!form.estado || !regexLetras.test(form.estado)) {
       return "Estado inválido (somente letras e acentos)";
     }
-    if (!form.cep || !regexCEP.test(form.cep)) {
-      return "CEP inválido (use o formato 00000-000)";
-    }
+
     if (form.temInscricao && !form.linkInscricao.trim()) {
       return "Link de inscrição não pode ser vazio";
     }
@@ -221,13 +222,14 @@ export default function CriarEventoGestao() {
         </label>
         <input id="file-upload" type="file" accept="image/*" onChange={handleFile} style={{ display: "none" }} />
         {preview && <img src={preview} alt="Prévia" className="preview-img-evento" />}
-
+        
+        <input name="cep" placeholder="CEP (00000-000)" value={form.cep} onChange={handleChange} />   
         <input name="rua" placeholder="Rua" value={form.rua} onChange={handleChange} />
         <input name="numero" placeholder="Número" value={form.numero} onChange={handleChange} />
         <input name="bairro" placeholder="Bairro" value={form.bairro} onChange={handleChange} />
         <input name="cidade" placeholder="Cidade" value={form.cidade} onChange={handleChange} />
         <input name="estado" placeholder="Estado" value={form.estado} onChange={handleChange} />
-        <input name="cep" placeholder="CEP (00000-000)" value={form.cep} onChange={handleChange} />
+        
 
         <label className="tem-inscricao">
           <input type="checkbox" name="temInscricao" checked={form.temInscricao} onChange={handleChange} />
@@ -271,11 +273,12 @@ export default function CriarEventoGestao() {
             <DatePicker
                 selected={form.dataHora ? new Date(form.dataHora) : null}
                 onChange={(date) =>
-                setForm((prev) => ({
+                  setForm((prev) => ({
                     ...prev,
-                    dataHora: date.toISOString().slice(0, 16),
-                }))
+                    dataHora: date.toLocaleString("sv-SE").replace(" ", "T").slice(0, 16),
+                  }))
                 }
+
                 showTimeSelect
                 timeFormat="HH:mm"
                 timeIntervals={15}
