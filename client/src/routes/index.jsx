@@ -59,6 +59,7 @@ import RegistrosRefeicao from '../pages/adm/refeicao/Registros';
 import MenuGestao from '../pages/adm/site/Menu';
 import GaleriaGestao from '../pages/adm/site/Galeria';
 import EventosGestao from '../pages/adm/site/Eventos';
+import CriarEventos from '../pages/adm/site/CriarEventos';
 import ProjetosCursosGestao from '../pages/adm/site/ProjetosCursos';
 import ComunidadeGestao from '../pages/adm/site/Comunidade';
 import CursosGestao from '../pages/adm/site/Cursos';
@@ -91,7 +92,8 @@ function RoutesApp(){
 
       <Route path="/menu-gestao" element={ <Private rota="admin"><MenuGestao/></Private> } />
       <Route path="/galeria-gestao" element={ <Private rota="admin"><GaleriaGestao/></Private> } />
-      <Route path="/eventos-gestao" element={ <Private rota="admin"><EventosGestao/></Private> } />      
+      <Route path="/eventos-gestao" element={ <Private rota="admin"><EventosGestao/></Private> } /> 
+      <Route path="/criar-evento" element={ <Private rota="admin"><CriarEventos/></Private> } />     
       <Route path="/projetos-de-cursos-gestao" element={ <Private rota="admin"><ProjetosCursosGestao/></Private> } />
       <Route path="/comunidade-gestao" element={ <Private rota="admin"><ComunidadeGestao/></Private> } />
       <Route path="/cursos-gestao" element={ <Private rota="admin"><CursosGestao/></Private> } />

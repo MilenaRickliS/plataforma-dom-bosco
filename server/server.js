@@ -6,6 +6,7 @@ import equipeRoutes from "./src/routes/equipe.js";
 import emailRoutes from "./src/routes/email.js";
 import galeriaRoutes from "./src/routes/galeria.js";
 import projetosRoutes from "./src/routes/projetos.js";
+import eventosRoutes from "./src/routes/eventos.js";
 
 const app = express();
 app.use(cors());
@@ -17,6 +18,7 @@ app.use("/api/equipe", equipeRoutes);
 app.use("/api", emailRoutes);
 app.use("/api/galeria", galeriaRoutes);
 app.use("/api/projetos", projetosRoutes);
+app.use("/api/eventos", eventosRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
