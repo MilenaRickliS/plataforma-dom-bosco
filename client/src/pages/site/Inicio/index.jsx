@@ -5,6 +5,9 @@ import "./style.css";
 import { Link } from "react-router-dom";
 import { IoArrowBackCircleOutline, IoArrowForwardCircleOutline } from "react-icons/io5";
 import equipe from "../../../assets/site/equipe.jpg";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 
 export default function Inicio() {
@@ -19,6 +22,7 @@ export default function Inicio() {
   });
   const [toast, setToast] = useState({ message: "", type: "" });
   const carrosselRef = useRef(null);
+  const sliderRef = useRef(null);
   const scroll = (direction) => {
     const container = carrosselRef.current;
     const width = container.offsetWidth; 
@@ -187,21 +191,19 @@ export default function Inicio() {
         <section className="sessao-eventos">
           <div className="div-eventos">
             <h3>Eventos &<br/>Nóticias</h3>
-            <div className="botoes">
-              <IoArrowBackCircleOutline />
-              <IoArrowForwardCircleOutline />
+            <div className="eventos-navigation">
+              <button className="eventos-arrow-custom prev" onClick={() => sliderRef.current?.slickPrev()}>
+                <IoArrowBackCircleOutline size={35} />
+              </button>
+              <button className="eventos-arrow-custom next" onClick={() => sliderRef.current?.slickNext()}>
+                <IoArrowForwardCircleOutline size={35} />
+              </button>
             </div>
-            <Link to="https://dombosco.net/category/obras-sociais-guarapuava-blog/">Ir para o blog</Link>
+            <Link to="https://dombosco.net/category/obras-sociais-guarapuava-blog/" className="blog-link">Ir para o blog</Link>
           </div>
-          <br/><br/>
-          <div className="eventos">
-            <div className="post-evento">
-              Tituloo
-            </div>
-            <div className="post-evento">
-              Tituloo
-            </div>
-          </div>        
+          <div className="eventos-carrossel-wrapper">
+            <EventosCarrossel sliderRef={sliderRef} />
+          </div>
         </section>
 
         <section className="sessao-site">
@@ -249,5 +251,61 @@ export default function Inicio() {
       </main>
       <Footer />
     </div>
+  );
+}
+
+function EventosCarrossel({ sliderRef }) {
+  const eventos = [
+    {
+      id: 1,
+      titulo: "FEMUS 2025",
+      imagem: "/src/assets/site/11o-FEMUS-Dom-Bosco_07-e-08.06-10.webp",
+      link: "https://dombosco.net/category/obras-sociais-guarapuava-blog/",
+    },
+    {
+      id: 2,
+      titulo: "Torneio de Pênaltis",
+      imagem: "/src/assets/site/1o-Torneio-de-Penaltis-Butiero_21.04-7-scaled.webp",
+      link: "https://dombosco.net/category/obras-sociais-guarapuava-blog/",
+    },
+    {
+      id: 3,
+      titulo: "Almoço Encerramento 2023",
+      imagem: "/src/assets/site/Almoco-encerramento-2023_16.12-8-1024x683.webp",
+      link: "https://dombosco.net/category/obras-sociais-guarapuava-blog/",
+    },
+    {
+      id: 4,
+      titulo: "Galeria de Momentos",
+      imagem: "/src/assets/site/18-11-2019_09-50-27.jpg",
+      link: "https://dombosco.net/category/obras-sociais-guarapuava-blog/",
+    },
+  ];
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    arrows: false,
+    responsive: [
+      { breakpoint: 1024, settings: { slidesToShow: 2 } },
+      { breakpoint: 640, settings: { slidesToShow: 1 } },
+    ],
+  };
+
+  return (
+    <Slider ref={sliderRef} {...settings} className="eventos-slider">
+      {eventos.map(ev => (
+        <div key={ev.id} className="evento-item">
+          <div className="evento-imagem-wrapper">
+            <img src={ev.imagem} alt={ev.titulo} className="evento-imagem" />
+          </div>
+            <h4 className="evento-titulo">{ev.titulo}</h4>
+            <Link to={ev.link} target="_blank" className="evento-botao">Ir para</Link>
+        </div>
+      ))}
+    </Slider>
   );
 }

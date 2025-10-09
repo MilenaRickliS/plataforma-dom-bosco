@@ -1,9 +1,15 @@
+import { useRef } from "react";
 import Header from "../../../components/site/Header";
 import Footer from "../../../components/site/Footer";
 import { Link } from "react-router-dom";
+import { IoArrowBackCircleOutline, IoArrowForwardCircleOutline } from "react-icons/io5";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import './style.css';
 
 export default function Educacao() {
+  const sliderRef = useRef(null);
   
   const cursos = [
     { id: 1, nome: "Jovem Aprendiz", subtitulo: "A oportunidade que abre portas para o seu futuro!", bg: "linear-gradient(135deg, #6a11cb 0%, #2575fc 100%)", link: "/detalhes-curso"},
@@ -29,16 +35,83 @@ export default function Educacao() {
           </div>
         <br/>
 
-        <div className="projetos">          
+        <section className="sessao-projetos">
+          <div className="div-projetos">
             <h1>
               Projetos e<br />Oficina
             </h1>
+            <div className="projetos-navigation">
+              <button className="projetos-arrow-custom prev" onClick={() => sliderRef.current?.slickPrev()}>
+                <IoArrowBackCircleOutline size={50} />
+              </button>
+              <button className="projetos-arrow-custom next" onClick={() => sliderRef.current?.slickNext()}>
+                <IoArrowForwardCircleOutline size={50} />
+              </button>
+            </div>
             <Link to="/projetos&oficinas" className="link-proj">Ver todos</Link>
-          
-
-        </div>
+          </div>
+          <div className="projetos-carrossel-wrapper">
+            <ProjetosCarrossel sliderRef={sliderRef} />
+          </div>
+        </section>
       </main>
       <Footer />
     </div>
+  );
+}
+
+function ProjetosCarrossel({ sliderRef }) {
+  const projetos = [
+    {
+      id: 1,
+      titulo: "Projeto Musical",
+      imagem: "/src/assets/site/18-11-2019_09-50-27.jpg",
+      link: "/projetos&oficinas",
+    },
+    {
+      id: 2,
+      titulo: "Oficina de Esportes",
+      imagem: "/src/assets/site/18-11-2019_09-50-38.jpg",
+      link: "/projetos&oficinas",
+    },
+    {
+      id: 3,
+      titulo: "Atividades Culturais",
+      imagem: "/src/assets/site/11o-FEMUS-Dom-Bosco_07-e-08.06-10.webp",
+      link: "/projetos&oficinas",
+    },
+    {
+      id: 4,
+      titulo: "Desenvolvimento Jovem",
+      imagem: "/src/assets/site/1o-Torneio-de-Penaltis-Butiero_21.04-7-scaled.webp",
+      link: "/projetos&oficinas",
+    },
+  ];
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    arrows: false,
+    responsive: [
+      { breakpoint: 1024, settings: { slidesToShow: 2 } },
+      { breakpoint: 640, settings: { slidesToShow: 1 } },
+    ],
+  };
+
+  return (
+    <Slider ref={sliderRef} {...settings} className="projetos-slider">
+      {projetos.map(proj => (
+        <div key={proj.id} className="projeto-item">
+          <div className="projeto-imagem-wrapper">
+            <img src={proj.imagem} alt={proj.titulo} className="projeto-imagem" />
+          </div>
+          <h4 className="projeto-titulo">{proj.titulo}</h4>
+          <Link to={proj.link} className="projeto-botao">Ver mais</Link>
+        </div>
+      ))}
+    </Slider>
   );
 }

@@ -14,10 +14,15 @@ h1{
     scroll-behavior: smooth;
 }
 
+main h1{
+    font-size: 80px;
+}
+
 .card-curso {
-    min-height: 220px;
-    max-width: 400px; 
-    padding: 20px;
+    font-size: 23px;
+    min-height: 280px;
+    max-width: 450px; 
+    padding: 30px;
     border-radius: 20px;
     text-align: center;
     flex-shrink: 0; 
@@ -36,14 +41,18 @@ h1{
 
 .card-curso h4 {
     margin-bottom: 10px;
-    font-size: 1.4rem;
-    font-weight: 700;
+    font-size: 1.5rem;
+    font-weight: 900;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6),
+                 -1px -1px 2px rgba(0, 0, 0, 0.4);
 }
 
 .card-curso p {
-    font-weight: 500;
+    font-weight: 700;
     margin-bottom: 15px;
-    font-size: 0.9rem;
+    font-size: 1rem;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5),
+                 -1px -1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .card-curso a {
@@ -54,9 +63,11 @@ h1{
     font-family: "BM HANNA", sans-serif;
     padding: 10px 20px;
     border-radius: 10px;
-    font-weight: 600;
+    font-weight: 800;
     transition: all 0.3s ease;
     backdrop-filter: blur(5px);
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5),
+                 -1px -1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .card-curso a:hover{
@@ -84,35 +95,257 @@ h1{
 }
 
 
-.projetos {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+/* Seção de Projetos */
+.sessao-projetos {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 60px 80px;
+  gap: 60px;
+}
+
+.div-projetos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  min-width: 350px;
+  padding-left: 40px;
+}
+
+.div-projetos h1 {
+  font-family: "BM HANNA", sans-serif;
+  color: #000;
+  font-size: 75px;
+  text-align: center;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.projetos-navigation {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.projetos-arrow-custom {
+  background: transparent;
+  border: none;
+  color: #8E3838;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.projetos-arrow-custom:hover {
+  color: #4b1212;
+  transform: scale(1.1);
+}
+
+.projetos-arrow-custom:focus {
+  outline: 2px solid #8E3838;
+  outline-offset: 2px;
 }
 
 .link-proj {
-    border-radius: 10px;
-    background-color: #8E3838;
-    color: #fff;
-    border: 2px solid black;
-    font-family: "BM HANNA", sans-serif;
-    text-decoration: none;
-    padding: 10px 30px;
-    font-size: 25px;
-    transition: all 0.3s ease;
+  border-radius: 30px;
+  background-color: #8E3838;
+  color: #fff;
+  font-family: "BM HANNA", sans-serif;
+  text-decoration: none;
+  padding: 18px 40px;
+  font-size: 22px;
+  font-weight: 500;
+  transition: all 0.3s ease;
 }
+
 .link-proj:hover {
-    background-color: #4b1212;
+  background-color: #4b1212;
+}
+
+/* Carrossel de Projetos */
+.projetos-carrossel-wrapper { 
+  flex: 1;
+  max-width: 1100px;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.projetos-slider .slick-slide {
+  padding: 0 10px;
+}
+
+.projetos-slider .projeto-item { 
+  background: #ffffff; 
+  border-radius: 20px; 
+  padding: 18px 18px 30px; 
+  margin: 0; 
+  position: relative; 
+  box-shadow: 0 6px 18px -4px rgba(0,0,0,0.15); 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  transition: transform .35s ease, box-shadow .35s ease; 
+  min-height: 380px;
+}
+
+.projetos-slider .projeto-item:hover { 
+  transform: translateY(-6px); 
+  box-shadow: 0 10px 26px -6px rgba(0,0,0,0.25); 
+}
+
+.projeto-imagem-wrapper { 
+  width: 100%; 
+  aspect-ratio: 4/3; 
+  overflow: hidden; 
+  border-radius: 14px; 
+  position: relative; 
+  background: #f2f2f2; 
+}
+
+.projeto-imagem { 
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover; 
+  display: block; 
+  transition: transform .6s ease; 
+}
+
+.projeto-item:hover .projeto-imagem { 
+  transform: scale(1.08); 
+}
+
+.projeto-titulo { 
+  font-family: "Poppins", sans-serif; 
+  font-size: 1.2rem; 
+  font-weight: 600; 
+  color: #1a1a1a; 
+  text-align: center; 
+  margin: 16px 8px 20px; 
+  line-height: 1.25; 
+}
+
+.projeto-botao { 
+  font-family: "Poppins", sans-serif; 
+  font-size: 1rem; 
+  font-weight: 600; 
+  background: linear-gradient(135deg, #8E3838, #4b1212); 
+  color: #fff; 
+  padding: 12px 32px; 
+  border-radius: 30px; 
+  text-decoration: none; 
+  display: inline-block; 
+  letter-spacing: .5px; 
+  transition: background .4s ease, transform .25s ease; 
+  box-shadow: 0 4px 14px -2px rgba(142, 56, 56, .45); 
+}
+
+.projeto-botao:hover { 
+  background: linear-gradient(135deg, #a84040, #5a1616); 
+  transform: translateY(-3px); 
+}
+
+.projetos-slider .slick-dots { 
+  bottom: -38px; 
+}
+
+.projetos-slider .slick-dots li button:before { 
+  font-size: 10px; 
+  color: #8E3838; 
+  opacity: .4; 
+  transition: all .3s ease; 
+}
+
+.projetos-slider .slick-dots li.slick-active button:before { 
+  opacity: 1; 
+  color: #8E3838; 
 }
 
 
 
+
+/* Responsividade */
+@media (max-width: 1024px) {
+  .sessao-projetos {
+    flex-direction: column;
+    padding: 40px 40px;
+    gap: 40px;
+  }
+
+  .div-projetos {
+    padding-left: 0;
+  }
+
+  .projetos-carrossel-wrapper {
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .sessao-projetos {
+    padding: 30px 20px;
+  }
+
+  .div-projetos {
+    padding-left: 0;
+  }
+
+  .div-projetos h1 {
+    font-size: 55px;
+  }
+
+  .projetos-navigation {
+    gap: 10px;
+  }
+
+  .link-proj {
+    font-size: 18px;
+    padding: 15px 35px;
+  }
+
+  .projetos-slider .projeto-item {
+    min-height: 340px;
+  }
+}
 
 @media (max-width: 490px) {
+  .card-curso {
+    max-width: 280px;
+    min-height: 250px;
+  }
 
-    .card-curso {
-        max-width: 220px;        
-    }
+  .sessao-projetos {
+    padding: 20px 15px;
+  }
 
+  .div-projetos {
+    padding-left: 0;
+  }
+
+  .div-projetos h1 {
+    font-size: 42px;
+  }
+
+  .link-proj {
+    font-size: 16px;
+    padding: 14px 28px;
+  }
+
+  .projetos-slider .projeto-item {
+    min-height: 300px;
+  }
+
+  .projeto-titulo {
+    font-size: 1rem;
+  }
+
+  .projeto-botao {
+    font-size: 0.9rem;
+    padding: 10px 26px;
+  }
 }

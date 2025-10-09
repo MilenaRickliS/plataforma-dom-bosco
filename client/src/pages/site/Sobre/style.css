@@ -102,45 +102,57 @@
   color: #444;
 }
 
-.carrossel-mvv {
+.mvv-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
   margin-top: 60px;
-  text-align: center;
-  background-color: #fff;
-  padding: 40px 20px;
-  border-radius: 20px;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  font-size: 20px;
-}
-.mvv-item {
-  padding: 20px;
-  border-radius: 15px;
+  padding: 0 20px;
 }
 
+.mvv-item {
+  padding: 30px 20px;
+  border-radius: 15px;
+  text-align: center;
+}
+
+.mvv-item h3 {
+  font-family: "BM HANNA", sans-serif;
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+.mvv-item p {
+  font-size: 20px;
+  line-height: 1.6;
+  text-align: justify;
+}
 
 .mvv-item.missao h3 {
   color: #C21717;
-  font-family: "BM HANNA", sans-serif;
 }
 .mvv-item.missao p {
   color: #C21717;
 }
 
-
 .mvv-item.visao h3 {
   color: #1E3B7D;
-  font-family: "BM HANNA", sans-serif;
 }
 .mvv-item.visao p {
   color: #1E3B7D;
 }
 
-
 .mvv-item.valores h3 {
   color: #27882A;
-  font-family: "BM HANNA", sans-serif;
 }
 .mvv-item.valores p {
   color: #27882A;
+}
+
+@media (max-width: 968px) {
+  .mvv-container {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* filosofia salensiana */
@@ -260,11 +272,12 @@
 }
 .ver-galeria img{
     position: relative; 
-  height: 350px;
-  width: auto;
-  max-width: 100%;
-  border-radius: 10px;
-
+    height: 450px;
+    width: auto;
+    max-width: 100%;
+    border-radius: 10px;
+    margin-top: -80px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
 .ver-galeria div{
