@@ -79,7 +79,7 @@ function RoutesApp(){
       <Route path="/comunidade" element={<Comunidade/>}/>
       <Route path="/eventos" element={<Eventos/>}/>
       <Route path="/proximos-eventos" element={<ProximosEventos/>}/>
-      <Route path="/detalhes-evento" element={<EventosDetalhes/>}/>
+      <Route path="/detalhes-evento/:id" element={<EventosDetalhes/>}/>
       <Route path="/contato" element={<Contato/>}/>  
 
       <Route path="/inicio-adm" element={ <Private rota="admin"><InicioAdm/></Private> } />

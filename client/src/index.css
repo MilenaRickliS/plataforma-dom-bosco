@@ -71,6 +71,11 @@ main {
   width: 100%;
   margin-top: 70px;
 }
+.evento-main{
+  flex: 1; 
+  width: 100%;
+  margin-top: 85px;
+}
 .page {
   flex: 1;             
   display: flex;

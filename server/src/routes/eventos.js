@@ -86,6 +86,22 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const doc = await admin.firestore().collection("eventos").doc(id).get();
+
+    if (!doc.exists) {
+      return res.status(404).json({ erro: "Evento não encontrado" });
+    }
+
+    return res.json({ id: doc.id, ...doc.data() });
+  } catch (error) {
+    console.error("Erro ao buscar evento:", error);
+    res.status(500).json({ erro: "Erro ao buscar evento" });
+  }
+});
+
 
 router.put("/:id", upload.single("imagem"), async (req, res) => {
   try {

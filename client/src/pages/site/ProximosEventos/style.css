@@ -1,0 +1,15 @@
+.inicio-proximos-eventos{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #fff;
+    padding: 40px;
+}
+.inicio-proximos-eventos h1{
+    color: #fff;
+}
+.inicio-proximos-eventos span{
+    color: #1E3B7D;
+}

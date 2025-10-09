@@ -1,4 +1,6 @@
-
+.container-eventos{
+    padding: 30px;
+}
 .inicio-eventos{
     display: flex;
     justify-content: center;
@@ -25,13 +27,236 @@
 }
 
 .menu-eventos {
-    display: flex;
-    overflow-x: auto; 
-    gap: 20px;
-    padding: 10px 0;
-    scroll-behavior: smooth;
+  display: flex;
+  overflow-x: auto;
+  gap: 20px;
+  padding: 10px 0px;
+  scroll-behavior: smooth;
+  scrollbar-width: thin; 
+  scrollbar-color: #7B4C96 transparent;
+
+}
+.menu-eventos::-webkit-scrollbar {
+   height: 8px;
+
+}
+.menu-eventos::-webkit-scrollbar-track {
+  background: rgba(255,255,255,0.25);   
+  border-radius: 999px;
+  margin: 0 48px;                       
 }
 
+.menu-eventos::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, #a556d3, #15b9cc); 
+  border-radius: 999px;
+  border: 2px solid rgba(255,255,255,0.6);             
+}
+
+.menu-eventos::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(90deg, #7B4C96, #119cab);
+}
+.card-evento-prox {
+  flex: 0 0 200px;
+  background: linear-gradient(90deg, #a556d3, #15b9cc);
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.4s ease;
+  transform: scale(1);
+}
+.menu-eventos:hover .card-evento-prox {
+  transform: scale(0.9);
+  opacity: 0.7;
+}
+.menu-eventos .card-evento-prox:hover {
+  transform: scale(1);
+  opacity: 1;
+  z-index: 2;
+}
+.card-evento-prox img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+}
+.info-prox {
+  padding: 12px;
+  text-align: center;
+}
+
+.titulo-prox-evento {
+  font-family: "BM HANNA", sans-serif;
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+}
+
+.detalhes-prox-evento {
+  font-size: 0.85rem;
+  line-height: 1.3;
+}
+
+.link-prox {
+  display: inline-block;
+  background-color: #7b4c96;
+  color: #fff;
+  font-family: "BM HANNA", sans-serif;
+  text-decoration: none;
+  padding: 6px 14px;
+  border-radius: 8px;
+  margin-top: 8px;
+  transition: all 0.3s ease;
+}
+
+.link-prox:hover {
+  background-color: #321b3f;
+}
+/* todos os eventos */
+
+.mostrar-eventos{
+    background-color: #fff;
+    padding: 40px;
+}
+.mostrar-eventos h1{
+    color: #7B4C96;
+    font-family: "BM HANNA", sans-serif;
+    padding: 40px 20px;
+}
+.cards-eventos-show {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+
+}
+.card-evento-show {
+  position: relative;
+  background: linear-gradient(90deg, #a556d3, #15b9cc);
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  max-width: 250px;     
+  margin: 0 auto;
+}
+.card-evento-show:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+.card-evento-show img {
+  width: 100%;
+  height: 140px;        
+  object-fit: cover;
+  border-radius: 0 0 10px 10px;
+}
+.card-evento-show p {
+  font-family: "BM HANNA", sans-serif;
+  color: #fff;
+  font-size: 1rem;      
+  margin: 8px 0;
+  text-align: center;
+  padding: 0 10px;
+}
+.curtir{
+    position: absolute;
+    bottom: 100px;
+    right: 10px;
+    font-size: 40px;
+}
+.card-evento-show a {
+  background-color: #7B4C96;
+  color: #fff;
+  font-family: "BM HANNA", sans-serif;
+  padding: 6px 12px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.card-evento-show a:hover {
+  background-color: #321b3f;
+  transform: scale(1.03);
+}
+.detalhes-evento-info {
+  color: #fff;
+  font-size: 0.8rem;
+  padding: 0 12px 8px;
+  text-align: center;
+  display: block;
+}
+.paginacao-eventos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+  gap: 8px;
+}
+
+.paginacao-eventos button {
+  background: linear-gradient(90deg, #a556d3, #15b9cc);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: "BM HANNA", sans-serif;
+}
+
+.paginacao-eventos button:hover:not(:disabled) {
+  background: #7B4C96;
+  transform: scale(1.05);
+}
+
+.paginacao-eventos button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.paginacao-eventos button.ativo {
+  background: #7B4C96;
+  transform: scale(1.1);
+}
+.sem-eventos{
+    color: #000;
+    text-align: center;
+}
+
+/* blog */
+.blog{
+    background-color: #A556D3;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+.blog h1{
+    color: #fff;
+}
+.blog p{
+    text-align: center;
+}
+.blog a{
+    background-color: #fff;
+    color: #000;
+    font-family: "BM HANNA", sans-serif;
+    text-decoration: none;
+    padding: 10px 50px;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+}
+.blog a:hover{
+    background-color: #15b9cc;
+    transform: scale(1.03);
+}
+/* responsividade */
 
 @media (max-width: 768px) {
     .inicio-eventos{
@@ -40,4 +265,12 @@
 
     }
 
+}
+@media (hover: none) and (pointer: coarse) {
+  .menu-eventos {
+    scrollbar-width: none;
+  }
+  .menu-eventos::-webkit-scrollbar {
+    display: none;
+  }
 }
