@@ -208,3 +208,8 @@
 
 }
 }
+@media (max-width: 470px) {
+    .filtros-eventos{
+        flex-direction: column;
+    }
+}

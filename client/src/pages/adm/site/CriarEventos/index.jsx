@@ -272,12 +272,13 @@ export default function CriarEventoGestao() {
         <div className="campo-data-hora">            
             <DatePicker
                 selected={form.dataHora ? new Date(form.dataHora) : null}
-                onChange={(date) =>
-                  setForm((prev) => ({
-                    ...prev,
-                    dataHora: date.toLocaleString("sv-SE").replace(" ", "T").slice(0, 16),
-                  }))
-                }
+                onChange={(date) => {
+                const local = new Date(date.getTime() - date.getTimezoneOffset() * 60000)
+                  .toISOString()
+                  .slice(0, 16);
+                setForm((prev) => ({ ...prev, dataHora: local }));
+              }}
+
 
                 showTimeSelect
                 timeFormat="HH:mm"
@@ -286,7 +287,8 @@ export default function CriarEventoGestao() {
                 placeholderText="Selecione a data e hora"
                 locale={ptBR}
                 className="input-datepicker"
-            /><FaCalendarAlt className="icone-calendario" />
+            />
+        
         </div>
 
 

@@ -111,7 +111,7 @@ export default function ComunidadeGestao() {
     setEditando(projeto.id);
     setTitulo(projeto.titulo);
     setDescricao(projeto.descricao);
-    setDataProjeto(projeto.dataProjeto ? new Date(projeto.dataProjeto).toISOString().split("T")[0] : "");
+    setDataProjeto(projeto.dataProjeto ? new Date(projeto.dataProjeto) : "");
     setPreview(projeto.imagemUrl);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -242,11 +242,15 @@ export default function ComunidadeGestao() {
 
                 {p.descricao.length > 100 && (
                   <button
-                    onClick={() => toggleDescricao(p.id)}
+                    onClick={() => {
+                      toggleDescricao(p.id);
+                      window.scrollTo({ top: window.scrollY - 100, behavior: "smooth" });
+                    }}
                     className="btn-lermais"
                   >
                     {abertos[p.id] ? "Mostrar menos" : "Ler mais"}
                   </button>
+
                 )}
 
                 <div className="acoes">
