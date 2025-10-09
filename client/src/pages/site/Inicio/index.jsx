@@ -8,6 +8,9 @@ import equipe from "../../../assets/site/equipe.jpg";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { FaCalendarAlt } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
+import { IoMdPin } from "react-icons/io";
 
 
 export default function Inicio() {
@@ -28,6 +31,7 @@ export default function Inicio() {
     const width = container.offsetWidth; 
     container.scrollBy({ left: direction * width, behavior: "smooth" });
   };
+  
 
   useEffect(() => {
   fetch("http://localhost:5000/api/depoimentos")
@@ -255,57 +259,153 @@ export default function Inicio() {
 }
 
 function EventosCarrossel({ sliderRef }) {
-  const eventos = [
-    {
-      id: 1,
-      titulo: "FEMUS 2025",
-      imagem: "/src/assets/site/11o-FEMUS-Dom-Bosco_07-e-08.06-10.webp",
-      link: "https://dombosco.net/category/obras-sociais-guarapuava-blog/",
-    },
-    {
-      id: 2,
-      titulo: "Torneio de Pênaltis",
-      imagem: "/src/assets/site/1o-Torneio-de-Penaltis-Butiero_21.04-7-scaled.webp",
-      link: "https://dombosco.net/category/obras-sociais-guarapuava-blog/",
-    },
-    {
-      id: 3,
-      titulo: "Almoço Encerramento 2023",
-      imagem: "/src/assets/site/Almoco-encerramento-2023_16.12-8-1024x683.webp",
-      link: "https://dombosco.net/category/obras-sociais-guarapuava-blog/",
-    },
-    {
-      id: 4,
-      titulo: "Galeria de Momentos",
-      imagem: "/src/assets/site/18-11-2019_09-50-27.jpg",
-      link: "https://dombosco.net/category/obras-sociais-guarapuava-blog/",
-    },
-  ];
+  const [eventos, setEventos] = useState([]);
+  const [carregando, setCarregando] = useState(true);
+  const [curtidos, setCurtidos] = useState({});
+  const [curtidasContagem, setCurtidasContagem] = useState({});
+
+  useEffect(() => {
+    const fetchEventos = async () => {
+      try {
+        const res = await fetch("http://localhost:5000/api/eventos");
+        if (!res.ok) throw new Error("Erro ao buscar eventos");
+        const data = await res.json();
+
+        const agora = new Date();
+
+        
+        const futuros = data.filter((ev) => {
+          if (!ev.dataHora) return false;
+          const dataEvento = ev.dataHora._seconds
+            ? new Date(ev.dataHora._seconds * 1000)
+            : new Date(ev.dataHora);
+          return dataEvento >= agora;
+        });
+
+        
+        const ordenados = futuros.sort((a, b) => {
+          const dataA = a.dataHora._seconds
+            ? new Date(a.dataHora._seconds * 1000)
+            : new Date(a.dataHora);
+          const dataB = b.dataHora._seconds
+            ? new Date(b.dataHora._seconds * 1000)
+            : new Date(b.dataHora);
+          return dataA - dataB;
+        });
+
+        
+        setEventos(ordenados.slice(0, 5));
+      } catch (err) {
+        console.error("Erro ao carregar eventos:", err);
+        setEventos([]);
+      } finally {
+        setCarregando(false);
+      }
+    };
+
+    fetchEventos();
+  }, []);
 
   const settings = {
     dots: true,
     infinite: true,
-    speed: 500,
+    speed: 600,
     slidesToShow: 3,
     slidesToScroll: 1,
     arrows: false,
+    autoplay: true,
+    autoplaySpeed: 5000,
+    pauseOnHover: true,
     responsive: [
-      { breakpoint: 1024, settings: { slidesToShow: 2 } },
-      { breakpoint: 640, settings: { slidesToShow: 1 } },
+      { breakpoint: 1200, settings: { slidesToShow: 2 } },
+      { breakpoint: 900, settings: { slidesToShow: 2 } },
+      { breakpoint: 768, settings: { slidesToShow: 1, dots: true } },
+      { breakpoint: 480, settings: { slidesToShow: 1, dots: true, autoplaySpeed: 4000 } },
     ],
   };
 
+
+  if (carregando) {
+    return <p className="carregando">Carregando eventos...</p>;
+  }
+
+  if (eventos.length === 0) {
+    return <p className="sem-eventos">Nenhum evento futuro encontrado.</p>;
+  }
+
   return (
     <Slider ref={sliderRef} {...settings} className="eventos-slider">
-      {eventos.map(ev => (
-        <div key={ev.id} className="evento-item">
-          <div className="evento-imagem-wrapper">
-            <img src={ev.imagem} alt={ev.titulo} className="evento-imagem" />
-          </div>
+      {eventos.map((ev) => {
+        const data = ev.dataHora._seconds
+          ? new Date(ev.dataHora._seconds * 1000)
+          : new Date(ev.dataHora);
+        
+            const curtido =
+                  curtidos[ev.id] || !!localStorage.getItem(`curtido_${ev.id}`);
+
+                const curtidas =
+                  curtidasContagem[ev.id] !== undefined
+                    ? curtidasContagem[ev.id]
+                    : ev.curtidas || 0;
+
+                const handleCurtir = async () => {
+                  try {
+                    const rota = curtido
+                      ? `http://localhost:5000/api/eventos/${ev.id}/descurtir`
+                      : `http://localhost:5000/api/eventos/${ev.id}/curtir`;
+
+                    await axios.post(rota);
+
+                    
+                    setCurtidos((prev) => ({ ...prev, [ev.id]: !curtido }));
+                    setCurtidasContagem((prev) => ({
+                      ...prev,
+                      [ev.id]: curtido ? curtidas - 1 : curtidas + 1,
+                    }));
+
+                    
+                    if (!curtido)
+                      localStorage.setItem(`curtido_${ev.id}`, true);
+                    else localStorage.removeItem(`curtido_${ev.id}`);
+                  } catch (err) {
+                    console.error("Erro ao curtir:", err);
+                  }
+                };
+
+        return (
+          <div key={ev.id} className="evento-item">
+            <div className="evento-imagem-wrapper">
+              <img
+                src={ev.imagemUrl}
+                alt={ev.titulo}
+                className="evento-imagem"
+              />
+            </div>
+
             <h4 className="evento-titulo">{ev.titulo}</h4>
-            <Link to={ev.link} target="_blank" className="evento-botao">Ir para</Link>
-        </div>
-      ))}
+
+            
+            <div className="curtidas-evento" onClick={handleCurtir}>
+                      {curtido ? (
+                        <FaHeart className="icon-curtidas ativo" />
+                      ) : (
+                        <FaHeart className="icon-curtidas" />
+                      )}
+                      <span>{curtidas}</span>
+                    </div>
+                      <p className="evento-local">
+                        <FaCalendarAlt />{data.toLocaleDateString("pt-BR", { dateStyle: "medium" })}{" "}
+                        às {data.toLocaleTimeString("pt-BR", { timeStyle: "short" })}<br />
+                        <IoMdPin /> {ev.cidade} - {ev.estado}
+                      </p>
+            <Link to={`/detalhes-evento/${ev.id}`} className="evento-botao">
+              Saiba mais
+            </Link>
+          </div>
+        );
+      })}
     </Slider>
   );
 }
+
+

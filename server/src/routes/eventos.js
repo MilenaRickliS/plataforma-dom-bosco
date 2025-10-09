@@ -7,6 +7,7 @@ const router = express.Router();
 const upload = multer({ storage: multer.memoryStorage() });
 
 
+
 router.post("/", upload.single("imagem"), async (req, res) => {
   try {
     const {
@@ -25,7 +26,6 @@ router.post("/", upload.single("imagem"), async (req, res) => {
 
     let imagemUrl = "";
 
-    
     if (req.file) {
       await new Promise((resolve, reject) => {
         const stream = cloudinary.uploader.upload_stream(
@@ -42,7 +42,6 @@ router.post("/", upload.single("imagem"), async (req, res) => {
       });
     }
 
-    
     const inscricao = temInscricao === "true" || temInscricao === true;
 
     const db = admin.firestore();
@@ -59,6 +58,7 @@ router.post("/", upload.single("imagem"), async (req, res) => {
       linkInscricao: inscricao ? linkInscricao || "" : "",
       descricao,
       dataHora: new Date(dataHora),
+      curtidas: 0, 
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
     });
 
@@ -86,6 +86,8 @@ router.get("/", async (req, res) => {
   }
 });
 
+
+
 router.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -101,6 +103,7 @@ router.get("/:id", async (req, res) => {
     res.status(500).json({ erro: "Erro ao buscar evento" });
   }
 });
+
 
 
 router.put("/:id", upload.single("imagem"), async (req, res) => {
@@ -127,10 +130,8 @@ router.put("/:id", upload.single("imagem"), async (req, res) => {
       return res.status(404).json({ error: "Evento não encontrado." });
     }
 
-    
     let imagemUrl = eventoAtual.data().imagemUrl || "";
 
-    
     if (req.file) {
       await new Promise((resolve, reject) => {
         const stream = cloudinary.uploader.upload_stream(
@@ -147,7 +148,6 @@ router.put("/:id", upload.single("imagem"), async (req, res) => {
       });
     }
 
-    
     const inscricao = temInscricao === "true" || temInscricao === true;
     const dataConvertida = dataHora ? new Date(dataHora) : null;
 
@@ -165,6 +165,8 @@ router.put("/:id", upload.single("imagem"), async (req, res) => {
       imagemUrl,
       dataHora: dataConvertida,
       updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+      
+      curtidas: eventoAtual.data().curtidas || 0,
     });
 
     res.status(200).json({ message: "Evento atualizado com sucesso!" });
@@ -173,6 +175,7 @@ router.put("/:id", upload.single("imagem"), async (req, res) => {
     res.status(500).json({ error: "Erro ao atualizar evento." });
   }
 });
+
 
 
 router.delete("/:id", async (req, res) => {
@@ -184,5 +187,40 @@ router.delete("/:id", async (req, res) => {
     res.status(500).json({ error: "Erro ao excluir evento." });
   }
 });
+
+
+
+router.post("/:id/curtir", async (req, res) => {
+  try {
+    const docRef = admin.firestore().collection("eventos").doc(req.params.id);
+    await admin.firestore().runTransaction(async (t) => {
+      const doc = await t.get(docRef);
+      const curtidasAtuais = doc.data().curtidas || 0;
+      t.update(docRef, { curtidas: curtidasAtuais + 1 });
+    });
+    res.json({ success: true, message: "Curtida adicionada!" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Erro ao curtir evento." });
+  }
+});
+
+
+
+router.post("/:id/descurtir", async (req, res) => {
+  try {
+    const docRef = admin.firestore().collection("eventos").doc(req.params.id);
+    await admin.firestore().runTransaction(async (t) => {
+      const doc = await t.get(docRef);
+      const curtidasAtuais = doc.data().curtidas || 0;
+      t.update(docRef, { curtidas: Math.max(0, curtidasAtuais - 1) });
+    });
+    res.json({ success: true, message: "Curtida removida!" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Erro ao descurtir evento." });
+  }
+});
+
 
 export default router;

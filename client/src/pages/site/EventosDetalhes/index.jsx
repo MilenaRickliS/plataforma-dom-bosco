@@ -13,41 +13,72 @@ export default function EventosDetalhes() {
   const [evento, setEvento] = useState(null);
   const [outros, setOutros] = useState([]);
   const [carregando, setCarregando] = useState(true);
-  const [curtidas, setCurtidas] = useState(0);
-  const [curtido, setCurtido] = useState(false);
   const [copiado, setCopiado] = useState(false);
+ 
+  const [curtidasEvento, setCurtidasEvento] = useState(0);
+  const [curtidoEvento, setCurtidoEvento] = useState(false);
+
+
+  const [curtidosOutros, setCurtidosOutros] = useState({});
+  const [curtidasOutros, setCurtidasOutros] = useState({});
+
 
   useEffect(() => {
     fetchEvento();
   }, [id]);
 
-  const fetchEvento = async () => {
-    try {
-      const res = await axios.get(`http://localhost:5000/api/eventos/${id}`);
-      setEvento(res.data);
+const fetchEvento = async () => {
+  try {
+    const res = await axios.get(`http://localhost:5000/api/eventos/${id}`);
+    const eventoData = res.data;
 
-      const todos = await axios.get("http://localhost:5000/api/eventos");
-      const outrosEventos = todos.data
-        .filter((e) => e.id !== id)
-        .sort(() => 0.5 - Math.random())
-        .slice(0, 6);
-      setOutros(outrosEventos);
-    } catch (error) {
-      console.error("Erro ao carregar evento:", error);
-    } finally {
-      setCarregando(false);
-      
-      setTimeout(() => {
-        document.querySelector(".evento-main")?.classList.add("fade-in");
-      }, 100);
+    setEvento(eventoData);
+    setCurtidasEvento(eventoData.curtidas || 0);
+
+    
+    const liked = localStorage.getItem(`curtido_${id}`);
+    if (liked && (eventoData.curtidas || 0) > 0) {
+      setCurtidoEvento(true);
+    } else {
+      setCurtidoEvento(false);
+    }
+
+    const todos = await axios.get("http://localhost:5000/api/eventos");
+    const outrosEventos = todos.data
+      .filter((e) => e.id !== id)
+      .sort(() => 0.5 - Math.random())
+      .slice(0, 6);
+    setOutros(outrosEventos);
+  } catch (error) {
+    console.error("Erro ao carregar evento:", error);
+  } finally {
+    setCarregando(false);
+    setTimeout(() => {
+      document.querySelector(".evento-main")?.classList.add("fade-in");
+    }, 100);
+  }
+};
+
+
+
+  const handleCurtir = async () => {
+    try {
+      const rota = curtidoEvento
+        ? `http://localhost:5000/api/eventos/${id}/descurtir`
+        : `http://localhost:5000/api/eventos/${id}/curtir`;
+      await axios.post(rota);
+
+      setCurtidoEvento(!curtidoEvento);
+      setCurtidasEvento((prev) => (curtidoEvento ? prev - 1 : prev + 1));
+
+      if (!curtidoEvento) localStorage.setItem(`curtido_${id}`, true);
+      else localStorage.removeItem(`curtido_${id}`);
+    } catch (err) {
+      console.error("Erro ao curtir:", err);
     }
   };
 
-  const handleCurtir = () => {
-    setCurtido(!curtido);
-    setCurtidas(curtido ? curtidas - 1 : curtidas + 1);
-    
-  };
+
 
   const handleCopiarLink = () => {
     navigator.clipboard.writeText(window.location.href);
@@ -67,11 +98,6 @@ export default function EventosDetalhes() {
     ? new Date(evento.dataHora._seconds * 1000)
     : new Date(evento.dataHora);
 
-  const mapsUrl = evento.linkMaps
-    ? evento.linkMaps
-    : `https://www.google.com/maps?q=${encodeURIComponent(
-        `${evento.rua}, ${evento.numero} - ${evento.bairro}, ${evento.cidade}`
-      )}`;
 
   const shareUrl = window.location.href;
   const shareText = `Confira este evento: ${evento.titulo} - ${shareUrl}`;
@@ -99,13 +125,14 @@ export default function EventosDetalhes() {
 
             <div className="data-evento">
               <div className="curtir-container" onClick={handleCurtir}>
-                {curtido ? (
+                {curtidoEvento ? (
                   <FaHeart className="icon-curtir ativo" />
                 ) : (
                   <FaRegHeart className="icon-curtir" />
                 )}
-                <span>{curtidas}</span>
+                <span>{curtidasEvento}</span>
               </div>
+
               <strong>Data & Hora</strong>
               <p>
                 <FaCalendarAlt />{" "}
@@ -226,10 +253,54 @@ export default function EventosDetalhes() {
               const dataOutro = e.dataHora?._seconds
                 ? new Date(e.dataHora._seconds * 1000)
                 : new Date(e.dataHora);
+
+             
+              const curtido =
+                curtidosOutros[e.id] || !!localStorage.getItem(`curtido_${e.id}`);
+
+              const curtidas =
+                curtidasOutros[e.id] !== undefined
+                  ? curtidasOutros[e.id]
+                  : e.curtidas || 0;
+
+
+              const handleCurtir = async () => {
+                try {
+                  const rota = curtido
+                    ? `http://localhost:5000/api/eventos/${e.id}/descurtir`
+                    : `http://localhost:5000/api/eventos/${e.id}/curtir`;
+
+                  await axios.post(rota);
+
+                  setCurtidosOutros((prev) => ({ ...prev, [e.id]: !curtido }));
+                  setCurtidasOutros((prev) => ({
+                    ...prev,
+                    [e.id]: curtido ? curtidas - 1 : curtidas + 1,
+                  }));
+
+                  if (!curtido)
+                    localStorage.setItem(`curtido_${e.id}`, true);
+                  else localStorage.removeItem(`curtido_${e.id}`);
+                } catch (err) {
+                  console.error("Erro ao curtir:", err);
+                }
+              };
+
               return (
                 <div key={e.id} className="card-evento-show">
                   <img src={e.imagemUrl} alt={e.titulo} />
                   <p>{e.titulo}</p>
+
+                  
+                  <div className="curtidas-evento" onClick={handleCurtir}>
+                    {curtido ? (
+                      <FaHeart className="icon-curtidas ativo" />
+                    ) : (
+                      <FaHeart className="icon-curtidas" />
+                    )}
+                    <span>{curtidas}</span>
+                  </div>
+
                   <span className="detalhes-evento-info">
                     <FaCalendarAlt />{" "}
                     {dataOutro.toLocaleDateString("pt-BR", {
@@ -238,12 +309,14 @@ export default function EventosDetalhes() {
                     <br />
                     <IoMdPin /> {e.cidade} - {e.estado}
                   </span>
+
                   <Link to={`/detalhes-evento/${e.id}`}>Saiba mais!</Link>
                 </div>
               );
             })}
           </div>
         </section>
+
       </main>
       <Footer />
     </div>

@@ -8,6 +8,7 @@ import { IoMdPin } from "react-icons/io";
 import axios from "axios";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
+import { FaHeart } from "react-icons/fa";
 
 export default function ProximosEventos() {
   const [eventos, setEventos] = useState([]);
@@ -15,6 +16,8 @@ export default function ProximosEventos() {
   const [carregando, setCarregando] = useState(true);
   const [paginaAtual, setPaginaAtual] = useState(1);
   const eventosPorPagina = 6;
+  const [curtidos, setCurtidos] = useState({});
+  const [curtidasContagem, setCurtidasContagem] = useState({});
 
   useEffect(() => {
     fetchEventos();
@@ -68,6 +71,9 @@ export default function ProximosEventos() {
     if (num >= 1 && num <= totalPaginas) setPaginaAtual(num);
   };
 
+
+
+
   return (
     <div className="eventos-page">
       <Header />
@@ -105,17 +111,58 @@ export default function ProximosEventos() {
 
           
           <div className="cards-eventos-show">
-            {carregando ? (
-              <p className="carregando">Carregando...</p>
-            ) : eventosPaginados.length > 0 ? (
+            {eventosPaginados.length > 0 ? (
               eventosPaginados.map((evento) => {
                 const data = evento.dataHora?._seconds
                   ? new Date(evento.dataHora._seconds * 1000)
                   : new Date(evento.dataHora);
+
+                const curtido =
+                  curtidos[evento.id] || !!localStorage.getItem(`curtido_${evento.id}`);
+
+                const curtidas =
+                  curtidasContagem[evento.id] !== undefined
+                    ? curtidasContagem[evento.id]
+                    : evento.curtidas || 0;
+
+                const handleCurtir = async () => {
+                  try {
+                    const rota = curtido
+                      ? `http://localhost:5000/api/eventos/${evento.id}/descurtir`
+                      : `http://localhost:5000/api/eventos/${evento.id}/curtir`;
+
+                    await axios.post(rota);
+
+                    
+                    setCurtidos((prev) => ({ ...prev, [evento.id]: !curtido }));
+                    setCurtidasContagem((prev) => ({
+                      ...prev,
+                      [evento.id]: curtido ? curtidas - 1 : curtidas + 1,
+                    }));
+
+                    
+                    if (!curtido)
+                      localStorage.setItem(`curtido_${evento.id}`, true);
+                    else localStorage.removeItem(`curtido_${evento.id}`);
+                  } catch (err) {
+                    console.error("Erro ao curtir:", err);
+                  }
+                };
+
                 return (
                   <div key={evento.id} className="card-evento-show">
                     <img src={evento.imagemUrl} alt={evento.titulo} />
                     <p>{evento.titulo}</p>
+
+                    <div className="curtidas-evento" onClick={handleCurtir}>
+                      {curtido ? (
+                        <FaHeart className="icon-curtidas ativo" />
+                      ) : (
+                        <FaHeart className="icon-curtidas" />
+                      )}
+                      <span>{curtidas}</span>
+                    </div>
+
                     <span className="detalhes-evento-info">
                       <FaCalendarAlt />{" "}
                       {data.toLocaleString("pt-BR", {
@@ -130,9 +177,11 @@ export default function ProximosEventos() {
                 );
               })
             ) : (
-              <p className="sem-eventos">Nenhum evento futuro encontrado.</p>
+              <p className="sem-eventos">Nenhum evento encontrado.</p>
             )}
+
           </div>
+
 
         
           {totalPaginas > 1 && (

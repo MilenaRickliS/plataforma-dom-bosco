@@ -70,7 +70,7 @@
 }
 
 .link-inscricao{
-    background-color: #15b9cc;
+    background-color: #1E3B7D;
     color: #fff;
     text-decoration: none;
     padding: 10px;
@@ -79,7 +79,7 @@
     transition: all 0.3s ease;
 }
 .link-inscricao:hover{
-    background-color: #340044;
+    background-color: #15b9cc;
 
 
 }
@@ -91,7 +91,7 @@
 }
 
 .compartilhar-container button {
-  background-color: #A556D3;
+  background-color: #7B4C96;
   color: #fff;
   border: none;
   border-radius: 50%;
@@ -246,7 +246,7 @@
 
 }
 .outros-eventos{
-    background-color: #CDCDCD;
+    background-color: #bfd0f7;
     padding: 40px;
 }
 

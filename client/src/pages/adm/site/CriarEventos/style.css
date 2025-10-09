@@ -21,9 +21,8 @@
 }
 .form-evento input:focus,
 .form-evento textarea:focus {  
-  border-color: #a556d3;
-  background: linear-gradient(90deg, #e3ccf8, #c7f5f9);
-  box-shadow: 0 0 10px rgba(165, 86, 211, 0.3);
+  border-color: #15b9cc;
+    box-shadow: 0 0 10px rgba(165, 86, 211, 0.3);
   outline: none;
 }
 
@@ -35,8 +34,8 @@
   gap: 8px;
   background: #fff;
   color: #000;
-  border: 1px solid #000;
-  border-radius: 8px;
+  border: 1px solid #ccc;
+  border-radius: 30px;
   padding: 7px 18px;
   cursor: pointer;
   font-weight: 600;
@@ -44,7 +43,7 @@
 }
 
 .upload-label-evento:hover {
-  background: linear-gradient(90deg, #a556d3, #15b9cc);
+   background: linear-gradient(135deg,#1F4396,#0b245e);
   color: #fff;
   
  
@@ -90,7 +89,7 @@
 
 
 .tem-inscricao input:checked + .slider {
-  background: linear-gradient(90deg, #a556d3, #15b9cc);
+   background: linear-gradient(135deg,#1F4396,#0b245e);
 }
 
 
@@ -136,7 +135,7 @@ textarea {
   top: 50%;
   right: 14px;
   transform: translateY(-50%);
-  color: #a556d3;
+  color: #14326e;
   font-size: 1.2rem;
   pointer-events: none;
 }
@@ -152,9 +151,8 @@ textarea {
 }
 
 .campo-data-hora input[type="datetime-local"]:focus {
-  border-color: #a556d3;
-  background: linear-gradient(90deg, #e3ccf8, #c7f5f9);
-  box-shadow: 0 0 10px rgba(165, 86, 211, 0.3);
+  border-color: #15b9cc;
+    box-shadow: 0 0 10px rgba(165, 86, 211, 0.3);
   outline: none;
 }
 .input-datepicker {
@@ -169,9 +167,8 @@ textarea {
 }
 
 .input-datepicker:focus {
-  border-color: #a556d3;
-  background: linear-gradient(90deg, #e3ccf8, #c7f5f9);
-  box-shadow: 0 0 10px rgba(165, 86, 211, 0.3);
+  border-color: #15b9cc;
+    box-shadow: 0 0 10px rgba(165, 86, 211, 0.3);
   outline: none;
 }
 
@@ -197,49 +194,49 @@ textarea {
 
 
 .react-datepicker__input-container input:focus {
-  border-color: #a556d3;
-  background: linear-gradient(90deg, #e3ccf8, #c7f5f9);
-  box-shadow: 0 0 10px rgba(165, 86, 211, 0.3);
+  border-color: #15b9cc;
+    box-shadow: 0 0 10px rgba(165, 86, 211, 0.3);
   outline: none;
 }
 
 .react-datepicker {
-    
+  
   font-family: "Poppins", sans-serif;
   border: none;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .react-datepicker__header {
-  background: linear-gradient(90deg, #a556d3, #15b9cc);
-  color: white;
+ background: linear-gradient(135deg,#2659c5,#14326e); 
+  color: #fff;
   border-bottom: none;
 }
 
 .react-datepicker__day--selected,
 .react-datepicker__day--keyboard-selected {
   background-color: #a556d3;
-  color: #fff;
+  color: #000;
 }
 
 .react-datepicker__day:hover {
   background-color: #15b9cc;
-  color: white;
+  color: black;
 }
 
 .button-criar-evento {
-    border: 1px solid black;
-  background: linear-gradient(90deg, #a556d3, #15b9cc);
+    
+   background: linear-gradient(135deg,#1F4396,#0b245e);
   color: #fff;
   padding: 10px;
-  border-radius: 12px;
+  border-radius:30px;
+  border: none;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 .button-criar-evento:hover {
     transform: scale(1.03);
-     background: linear-gradient(90deg, #a200ff, #00e5ff);
+     background: linear-gradient(135deg,#2659c5,#14326e); 
 
 }
 
@@ -283,7 +280,7 @@ textarea {
 .react-datepicker__header {
   width: 100%;
   border-radius: 8px 8px 0 0;
-  background: linear-gradient(90deg, #a556d3, #15b9cc);
+  background: linear-gradient(135deg,#2659c5,#14326e); 
   color: white;
   text-align: center;
   padding-top: 10px;
@@ -323,7 +320,7 @@ textarea {
 }
 
 .react-datepicker__time-list-item:hover {
-  background: linear-gradient(90deg, #a556d3, #15b9cc);
+  background: linear-gradient(135deg,#2659c5,#14326e); 
   color: #fff;
 }
 

@@ -33,18 +33,18 @@
     font-weight: 700;
 }
 .adicionar-evento {
-    border: 1px solid black;
-  background: linear-gradient(90deg, #a556d3, #15b9cc);
+   
+  background: linear-gradient(135deg,#1F4396,#0b245e);
   color: #fff;
   padding: 10px 20px;
-  border-radius: 12px;
+  border-radius: 30px;
   text-decoration: none;
   font-weight: 600;
   transition: all 0.3s ease;
 }
 .adicionar-evento:hover {
     transform: scale(1.03);
-     background: linear-gradient(90deg, #a200ff, #00e5ff);
+     background: linear-gradient(135deg,#2659c5,#14326e); 
 
 }
 
@@ -56,7 +56,8 @@
 }
 
 .card-evento {
-    background: linear-gradient(90deg, #a556d3, #15b9cc);
+    background-color: #fff;
+    color: #000;
     border-radius: 20px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     overflow: hidden;
@@ -81,30 +82,24 @@
 }
 
 .info-evento h2 {
-    color: #fff;
+    
     margin-bottom: 4px;
 }
 
-.descricao-evento {
-    color: #ffd900;
-}
-.local,.data {
-    color: #ffd900;
-}
+
 
 .btn-inscricao-evento {
-    border: 1px solid black;
-    background-color: #fcfa92;
-    color: #a200ff;
+    background-color: #1E3B7D;
+    color: #fff;
     padding: 8px 12px;
-    border-radius: 10px;
+    border-radius: 30px;
     text-align: center;
     margin-top: 5px;
     text-decoration: none;
     transition: all 0.3s ease;
 }
 .btn-inscricao-evento:hover {
-    background: #ffd900;
+    background: #15b9cc;
 }
 
 .botoes-evento {    
@@ -114,19 +109,20 @@
 }
 
 .editar-evento, .excluir-evento {
-    border: 1px solid black;
+    border: none;
     font-family: "Poppins", sans-serif;
-    background: #fff;
-    color: #a200ff;
+    background: #ddfdff;
+    color: #14326e;
     text-decoration: none;
     font-size: 15px;
-    border-radius: 8px;
+    border-radius: 30px;
     padding: 6px 12px;
     cursor: pointer;
     display: flex;
     align-items: center;
     gap: 5px;
     transition: all 0.3s ease;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .excluir-evento {
@@ -160,7 +156,7 @@
     top: 50%;
     left: 12px;
     transform: translateY(-50%);
-    color: #a556d3;
+    color: #1E3B7D;
     font-size: 1.1rem;
 }
 
@@ -176,8 +172,7 @@
 }
 
 .barra-pesquisa input:focus {
-    border-color: #a556d3;
-    background: linear-gradient(90deg, #e3ccf8, #c7f5f9);
+    border-color: #15b9cc;
     box-shadow: 0 0 10px rgba(165, 86, 211, 0.3);
     outline: none;
 }

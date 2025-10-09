@@ -55,14 +55,14 @@ export default function EventosGestao() {
     }
   };
 
-  // --- 🔍 FILTROS ---
+ 
   const eventosFiltrados = eventos.filter((evento) => {
-    // Filtro por texto no título
+   
     const correspondeTitulo = evento.titulo
       ?.toLowerCase()
       .includes(filtroTexto.toLowerCase());
 
-    // Converter data
+   
     const dataEvento = evento.dataHora?._seconds
       ? new Date(evento.dataHora._seconds * 1000)
       : new Date(evento.dataHora);
@@ -102,7 +102,7 @@ export default function EventosGestao() {
         </Link>
       </div>
 
-      {/* 🔎 Barra de pesquisa e filtros */}
+      
       <div className="filtros-eventos">
         <div className="barra-pesquisa">
           <FaSearch className="icone-pesquisa" />
@@ -177,7 +177,7 @@ export default function EventosGestao() {
                     rel="noopener noreferrer"
                     className="btn-inscricao-evento"
                   >
-                    Fazer inscrição
+                    Inscrição
                   </a>
                 )}
 

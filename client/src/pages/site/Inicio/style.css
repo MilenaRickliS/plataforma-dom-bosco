@@ -143,7 +143,8 @@
 .sessao-eventos{
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
   padding: 60px 80px;
   gap: 40px;
 }
@@ -151,8 +152,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 30px;
-  min-width: 300px;
+  gap: 25px;
+  min-width: 280px;
+  flex: 1;
 }
 .div-eventos h3{
   font-family: "BM HANNA", sans-serif;
@@ -226,14 +228,15 @@
 }
 
 .eventos-carrossel-wrapper { 
-  flex: 1;
-  max-width: 1000px;
-  padding: 0 20px;
+  flex: 2;
+  width: 100%;
+  max-width: 100%;
+  padding: 0 10px;
   box-sizing: border-box;
 }
 
 .eventos-slider .slick-slide {
-  padding: 0 10px;
+  padding: 0 8px;
 }
 
 .eventos-slider .evento-item { 
@@ -281,6 +284,9 @@
   text-align: center; 
   margin: 14px 6px 18px; 
   line-height: 1.25; 
+}
+.evento-local{
+  color: #161616;
 }
 
 .evento-botao { 
@@ -566,21 +572,24 @@
 
 
 /* responsividade */
+@media (max-width: 1024px) {
+  .sessao-eventos {
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+  }
 
+  .div-eventos h3 {
+    font-size: 36px;
+  }
+
+  .eventos-carrossel-wrapper {
+    padding: 0;
+  }
+}
 @media (max-width: 900px) {
   .inicio-hero { flex-direction: column; text-align: center; }
   .inicio-title { font-size: 2.4rem; }
-  .sessao-eventos{
-    flex-direction: column;
-    padding: 40px 20px;
-    gap: 30px;
-  }
-  .div-eventos h3{
-    font-size: 35px;
-  }
-  .eventos-carrossel-wrapper {
-    max-width: 100%;
-  }
   .sessao-site {
     flex-direction: column;      
     text-align: center;           
@@ -614,14 +623,24 @@
     min-width: 300px;
     max-width: 300px;
   }
+    .evento-titulo {
+    font-size: 0.95rem;
+  }
+
+  .evento-local {
+    font-size: 0.85rem;
+  }
+
+  .evento-botao {
+    font-size: 0.85rem;
+    padding: 8px 18px;
+  }
 }
 @media (max-width: 600px) {
   .inicio-title { font-size: 2rem; }
   .inicio-image { max-width: 380px; }
   .sobre1 div{ flex-direction: column;}
-  .eventos{
-    flex-direction: column;
-  }
+
 }
 @media (max-width: 500px) {
   .convite {

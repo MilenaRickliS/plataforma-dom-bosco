@@ -94,11 +94,7 @@ main {
   margin-left: 15%; 
 }
 .eventos-page {
-  background: linear-gradient(
-    90deg,
-    rgba(165, 86, 211, 1) 25%,
-    rgba(21, 185, 204, 1) 100%
-  );
+  
   flex: 1;
   display: flex;
   flex-direction: column;  
