@@ -265,8 +265,40 @@ main h1{
   color: #8E3838; 
 }
 
+/* proposta */
+.proposta{
+  background-color: #003A91;
+  color: #fff;
+  padding: 20px;
+  margin-top: 25px;
+  
+}
+.proposta h2{
+  color: #fff;
+  font-size: 30px;
+}
+.proposta strong{
+  color: #0AB8F8;
+}
 
-
+/* perguntas */
+.perguntas{
+  padding: 30px;
+  color: #000;
+  font-family: "BM HANNA", sans-serif;
+}
+.perguntas h2{
+  font-size: 30px;
+}
+.perguntas li{
+  list-style: none;
+  font-size: 20px;
+  margin-bottom: 12px;
+}
+.perguntas li:hover{
+  color: #003A91;
+  cursor: pointer;
+}
 
 /* Responsividade */
 @media (max-width: 1024px) {

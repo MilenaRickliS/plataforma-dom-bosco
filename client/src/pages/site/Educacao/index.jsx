@@ -7,6 +7,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import './style.css';
+import { FaLongArrowAltRight } from "react-icons/fa";
 
 export default function Educacao() {
   const sliderRef = useRef(null);
@@ -53,6 +54,32 @@ export default function Educacao() {
           <div className="projetos-carrossel-wrapper">
             <ProjetosCarrossel sliderRef={sliderRef} />
           </div>
+        </section>
+
+        <section className="proposta">
+          <h2>Proposta pedagógica</h2>
+          <p>O Instituto Dom Bosco acredita que <strong>todo jovem tem potencial</strong> e merece crescer em um ambiente cheio de oportunidades. Nossa missão é <strong>educar com amor</strong>, seguindo o jeito salesiano de Dom Bosco: <strong>razão, religião e carinho.</strong></p>
+          <p>Aqui, as crianças e adolescentes encontram:</p>
+          <ul>
+            <li>Apoio nos estudos e reforço escolar;</li>
+            <li>Esporte, arte, música e cultura;</li>
+            <li>Cursos e oficinas para o mundo do trabalho;</li>
+            <li>Momentos de espiritualidade e convivência;</li>
+            <li>Acolhimento e apoio para as famílias.</li>
+          </ul>
+          <p>Mais do que ensinar, queremos formar <strong>cidadãos conscientes, solidários e felizes.</strong> O Instituto é um espaço de <strong>aprendizado, amizade e esperança</strong>, onde cada jovem pode sonhar, acreditar em si e construir um futuro melhor.</p>
+        </section>
+
+        <section className="perguntas">
+          <h2>Perguntas frequentes</h2>
+          <ul>
+            <li><FaLongArrowAltRight /> Como faço para me inscrever em um curso?</li>
+            <li><FaLongArrowAltRight /> Existe idade mínima ou máxima para participar dos cursos?</li>
+            <li><FaLongArrowAltRight /> Posso participar de mais de um curso ao mesmo tempo?</li>
+            <li><FaLongArrowAltRight /> Qual a duração média dos cursos?</li>
+            <li><FaLongArrowAltRight /> Quais documentos são necessários para matrícula?</li>
+            <li><FaLongArrowAltRight /> Como sei se minha matrícula foi confirmada?</li>
+          </ul>
         </section>
       </main>
       <Footer />
