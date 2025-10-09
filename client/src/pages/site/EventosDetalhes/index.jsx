@@ -310,7 +310,7 @@ const fetchEvento = async () => {
                     <IoMdPin /> {e.cidade} - {e.estado}
                   </span>
 
-                  <Link to={`/detalhes-evento/${e.id}`}>Saiba mais!</Link>
+                  <Link to={`/detalhes-evento/${e.id}`}  onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>Saiba mais!</Link>
                 </div>
               );
             })}

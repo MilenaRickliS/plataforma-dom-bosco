@@ -104,7 +104,10 @@ export default function Comunidade() {
 
                   {p.descricao.length > 100 && (
                     <button
-                      onClick={() => toggleDescricao(p.id)}
+                      onClick={() => {
+                      toggleDescricao(p.id);
+                      window.scrollTo({ top: 500, behavior: "smooth" });
+                    }}
                       className="btn-lermais"
                     >
                       {abertos[p.id] ? "Mostrar menos -" : "Ler mais +"}

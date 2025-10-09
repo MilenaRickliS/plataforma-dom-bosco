@@ -35,7 +35,10 @@ export default function Header() {
             key={link.path}
             className={`link ${location.pathname === link.path ? "active" : ""}`}
             to={link.path}
-            onClick={() => setMenuOpen(false)}
+            onClick={() => {
+              setMenuOpen(false);
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
           >
             {location.pathname === link.path ? <PiStarFourFill /> : <PiStarFourBold />}
             {link.label}
@@ -43,7 +46,10 @@ export default function Header() {
         ))}
 
         {!signed ? (
-          <Link className="login" to="/login" onClick={() => setMenuOpen(false)}>
+          <Link className="login" to="/login" onClick={() => {
+            setMenuOpen(false);
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}>
             LOGIN <MdOutlineArrowCircleRight />
           </Link>
         ) : (

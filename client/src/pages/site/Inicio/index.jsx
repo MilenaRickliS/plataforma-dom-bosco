@@ -188,7 +188,7 @@ export default function Inicio() {
               </div>
             </div>
             <br/>
-            <Link to="/sobre" className="link-sobre">Conheça mais sobre nós! Clique aqui!</Link>
+            <Link to="/sobre" className="link-sobre"  onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>Conheça mais sobre nós! Clique aqui!</Link>
           </div>
         </section>
 

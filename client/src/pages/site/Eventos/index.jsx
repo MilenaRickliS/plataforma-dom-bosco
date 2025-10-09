@@ -195,7 +195,7 @@ const proximosEventos = eventos
                         às {data.toLocaleTimeString("pt-BR", { timeStyle: "short" })}<br />
                         <IoMdPin /> {evento.cidade} - {evento.estado}
                       </p>
-                      <Link to={`/detalhes-evento/${evento.id}`} className="link-prox">
+                      <Link to={`/detalhes-evento/${evento.id}`} className="link-prox"  onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
                         Saiba mais!
                       </Link>
                     </div>
@@ -295,7 +295,7 @@ const proximosEventos = eventos
                       <br />
                       <IoMdPin /> {evento.cidade} - {evento.estado}
                     </span>
-                    <Link to={`/detalhes-evento/${evento.id}`}>Saiba mais!</Link>
+                    <Link to={`/detalhes-evento/${evento.id}`}  onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>Saiba mais!</Link>
                   </div>
                 );
               })

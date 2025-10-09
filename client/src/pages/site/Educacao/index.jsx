@@ -49,7 +49,7 @@ export default function Educacao() {
                 <IoArrowForwardCircleOutline size={50} />
               </button>
             </div>
-            <Link to="/projetos&oficinas" className="link-proj">Ver todos</Link>
+            <Link to="/projetos&oficinas" className="link-proj"  onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>Ver todos</Link>
           </div>
           <div className="projetos-carrossel-wrapper">
             <ProjetosCarrossel sliderRef={sliderRef} />
@@ -136,7 +136,7 @@ function ProjetosCarrossel({ sliderRef }) {
             <img src={proj.imagem} alt={proj.titulo} className="projeto-imagem" />
           </div>
           <h4 className="projeto-titulo">{proj.titulo}</h4>
-          <Link to={proj.link} className="projeto-botao">Ver mais</Link>
+          <Link to={proj.link} className="projeto-botao"  onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>Ver mais</Link>
         </div>
       ))}
     </Slider>

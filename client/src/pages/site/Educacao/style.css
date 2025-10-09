@@ -98,6 +98,7 @@ main h1{
 /* Seção de Projetos */
 .sessao-projetos {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
   padding: 60px 80px;
