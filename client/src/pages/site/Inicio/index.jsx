@@ -222,7 +222,7 @@ export default function Inicio() {
           <div className="titulo-depoimento">
             <h2>Depoimentos</h2>
             <button
-              onClick={() => document.getElementById("form-depoimento").scrollIntoView({ behavior: "smooth" })} className="enviar-depoimento">
+              className="enviar-depoimento" onClick={() => window.scrollTo({ top: 3400, behavior: "smooth" })}>
               Deixe um depoimento!
             </button>
           </div>
@@ -394,7 +394,7 @@ function EventosCarrossel({ sliderRef }) {
                       <span>{curtidas}</span>
                     </div>
                       <p className="evento-local">
-                        <FaCalendarAlt />{data.toLocaleDateString("pt-BR", { dateStyle: "medium" })}{" "}
+                        <FaCalendarAlt /> {data.toLocaleDateString("pt-BR", { dateStyle: "medium" })}{" "}
                         às {data.toLocaleTimeString("pt-BR", { timeStyle: "short" })}<br />
                         <IoMdPin /> {ev.cidade} - {ev.estado}
                       </p>

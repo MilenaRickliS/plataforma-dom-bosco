@@ -144,7 +144,7 @@ export default function ComunidadeGestao() {
       </Link>
 
       <div className="container-gestao-projetos">
-        <h1>Projetos sociais e voluntariado</h1>
+        <br/><h1>Projetos sociais e voluntariado</h1>
 
         <form onSubmit={handleSubmit} className="form-projeto">
           <input

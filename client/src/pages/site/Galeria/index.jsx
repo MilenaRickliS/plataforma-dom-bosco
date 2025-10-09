@@ -84,7 +84,10 @@ export default function Galeria() {
               <div className="galeria-pagination">
                 <button
                   className="pagination-btn"
-                  onClick={goToPreviousPage}
+                  onClick={() => {
+                    goToPreviousPage();
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }}
                   disabled={currentPage === 1}
                 >
                   <IoIosArrowBack /> Anterior
@@ -96,7 +99,10 @@ export default function Galeria() {
 
                 <button
                   className="pagination-btn"
-                  onClick={goToNextPage}
+                  onClick={() => {
+                    goToNextPage();
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }}
                   disabled={currentPage === totalPages}
                 >
                   Próxima <IoIosArrowForward />
