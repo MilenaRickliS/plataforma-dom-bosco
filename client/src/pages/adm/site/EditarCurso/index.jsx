@@ -4,6 +4,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import Toast from "../../../../components/Toast";
 import { IoIosArrowBack } from "react-icons/io";
 import "./style.css";
+import { FiUpload } from "react-icons/fi";
 
 const countWords = (t = "") => t.trim().split(/\s+/).filter(Boolean).length;
 
@@ -141,6 +142,9 @@ export default function EditarCurso() {
       <Link to="/cursos-gestao" className="voltar-para-menu">
         <IoIosArrowBack /> Voltar
       </Link>
+      <br/>
+      <br/>
+      <br/>
       <h1>Editar Curso</h1>
 
       <form onSubmit={salvar} className="form-curso">
@@ -280,9 +284,14 @@ export default function EditarCurso() {
             })}
           </div>
         </div>
-
+        
+                
         <label>Adicionar novas imagens (máx. total 5):</label>
-        <input type="file" accept="image/*" multiple onChange={addNewImgs} />
+        <label htmlFor="file-upload" className="upload-label-curso">
+                  <FiUpload size={20} />
+                  Selecionar fotos
+        </label>
+        <input id="file-upload" type="file" accept="image/*" multiple onChange={addNewImgs} style={{ display: "none" }}/>
         {previewsNovas.length > 0 && (
           <div className="grid-previews">
             {previewsNovas.map((src, i) => (
@@ -306,7 +315,7 @@ export default function EditarCurso() {
 
 
 
-        <button type="submit" className="btn-salvar">
+        <button type="submit" className="btn-salvar-curso">
           Salvar alterações
         </button>
       </form>

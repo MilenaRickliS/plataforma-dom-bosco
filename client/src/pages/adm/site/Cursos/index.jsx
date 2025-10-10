@@ -4,6 +4,8 @@ import axios from "axios";
 import { IoIosArrowBack } from "react-icons/io";
 import Toast from "../../../../components/Toast";
 import "./style.css";
+import { MdOutlineEdit } from "react-icons/md";
+import { FaRegTrashAlt } from "react-icons/fa";
 
 export default function CursosGestao() {
   const [cursos, setCursos] = useState([]);
@@ -34,15 +36,15 @@ export default function CursosGestao() {
   };
 
   return (
-    <div className="gestao-container">
+    <div className="container-cursos">
       <Toast message={toast.message} type={toast.type} onClose={() => setToast({ message: "" })} />
       <Link to="/menu-gestao" className="voltar-para-menu">
         <IoIosArrowBack /> Voltar
       </Link>
 
-      <div className="header-cursos">
-        <h1>Cursos</h1>
-        <Link to="/criar-curso" className="btn-adicionar">+ Adicionar Curso</Link>
+      <div className="inicio-cursos">
+        <br/><h1>Cursos</h1>
+        <Link to="/criar-curso" className="adicionar-curso">+ Adicionar Curso</Link>
       </div>
 
       <div className="lista-cursos">
@@ -58,11 +60,12 @@ export default function CursosGestao() {
                 <span className="badge">{curso.tipo}</span>
                 <span className="badge">{curso.duracao}</span>
               </div>
-              <div className="acoes">
-                <button onClick={() => navigate(`/editar-curso/${curso.id}`)}>Editar</button>
-                <button className="danger" onClick={() => excluir(curso.id)}>Excluir</button>
-              </div>
-              <Link to={`/detalhes-curso-gestao/${curso.id}`}>Ver Detalhes</Link>
+              
+              <Link to={`/detalhes-curso-gestao/${curso.id}`} className="ver-detalhes-cursos">Ver Detalhes</Link>
+              <div className="acoes-curso">
+                <button onClick={() => navigate(`/editar-curso/${curso.id}`)}><MdOutlineEdit /> Editar</button>
+                <button className="danger" onClick={() => excluir(curso.id)}><FaRegTrashAlt /> Excluir</button>
+              </div>  
             </div>
           </div>
         ))}

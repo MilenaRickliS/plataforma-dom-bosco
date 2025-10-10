@@ -9,7 +9,7 @@
 
 .criar-curso h1 {
   text-align: center;
-  color: #0b245e;
+  color: #2575fc;
   margin-bottom: 20px;
   font-weight: 700;
 }
@@ -61,7 +61,7 @@
 }
 
 
-.upload-label {
+.upload-label-curso {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -77,8 +77,8 @@
   transition: all 0.3s ease;
 }
 
-.upload-label:hover {
-  background: linear-gradient(135deg, #1F4396, #0b245e);
+.upload-label-curso:hover {
+  background-color: #14326e;
   color: #fff;
 }
 
@@ -147,17 +147,36 @@
   font-size: 0.95rem;
   color: #333;
   transition: all 0.2s ease;
+  position: relative;
+  user-select: none;
 }
 
 .checkbox-item input[type="checkbox"] {
+    appearance: none;
+  -webkit-appearance: none;
   width: 18px;
   height: 18px;
-  accent-color: #2659c5; 
+   
+  border: 2px solid #888;
+   background-color: #fff;
   cursor: pointer;
   border-radius: 6px;
   transition: all 0.2s ease;
+  position: relative;
+  
 }
-
+.checkbox-item input[type="checkbox"]:checked {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+.checkbox-item input[type="checkbox"]:checked::after {
+  content: "✓";
+  color: #fff;
+  font-size: 14px;
+  position: absolute;
+  top: 1px;
+  left: 4px;
+}
 .checkbox-item:hover {
   background-color: #f0f4ff;
   border-radius: 6px;
@@ -168,8 +187,8 @@
 }
 
 
-.btn-salvar {
-  background: linear-gradient(135deg, #1F4396, #0b245e);
+.btn-salvar-curso {
+  background-color: #2575fc;
   color: #fff;
   padding: 12px;
   border-radius: 30px;
@@ -181,7 +200,7 @@
   transition: all 0.3s ease;
 }
 
-.btn-salvar:hover {
+.btn-salvar-curso:hover {
   transform: scale(1.03);
   background: linear-gradient(135deg, #2659c5, #14326e);
 }

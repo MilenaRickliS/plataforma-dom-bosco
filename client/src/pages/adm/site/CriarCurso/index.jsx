@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
 import Toast from "../../../../components/Toast";
 import "./style.css";
+import { FiUpload } from "react-icons/fi";
 
 const REGEX_ALFA_NUM_COM_ACENTO = /^[A-Za-zÀ-ÖØ-öø-ÿ0-9\s.,;:()\-_/&+ºª°'"!?]+$/u;
 const REGEX_SO_LETRAS_COM_ACENTO = /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/u;
@@ -145,12 +146,16 @@ export default function CriarCurso() {
       <Link to="/cursos-gestao" className="voltar-para-menu">
         <IoIosArrowBack /> Voltar
       </Link>
-
+      <br/>
+      <br/>
+      <br/>
       <h1>Novo Curso</h1>
       <form onSubmit={handleSubmit} className="form-curso">
+        <label>Nome do curso:</label>
         <input type="text" name="nome" placeholder="Nome do curso" onChange={handleChange} required />
-       
+        <label>Descrição:</label>
         <div className="descricao-container">
+          
           <textarea name="descricao" placeholder="Descrição (mín. 15 palavras)" onChange={handleChange} required  />
           <span
             className={`contador-palavras ${
@@ -160,18 +165,20 @@ export default function CriarCurso() {
             {countWords(form.descricao)} / 15 palavras
           </span>
         </div>
-
+        <label>Característica:</label>    
         <input type="text" name="caracteristica" placeholder="Característica" onChange={handleChange} required />
+        <label>Duração:</label>
         <input type="text" name="duracao" placeholder="Duração" onChange={handleChange} required />
-
+         <label>Tipo:</label>   
         <select name="tipo" onChange={handleChange} required>
           <option value="">Selecione o tipo</option>
           <option value="Diurno">Diurno</option>
           <option value="Noturno">Noturno</option>
           <option value="Integral">Integral</option>
         </select>
-
+        <label>Link Inscrição:</label>    
         <input type="url" name="linkInscricao" placeholder="Link de inscrição" onChange={handleChange} required />
+         <label>Por que fazer esse curso?</label>
          <div className="descricao-container">
           <textarea
             name="porqueFazer"
@@ -185,10 +192,10 @@ export default function CriarCurso() {
             {countWords(form.porqueFazer)} / 15 palavras
           </span>
         </div>  
-
+        <label>Por que escolher esse curso no Instituto?</label>
         <div className="descricao-container">
           <textarea
-            name="porqueEscolher" placeholder="Por que escolher este curso? (mín. 15 palavras)" onChange={handleChange} required 
+            name="porqueEscolher" placeholder="Por que escolher este curso no Instituto? (mín. 15 palavras)" onChange={handleChange} required 
           />
           <span
             className={`contador-palavras ${
@@ -198,10 +205,10 @@ export default function CriarCurso() {
             {countWords(form.porqueFazer)} / 15 palavras
           </span>
         </div>  
-
+        <label>O que vai aprender com o curso?</label>
         <div className="descricao-container">
           <textarea
-            name="oqueAprender" placeholder="O que vai aprender? (mín. 15 palavras)" onChange={handleChange} required 
+            name="oqueAprender" placeholder="O que vai aprender com o curso? (mín. 15 palavras)" onChange={handleChange} required 
           />
           <span
             className={`contador-palavras ${
@@ -211,7 +218,7 @@ export default function CriarCurso() {
             {countWords(form.porqueFazer)} / 15 palavras
           </span>
         </div>  
-
+        <label>Oportunidades:</label>    
         <div className="descricao-container">
           <textarea
             name="oportunidades" placeholder="Oportunidades (mín. 15 palavras)" onChange={handleChange} required 
@@ -227,6 +234,9 @@ export default function CriarCurso() {
     
 
         <label>Corpo docente (mín. 3):</label>
+        <p className="contador-docentes">
+          Selecionados: {form.corpoDocente?.length || 0} / mínimo 3
+        </p>
         <div className="checkbox-group-docentes">
           {docentes.map((doc) => (
             <label key={doc.id} className="checkbox-item">
@@ -248,34 +258,54 @@ export default function CriarCurso() {
             </label>
           ))}
         </div>
+        
 
 
 
-        <label>Imagens do curso (máx. 5):</label>
-        <input type="file" multiple accept="image/*" onChange={handleImgs} />
+        <label>Imagens do espaço do curso (máx. 5):</label>
+
+        <label htmlFor="file-upload" className="upload-label-curso">
+          <FiUpload size={20} />
+          Selecionar fotos
+        </label>
+
+        <input
+          id="file-upload"
+          type="file"
+          multiple
+          accept="image/*"
+          onChange={handleImgs}
+          style={{ display: "none" }}
+        />
 
         {previews.length > 0 && (
           <div className="grid-previews">
             {previews.map((src, idx) => (
               <div className="preview-item" key={idx}>
                 <img src={src} alt={`preview-${idx}`} />
-                <button type="button" onClick={() => removePreview(idx)}>Remover</button>
+                <button
+                  type="button"
+                  className="btn-remover-img"
+                  onClick={() => removePreview(idx)}
+                >
+                  Remover
+                </button>
               </div>
             ))}
           </div>
-        )}
+        )}         
 
         
-        <label>Link da Matriz Curricular (Google Drive ou outro) — opcional</label>
+        <label>Link da Matriz Curricular — opcional</label>
         <input
           type="url"
           name="matrizLink"
-          placeholder="Ex: https://drive.google.com/file/d/..."
+          placeholder="Link matriz curricular"
           onChange={handleChange}
         />
 
 
-        <button type="submit" className="btn-salvar">Salvar Curso</button>
+        <button type="submit" className="btn-salvar-curso">Salvar Curso</button>
       </form>
     </div>
   );
