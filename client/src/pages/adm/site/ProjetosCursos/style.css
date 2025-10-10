@@ -294,7 +294,7 @@
 .card-projeto-curso-gestao.ativo h3 {
   font-size: 1.6rem;
   margin-top: 10px;
-  color: #1E3B7D;
+  color: #8E3838;
 }
 .card-projeto-curso-gestao.ativo p {
   font-size: 1rem;
@@ -398,36 +398,47 @@
 }
 
 /* Barra de pesquisa */
-.filtros-gestao {
+.filtros-projetos {
   display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
   justify-content: center;
   align-items: center;
-  margin: 20px auto;
+  margin: 25px auto 15px;
   width: 100%;
-  max-width: 700px;
+  max-width: 800px;
+  padding: 10px;
+  opacity: 1;
+  transition: opacity 0.3s ease;
 }
-
+.grid-projetos-curso.modo-destaque ~ .filtros-projetos {
+  opacity: 0;
+  pointer-events: none;
+}
 .input-wrapper {
   position: relative;
-  width: 100%;
+  flex: 1;
+  min-width: 250px;
 }
 
-.input-filtro {
-  width: 100%;
-  padding: 10px 14px 10px 38px;
+.input-filtro-projetos {
+    width: 100%;
+  padding: 10px 14px 10px 38px; 
   border: 1px solid #ccc;
   border-radius: 8px;
   font-family: "Poppins", sans-serif;
   font-size: 0.95rem;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  color: #000;
+  background-color: #fff;
+  box-sizing: border-box;
 }
 
-.input-filtro:focus {
-  border-color: #00c3ff;
-  box-shadow: 0 0 5px rgba(0, 195, 255, 0.3);
+.input-filtro-projetos:focus {
+  border-color: #8c2f2f;
+  box-shadow: 0 0 5px rgba(255, 38, 0, 0.3);
   outline: none;
 }
-
 .icone-pesquisa {
   position: absolute;
   left: 12px;
@@ -435,8 +446,15 @@
   transform: translateY(-50%);
   color: #555;
   font-size: 18px;
-  pointer-events: none;
+  pointer-events: none; 
+  transition: color 0.3s ease;
 }
+
+.input-filtro:focus + .icone-pesquisa {
+  color: #00c3ff;
+}
+
+
 .select-wrapper {
   position: relative;
   display: inline-block;
@@ -463,8 +481,8 @@
 }
 
 .select-filtro-curso:hover {
-  border-color: #00c3ff;
-  box-shadow: 0 0 4px rgba(56, 132, 142, 0.4);
+ border-color: #8c2f2f;
+  box-shadow: 0 0 5px rgba(255, 38, 0, 0.3);
 }
 
 .select-filtro-curso:focus {

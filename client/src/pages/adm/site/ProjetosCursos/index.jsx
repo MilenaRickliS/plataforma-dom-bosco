@@ -149,6 +149,23 @@ export default function ProjetosCursosGestao() {
 
     return tituloMatch && cursoMatch;
   });
+    const getCursoCor = (curso) => {
+    switch (curso) {
+      case "Música":
+        return "#df7d80ff"; 
+      case "Esportes":
+        return "#f7971e"; 
+      case "Informática":
+        return "#43cea2"; 
+      case "Pré-aprendizagem":
+        return "#ff512f"; 
+      case "Jovem Aprendiz":
+        return " #6a11cb"; 
+      default:
+        return "#555"; 
+    }
+  };
+
 
 
 
@@ -238,7 +255,7 @@ export default function ProjetosCursosGestao() {
                     placeholder="Pesquisar projeto por nome..."
                     value={filtro}
                     onChange={(e) => setFiltro(e.target.value)}
-                    className="input-filtro"
+                    className="input-filtro-projetos"
                   />
                 </div>
                 <div className="select-wrapper">
@@ -272,11 +289,12 @@ export default function ProjetosCursosGestao() {
                 className={`card-projeto-curso-gestao ${
                   abertos[p.id] ? "ativo" : ""
                 }`}
+                style={{ borderTop: `6px solid ${getCursoCor(p.curso)}` }}
               >
+                <p className="curso" style={{ color: getCursoCor(p.curso) }}>{p.curso}</p>
                 <img src={p.imagemUrl} alt={p.titulo} />
-                <h3>{p.titulo}</h3>
-                <p>{p.curso}</p>
-                <small className="data-projeto-curso">
+                <h3 style={{ color: getCursoCor(p.curso) }}>{p.titulo}</h3>
+                <small className="data-projeto-curso" style={{ color: getCursoCor(p.curso) }}>
                   Realizado em{" "}
                   {new Date(p.dataProjeto).toLocaleDateString("pt-BR")}
                 </small>
@@ -300,6 +318,7 @@ export default function ProjetosCursosGestao() {
                       window.scrollTo({ top: window.scrollY - 100, behavior: "smooth" });
                     }}
                     className="btn-lermais-curso"
+                    style={{ color: getCursoCor(p.curso) }}
                   >
                     {abertos[p.id] ? "Mostrar menos" : "Ler mais"}
                   </button>
