@@ -25,6 +25,7 @@ export default function ProjetosCursosGestao() {
   const [toast, setToast] = useState(null);
   const [filtro, setFiltro] = useState("");
   const [filtroCurso, setFiltroCurso] = useState("");
+  const [contagemPalavras, setContagemPalavras] = useState(0);
 
 
   const fetchProjetosCursos = async () => {
@@ -183,8 +184,17 @@ export default function ProjetosCursosGestao() {
               <textarea
                 placeholder="Descrição detalhada (mínimo 50 palavras)"
                 value={descricao}
-                onChange={(e) => setDescricao(e.target.value)}
+                onChange={(e) => {
+                  const texto = e.target.value;
+                  setDescricao(texto);
+                  const palavras = texto.trim().split(/\s+/).filter(Boolean);
+                  setContagemPalavras(palavras.length);
+                }}
               />
+
+              <div className={`contador-palavras ${contagemPalavras < 50 ? "incompleto" : "ok"}`}>
+                {contagemPalavras} / 50 palavras mínimas
+              </div>
             
               <div className="campo-data-hora">
                   <FaRegCalendarAlt className="icone-calendario" />
@@ -231,19 +241,22 @@ export default function ProjetosCursosGestao() {
                     className="input-filtro"
                   />
                 </div>
-
-                <select
+                <div className="select-wrapper">
+                  <select
                   className="select-filtro-curso"
                   value={filtroCurso}
                   onChange={(e) => setFiltroCurso(e.target.value)}
                 >
-                  <option value="">Todos os cursos <IoIosArrowDown /></option>
+                  <option value="">Todos os cursos</option>
                   <option value="Música">Música</option>
                   <option value="Esportes">Esportes</option>
                   <option value="Informática">Informática</option>
                   <option value="Pré-aprendizagem">Pré-aprendizagem</option>
                   <option value="Jovem Aprendiz">Jovem Aprendiz</option>
                 </select>
+                <IoIosArrowDown className="icone-select" />
+                </div>
+                
               </div>
 
 

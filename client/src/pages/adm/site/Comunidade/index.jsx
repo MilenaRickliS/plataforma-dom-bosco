@@ -22,6 +22,8 @@ export default function ComunidadeGestao() {
   const [abertos, setAbertos] = useState({});
   const [toast, setToast] = useState(null);
   const [filtro, setFiltro] = useState("");
+  const [contagemPalavras, setContagemPalavras] = useState(0);
+
 
   const fetchProjetos = async () => {
     try {
@@ -157,8 +159,18 @@ export default function ComunidadeGestao() {
           <textarea
             placeholder="Descrição detalhada (mínimo 50 palavras)"
             value={descricao}
-            onChange={(e) => setDescricao(e.target.value)}
+            onChange={(e) => {
+              const texto = e.target.value;
+              setDescricao(texto);
+              const palavras = texto.trim().split(/\s+/).filter(Boolean);
+              setContagemPalavras(palavras.length);
+            }}
           />
+
+          <div className={`contador-palavras ${contagemPalavras < 50 ? "incompleto" : "ok"}`}>
+            {contagemPalavras} / 50 palavras mínimas
+          </div>
+
 
           <div className="campo-data-hora">
               <FaRegCalendarAlt className="icone-calendario" />

@@ -384,6 +384,18 @@
 .btn-excluir:hover {
   transform: scale(1.05);
 }
+.descricao-projeto-curso {
+  white-space: pre-wrap; 
+  color: #000;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.95rem;
+  text-align: justify;
+}
+.descricao-projeto-curso br + br {
+  margin-bottom: 6px;
+  display: block;
+  content: "";
+}
 
 /* Barra de pesquisa */
 .filtros-gestao {
@@ -425,6 +437,10 @@
   font-size: 18px;
   pointer-events: none;
 }
+.select-wrapper {
+  position: relative;
+  display: inline-block;
+}
 .select-filtro-curso {
   font-family: "Poppins", sans-serif;
   margin-left: 10px;
@@ -455,20 +471,16 @@
   border-color: #e9d527;
   box-shadow: 0 0 5px rgba(233, 213, 39, 0.6);
 }
+.icone-select {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #333;
+}
 
 
-.descricao-projeto-curso {
-  white-space: pre-wrap; 
-  color: #000;
-  font-family: "Poppins", sans-serif;
-  font-size: 0.95rem;
-  text-align: justify;
-}
-.descricao-projeto-curso br + br {
-  margin-bottom: 6px;
-  display: block;
-  content: "";
-}
 @media (max-width: 470px) {
     .filtros-gestao{
         flex-direction: column;
