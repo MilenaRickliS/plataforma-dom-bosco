@@ -57,7 +57,7 @@ router.post("/", upload.single("imagem"), async (req, res) => {
       temInscricao: inscricao,
       linkInscricao: inscricao ? linkInscricao || "" : "",
       descricao,
-      dataHora: new Date(dataHora),
+      dataHora,
       curtidas: 0, 
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
     });
@@ -149,7 +149,7 @@ router.put("/:id", upload.single("imagem"), async (req, res) => {
     }
 
     const inscricao = temInscricao === "true" || temInscricao === true;
-    const dataConvertida = dataHora ? new Date(dataHora) : null;
+    
 
     await eventoRef.update({
       titulo,
@@ -163,7 +163,7 @@ router.put("/:id", upload.single("imagem"), async (req, res) => {
       linkInscricao: inscricao ? linkInscricao || "" : "",
       descricao,
       imagemUrl,
-      dataHora: dataConvertida,
+      dataHora,
       updatedAt: admin.firestore.FieldValue.serverTimestamp(),
       
       curtidas: eventoAtual.data().curtidas || 0,

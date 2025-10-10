@@ -47,10 +47,7 @@ export default function CriarEventoGestao() {
                 .toISOString()
                 .slice(0, 16);
             } else if (evento.dataHora) {
-              const parsed = new Date(evento.dataHora);
-              if (!isNaN(parsed)) {
-                dataFormatada = parsed.toISOString().slice(0, 16);
-              }
+              dataFormatada = evento.dataHora;
             }
 
             setForm({
@@ -271,13 +268,14 @@ export default function CriarEventoGestao() {
 
         <div className="campo-data-hora">            
             <DatePicker
-                selected={form.dataHora ? new Date(form.dataHora) : null}
+                selected={form.dataHora ? new Date(form.dataHora.replace("T", " ")) : null}
+
                 onChange={(date) => {
-                const local = new Date(date.getTime() - date.getTimezoneOffset() * 60000)
-                  .toISOString()
-                  .slice(0, 16);
-                setForm((prev) => ({ ...prev, dataHora: local }));
-              }}
+                  if (!date) return;
+                  const local = date.toLocaleString("sv-SE", { hour12: false }).slice(0, 16);
+                  setForm((prev) => ({ ...prev, dataHora: local }));
+                }}
+
 
 
                 showTimeSelect

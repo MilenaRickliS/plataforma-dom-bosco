@@ -63,7 +63,9 @@ import CriarEventos from '../pages/adm/site/CriarEventos';
 import ProjetosCursosGestao from '../pages/adm/site/ProjetosCursos';
 import ComunidadeGestao from '../pages/adm/site/Comunidade';
 import CursosGestao from '../pages/adm/site/Cursos';
-import CursosDetalhesGestao from '../pages/adm/site/CursosDetalhes';
+import CriarCurso from '../pages/adm/site/CriarCurso';
+import EditarCurso from '../pages/adm/site/EditarCurso';
+import DetalhesCurso from "../pages/adm/site/DetalhesCurso";
 
 
 function RoutesApp(){
@@ -74,7 +76,7 @@ function RoutesApp(){
       <Route path="/sobre" element={<Sobre/>}/>
       <Route path="/galeria" element={<Galeria/>}/>
       <Route path="/educacao" element={<Educacao/>}/>
-      <Route path="/detalhes-curso" element={<CursosDetalhes/>}/>
+      <Route path="/detalhes-curso/:id" element={<CursosDetalhes/>}/>
       <Route path="/projetos&oficinas" element={<ProjetosCursos/>}/>
       <Route path="/comunidade" element={<Comunidade/>}/>
       <Route path="/eventos" element={<Eventos/>}/>
@@ -97,7 +99,9 @@ function RoutesApp(){
       <Route path="/projetos-de-cursos-gestao" element={ <Private rota="admin"><ProjetosCursosGestao/></Private> } />
       <Route path="/comunidade-gestao" element={ <Private rota="admin"><ComunidadeGestao/></Private> } />
       <Route path="/cursos-gestao" element={ <Private rota="admin"><CursosGestao/></Private> } />
-      <Route path="/detalhes-curso-gestao" element={ <Private rota="admin"><CursosDetalhesGestao/></Private> } />
+      <Route path="/criar-curso" element={ <Private rota="admin"><CriarCurso/></Private> } />
+      <Route path="/editar-curso/:id" element={<EditarCurso />} />
+      <Route path="/detalhes-curso-gestao/:id" element={<DetalhesCurso />} />
 
       <Route path="/inicio-aluno" element={ <Private rota="aluno"><InicioAluno/></Private> } />
       <Route path="/agenda-aluno" element={ <Private rota="aluno"><AgendaAluno/></Private> } />
