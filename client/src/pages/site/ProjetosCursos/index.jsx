@@ -3,7 +3,7 @@ import Footer from "../../../components/site/Footer";
 import './style.css';
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 
 export default function ProjetosCursos() {
@@ -13,7 +13,10 @@ export default function ProjetosCursos() {
   const porPagina = 6; 
   const [filtroNome, setFiltroNome] = useState("");
 
-  const [categoriaSelecionada, setCategoriaSelecionada] = useState("Música");
+  const location = useLocation();
+  const categoriaInicial = location.state?.categoria || "Música"; 
+  const [categoriaSelecionada, setCategoriaSelecionada] = useState(categoriaInicial);
+
   const categorias = [
     { nome: "Música", icone: "/src/assets/site/violao.png" },
     { nome: "Esportes", icone: "/src/assets/site/bolaicone.png" },
@@ -28,6 +31,7 @@ export default function ProjetosCursos() {
       const ordenados = res.data.sort((a, b) => new Date(b.dataProjeto) - new Date(a.dataProjeto));
       setProjetos(ordenados);
     });
+    window.history.replaceState({}, document.title);
   }, []);
 
   const filtrados = projetos.filter(
