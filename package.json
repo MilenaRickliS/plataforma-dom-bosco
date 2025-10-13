@@ -1,0 +1,9 @@
+{
+  "name": "plataforma-dom-bosco",
+  "private": true,
+  "workspaces": ["client", "server"],
+  "scripts": {
+    "dev": "cd client && npm run dev",
+    "build": "cd client && npm run build"
+  }
+}
