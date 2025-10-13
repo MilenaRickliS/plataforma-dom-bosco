@@ -5,9 +5,14 @@
 }
 .titulo-curso{
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
     color: black;
+}
+.detalhes-basicos{
+    display: flex;
+    gap: 15px;
 }
 .btn-inscricao-curso{
     background-color: #fff;

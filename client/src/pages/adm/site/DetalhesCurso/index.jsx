@@ -72,9 +72,9 @@ export default function DetalhesCurso() {
             </div>
             
             <div className="detalhes-basicos">
-                <p><strong><IoSchoolSharp /> Característica:</strong> <br/>{curso.caracteristica}</p>
-                <p><strong><FaRegClock /> Duração:</strong><br/> {curso.duracao}</p>
-                <p><strong><IoIosSunny /> Tipo:</strong> <br/>{curso.tipo}</p>
+                <p><strong><IoSchoolSharp /> Característica</strong> <br/>{curso.caracteristica}</p>
+                <p><strong><FaRegClock /> Duração</strong><br/> {curso.duracao}</p>
+                <p><strong><IoIosSunny /> Tipo</strong> <br/>{curso.tipo}</p>
             </div>
         </div>
         <br/>
