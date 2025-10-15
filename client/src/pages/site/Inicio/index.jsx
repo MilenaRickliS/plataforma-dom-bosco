@@ -34,7 +34,7 @@ export default function Inicio() {
   
 
   useEffect(() => {
-  fetch("https://plataforma-dom-bosco-guarapuava.vercel.app/api/depoimentos")
+  fetch("http://localhost:5000/api/depoimentos")
     .then(res => {
       if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
       return res.json();
@@ -110,7 +110,7 @@ export default function Inicio() {
       return;
     }
     try {
-      const res = await fetch("https://plataforma-dom-bosco-guarapuava.vercel.app/api/depoimentos", {
+      const res = await fetch("http://localhost:5000/api/depoimentos", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
@@ -407,5 +407,3 @@ function EventosCarrossel({ sliderRef }) {
     </Slider>
   );
 }
-
-
