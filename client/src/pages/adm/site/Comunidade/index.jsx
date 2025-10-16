@@ -23,7 +23,8 @@ export default function ComunidadeGestao() {
   const [toast, setToast] = useState(null);
   const [filtro, setFiltro] = useState("");
   const [contagemPalavras, setContagemPalavras] = useState(0);
-  const API = import.meta.env.VITE_API_URL;
+  const API = import.meta.env.VITE_API_URL || "https://plataforma-dom-bosco-backend-krq4dua7f-milenaricklis-projects.vercel.app";
+
 
 
   const fetchProjetos = async () => {

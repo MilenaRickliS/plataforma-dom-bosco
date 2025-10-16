@@ -6,7 +6,8 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import './style.css';
 
 export default function Galeria() {
-  const API = import.meta.env.VITE_API_URL;
+  const API = import.meta.env.VITE_API_URL || "https://plataforma-dom-bosco-backend-krq4dua7f-milenaricklis-projects.vercel.app";
+
   const [fotos, setFotos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);

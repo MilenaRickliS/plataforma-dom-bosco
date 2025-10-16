@@ -11,7 +11,8 @@ import { FaLongArrowAltRight } from "react-icons/fa";
 import axios from "axios";
 
 export default function Educacao() {
-  const API = import.meta.env.VITE_API_URL;
+  const API = import.meta.env.VITE_API_URL || "https://plataforma-dom-bosco-backend-krq4dua7f-milenaricklis-projects.vercel.app";
+
   const sliderRef = useRef(null);
 
   const cursos = [
@@ -104,6 +105,8 @@ export default function Educacao() {
 }
 
 function ProjetosCarrossel({ sliderRef }) {
+  const API = import.meta.env.VITE_API_URL || "https://plataforma-dom-bosco-backend-krq4dua7f-milenaricklis-projects.vercel.app";
+
   const [projetos, setProjetos] = useState([]);
     const getCursoCor = (curso) => {
       switch (curso) {

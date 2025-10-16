@@ -20,7 +20,8 @@ import { PiHeartDuotone } from "react-icons/pi";
 
 
 export default function Sobre() {
-  const API = import.meta.env.VITE_API_URL;
+  const API = import.meta.env.VITE_API_URL || "https://plataforma-dom-bosco-backend-krq4dua7f-milenaricklis-projects.vercel.app";
+
   const [equipe, setEquipe] = useState([]);
   
   const NextArrow = ({ onClick }) => (

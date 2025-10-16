@@ -14,7 +14,8 @@ import { FaSearch } from "react-icons/fa";
 
 export default function Comunidade() {
   
-  const API = import.meta.env.VITE_API_URL;
+  const API = import.meta.env.VITE_API_URL || "https://plataforma-dom-bosco-backend-krq4dua7f-milenaricklis-projects.vercel.app";
+
   const [projetos, setProjetos] = useState([]);
   const [paginaAtual, setPaginaAtual] = useState(1);
   const [abertos, setAbertos] = useState({}); 

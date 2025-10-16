@@ -12,7 +12,8 @@ const REGEX_SO_LETRAS_COM_ACENTO = /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/u;
 const countWords = (t = "") => t.trim().split(/\s+/).filter(Boolean).length;
 
 export default function CriarCurso() {
-  const API = import.meta.env.VITE_API_URL;
+  const API = import.meta.env.VITE_API_URL || "https://plataforma-dom-bosco-backend-krq4dua7f-milenaricklis-projects.vercel.app";
+
   const [form, setForm] = useState({
     nome: "",
     descricao: "",

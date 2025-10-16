@@ -9,7 +9,8 @@ import axios from "axios";
 import compartilhar from "../../../assets/site/compartilhar.png";
 
 export default function EventosDetalhes() {
-  const API = import.meta.env.VITE_API_URL;
+  const API = import.meta.env.VITE_API_URL || "https://plataforma-dom-bosco-backend-krq4dua7f-milenaricklis-projects.vercel.app";
+
   const { id } = useParams();
   const [evento, setEvento] = useState(null);
   const [outros, setOutros] = useState([]);

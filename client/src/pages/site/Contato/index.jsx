@@ -8,7 +8,8 @@ import { IoIosPin } from "react-icons/io";
 import axios from "axios";
 
 export default function Contato() {
-  const API = import.meta.env.VITE_API_URL;
+  const API = import.meta.env.VITE_API_URL || "https://plataforma-dom-bosco-backend-krq4dua7f-milenaricklis-projects.vercel.app";
+
   const [formData, setFormData] = useState({
     nome: "",
     email: "",

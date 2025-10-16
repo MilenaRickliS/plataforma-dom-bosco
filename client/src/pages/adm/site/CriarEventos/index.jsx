@@ -12,7 +12,8 @@ import { ptBR } from "date-fns/locale";
 
 export default function CriarEventoGestao() {
   
-    const API = import.meta.env.VITE_API_URL;
+    const API = import.meta.env.VITE_API_URL || "https://plataforma-dom-bosco-backend-krq4dua7f-milenaricklis-projects.vercel.app";
+
     const [contagemPalavras, setContagemPalavras] = useState(0);
 
     const navigate = useNavigate();

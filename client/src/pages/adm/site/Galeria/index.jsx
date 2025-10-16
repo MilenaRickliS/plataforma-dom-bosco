@@ -8,7 +8,8 @@ import { MdModeEditOutline } from "react-icons/md";
 import { IoMdTrash } from "react-icons/io";
 
 export default function GaleriaGestao() {
-  const API = import.meta.env.VITE_API_URL;
+  const API = import.meta.env.VITE_API_URL || "https://plataforma-dom-bosco-backend-krq4dua7f-milenaricklis-projects.vercel.app";
+
   const [fotos, setFotos] = useState([]);
   const [titulo, setTitulo] = useState("");
   const [imagem, setImagem] = useState(null);

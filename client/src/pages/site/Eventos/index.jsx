@@ -14,7 +14,8 @@ import { IoIosArrowForward } from "react-icons/io";
 import { FaHeart } from "react-icons/fa";
 
 export default function Eventos() {
-  const API = import.meta.env.VITE_API_URL;
+  const API = import.meta.env.VITE_API_URL || "https://plataforma-dom-bosco-backend-krq4dua7f-milenaricklis-projects.vercel.app";
+
   const [eventos, setEventos] = useState([]);
   const [filtroTexto, setFiltroTexto] = useState("");
   const [filtroData, setFiltroData] = useState("todos");

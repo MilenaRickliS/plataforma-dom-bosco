@@ -9,7 +9,8 @@ import { FaRegTrashAlt } from "react-icons/fa";
 
 export default function CursosGestao() {
   
-  const API = import.meta.env.VITE_API_URL;
+  const API = import.meta.env.VITE_API_URL || "https://plataforma-dom-bosco-backend-krq4dua7f-milenaricklis-projects.vercel.app";
+
   const [cursos, setCursos] = useState([]);
   const [toast, setToast] = useState({ message: "", type: "sucesso" });
   const navigate = useNavigate();
