@@ -1,13 +1,6 @@
 import admin from "../firebaseAdmin.js";
 
-const rotas = {
-  "aluno@gmail.com": "aluno",
-  "milena.silverio2506@gmail.com": "aluno",
-  "engs-milenasilverio@camporeal.edu.br": "professor",
-  "professor@gmail.com": "professor",
-  "jogos.mi2506@gmail.com": "admin",
-  "admin@gmail.com": "admin",
-};
+const db = admin.firestore();
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -21,11 +14,24 @@ export default async function handler(req, res) {
     const decoded = await admin.auth().verifyIdToken(idToken);
     const email = decoded.email?.toLowerCase().trim();
 
-    if (!rotas[email]) {
-      return res.status(403).json({ message: "Email não autorizado" });
+    const userDoc = await db
+      .collection("usuarios")
+      .where("email", "==", email)
+      .limit(1)
+      .get();
+
+    if (userDoc.empty) {
+      return res.status(403).json({ message: "Usuário não encontrado no banco" });
     }
 
-    res.status(200).json({ email, role: rotas[email] });
+    const userData = userDoc.docs[0].data();
+
+    res.status(200).json({
+      email: userData.email,
+      role: userData.role,
+      nome: userData.nome,
+      foto: userData.foto || null,
+    });
   } catch (err) {
     console.error("Erro ao verificar token:", err);
     res.status(401).json({ message: "Token inválido" });

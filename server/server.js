@@ -10,6 +10,7 @@ import projetosRoutes from "./src/api/projetos.js";
 import eventosRoutes from "./src/api/eventos.js";
 import oficinasRoutes from "./src/api/oficinas.js";
 import cursosRoutes from "./src/api/cursos.js";
+import usuariosRoutes from "./src/api/usuarios.js";
 dotenv.config();
 
 const app = express();
@@ -32,6 +33,7 @@ app.use("/api/projetos", projetosRoutes);
 app.use("/api/eventos", eventosRoutes);
 app.use("/api/oficinas", oficinasRoutes);
 app.use("/api/cursos", cursosRoutes);
+app.use("/api/usuarios", usuariosRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
