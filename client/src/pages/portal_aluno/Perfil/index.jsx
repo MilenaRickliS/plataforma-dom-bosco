@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../contexts/auth";
 import { db } from "../../../services/firebaseConnection";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { collection, query, where, getDocs } from "firebase/firestore";
 import { updatePassword } from "firebase/auth";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -18,17 +18,17 @@ export default function Perfil() {
   const [loading, setLoading] = useState(false);
 
 
-  const CLOUD_NAME = "<SEU_CLOUD_NAME>"; 
+  const CLOUD_NAME = "dfbreo0qd"; 
   const UPLOAD_PRESET = "plataforma_dom_bosco"; 
  
   useEffect(() => {
     const carregarPerfil = async () => {
       if (!user?.email) return;
       try {
-        const ref = doc(db, "usuarios", user.email);
-        const snap = await getDoc(ref);
-        if (snap.exists()) {
-          setPerfil(snap.data());
+        const q = query(collection(db, "usuarios"), where("email", "==", user.email));
+        const snapshot = await getDocs(q);
+        if (!snapshot.empty) {
+          setPerfil(snapshot.docs[0].data());
         } else {
           toast.warn("Perfil não encontrado no banco.");
         }
@@ -40,40 +40,36 @@ export default function Perfil() {
     carregarPerfil();
   }, [user]);
 
-  // 🔹 Upload da nova foto no Cloudinary + atualizar Firestore
+  
+  
   async function handleAtualizarFoto() {
-    if (!novaFoto) return toast.info("Selecione uma imagem primeiro.");
-    setLoading(true);
-    try {
-      // Upload no Cloudinary
-      const formData = new FormData();
-      formData.append("file", novaFoto);
-      formData.append("upload_preset", UPLOAD_PRESET);
+  if (!novaFoto) return toast.info("Selecione uma imagem primeiro.");
+  setLoading(true);
+  try {
+    const CLOUD_NAME = "dfbreo0qd";
+    const UPLOAD_PRESET = "plataforma_dom_bosco";
 
-      const uploadRes = await axios.post(
-        `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
-        formData
-      );
+    const formData = new FormData();
+    formData.append("file", novaFoto);
+    formData.append("upload_preset", UPLOAD_PRESET);
 
-      const imageUrl = uploadRes.data.secure_url;
+    const response = await axios.post(
+      `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+      formData
+    );
 
-      // Atualiza no Firestore
-      const userRef = doc(db, "usuarios", user.email);
-      await updateDoc(userRef, { foto: imageUrl });
-
-      setPerfil((prev) => ({ ...prev, foto: imageUrl }));
-      setNovaFoto(null);
-      setPreview(null);
-      toast.success("Foto atualizada com sucesso!");
-    } catch (err) {
-      console.error(err);
-      toast.error("Erro ao atualizar foto.");
-    } finally {
-      setLoading(false);
-    }
+    console.log("✅ Upload Cloudinary:", response.data);
+    const imageUrl = response.data.secure_url;
+    toast.success("Imagem enviada com sucesso!");
+  } catch (error) {
+    console.error("❌ Erro no upload Cloudinary:", error.response?.data || error);
+    toast.error("Erro no upload. Verifique o preset no Cloudinary.");
+  } finally {
+    setLoading(false);
   }
+}
 
-  // 🔹 Alterar senha
+  
   async function handleAlterarSenha() {
     if (novaSenha.length < 6) {
       toast.warn("A nova senha deve ter pelo menos 6 caracteres.");

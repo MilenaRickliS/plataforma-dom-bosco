@@ -13,7 +13,10 @@ export default function MenuPortais() {
                     <img src={logo} alt="Logo" />
                     <p>Gestão dos Portais</p>
                 </div>
-                <Link to="/usuarios">Usuários</Link>
+                <div className="menu-portais">
+                    <Link to="/usuarios" className="link-usuarios">Usuários</Link>
+                </div>
+                
                 
             </div>
         </div>
