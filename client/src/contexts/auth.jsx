@@ -1,31 +1,39 @@
 import { createContext, useState, useEffect } from "react";
-import { auth, provider } from "../services/firebaseConnection";
-import { signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
+import { auth } from "../services/firebaseConnection";
+import {
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+  signOut,
+  onAuthStateChanged,
+} from "firebase/auth";
+import axios from "axios";
 
 export const AuthContext = createContext({});
 
 export default function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const API = import.meta.env.VITE_API_URL;
 
-  
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
         try {
           const idToken = await firebaseUser.getIdToken();
-          
-          const res = await fetch("http://localhost:5000/api/auth/login", {
+          const res = await fetch(`${API}/api/auth/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ idToken })
+            body: JSON.stringify({ idToken }),
           });
 
           const data = await res.json();
           if (!res.ok) throw new Error(data.message);
 
-          
-          setUser({ email: data.email, role: data.role, displayName: firebaseUser.displayName });
+          setUser({
+            email: data.email,
+            role: data.role,
+            displayName: firebaseUser.displayName || data.email,
+          });
         } catch (err) {
           console.error(err);
           setUser(null);
@@ -39,25 +47,38 @@ export default function AuthProvider({ children }) {
     return () => unsub();
   }, []);
 
-
-  async function signInGoogle() {
+  async function signInEmail(email, password) {
     try {
-      const result = await signInWithPopup(auth, provider);
+      const result = await signInWithEmailAndPassword(auth, email, password);
       const firebaseUser = result.user;
       const idToken = await firebaseUser.getIdToken();
 
-      const res = await fetch("http://localhost:5000/api/auth/login", {
+      const res = await fetch(`${API}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ idToken })
+        body: JSON.stringify({ idToken }),
       });
 
       const data = await res.json();
       if (!res.ok) throw new Error(data.message);
 
-      setUser({ email: data.email, role: data.role, displayName: firebaseUser.displayName });
+      setUser({
+        email: data.email,
+        role: data.role,
+        displayName: firebaseUser.displayName || data.email,
+      });
     } catch (err) {
-      alert(err.message);
+      alert("Erro ao entrar: " + err.message);
+      console.error(err);
+    }
+  }
+
+  async function resetPassword(email) {
+    try {
+      await sendPasswordResetEmail(auth, email);
+      alert("E-mail de redefinição enviado! Verifique sua caixa de entrada.");
+    } catch (err) {
+      alert("Erro ao enviar e-mail: " + err.message);
       console.error(err);
     }
   }
@@ -77,9 +98,10 @@ export default function AuthProvider({ children }) {
         signed: !!user,
         user,
         loading,
-        signInGoogle,
+        signInEmail,
+        resetPassword,
         logout,
-        getRota
+        getRota,
       }}
     >
       {children}

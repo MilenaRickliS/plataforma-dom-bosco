@@ -79,3 +79,16 @@
   background-color: #1E3B7D;
   color: #fff;
 }
+.esqueci-senha-btn {
+  background: none;
+  border: none;
+  color: #007bff;
+  margin-top: 10px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.esqueci-senha-btn:hover {
+  color: #0056b3;
+}
