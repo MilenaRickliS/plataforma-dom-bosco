@@ -30,25 +30,27 @@ import AtivDetalheAluno from '../pages/portal_aluno/AtivDetalhe';
 import AlunosAluno from '../pages/portal_aluno/Alunos';
 
 import InicioAdm from '../pages/adm/Inicio';
+import Usuarios from '../pages/adm/portais/Usuarios';
+import MenuPortais from '../pages/adm/portais/Menu';
 
-import InicioProfessor from '../pages/adm/portal_professor/Inicio';
-import AgendaProfessor from '../pages/adm/portal_professor/Agenda';
-import VideosProfessor from '../pages/adm/portal_professor/Videos';
-import VideosDetalhesProfessor from '../pages/adm/portal_professor/DetalhesVideo';
-import AddVideos from '../pages/adm/portal_professor/AddVideos';
-import NotasProfessor from '../pages/adm/portal_professor/Notas';
-import DocumentosProfessor from '../pages/adm/portal_professor/Documentos';
-import AjudaProfessor from '../pages/adm/portal_professor/Ajuda';
-import AvisosProfessor from '../pages/adm/portal_professor/Avisos';
-import PostAvisosProfessor from '../pages/adm/portal_professor/PostAvisos';
-import PerfilProfessor from '../pages/adm/portal_professor/Perfil';
-import TurmaProfessor from '../pages/adm/portal_professor/Turma';
-import AddAtividadeProfessor from '../pages/adm/portal_professor/AddAtividade';
-import AtividadesProfessor from '../pages/adm/portal_professor/Atividades';
-import AtivDetalheProfessor from '../pages/adm/portal_professor/AtivDetalhes';
-import AlunosProfessor from '../pages/adm/portal_professor/Alunos';
-import ChamadaProfessor from '../pages/adm/portal_professor/Chamada';
-import TodasChamadasProfessor from '../pages/adm/portal_professor/TodasChamadas';
+import InicioProfessor from '../pages/portal_professor/Inicio';
+import AgendaProfessor from '../pages/portal_professor/Agenda';
+import VideosProfessor from '../pages/portal_professor/Videos';
+import VideosDetalhesProfessor from '../pages/portal_professor/DetalhesVideo';
+import AddVideos from '../pages/portal_professor/AddVideos';
+import NotasProfessor from '../pages/portal_professor/Notas';
+import DocumentosProfessor from '../pages/portal_professor/Documentos';
+import AjudaProfessor from '../pages/portal_professor/Ajuda';
+import AvisosProfessor from '../pages/portal_professor/Avisos';
+import PostAvisosProfessor from '../pages/portal_professor/PostAvisos';
+import PerfilProfessor from '../pages/portal_professor/Perfil';
+import TurmaProfessor from '../pages/portal_professor/Turma';
+import AddAtividadeProfessor from '../pages/portal_professor/AddAtividade';
+import AtividadesProfessor from '../pages/portal_professor/Atividades';
+import AtivDetalheProfessor from '../pages/portal_professor/AtivDetalhes';
+import AlunosProfessor from '../pages/portal_professor/Alunos';
+import ChamadaProfessor from '../pages/portal_professor/Chamada';
+import TodasChamadasProfessor from '../pages/portal_professor/TodasChamadas';
 
 import InicioRefeicao from '../pages/adm/refeicao/Inicio';
 import AdicionarRefeicao from '../pages/adm/refeicao/Adicionar';
@@ -85,6 +87,8 @@ function RoutesApp(){
       <Route path="/contato" element={<Contato/>}/>  
 
       <Route path="/inicio-adm" element={ <Private rota="admin"><InicioAdm/></Private> } />
+      <Route path="/gestao-portais" element={ <Private rota="admin"><MenuPortais/></Private> } />
+      <Route path="/usuarios" element={ <Private rota="admin"><Usuarios/></Private> } />
 
       <Route path="/inicio-refeicao" element={ <Private rota="admin"><InicioRefeicao/></Private> } />
       <Route path="/adicionar-refeicao" element={ <Private rota="admin"><AdicionarRefeicao/></Private> } />

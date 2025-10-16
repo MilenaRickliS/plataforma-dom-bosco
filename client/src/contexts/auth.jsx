@@ -6,16 +6,17 @@ import {
   signOut,
   onAuthStateChanged,
 } from "firebase/auth";
-import axios from "axios";
 
 export const AuthContext = createContext({});
 
 export default function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const API = import.meta.env.VITE_API_URL || "https://plataforma-dom-bosco-backend-krq4dua7f-milenaricklis-projects.vercel.app";
+  const API =
+    import.meta.env.VITE_API_URL ||
+    "https://plataforma-dom-bosco-backend-krq4dua7f-milenaricklis-projects.vercel.app";
 
-
+  
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
@@ -33,10 +34,11 @@ export default function AuthProvider({ children }) {
           setUser({
             email: data.email,
             role: data.role,
-            displayName: firebaseUser.displayName || data.email,
+            displayName: data.nome || firebaseUser.displayName || data.email,
+            photoURL: data.foto || firebaseUser.photoURL || null,
           });
         } catch (err) {
-          console.error(err);
+          console.error("Erro no onAuthStateChanged:", err);
           setUser(null);
         }
       } else {
@@ -48,6 +50,7 @@ export default function AuthProvider({ children }) {
     return () => unsub();
   }, []);
 
+ 
   async function signInEmail(email, password) {
     try {
       const result = await signInWithEmailAndPassword(auth, email, password);
@@ -66,13 +69,15 @@ export default function AuthProvider({ children }) {
       setUser({
         email: data.email,
         role: data.role,
-        displayName: firebaseUser.displayName || data.email,
+        displayName: data.nome || firebaseUser.displayName || data.email,
+        photoURL: data.foto || firebaseUser.photoURL || null,
       });
     } catch (err) {
       alert("Erro ao entrar: " + err.message);
       console.error(err);
     }
   }
+
 
   async function resetPassword(email) {
     try {
@@ -88,6 +93,7 @@ export default function AuthProvider({ children }) {
     await signOut(auth);
     setUser(null);
   }
+
 
   function getRota() {
     return user?.role || null;

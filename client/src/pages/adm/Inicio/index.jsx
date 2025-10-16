@@ -4,6 +4,7 @@ import './style.css';
 import { BiSolidDish } from "react-icons/bi";
 import { FaUserLock } from "react-icons/fa6";
 import { IoIosLogOut } from "react-icons/io";
+import { FaBookReader } from "react-icons/fa";
 import { useContext } from "react";
 import { AuthContext } from "../../../contexts/auth";
 
@@ -17,8 +18,9 @@ export default function Inicio() {
                 <p>Instituto Assistencial Dom Bosco - Portal do Administrador</p>
             </div>
             <div className="bemvindo-admin">
-                <Link to="/inicio-refeicao" className="link-refeicao"><BiSolidDish /> Controle Refeições do Instituto</Link>
-                <Link to="/menu-gestao" className="link-gestao"><FaUserLock /> Gestão Site Institucional</Link>
+                <Link to="/gestao-portais" className="link-portais"><FaBookReader />  Gestão dos Portais</Link>
+                <Link to="/inicio-refeicao" className="link-refeicao"><BiSolidDish />  Controle Refeições do Instituto</Link>
+                <Link to="/menu-gestao" className="link-gestao"><FaUserLock />  Gestão Site Institucional</Link>
                 <button onClick={logout} className="logout"> <IoIosLogOut /> Sair</button>                       
             </div>
         </div>

@@ -1,0 +1,71 @@
+.usuarios-container {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.form-usuarios {
+  background: #fff;
+  padding: 24px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  max-width: 500px;
+}
+
+.form-usuarios form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.foto-usuario-preview {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-top: 10px;
+}
+
+.usuarios-lista table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.usuarios-lista th, .usuarios-lista td {
+  border-bottom: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+}
+
+.foto-tabela {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.btn-excluir-usuario {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.btn-excluir-usuario:hover {
+  background: #c0392b;
+}
+
+.btn-salvar-usuario {
+  background: #2c71f6;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.btn-salvar-usuario:hover {
+  background: #1a4dc9;
+}
