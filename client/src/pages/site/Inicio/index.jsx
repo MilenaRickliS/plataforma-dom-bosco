@@ -150,7 +150,7 @@ export default function Inicio() {
             <video
               ref={videoRef}
               className="inicio-video"
-              src="/src/assets/site/Quer saber um pouco mais sobre nós▶ Dê play no vídeo e descubra nosso impacto em mais de 40 anos.mp4"
+              src="/videos/Quer saber um pouco mais sobre nós▶ Dê play no vídeo e descubra nosso impacto em mais de 40 anos.mp4"
               autoPlay
               loop
               muted={muted}
@@ -263,6 +263,8 @@ export default function Inicio() {
 }
 
 function EventosCarrossel({ sliderRef }) {
+  const API = import.meta.env.VITE_API_URL || "https://plataforma-dom-bosco-backend.vercel.app";
+
   const [eventos, setEventos] = useState([]);
   const [carregando, setCarregando] = useState(true);
   const [curtidos, setCurtidos] = useState({});

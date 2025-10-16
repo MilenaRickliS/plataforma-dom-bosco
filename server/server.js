@@ -13,7 +13,14 @@ import cursosRoutes from "./src/api/cursos.js";
 dotenv.config();
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: [
+    "http://localhost:5173", 
+    "https://plataforma-dom-bosco.vercel.app" 
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+}));
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
