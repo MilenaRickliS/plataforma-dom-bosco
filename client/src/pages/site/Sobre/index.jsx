@@ -20,6 +20,7 @@ import { PiHeartDuotone } from "react-icons/pi";
 
 
 export default function Sobre() {
+  const API = import.meta.env.VITE_API_URL;
   const [equipe, setEquipe] = useState([]);
   
   const NextArrow = ({ onClick }) => (
@@ -34,7 +35,7 @@ export default function Sobre() {
     </div>
   );
   useEffect(() => {
-    axios.get("http://localhost:5000/api/equipe").then(res => setEquipe(res.data));
+    axios.get(`${API}/api/equipe`).then(res => setEquipe(res.data));
   }, []);
 
   return (

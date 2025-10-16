@@ -8,6 +8,7 @@ import { MdModeEditOutline } from "react-icons/md";
 import { IoMdTrash } from "react-icons/io";
 
 export default function GaleriaGestao() {
+  const API = import.meta.env.VITE_API_URL;
   const [fotos, setFotos] = useState([]);
   const [titulo, setTitulo] = useState("");
   const [imagem, setImagem] = useState(null);
@@ -17,7 +18,7 @@ export default function GaleriaGestao() {
   const [toast, setToast] = useState(null); 
 
   const fetchFotos = async () => {
-    const res = await axios.get("http://localhost:5000/api/galeria");
+    const res = await axios.get(`${API}/api/galeria`);
     const imagensOrdenadas = res.data.sort(
       (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
     );
@@ -73,7 +74,7 @@ export default function GaleriaGestao() {
     formData.append("title", titulo);
 
     try {
-      await axios.post("http://localhost:5000/api/galeria", formData);
+      await axios.post(`${API}/api/galeria`, formData);
       setTitulo("");
       setImagem(null);
       setPreview(null);
@@ -87,7 +88,7 @@ export default function GaleriaGestao() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/galeria/${id}`);
+      await axios.delete(`${API}/api/galeria/${id}`);
       fetchFotos();
       showToast("Imagem excluída! 🗑️");
     } catch {
@@ -108,7 +109,7 @@ export default function GaleriaGestao() {
     }
 
     try {
-      await axios.put(`http://localhost:5000/api/galeria/${id}`, { title: novoTitulo });
+      await axios.put(`${API}/api/galeria/${id}`, { title: novoTitulo });
       setEditando(null);
       fetchFotos();
       showToast("Título atualizado! ✏️");

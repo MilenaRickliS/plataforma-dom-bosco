@@ -8,13 +8,15 @@ import { MdOutlineEdit } from "react-icons/md";
 import { FaRegTrashAlt } from "react-icons/fa";
 
 export default function CursosGestao() {
+  
+  const API = import.meta.env.VITE_API_URL;
   const [cursos, setCursos] = useState([]);
   const [toast, setToast] = useState({ message: "", type: "sucesso" });
   const navigate = useNavigate();
 
   const fetchCursos = async () => {
     try {
-      const { data } = await axios.get("http://localhost:5000/api/cursos");
+      const { data } = await axios.get(`${API}/api/cursos`);
       setCursos(data);
     } catch (e) {
       setToast({ message: "Erro ao carregar cursos", type: "erro" });
@@ -26,7 +28,7 @@ export default function CursosGestao() {
   const excluir = async (id) => {
     if (!confirm("Tem certeza que deseja excluir este curso?")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/cursos/${id}`);
+      await axios.delete(`${API}/api/cursos/${id}`);
       setToast({ message: "Curso excluído com sucesso!", type: "sucesso" });
       setCursos((prev) => prev.filter((c) => c.id !== id));
       fetchCursos();

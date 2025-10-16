@@ -9,6 +9,8 @@ import { FiUpload } from "react-icons/fi";
 const countWords = (t = "") => t.trim().split(/\s+/).filter(Boolean).length;
 
 export default function EditarCurso() {
+  
+  const API = import.meta.env.VITE_API_URL;
   const { id } = useParams();
   const [curso, setCurso] = useState(null);
   const [docentes, setDocentes] = useState([]);
@@ -22,8 +24,8 @@ export default function EditarCurso() {
     (async () => {
       try {
         const [{ data: c }, { data: eq }] = await Promise.all([
-          axios.get(`http://localhost:5000/api/cursos/${id}`),
-          axios.get("http://localhost:5000/api/equipe"),
+          axios.get(`${API}/api/cursos/${id}`),
+          axios.get(`${API}/api/equipe`),
         ]);
         setCurso(c);
         setDocentes(eq);
@@ -123,7 +125,7 @@ export default function EditarCurso() {
       
 
 
-      await axios.put(`http://localhost:5000/api/cursos/${id}`, data, {
+      await axios.put(`${API}/api/cursos/${id}`, data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       setToast({ message: "Curso atualizado!", type: "sucesso" });

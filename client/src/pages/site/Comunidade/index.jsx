@@ -13,6 +13,8 @@ import rede from "../../../assets/parcerias/logo-rede-salesiana.webp";
 import { FaSearch } from "react-icons/fa";
 
 export default function Comunidade() {
+  
+  const API = import.meta.env.VITE_API_URL;
   const [projetos, setProjetos] = useState([]);
   const [paginaAtual, setPaginaAtual] = useState(1);
   const [abertos, setAbertos] = useState({}); 
@@ -21,7 +23,7 @@ export default function Comunidade() {
 
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/projetos").then((res) => {
+    axios.get(`${API}/api/projetos`).then((res) => {
       
       const ordenados = res.data.sort((a, b) => new Date(b.dataProjeto) - new Date(a.dataProjeto));
       setProjetos(ordenados);

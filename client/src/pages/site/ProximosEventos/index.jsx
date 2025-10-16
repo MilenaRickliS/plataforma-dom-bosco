@@ -11,6 +11,8 @@ import { IoIosArrowForward } from "react-icons/io";
 import { FaHeart } from "react-icons/fa";
 
 export default function ProximosEventos() {
+  
+  const API = import.meta.env.VITE_API_URL;
   const [eventos, setEventos] = useState([]);
   const [filtroTexto, setFiltroTexto] = useState("");
   const [carregando, setCarregando] = useState(true);
@@ -25,7 +27,7 @@ export default function ProximosEventos() {
 
   const fetchEventos = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/eventos");
+      const res = await axios.get(`${API}/api/eventos`);
       const hoje = new Date();
       hoje.setHours(0, 0, 0, 0);
 

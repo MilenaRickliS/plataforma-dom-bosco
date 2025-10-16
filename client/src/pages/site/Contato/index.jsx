@@ -8,6 +8,7 @@ import { IoIosPin } from "react-icons/io";
 import axios from "axios";
 
 export default function Contato() {
+  const API = import.meta.env.VITE_API_URL;
   const [formData, setFormData] = useState({
     nome: "",
     email: "",
@@ -75,7 +76,7 @@ export default function Contato() {
     }
 
     try {
-      await axios.post("http://localhost:5000/api/enviar-email", formData);
+      await axios.post(`${API}/api/enviar-email`, formData);
       mostrarToast("Mensagem enviada com sucesso!", "sucesso");
       setFormData({
         nome: "",

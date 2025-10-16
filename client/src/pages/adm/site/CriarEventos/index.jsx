@@ -11,6 +11,8 @@ import { ptBR } from "date-fns/locale";
 
 
 export default function CriarEventoGestao() {
+  
+    const API = import.meta.env.VITE_API_URL;
     const [contagemPalavras, setContagemPalavras] = useState(0);
 
     const navigate = useNavigate();
@@ -38,7 +40,7 @@ export default function CriarEventoGestao() {
     if (id) {
       const fetchEvento = async () => {
         try {
-          const res = await axios.get("http://localhost:5000/api/eventos");
+          const res = await axios.get(`${API}/api/eventos`);
           const evento = res.data.find((e) => e.id === id);
           if (evento) {
             let dataFormatada = "";
@@ -177,7 +179,7 @@ export default function CriarEventoGestao() {
 
     try {
       if (id) {
-        await axios.put(`http://localhost:5000/api/eventos/${id}`, data, {
+        await axios.put(`${API}/api/eventos/${id}`, data, {
           headers: { "Content-Type": "multipart/form-data" },
         });
         mostrarToast("Evento atualizado com sucesso!", "sucesso");

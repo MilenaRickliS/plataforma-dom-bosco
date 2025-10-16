@@ -11,9 +11,12 @@ import "slick-carousel/slick/slick-theme.css";
 import { FaCalendarAlt } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
 import { IoMdPin } from "react-icons/io";
+import axios from "axios";
 
 
 export default function Inicio() {
+  
+  const API = import.meta.env.VITE_API_URL;
   const [depoimentos, setDepoimentos] = useState([]);
   const videoRef = useRef(null);
   const [muted, setMuted] = useState(true);
@@ -34,7 +37,7 @@ export default function Inicio() {
   
 
   useEffect(() => {
-  fetch("http://localhost:5000/api/depoimentos")
+  fetch(`${API}/api/depoimentos`)
     .then(res => {
       if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
       return res.json();
@@ -110,7 +113,7 @@ export default function Inicio() {
       return;
     }
     try {
-      const res = await fetch("http://localhost:5000/api/depoimentos", {
+      const res = await fetch(`${API}/api/depoimentos`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
@@ -267,7 +270,7 @@ function EventosCarrossel({ sliderRef }) {
   useEffect(() => {
     const fetchEventos = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/eventos");
+        const res = await fetch(`${API}/api/eventos`);
         if (!res.ok) throw new Error("Erro ao buscar eventos");
         const data = await res.json();
 
@@ -351,8 +354,8 @@ function EventosCarrossel({ sliderRef }) {
                 const handleCurtir = async () => {
                   try {
                     const rota = curtido
-                      ? `http://localhost:5000/api/eventos/${ev.id}/descurtir`
-                      : `http://localhost:5000/api/eventos/${ev.id}/curtir`;
+                      ? `${API}/api/eventos/${ev.id}/descurtir`
+                      : `${API}/api/eventos/${ev.id}/curtir`;
 
                     await axios.post(rota);
 

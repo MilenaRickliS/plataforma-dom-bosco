@@ -14,6 +14,7 @@ import { IoIosArrowForward } from "react-icons/io";
 import { FaHeart } from "react-icons/fa";
 
 export default function Eventos() {
+  const API = import.meta.env.VITE_API_URL;
   const [eventos, setEventos] = useState([]);
   const [filtroTexto, setFiltroTexto] = useState("");
   const [filtroData, setFiltroData] = useState("todos");
@@ -27,7 +28,7 @@ export default function Eventos() {
 
   const fetchEventos = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/eventos");
+      const res = await axios.get(`${API}/api/eventos`);
       const ordenados = res.data.sort((a, b) => {
         const dataA = a.dataHora?._seconds
           ? new Date(a.dataHora._seconds * 1000)
@@ -156,8 +157,8 @@ const proximosEventos = eventos
                 const handleCurtir = async () => {
                   try {
                     const rota = curtido
-                      ? `http://localhost:5000/api/eventos/${evento.id}/descurtir`
-                      : `http://localhost:5000/api/eventos/${evento.id}/curtir`;
+                      ? `${API}/api/eventos/${evento.id}/descurtir`
+                      : `${API}/api/eventos/${evento.id}/curtir`;
 
                     await axios.post(rota);
 
@@ -251,8 +252,8 @@ const proximosEventos = eventos
                 const handleCurtir = async () => {
                   try {
                     const rota = curtido
-                      ? `http://localhost:5000/api/eventos/${evento.id}/descurtir`
-                      : `http://localhost:5000/api/eventos/${evento.id}/curtir`;
+                      ? `${API}/api/eventos/${evento.id}/descurtir`
+                      : `${API}/api/eventos/${evento.id}/curtir`;
 
                     await axios.post(rota);
 

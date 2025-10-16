@@ -6,6 +6,7 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import './style.css';
 
 export default function Galeria() {
+  const API = import.meta.env.VITE_API_URL;
   const [fotos, setFotos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
@@ -14,7 +15,7 @@ export default function Galeria() {
   useEffect(() => {
     const fetchFotos = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/galeria");
+        const res = await axios.get(`${API}/api/galeria`);
 
         
         const ordenadas = res.data

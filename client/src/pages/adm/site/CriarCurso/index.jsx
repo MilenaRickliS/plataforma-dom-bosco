@@ -12,6 +12,7 @@ const REGEX_SO_LETRAS_COM_ACENTO = /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/u;
 const countWords = (t = "") => t.trim().split(/\s+/).filter(Boolean).length;
 
 export default function CriarCurso() {
+  const API = import.meta.env.VITE_API_URL;
   const [form, setForm] = useState({
     nome: "",
     descricao: "",
@@ -33,7 +34,7 @@ export default function CriarCurso() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/equipe")
+    axios.get(`${API}/api/equipe`)
       .then(res => setDocentes(res.data))
       .catch(() => setToast({ message: "Erro ao carregar equipe", type: "erro" }));
   }, []);
@@ -125,7 +126,7 @@ export default function CriarCurso() {
     imagens.forEach((img) => data.append("imagens", img));
 
     try {
-      await axios.post("http://localhost:5000/api/cursos", data, {
+      await axios.post(`${API}/api/cursos`, data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       setToast({ message: "Curso criado com sucesso!", type: "sucesso" });

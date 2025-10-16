@@ -23,11 +23,12 @@ export default function ComunidadeGestao() {
   const [toast, setToast] = useState(null);
   const [filtro, setFiltro] = useState("");
   const [contagemPalavras, setContagemPalavras] = useState(0);
+  const API = import.meta.env.VITE_API_URL;
 
 
   const fetchProjetos = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/projetos");
+      const res = await axios.get(`${API}/api/projetos`);
       const ordenados = res.data.sort(
         (a, b) => new Date(b.dataProjeto) - new Date(a.dataProjeto)
       );
@@ -91,10 +92,10 @@ export default function ComunidadeGestao() {
 
     try {
       if (editando) {
-        await axios.put(`http://localhost:5000/api/projetos/${editando}`, formData);
+        await axios.put(`${API}/api/projetos/${editando}`, formData);
         showToast("Projeto atualizado com sucesso!");
       } else {
-        await axios.post("http://localhost:5000/api/projetos", formData);
+        await axios.post(`${API}/api/projetos`, formData);
         showToast("Projeto adicionado com sucesso!");
       }
       setTitulo("");
@@ -121,7 +122,7 @@ export default function ComunidadeGestao() {
   const handleDelete = async (id) => {
     if (window.confirm("Deseja excluir este projeto?")) {
       try {
-        await axios.delete(`http://localhost:5000/api/projetos/${id}`);
+        await axios.delete(`${API}/api/projetos/${id}`);
         showToast("Projeto excluído com sucesso!");
         fetchProjetos();
       } catch (err) {

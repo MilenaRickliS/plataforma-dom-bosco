@@ -13,6 +13,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import { IoIosArrowDown } from "react-icons/io";
 
 export default function ProjetosCursosGestao() {
+  
+  const API = import.meta.env.VITE_API_URL;
   const [titulo, setTitulo] = useState("");
   const [descricao, setDescricao] = useState("");
   const [dataProjeto, setDataProjeto] = useState("");
@@ -30,7 +32,7 @@ export default function ProjetosCursosGestao() {
 
   const fetchProjetosCursos = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/oficinas");
+      const res = await axios.get(`${API}/api/oficinas`);
       const ordenados = res.data.sort(
         (a, b) => new Date(b.dataProjeto) - new Date(a.dataProjeto)
       );
@@ -95,10 +97,10 @@ export default function ProjetosCursosGestao() {
 
     try {
       if (editando) {
-        await axios.put(`http://localhost:5000/api/oficinas/${editando}`, formData);
+        await axios.put(`${API}/api/oficinas/${editando}`, formData);
         showToast("Projeto atualizado com sucesso!");
       } else {
-        await axios.post("http://localhost:5000/api/oficinas", formData);
+        await axios.post(`${API}/api/oficinas`, formData);
         showToast("Projeto adicionado com sucesso!");
       }
       setTitulo("");
@@ -127,7 +129,7 @@ export default function ProjetosCursosGestao() {
   const handleDelete = async (id) => {
     if (window.confirm("Deseja excluir este projeto?")) {
       try {
-        await axios.delete(`http://localhost:5000/api/oficinas/${id}`);
+        await axios.delete(`${API}/api/oficinas/${id}`);
         showToast("Projeto excluído com sucesso!");
         fetchProjetosCursos();
       } catch (err) {

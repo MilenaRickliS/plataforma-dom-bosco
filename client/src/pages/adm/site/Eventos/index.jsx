@@ -9,6 +9,7 @@ import { FaCalendarAlt, FaSearch } from "react-icons/fa";
 import { IoMdPin } from "react-icons/io";
 
 export default function EventosGestao() {
+  const API = import.meta.env.VITE_API_URL;
   const [eventos, setEventos] = useState([]);
   const [filtroTexto, setFiltroTexto] = useState("");
   const [filtroData, setFiltroData] = useState("todos");
@@ -16,7 +17,7 @@ export default function EventosGestao() {
 
   const fetchEventos = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/eventos");
+      const res = await axios.get(`${API}/api/eventos`);
       const ordenados = res.data.sort((a, b) => {
         const dataA = a.dataHora?._seconds
           ? new Date(a.dataHora._seconds * 1000)
@@ -45,7 +46,7 @@ export default function EventosGestao() {
   const handleExcluir = async (id) => {
     if (window.confirm("Deseja realmente excluir este evento?")) {
       try {
-        await axios.delete(`http://localhost:5000/api/eventos/${id}`);
+        await axios.delete(`${API}/api/eventos/${id}`);
         mostrarToast("Evento excluído com sucesso!", "sucesso");
         fetchEventos();
       } catch (error) {

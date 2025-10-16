@@ -7,6 +7,7 @@ import { useLocation } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 
 export default function ProjetosCursos() {
+  const API = import.meta.env.VITE_API_URL;
   const [projetos, setProjetos] = useState([]);
   const [paginaAtual, setPaginaAtual] = useState(1);
   const [abertos, setAbertos] = useState({}); 
@@ -26,7 +27,7 @@ export default function ProjetosCursos() {
   ];
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/oficinas").then((res) => {
+    axios.get(`${API}/api/oficinas`).then((res) => {
       
       const ordenados = res.data.sort((a, b) => new Date(b.dataProjeto) - new Date(a.dataProjeto));
       setProjetos(ordenados);

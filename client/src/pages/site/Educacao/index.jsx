@@ -11,6 +11,7 @@ import { FaLongArrowAltRight } from "react-icons/fa";
 import axios from "axios";
 
 export default function Educacao() {
+  const API = import.meta.env.VITE_API_URL;
   const sliderRef = useRef(null);
 
   const cursos = [
@@ -117,7 +118,7 @@ function ProjetosCarrossel({ sliderRef }) {
 
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/oficinas").then((res) => {
+    axios.get(`${API}/api/oficinas`).then((res) => {
       const dados = res.data;
       const cursos = ["Música", "Esportes", "Informática", "Pré-aprendizagem", "Jovem Aprendiz"];
 

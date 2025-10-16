@@ -9,6 +9,7 @@ import axios from "axios";
 import compartilhar from "../../../assets/site/compartilhar.png";
 
 export default function EventosDetalhes() {
+  const API = import.meta.env.VITE_API_URL;
   const { id } = useParams();
   const [evento, setEvento] = useState(null);
   const [outros, setOutros] = useState([]);
@@ -29,7 +30,7 @@ export default function EventosDetalhes() {
 
 const fetchEvento = async () => {
   try {
-    const res = await axios.get(`http://localhost:5000/api/eventos/${id}`);
+    const res = await axios.get(`${API}/api/eventos/${id}`);
     const eventoData = res.data;
 
     setEvento(eventoData);
@@ -43,7 +44,7 @@ const fetchEvento = async () => {
       setCurtidoEvento(false);
     }
 
-    const todos = await axios.get("http://localhost:5000/api/eventos");
+    const todos = await axios.get(`${API}/api/eventos`);
     const outrosEventos = todos.data
       .filter((e) => e.id !== id)
       .sort(() => 0.5 - Math.random())
@@ -64,8 +65,8 @@ const fetchEvento = async () => {
   const handleCurtir = async () => {
     try {
       const rota = curtidoEvento
-        ? `http://localhost:5000/api/eventos/${id}/descurtir`
-        : `http://localhost:5000/api/eventos/${id}/curtir`;
+        ? `${API}/api/eventos/${id}/descurtir`
+        : `${API}/api/eventos/${id}/curtir`;
       await axios.post(rota);
 
       setCurtidoEvento(!curtidoEvento);
@@ -267,8 +268,8 @@ const fetchEvento = async () => {
               const handleCurtir = async () => {
                 try {
                   const rota = curtido
-                    ? `http://localhost:5000/api/eventos/${e.id}/descurtir`
-                    : `http://localhost:5000/api/eventos/${e.id}/curtir`;
+                    ? `${API}/api/eventos/${e.id}/descurtir`
+                    : `${API}/api/eventos/${e.id}/curtir`;
 
                   await axios.post(rota);
 

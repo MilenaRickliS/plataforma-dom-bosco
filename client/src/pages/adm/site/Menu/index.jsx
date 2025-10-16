@@ -7,6 +7,8 @@ import { IoIosArrowBack } from "react-icons/io";
 import { FiUpload } from "react-icons/fi";
 
 export default function MenuGestao() {
+    
+    const API = import.meta.env.VITE_API_URL;
     const [membros, setMembros] = useState([]);
     const [nome, setNome] = useState("");
     const [cargo, setCargo] = useState("");
@@ -22,7 +24,7 @@ export default function MenuGestao() {
 
     const fetchEquipe = async () => {
         try {
-        const res = await axios.get("http://localhost:5000/api/equipe");
+        const res = await axios.get(`${API}/api/equipe`);
         setMembros(res.data);
         } catch (error) {
         console.error(error);
@@ -66,10 +68,10 @@ export default function MenuGestao() {
 
         try {
         if (editando) {
-            await axios.put(`http://localhost:5000/api/equipe/${editando}`, formData);
+            await axios.put(`${API}/api/equipe/${editando}`, formData);
             mostrarToast("Membro atualizado com sucesso!", "sucesso");
         } else {
-            await axios.post("http://localhost:5000/api/equipe", formData);
+            await axios.post(`${API}/api/equipe`, formData);
             mostrarToast("Membro adicionado com sucesso!", "sucesso");
         }
 
@@ -88,7 +90,7 @@ export default function MenuGestao() {
     const handleDelete = async (id) => {
         if (window.confirm("Tem certeza que deseja excluir este membro?")) {
         try {
-            await axios.delete(`http://localhost:5000/api/equipe/${id}`);
+            await axios.delete(`${API}/api/equipe/${id}`);
             fetchEquipe();
             mostrarToast("Membro excluído com sucesso!", "sucesso");
         } catch (error) {

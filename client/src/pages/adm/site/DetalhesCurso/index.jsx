@@ -16,6 +16,9 @@ import CorpoDocenteSlider from "./CorpoDocenteSlider";
 
 
 export default function DetalhesCurso() {
+  
+  const API = import.meta.env.VITE_API_URL;
+
   const { id } = useParams();
   const [curso, setCurso] = useState(null);
   const [docentes, setDocentes] = useState([]);
@@ -36,11 +39,11 @@ export default function DetalhesCurso() {
     (async () => {
       try {
         
-        const { data: cursoData } = await axios.get(`http://localhost:5000/api/cursos/${id}`);
+        const { data: cursoData } = await axios.get(`${API}/api/cursos/${id}`);
         setCurso(cursoData);
 
         
-        const { data: equipeData } = await axios.get("http://localhost:5000/api/equipe");
+        const { data: equipeData } = await axios.get(`${API}api/equipe`);
 
         
         const docentesFiltrados = equipeData.filter((d) =>
