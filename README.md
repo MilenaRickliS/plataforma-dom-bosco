@@ -1,52 +1,65 @@
 # Plataforma do Instituto Assitencial Dom Bosco - Guarapuava PR
 
-Aplicação web desenvolvida em **React + Vite** para gestão e navegação da Plataforma do Instituto Assitencial Dom Bosco - Guarapuava PR.  
-O projeto ainda está sendo desenvolvido...
+Aplicação web desenvolvida em **React + Vite** com **backend em Node.js + Firebase + Cloudinary.**
+A plataforma foi criada para facilitar a gestão, a divulgação e integração das atividades do Instituto Assitencial Dom Bosco - Guarapuava PR, promovendo a comunicação entre alunos, professores e comunidade.
+
+O projeto ainda está em desenvolvimento...
 
 ---
 
 ## 🚀 Tecnologias
 
-- [React](https://react.dev/) — biblioteca para interfaces de usuário  
-- [Vite](https://vitejs.dev/) — bundler e dev server rápido  
-- [JavaScript](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript)  
-- [CSS](https://developer.mozilla.org/pt-BR/docs/Web/CSS)
-- [Firebase](https://firebase.google.com/) 
-- [Cloudinary](https://cloudinary.com/) 
+### 🖥️ **Frontend**
+![React](https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)
+
+### ⚙️ **Backend**
+![Node.js](https://img.shields.io/badge/Node.js-339933?logo=node.js&logoColor=white)
+![Express](https://img.shields.io/badge/Express-000000?logo=express&logoColor=white)
+![Firebase](https://img.shields.io/badge/Firebase-FFCA28?logo=firebase&logoColor=black)
+![Cloudinary](https://img.shields.io/badge/Cloudinary-4285F4?logo=cloudinary&logoColor=white)
+![Multer](https://img.shields.io/badge/Multer-323330?logo=npm&logoColor=white)
+![Dotenv](https://img.shields.io/badge/Dotenv-00C853?logo=npm&logoColor=white)
+![CORS](https://img.shields.io/badge/CORS-FF5722?logo=javascript&logoColor=white)
+
 
 ---
 
 ## 📂 Estrutura do projeto
 
-```
-plataforma-dom-bosco/client
-├── public/              # Arquivos estáticos
-├── src/                 # Código-fonte principal
-│   ├── assets/          # Imagens                
-│   ├── components/      # Componentes reutilizáveis
-│   ├── contexts/        # Para o gerenciamento da autenticação
-│   ├── fonts/           # Fontes do projeto
-│   ├── pages/           # Páginas da aplicação
-│   ├── routes/          # Rotas da aplicação
-│   ├── services/        # Conexão com o Firebase
-│   ├── index.css        # Estilo comum de toda aplicação
-│   └── App.jsx          # Arquivo principal
-├── index.html           # HTML base
-├── package.json         # Dependências e scripts
-├── vite.config.js       # Configuração do Vite
-└── eslint.config.js     # Regras de linting
-```
-```
-plataforma-dom-bosco/server
-├── node_modules/          # Arquivos Node
-├── src/                   # Backend
-│   ├── routes/
-│     ├── auth.js          # Autenticação 
-│     ├── equipe.js        # Gestão equipe                
-│     └── depoimentos.js   # Depoimentos         
-│   └── firebaseAdmin.js   # Configurações Firebase
-├── package.json           # Dependências e scripts
-└── server.js              # Principal arquivo
+```bash
+plataforma-dom-bosco/
+├── client/                     # Aplicação Frontend (React + Vite)
+│   ├── public/                 # Arquivos estáticos
+│   ├── src/
+│   │   ├── assets/             # Imagens e vídeos
+│   │   ├── components/         # Componentes reutilizáveis
+│   │   ├── contexts/           # Contextos (ex: autenticação)
+│   │   ├── fonts/              # Fontes personalizadas
+│   │   ├── pages/              # Páginas principais
+│   │   ├── routes/             # Rotas da aplicação
+│   │   ├── services/           # Conexão com Firebase e API
+│   │   ├── index.css           # Estilo global
+│   │   └── App.jsx             # Componente raiz
+│   ├── package.json
+│   └── vite.config.js
+│
+└── server/                     # Backend Node.js + Express
+    ├── src/
+    │   ├── api/
+    │   │   ├── auth.js
+    │   │   ├── depoimentos.js
+    │   │   ├── equipe.js
+    │   │   ├── eventos.js
+    │   │   ├── oficinas.js
+    │   │   ├── projetos.js
+    │   │   └── cursos.js
+    │   └── firebaseAdmin.js
+    ├── server.js
+    ├── package.json
+    └── vercel.json
 ```
 
 ---
@@ -55,6 +68,8 @@ plataforma-dom-bosco/server
 
 - Node.js (>= 18)  
 - npm ou yarn  
+- conta no Firebase
+- conta no Cloudinary
 
 ---
 
@@ -65,45 +80,58 @@ plataforma-dom-bosco/server
    git clone https://github.com/MilenaRickliS/plataforma-dom-bosco.git
    ```
 
-2. Acesse a pasta server  
+2. Rodar Backend 
    ```bash
    cd server
-   ```
-
-3. Instale as dependências  
-   ```bash
    npm init
-   ```
-
-4. Execute o backend 
-   ```bash
    node server.js
    ```
-   
-5. Acesse a pasta do projeto  
-   ```bash
-   cd client
-   ```
 
-6. Instale as dependências  
+3. Rodar o Frontend  
    ```bash
+   cd ../client
    npm install
-   # ou
-   yarn
-   ```
-
-7. Execute em ambiente de desenvolvimento  
-   ```bash
    npm run dev
    ```
 
-8. Abra no navegador:  
+4. Abra no navegador:  
    ```
    http://localhost:5173
    ```
 
 ---
 
+## ☁️ Deploy na Vercel
+
+- Frontend
+🌍 https://plataforma-dom-bosco.vercel.app
+
+- Backend
+⚙️ https://plataforma-dom-bosco-backend.vercel.app
+
+---
+
+## 🔐 Variáveis de Ambiente
+
+📁 .env (client)
+```bash
+   VITE_API_URL=https://plataforma-dom-bosco-backend.vercel.app
+```
+
+📁 .env (server)
+```bash
+   FIREBASE_PROJECT_ID=xxxx
+   FIREBASE_CLIENT_EMAIL=xxxx@xxxx.iam.gserviceaccount.com
+   FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nXXXX\n-----END PRIVATE KEY-----\n"
+   CLOUDINARY_NAME=xxxx
+   CLOUDINARY_KEY=xxxx
+   CLOUDINARY_SECRET=xxxx
+   EMAIL_USER=xxxx@gmail.com
+   EMAIL_PASS=xxxx
+
+```
+
+---
 
 🙋‍♀️ Desenvolvedores
 
@@ -115,3 +143,10 @@ Milena Rickli Silvério Kriger
 
 Paulo Cesar Matsuda Almeida
 🔗 GitHub
+
+---
+## 📜 Licença
+Projeto acadêmico e institucional — Instituto Assistencial Dom Bosco - Guarapuava/PR.
+© 2025 — Todos os direitos reservados.
+
+---
