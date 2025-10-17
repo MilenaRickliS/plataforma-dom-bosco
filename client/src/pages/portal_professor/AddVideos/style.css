@@ -1,0 +1,82 @@
+.add-videos {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.adicionar-video{
+    margin: 0 auto;
+    text-align: center;
+    color: #1E3B7D;
+    font-family: "Poppins", sans-serif;
+}
+.form-videos {
+    color: #000;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.form-videos input,
+.form-videos textarea {
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #ccc;
+    padding: 8px;
+    border-radius: 10px;
+}
+.form-videos input:focus {
+  border-color: #2c71f6;
+  box-shadow: 0 0 5px rgba(44, 113, 246, 0.4);
+  outline: none;
+}
+.form-videos textarea:focus {
+  border-color: #2c71f6;
+  box-shadow: 0 0 5px rgba(44, 113, 246, 0.4);
+  outline: none;
+}
+.preview-video {
+  margin-top: 10px;
+  border-radius: 10px;
+}
+
+.duracao {
+  font-size: 0.9rem;
+  color: #555;
+}
+.modo-toggle {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.modo-toggle button {
+  flex: 1;
+  padding: 10px 0;
+  border: none;
+  border-radius: 8px;
+  background-color: #e0e0e0;
+  color: #333;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.modo-toggle button:hover {
+  background-color: #d0d0d0;
+}
+
+.modo-toggle button.ativo {
+  background-color: #007bff;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.4);
+}
