@@ -57,9 +57,9 @@
 }
 
 .upload-label-videos:hover {
-  background: #007bff;
- 
-  border-color: #1E3B7D;
+  border-color: #2c71f6;
+  box-shadow: 0 0 5px rgba(44, 113, 246, 0.4);
+  outline: none;
 }
 .preview-video {
   margin-top: 10px;

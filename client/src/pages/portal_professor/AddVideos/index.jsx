@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { AuthContext } from "../../../contexts/auth";
 import axios from "axios";
 import MenuLateralProfessor from "../../../components/portais/MenuLateralProfessor";
 import MenuTopoProfessor from "../../../components/portais/MenuTopoProfessor";
@@ -24,6 +25,8 @@ export default function AddVideos() {
   const [duracao, setDuracao] = useState(0);
   const [loading, setLoading] = useState(false);
   const [wordCount, setWordCount] = useState(0);
+  const { user } = useContext(AuthContext);
+
 
   const regexTitulo = /^[A-Za-zÀ-ÿ0-9\s]+$/;
   const regexCategoria = /^[A-Za-zÀ-ÿ0-9\s-]+$/;
@@ -118,6 +121,8 @@ export default function AddVideos() {
     formData.append("titulo", titulo);
     formData.append("descricao", descricao);
     formData.append("categoria", categoriaFinal);
+    formData.append("usuario", user?.email || "desconhecido");
+
 
     try {
       await axios.post(`${API}/api/videos/upload`, formData);
@@ -145,6 +150,7 @@ export default function AddVideos() {
           descricao,
           url: videoLink,
           categoria: categoriaFinal,
+          usuario: user?.email || "desconhecido",
         },
         {
           headers: { "Content-Type": "application/json" },

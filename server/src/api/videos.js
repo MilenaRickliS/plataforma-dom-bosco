@@ -60,6 +60,7 @@ export default async function handler(req, res) {
       let titulo = "",
         descricao = "",
         categoria = "",
+        usuario = "",
         fileBuffer = null;
 
       await new Promise((resolve, reject) => {
@@ -69,6 +70,7 @@ export default async function handler(req, res) {
           if (fieldname === "titulo") titulo = val;
           if (fieldname === "descricao") descricao = val;
           if (fieldname === "categoria") categoria = val;
+          if (fieldname === "usuario") usuario = val;
         });
 
         bb.on("file", (_, file) => {
@@ -103,6 +105,7 @@ export default async function handler(req, res) {
         categoria,
         tipo: "upload",
         url: uploadRes.secure_url,
+        usuario,
         createdAt: new Date(),
       });
 
@@ -117,7 +120,7 @@ export default async function handler(req, res) {
 
     
     if (method === "POST" && url.includes("/link")) {
-      const { titulo, descricao, url: videoUrl, categoria } = req.body || {};
+      const { titulo, descricao, url: videoUrl, categoria, usuario } = req.body || {};
 
       if (!videoUrl || !titulo) {
         return res.status(400).json({ error: "Campos obrigatórios ausentes" });
@@ -129,6 +132,7 @@ export default async function handler(req, res) {
         categoria,
         tipo: "link",
         url: videoUrl,
+        usuario,
         createdAt: new Date(),
       });
 
@@ -149,6 +153,71 @@ export default async function handler(req, res) {
     }
 
     
+    if (method === "PUT") {
+    const { id, titulo, descricao, categoria, usuario } = req.body || {};
+
+    if (!id || !usuario) {
+        return res.status(400).json({ error: "ID e usuário são obrigatórios" });
+    }
+
+    const docRef = db.collection("videos").doc(id);
+    const doc = await docRef.get();
+
+    if (!doc.exists) {
+        return res.status(404).json({ error: "Vídeo não encontrado" });
+    }
+
+    const videoData = doc.data();
+
+    
+    if (videoData.usuario !== usuario) {
+        return res.status(403).json({ error: "Acesso negado: não é o autor do vídeo" });
+    }
+
+    const atualizacao = {};
+    if (titulo) atualizacao.titulo = titulo;
+    if (descricao) atualizacao.descricao = descricao;
+    if (categoria) atualizacao.categoria = categoria;
+
+    await docRef.update(atualizacao);
+
+    
+    if (categoria) {
+        const ref = db.collection("categorias_videos");
+        const snap = await ref.where("nome", "==", categoria).get();
+        if (snap.empty) await ref.add({ nome: categoria });
+    }
+
+    return res.status(200).json({ message: "Vídeo atualizado com sucesso!" });
+    }
+
+
+    if (method === "DELETE") {
+    const { id } = req.query;
+    const doc = await db.collection("videos").doc(id).get();
+
+    if (!doc.exists) return res.status(404).json({ error: "Vídeo não encontrado" });
+
+    const { categoria } = doc.data();
+    await db.collection("videos").doc(id).delete();
+
+    
+    if (categoria) {
+        const snap = await db.collection("videos").where("categoria", "==", categoria).get();
+        if (snap.empty) {
+        const catSnap = await db.collection("categorias_videos")
+            .where("nome", "==", categoria)
+            .get();
+
+        for (const catDoc of catSnap.docs) {
+            await db.collection("categorias_videos").doc(catDoc.id).delete();
+        }
+        }
+    }
+
+    return res.status(200).json({ message: "Vídeo excluído e categoria atualizada" });
+    }
+
 
 
     

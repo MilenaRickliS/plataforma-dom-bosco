@@ -38,6 +38,7 @@ import AgendaProfessor from '../pages/portal_professor/Agenda';
 import VideosProfessor from '../pages/portal_professor/Videos';
 import VideosDetalhesProfessor from '../pages/portal_professor/DetalhesVideo';
 import AddVideos from '../pages/portal_professor/AddVideos';
+import EditarVideo from '../pages/portal_professor/EditarVideo';
 import NotasProfessor from '../pages/portal_professor/Notas';
 import DocumentosProfessor from '../pages/portal_professor/Documentos';
 import AjudaProfessor from '../pages/portal_professor/Ajuda';
@@ -68,6 +69,7 @@ import CursosGestao from '../pages/adm/site/Cursos';
 import CriarCurso from '../pages/adm/site/CriarCurso';
 import EditarCurso from '../pages/adm/site/EditarCurso';
 import DetalhesCurso from "../pages/adm/site/DetalhesCurso";
+
 
 
 function RoutesApp(){
@@ -125,6 +127,7 @@ function RoutesApp(){
       <Route path="/professor/agenda" element={ <Private rota="professor"><AgendaProfessor/></Private> } />
       <Route path="/professor/videos" element={ <Private rota="professor"><VideosProfessor/></Private> } />
       <Route path="/professor/videos/:id" element={ <Private rota="professor"><VideosDetalhesProfessor/></Private> } />
+      <Route path="/professor/editar-video/:id" element={<Private rota="professor"><EditarVideo/></Private>} />
       <Route path="/add-videos-professor" element={ <Private rota="professor"><AddVideos/></Private> } />
       <Route path="/professor/notas" element={ <Private rota="professor"><NotasProfessor/></Private> } />
       <Route path="/professor/documentos" element={ <Private rota="professor"><DocumentosProfessor/></Private> } />

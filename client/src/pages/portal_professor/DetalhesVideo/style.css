@@ -15,3 +15,35 @@
 .player-container{
     padding: 10px;
 }
+.acoes-video {
+  margin-bottom: 20px;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.btn-editar,
+.btn-excluir {
+  background: #a556d3;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.btn-editar:hover {
+  background: #8d3cb8;
+}
+
+.btn-excluir {
+  background: #e74c3c;
+}
+
+.btn-excluir:hover {
+  background: #c0392b;
+}
+
