@@ -211,13 +211,15 @@ export default function AddVideos() {
 
             {modo === "upload" ? (
               <>
-                <label>
-                  <TiUpload /> Selecione o vídeo (até 8 minutos)
+                <label htmlFor="file-upload" className="upload-label-videos">
+                  <TiUpload size={20}/> {videoFile ? videoFile.name : "Selecione o vídeo (até 8 minutos)"}
                 </label>
                 <input
+                  id="file-upload"
                   type="file"
                   accept="video/*"
                   onChange={handleVideoSelect}
+                  style={{ display: "none" }}
                 />
                 {preview && (
                   <video

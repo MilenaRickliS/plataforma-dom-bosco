@@ -85,10 +85,10 @@ main {
   display: flex;
 }
 .page2 {
-  margin-left: 80px;   
+    width: 100%;
   transition: margin-left .5s ease;
   flex: 1;
-  padding: 20px;
+  padding: 0px 0px 0px 100px;
 }
 #sidebar.open-sidebar ~ .page2 {
   margin-left: 15%; 
