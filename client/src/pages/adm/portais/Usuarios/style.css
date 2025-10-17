@@ -222,6 +222,56 @@
 .btn-cancelar:hover {
   background: #8a0000;
 }
+.filtros-usuarios {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 25px 0;
+  gap: 10px;
+}
+
+.input-busca {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fff;
+  color: #000;
+}
+.input-busca:focus {
+  border-color: #2c71f6;
+  box-shadow: 0 0 10px rgba(44, 113, 246, 0.3);
+  outline: none;
+}
+
+.select-filtro-usuarios {
+   appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding: 10px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  border-radius: 10px;
+  font-family: "Poppins", sans-serif;
+  color: #000;
+  cursor: pointer;
+  transition: 0.3s;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg fill='%232c71f6' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 18px;
+  width: 30%;
+}
+
+.select-filtro-usuarios:focus {
+  border-color: #2c71f6;
+  box-shadow: 0 0 10px rgba(44, 113, 246, 0.3);
+  outline: none;
+}
+
+.select-usuarios option {
+  padding: 10px;
+}
 
 /* responsividade */
 @media (max-width: 900px) {
@@ -270,5 +320,13 @@
   .btn-excluir-usuario {
     
     text-align: center;
+  }
+}
+@media (max-width: 600px) {
+  .filtros-usuarios {
+    flex-direction: column;
+  }
+  .select-filtro-usuarios, .input-busca{
+    width: 100%;
   }
 }
