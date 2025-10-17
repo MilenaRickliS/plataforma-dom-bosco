@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../contexts/auth";
 import { PiStarFourBold, PiStarFourFill } from "react-icons/pi";
 import { MdOutlineArrowCircleRight } from "react-icons/md";
@@ -8,8 +8,9 @@ import logo from '../../../assets/logo2.png';
 import './style.css';
 
 export default function Header() {
-  const { signed } = useContext(AuthContext);
+  const { signed, getRota } = useContext(AuthContext);
   const location = useLocation();
+  const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const links = [
@@ -21,6 +22,14 @@ export default function Header() {
     { path: "/contato", label: "CONTATO" },
   ];
 
+  function handleVoltarPortal() {
+    const rota = getRota();
+    if (rota === "aluno") navigate("/aluno/inicio");
+    else if (rota === "professor") navigate("/professor/inicio");
+    else if (rota === "admin") navigate("/inicio-adm");
+    else navigate("/"); // fallback caso algo falhe
+  }
+
   return (
     <nav>
       <div className="logo">
@@ -29,7 +38,7 @@ export default function Header() {
         </Link>
       </div>
 
-       <div className={`menu ${menuOpen ? "open" : ""}`}>
+      <div className={`menu ${menuOpen ? "open" : ""}`}>
         {links.map((link) => (
           <Link
             key={link.path}
@@ -46,26 +55,35 @@ export default function Header() {
         ))}
 
         {!signed ? (
-          <Link className="login" to="/login" onClick={() => {
-            setMenuOpen(false);
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          }}>
+          <Link
+            className="login"
+            to="/login"
+            onClick={() => {
+              setMenuOpen(false);
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+          >
             LOGIN <MdOutlineArrowCircleRight />
           </Link>
         ) : (
-          <span>Bem-vindo!</span>
-        )}        
-      </div>
-      {menuOpen ? (
-          <button className="close-menu" onClick={() => setMenuOpen(false)}>
-            <FiX size={40} />
-          </button>
-        ) : (
-          
-          <button className="menu-toggle" onClick={() => setMenuOpen(true)}>
-            <FiMenu size={40} />
+          <button
+            className="login voltar-portal-btn"
+            onClick={handleVoltarPortal}
+          >
+            Voltar ao Portal
           </button>
         )}
+      </div>
+
+      {menuOpen ? (
+        <button className="close-menu" onClick={() => setMenuOpen(false)}>
+          <FiX size={40} />
+        </button>
+      ) : (
+        <button className="menu-toggle" onClick={() => setMenuOpen(true)}>
+          <FiMenu size={40} />
+        </button>
+      )}
     </nav>
   );
 }
