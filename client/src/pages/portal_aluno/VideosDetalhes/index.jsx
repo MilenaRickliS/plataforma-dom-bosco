@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import "./style.css";
 import axios from "axios";
-import MenuTopoAluno from "../../../components/portais/MenuTopoAluno";
 import MenuLateralAluno from "../../../components/portais/MenuLateralAluno";
+import MenuTopoAluno from "../../../components/portais/MenuTopoAluno";
 
 export default function DetalhesVideo() {
   const API = import.meta.env.VITE_API_URL || "https://plataforma-dom-bosco-backend-krq4dua7f-milenaricklis-projects.vercel.app";
@@ -53,10 +53,9 @@ export default function DetalhesVideo() {
         <main className="detalhes-video">
           <MenuTopoAluno/>
 
-          <h2>{video.titulo}</h2>
-          <p className="descricao">{video.descricao}</p>
-          <span className="categoria">Categoria: {video.categoria}</span>
-          <br />
+          <h2 className="titulo-video-detalhes">{video.titulo}</h2><br />
+          <span className="titulo-categoria">{video.categoria}</span>
+          <br /> <br />
 
           <div className="player-container">
           {video?.tipo === "upload" ? (
@@ -90,7 +89,11 @@ export default function DetalhesVideo() {
             </a>
           )}
         </div>
-
+        <div className="descricao-video">
+            <p className="titulo-descricao">Descrição</p>
+            <p>{video.descricao}</p>
+        </div>
+          
 
           
         </main>

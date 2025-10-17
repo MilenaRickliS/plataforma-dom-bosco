@@ -17,14 +17,17 @@ export default function AddVideos() {
   const [categoria, setCategoria] = useState("");
   const [novaCategoria, setNovaCategoria] = useState("");
   const [categorias, setCategorias] = useState([]);
-  const [modo, setModo] = useState("upload"); 
+  const [modo, setModo] = useState("upload");
   const [videoFile, setVideoFile] = useState(null);
   const [videoLink, setVideoLink] = useState("");
   const [preview, setPreview] = useState(null);
   const [duracao, setDuracao] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [wordCount, setWordCount] = useState(0);
 
- 
+  const regexTitulo = /^[A-Za-zÀ-ÿ0-9\s]+$/;
+  const regexCategoria = /^[A-Za-zÀ-ÿ0-9\s-]+$/;
+
   useEffect(() => {
     const carregarCategorias = async () => {
       try {
@@ -37,7 +40,13 @@ export default function AddVideos() {
     carregarCategorias();
   }, []);
 
-  
+  const handleDescricaoChange = (e) => {
+    const texto = e.target.value;
+    setDescricao(texto);
+    const palavras = texto.trim().split(/\s+/).filter(Boolean);
+    setWordCount(palavras.length);
+  };
+
   const handleVideoSelect = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -61,11 +70,47 @@ export default function AddVideos() {
 
   const categoriaFinal = novaCategoria || categoria;
 
-  
+  const validarDados = () => {
+    if (!titulo.trim()) {
+      toast.error("O título não pode ser vazio.");
+      return false;
+    }
+    if (!regexTitulo.test(titulo.trim())) {
+      toast.error("O título só pode conter letras, números e acentos.");
+      return false;
+    }
+    if (!descricao.trim()) {
+      toast.error("A descrição não pode ser vazia.");
+      return false;
+    }
+    if (wordCount < 15) {
+      toast.error("A descrição deve conter no mínimo 15 palavras.");
+      return false;
+    }
+    if (!categoriaFinal.trim()) {
+      toast.error("Escolha ou crie uma categoria.");
+      return false;
+    }
+    if (novaCategoria && !regexCategoria.test(novaCategoria.trim())) {
+      toast.error(
+        "A nova categoria só pode conter letras, números, acentos e hífen."
+      );
+      return false;
+    }
+    if (modo === "upload" && !videoFile) {
+      toast.error("Selecione um vídeo antes de enviar.");
+      return false;
+    }
+    if (modo === "link" && !videoLink.trim()) {
+      toast.error("Informe o link do vídeo.");
+      return false;
+    }
+    return true;
+  };
+
   const handleUpload = async (e) => {
     e.preventDefault();
-    if (!videoFile) return toast.error("Selecione um vídeo.");
-    if (!categoriaFinal) return toast.error("Escolha ou crie uma categoria.");
+    if (!validarDados()) return;
 
     setLoading(true);
     const formData = new FormData();
@@ -76,12 +121,9 @@ export default function AddVideos() {
 
     try {
       await axios.post(`${API}/api/videos/upload`, formData);
-
       if (novaCategoria && !categorias.includes(novaCategoria)) {
-      setCategorias([...categorias, novaCategoria]);
-    }
-
-
+        setCategorias([...categorias, novaCategoria]);
+      }
       toast.success("Vídeo enviado com sucesso!");
       resetForm();
     } catch (err) {
@@ -91,39 +133,32 @@ export default function AddVideos() {
     }
   };
 
-  
   const handleSalvarLink = async (e) => {
     e.preventDefault();
-    console.log({
-      titulo,
-      descricao,
-      url: videoLink,
-      categoria: categoriaFinal,
-    });
-
-    
-    if (!videoLink) return toast.error("Informe o link do vídeo.");
-    if (!categoriaFinal) return toast.error("Escolha ou crie uma categoria.");
-    
+    if (!validarDados()) return;
 
     try {
-      const res = await axios.post(`${API}/api/videos/link`, {
-        titulo,
-        descricao,
-        url: videoLink,
-        categoria: categoriaFinal,
-      }, {
-        headers: { "Content-Type": "application/json" },
-      });
+      const res = await axios.post(
+        `${API}/api/videos/link`,
+        {
+          titulo,
+          descricao,
+          url: videoLink,
+          categoria: categoriaFinal,
+        },
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
 
       if (res.status === 200) {
-        toast.success(res.data.message || "Link cadastrado com sucesso!");
+        toast.success(res.data.message || "Vídeo enviado com sucesso!");
+        resetForm();
       }
     } catch (err) {
       console.error(err.response?.data || err.message);
       toast.error("Erro ao salvar link.");
     }
-
   };
 
   const resetForm = () => {
@@ -136,7 +171,7 @@ export default function AddVideos() {
     setVideoLink("");
     setDuracao(0);
     setModo("upload");
-    carregarCategorias();
+    setWordCount(0);
   };
 
   return (
@@ -147,7 +182,6 @@ export default function AddVideos() {
           <MenuTopoProfessor />
           <h2 className="adicionar-video">Adicionar Vídeo</h2>
 
-          
           <div className="modo-toggle">
             <button
               type="button"
@@ -180,9 +214,18 @@ export default function AddVideos() {
             <label>Descrição</label>
             <textarea
               value={descricao}
-              onChange={(e) => setDescricao(e.target.value)}
+              onChange={handleDescricaoChange}
               placeholder="Descrição do vídeo"
             />
+            <small
+              style={{
+                color: wordCount < 15 ? "red" : "green",
+                display: "block",
+                marginTop: "4px",
+              }}
+            >
+              {wordCount} palavras {wordCount < 15 && "(mínimo: 15)"}
+            </small>
 
             <label>Categoria</label>
             <select
@@ -212,7 +255,10 @@ export default function AddVideos() {
             {modo === "upload" ? (
               <>
                 <label htmlFor="file-upload" className="upload-label-videos">
-                  <TiUpload size={20}/> {videoFile ? videoFile.name : "Selecione o vídeo (até 8 minutos)"}
+                  <TiUpload size={20} />{" "}
+                  {videoFile
+                    ? videoFile.name
+                    : "Selecione o vídeo (até 8 minutos)"}
                 </label>
                 <input
                   id="file-upload"
@@ -230,9 +276,7 @@ export default function AddVideos() {
                   />
                 )}
                 {duracao > 0 && (
-                  <p className="duracao">
-                    Duração detectada: {duracao} min
-                  </p>
+                  <p className="duracao">Duração detectada: {duracao} min</p>
                 )}
               </>
             ) : (
@@ -248,11 +292,7 @@ export default function AddVideos() {
               </>
             )}
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="btn-salvar-foto"
-            >
+            <button type="submit" disabled={loading} className="btn-salvar-foto">
               {loading ? "Enviando..." : "Salvar vídeo"}
             </button>
           </form>

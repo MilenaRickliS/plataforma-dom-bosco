@@ -14,6 +14,8 @@
     max-width: 20%;
     z-index: 10;
     font-family: "Poppins", sans-serif;
+    pointer-events: auto;
+
 }
 #sidebar.open-sidebar {
     width: 250px;
@@ -100,16 +102,27 @@
 }
 
 #open_btn {
-    position: absolute;
-    top: 30px;
-    right: -10px;
-    background-color: #4f46e5;
-    color: #e3e9f7;
-    border-radius: 100%;
-    width: 20px;
-    height: 20px;
-    border: none;
-    cursor: pointer;
+  position: absolute;
+  top: 30px;
+  right: -15px;
+  background-color: #4f46e5;
+  color: #fff;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  border: none;
+  cursor: pointer;
+  z-index: 3000; /* garante que fique acima de qualquer link */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+    pointer-events: all;
+}
+
+#open_btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 #open_btn_icon {

@@ -12,11 +12,12 @@ import {
 import { getAuth, updatePassword, EmailAuthProvider, reauthenticateWithCredential } from "firebase/auth";
 import axios from "axios";
 import { toast } from "react-toastify";
-import MenuLateralAluno from "../../../components/portais/MenuLateralAluno";
-import MenuTopoAluno from "../../../components/portais/MenuTopoAluno";
+
 import { FiCamera } from "react-icons/fi";
 import { IoEye, IoEyeOff } from "react-icons/io5";
 import "./style.css";
+import MenuTopoProfessor from "../../../components/portais/MenuTopoProfessor";
+import MenuLateralProfessor from "../../../components/portais/MenuLateralProfessor";
 
 export default function Perfil() {
   const { user } = useContext(AuthContext);
@@ -144,10 +145,10 @@ export default function Perfil() {
   if (!perfil) {
     return (
       <div className="layout">
-        <MenuLateralAluno />
+        <MenuLateralProfessor />
         <div className="page2">
           <main>
-            <MenuTopoAluno />
+            <MenuTopoProfessor />
             <p>Carregando perfil...</p>
           </main>
         </div>
@@ -157,10 +158,10 @@ export default function Perfil() {
 
   return (
     <div className="layout">
-      <MenuLateralAluno />
+      <MenuLateralProfessor />
       <div className="page2">
         <main>
-          <MenuTopoAluno />
+          <MenuTopoProfessor />
           <div className="perfil-container">
            
             <div className="perfil-foto">

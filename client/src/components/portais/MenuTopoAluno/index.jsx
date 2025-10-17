@@ -12,13 +12,13 @@ function MenuTopoAluno() {
         <div className="nav-menutopo">
             <ul>
                 <li>
-                    <NavLink to="/ajuda-aluno"><MdOutlineQuestionMark /></NavLink>
+                    <NavLink to="/aluno/ajuda"><MdOutlineQuestionMark /></NavLink>
                 </li> 
                 <li>
-                    <NavLink to="/avisos-aluno"><FaRegBell /></NavLink>
+                    <NavLink to="/aluno/avisos"><FaRegBell /></NavLink>
                 </li>  
                 <li>
-                    <NavLink to="/perfil-aluno"><IoPersonOutline /></NavLink>
+                    <NavLink to="/aluno/perfil"><IoPersonOutline /></NavLink>
                 </li>         
             </ul>          
         </div>

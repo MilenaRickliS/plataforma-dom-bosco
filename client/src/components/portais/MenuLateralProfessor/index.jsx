@@ -16,16 +16,18 @@ function MenuLateralProfessor() {
   const { logout } = useContext(AuthContext); 
   const location = useLocation();
 
-  const toggleSidebar = () => {
-    setIsOpen(prev => !prev);
+  const toggleSidebar = (e) => {
+    e.stopPropagation(); 
+    setIsOpen((prev) => !prev);
   };
 
+
   const menuItems = [
-    { to: "/agenda-professor", icon: <FaRegCalendar />, label: "Agenda" },
+    { to: "/professor/agenda", icon: <FaRegCalendar />, label: "Agenda" },
     { to: "/professor/videos", icon: <IoPlayForward />, label: "Vídeos Professores" },
-    { to: "/inicio-professor", icon: <LuLayoutDashboard />, label: "Turmas" },
-    { to: "/notas-professor", icon: <CgNotes />, label: "Notas" },
-    { to: "/documentos-professor", icon: <FaBoxArchive />, label: "Documentos" },
+    { to: "/professor/inicio", icon: <LuLayoutDashboard />, label: "Turmas" },
+    { to: "/professor/notas", icon: <CgNotes />, label: "Notas" },
+    { to: "/professor/documentos", icon: <FaBoxArchive />, label: "Documentos" },
   ];
 
   return (

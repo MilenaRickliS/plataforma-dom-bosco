@@ -6,8 +6,10 @@ export default function Agenda() {
     <div className="layout">
       <MenuLateralProfessor />  
       <div className="page2">
+        
         <main>
-            <MenuTopoProfessor/>
+          <MenuTopoProfessor/>
+            
           <h1>Conteúdo do Professor</h1>
         </main>
       </div>

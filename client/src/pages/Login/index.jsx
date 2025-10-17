@@ -16,8 +16,8 @@ export default function Login() {
   useEffect(() => {
     if (signed) {
       const rota = getRota();
-      if (rota === "aluno") navigate("/inicio-aluno");
-      if (rota === "professor") navigate("/inicio-professor");
+      if (rota === "aluno") navigate("/aluno/inicio");
+      if (rota === "professor") navigate("/professor/inicio");
       if (rota === "admin") navigate("/inicio-adm");
     }
   }, [signed, getRota, navigate]);

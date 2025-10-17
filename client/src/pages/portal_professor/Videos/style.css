@@ -20,24 +20,73 @@
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
 
-.grid-videos {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 20px;
-  margin-top: 20px;
+
+.secao-videos {
+  position: relative;
+  padding: 0 40px; 
+  overflow: hidden;
+}
+
+
+.slick-prev, 
+.slick-next {
+  top: 40%;  
+  transform: translateY(-50%);
+  z-index: 2;
+}
+
+
+.slick-prev {
+  left: 1px;
+}
+.slick-next {
+  right: 1px;
+}
+
+
+.slick-prev:before,
+.slick-next:before {
+  color: var(--cor-principal, #1e88e5);
+  font-size: 40px;
+  opacity: 0.85;
+  transition: all 0.2s ease;
+}
+
+.slick-prev:hover:before,
+.slick-next:hover:before {
+  color: #A556D3;
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+.carrossel-videos .slick-list {
+  overflow: visible;
+}
+
+
+.titulo-categoria {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 30px 0 10px 10px;
+  color: #333;
+  border-left: 4px solid var(--cor-principal, #1e88e5);
+  padding-left: 10px;
+}
+
+.carrossel-videos {
+  margin-bottom: 40px;
 }
 
 .container-video {
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 0 6px rgba(0,0,0,0.1);
-  padding: 10px;
+  display: block;
   text-decoration: none;
-  color: #333;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   transition: transform 0.2s ease;
+  padding: 0px;
+  margin: 10px;
 }
 
 .container-video:hover {
@@ -46,18 +95,28 @@
 
 .thumb-video {
   width: 100%;
-  height: 180px;
-  border-radius: 8px;
+  height: 100px;
   object-fit: cover;
+  background: #000;
 }
 
 .titulo-video {
-  font-weight: 600;
-  font-size: 1rem;
+  font-size: 0.95rem;
+  padding: 10px;
+  color: #222;
+  text-align: center;
+  font-weight: 500;
 }
 
-.categoria-video {
-  font-size: 0.85rem;
-  color: #666;
+@media (max-width: 500px) {
+ 
+  .slick-prev, 
+  .slick-next {
+    display: none !important;
+    visibility: hidden;
+    pointer-events: none;
+  }
 }
+
+
 

@@ -16,16 +16,18 @@ function MenuLateralAluno() {
   const { logout } = useContext(AuthContext); 
   const location = useLocation();
 
-  const toggleSidebar = () => {
-    setIsOpen(prev => !prev);
+ const toggleSidebar = (e) => {
+    e.stopPropagation(); 
+    setIsOpen((prev) => !prev);
   };
 
+
   const menuItems = [
-    { to: "/agenda-aluno", icon: <FaRegCalendar />, label: "Agenda" },
+    { to: "/aluno/agenda", icon: <FaRegCalendar />, label: "Agenda" },
     { to: "/aluno/videos", icon: <IoPlayForward />, label: "Vídeos Professores" },
-    { to: "/inicio-aluno", icon: <LuLayoutDashboard />, label: "Turmas" },
-    { to: "/notas-aluno", icon: <CgNotes />, label: "Notas" },
-    { to: "/documentos-aluno", icon: <FaBoxArchive />, label: "Documentos" },
+    { to: "/aluno/inicio", icon: <LuLayoutDashboard />, label: "Turmas" },
+    { to: "/aluno/notas", icon: <CgNotes />, label: "Notas" },
+    { to: "/aluno/documentos", icon: <FaBoxArchive />, label: "Documentos" },
   ];
 
   return (

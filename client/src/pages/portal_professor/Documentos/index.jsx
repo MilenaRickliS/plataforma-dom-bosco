@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
+import MenuTopoProfessor from "../../../components/portais/MenuTopoProfessor";
 import MenuLateralAluno from "../../../components/portais/MenuLateralAluno";
-import MenuTopoAluno from "../../../components/portais/MenuTopoAluno";
 import "./style.css";
 import { TbPointFilled } from "react-icons/tb";
 
@@ -10,7 +10,7 @@ export default function Documentos() {
       <MenuLateralAluno />  
       <div className="page2">
         <main>
-            <MenuTopoAluno/>
+            <MenuTopoProfessor/>
             <section className="sessao-documentos">
               <h2 className="titulo-documento">Documentos do Professor</h2>
               <div className="div-documentos">

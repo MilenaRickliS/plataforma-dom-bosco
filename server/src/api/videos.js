@@ -138,7 +138,7 @@ export default async function handler(req, res) {
         if (snap.empty) await ref.add({ nome: categoria });
       }
 
-      return res.status(200).json({ message: "Link cadastrado com sucesso!" });
+      return res.status(200).json({ message: "Vídeo enviado com sucesso!" });
     }
 
         

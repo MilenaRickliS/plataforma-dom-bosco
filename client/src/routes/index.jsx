@@ -107,36 +107,36 @@ function RoutesApp(){
       <Route path="/editar-curso/:id" element={<EditarCurso />} />
       <Route path="/detalhes-curso-gestao/:id" element={<DetalhesCurso />} />
 
-      <Route path="/inicio-aluno" element={ <Private rota="aluno"><InicioAluno/></Private> } />
-      <Route path="/agenda-aluno" element={ <Private rota="aluno"><AgendaAluno/></Private> } />
+      <Route path="/aluno/inicio" element={ <Private rota="aluno"><InicioAluno/></Private> } />
+      <Route path="/aluno/agenda" element={ <Private rota="aluno"><AgendaAluno/></Private> } />
       <Route path="/aluno/videos" element={ <Private rota="aluno"><VideosAluno/></Private> } />
       <Route path="/aluno/videos/:id" element={ <Private rota="aluno"><VideosDetalhesAluno/></Private> } />
-      <Route path="/notas-aluno" element={ <Private rota="aluno"><NotasAluno/></Private> } />
-      <Route path="/documentos-aluno" element={ <Private rota="aluno"><DocumentosAluno/></Private> } />
-      <Route path="/ajuda-aluno" element={ <Private rota="aluno"><AjudaAluno/></Private> } />
-      <Route path="/avisos-aluno" element={ <Private rota="aluno"><AvisosAluno/></Private> } />
-      <Route path="/perfil-aluno" element={ <Private rota="aluno"><PerfilAluno/></Private> } />
-      <Route path="/turma-aluno" element={ <Private rota="aluno"><TurmaAluno/></Private> } />
-      <Route path="/atividades-aluno" element={ <Private rota="aluno"><AtividadesAluno/></Private> } />
-      <Route path="/detalhes-ativ-aluno" element={ <Private rota="aluno"><AtivDetalheAluno/></Private> } />
-      <Route path="/alunos" element={ <Private rota="aluno"><AlunosAluno/></Private> } />
+      <Route path="/aluno/notas" element={ <Private rota="aluno"><NotasAluno/></Private> } />
+      <Route path="/aluno/documentos" element={ <Private rota="aluno"><DocumentosAluno/></Private> } />
+      <Route path="/aluno/ajuda" element={ <Private rota="aluno"><AjudaAluno/></Private> } />
+      <Route path="/aluno/avisos" element={ <Private rota="aluno"><AvisosAluno/></Private> } />
+      <Route path="/aluno/perfil" element={ <Private rota="aluno"><PerfilAluno/></Private> } />
+      <Route path="/aluno/turma" element={ <Private rota="aluno"><TurmaAluno/></Private> } />
+      <Route path="/aluno/atividades" element={ <Private rota="aluno"><AtividadesAluno/></Private> } />
+      <Route path="/aluno/detalhes-ativ" element={ <Private rota="aluno"><AtivDetalheAluno/></Private> } />
+      <Route path="/aluno/alunos-turma" element={ <Private rota="aluno"><AlunosAluno/></Private> } />
 
-      <Route path="/inicio-professor" element={ <Private rota="professor"><InicioProfessor/></Private> } />
-      <Route path="/agenda-professor" element={ <Private rota="professor"><AgendaProfessor/></Private> } />
+      <Route path="/professor/inicio" element={ <Private rota="professor"><InicioProfessor/></Private> } />
+      <Route path="/professor/agenda" element={ <Private rota="professor"><AgendaProfessor/></Private> } />
       <Route path="/professor/videos" element={ <Private rota="professor"><VideosProfessor/></Private> } />
       <Route path="/professor/videos/:id" element={ <Private rota="professor"><VideosDetalhesProfessor/></Private> } />
       <Route path="/add-videos-professor" element={ <Private rota="professor"><AddVideos/></Private> } />
-      <Route path="/notas-professor" element={ <Private rota="professor"><NotasProfessor/></Private> } />
-      <Route path="/documentos-professor" element={ <Private rota="professor"><DocumentosProfessor/></Private> } />
-      <Route path="/ajuda-professor" element={ <Private rota="professor"><AjudaProfessor/></Private> } />
-      <Route path="/avisos-professor" element={ <Private rota="professor"><AvisosProfessor/></Private> } />
+      <Route path="/professor/notas" element={ <Private rota="professor"><NotasProfessor/></Private> } />
+      <Route path="/professor/documentos" element={ <Private rota="professor"><DocumentosProfessor/></Private> } />
+      <Route path="/professor/ajuda" element={ <Private rota="professor"><AjudaProfessor/></Private> } />
+      <Route path="/professor/avisos" element={ <Private rota="professor"><AvisosProfessor/></Private> } />
       <Route path="/add-avisos-professor" element={ <Private rota="professor"><PostAvisosProfessor/></Private> } />
-      <Route path="/perfil-professor" element={ <Private rota="professor"><PerfilProfessor/></Private> } />
-      <Route path="/turma-professor" element={ <Private rota="professor"><TurmaProfessor/></Private> } />
+      <Route path="/professor/perfil" element={ <Private rota="professor"><PerfilProfessor/></Private> } />
+      <Route path="/professor/turma" element={ <Private rota="professor"><TurmaProfessor/></Private> } />
       <Route path="/add-atividade-professor" element={ <Private rota="professor"><AddAtividadeProfessor/></Private> } />
-      <Route path="/atividades-professor" element={ <Private rota="professor"><AtividadesProfessor/></Private> } />
-      <Route path="/ativ-detalhes-professor" element={ <Private rota="professor"><AtivDetalheProfessor/></Private> } />
-      <Route path="/alunos-professor" element={ <Private rota="professor"><AlunosProfessor/></Private> } />
+      <Route path="/professor/atividades" element={ <Private rota="professor"><AtividadesProfessor/></Private> } />
+      <Route path="/professor/detalhes-ativ" element={ <Private rota="professor"><AtivDetalheProfessor/></Private> } />
+      <Route path="/professor/alunos-turma" element={ <Private rota="professor"><AlunosProfessor/></Private> } />
       <Route path="/chamada-professor" element={ <Private rota="professor"><ChamadaProfessor/></Private> } />
       <Route path="/todas-chamadas-professor" element={ <Private rota="professor"><TodasChamadasProfessor/></Private> } />
       
