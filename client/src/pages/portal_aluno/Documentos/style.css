@@ -1,0 +1,29 @@
+.sessao-documentos{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.div-documentos{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+}
+.documento{
+    margin: 10px;
+    background-color: #fff;
+    border: 1px solid black;
+    padding: 40px;
+    border-radius: 20px;
+    color: #1E3B7D;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+.documento:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 10px rgba(26, 77, 201, 0.3);
+  text-decoration: underline;
+}
+
