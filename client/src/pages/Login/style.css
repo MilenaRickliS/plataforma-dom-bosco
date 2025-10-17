@@ -88,6 +88,32 @@
   background-color: #1E3B7D;
   color: #fff;
 }
+.senha-container {
+  position: relative;
+  width: 100%;
+}
+
+.senha-container input {
+  width: 100%;
+  padding-right: 40px; /* espaço pro ícone */
+}
+
+.mostrar-senha-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #666;
+  font-size: 1.2rem;
+}
+
+.mostrar-senha-btn:hover {
+  color: #333;
+}
+
 .esqueci-senha-btn {
   background: none;
   border: none;

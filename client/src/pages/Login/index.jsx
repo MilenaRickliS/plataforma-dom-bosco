@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../contexts/auth";
 import { useNavigate, Link } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
+import { IoEye, IoEyeOff } from "react-icons/io5"; 
 import logo from "../../assets/logo2.png";
 import "./style.css";
 
@@ -9,6 +10,7 @@ export default function Login() {
   const { signInEmail, resetPassword, signed, getRota } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
+  const [mostrarSenha, setMostrarSenha] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -56,13 +58,25 @@ export default function Login() {
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-          <input
-            type="password"
-            placeholder="Senha"
-            value={senha}
-            onChange={(e) => setSenha(e.target.value)}
-            required
-          />
+
+         
+          <div className="senha-container">
+            <input
+              type={mostrarSenha ? "text" : "password"}
+              placeholder="Senha"
+              value={senha}
+              onChange={(e) => setSenha(e.target.value)}
+              required
+            />
+            <button
+              type="button"
+              className="mostrar-senha-btn"
+              onClick={() => setMostrarSenha(!mostrarSenha)}
+            >
+              {mostrarSenha ? <IoEyeOff /> : <IoEye />}
+            </button>
+          </div>
+
           <button type="submit" className="login-btn">
             Entrar
           </button>
