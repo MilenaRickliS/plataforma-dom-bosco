@@ -7,11 +7,13 @@ import { IoIosArrowBack } from "react-icons/io";
 import { FiUpload } from "react-icons/fi";
 import { MdEdit } from "react-icons/md";
 import { FaRegTrashAlt } from "react-icons/fa";
+import { IoEye, IoEyeOff } from "react-icons/io5"; 
 
 export default function Usuarios() {
   const API =
     import.meta.env.VITE_API_URL ||
     "https://plataforma-dom-bosco-backend-krq4dua7f-milenaricklis-projects.vercel.app";
+
   const [usuarios, setUsuarios] = useState([]);
   const [editando, setEditando] = useState(null);
   const [form, setForm] = useState({
@@ -22,8 +24,8 @@ export default function Usuarios() {
     foto: null,
   });
   const [preview, setPreview] = useState(null);
+  const [mostrarSenha, setMostrarSenha] = useState(false); 
 
-  
   const [busca, setBusca] = useState("");
   const [filtroRole, setFiltroRole] = useState("todos");
 
@@ -150,7 +152,6 @@ export default function Usuarios() {
     }
   }
 
-  
   const usuariosFiltrados = usuarios.filter((u) => {
     const nomeMatch = u.nome.toLowerCase().includes(busca.toLowerCase());
     const roleMatch = filtroRole === "todos" || u.role === filtroRole;
@@ -184,12 +185,24 @@ export default function Usuarios() {
             onChange={(e) => setForm({ ...form, email: e.target.value })}
             disabled={!!editando}
           />
-          <input
-            type="password"
-            placeholder={editando ? "Nova Senha (opcional)" : "Senha"}
-            value={form.senha}
-            onChange={(e) => setForm({ ...form, senha: e.target.value })}
-          />
+
+          
+          <div className="senha-wrapper">
+            <input
+              type={mostrarSenha ? "text" : "password"}
+              placeholder={editando ? "Nova Senha (opcional)" : "Senha"}
+              value={form.senha}
+              onChange={(e) => setForm({ ...form, senha: e.target.value })}
+            />
+            <button
+              type="button"
+              className="btn-mostrar-senha"
+              onClick={() => setMostrarSenha(!mostrarSenha)}
+            >
+              {mostrarSenha ? <IoEyeOff /> : <IoEye />}
+            </button>
+          </div>
+
           <select
             value={form.role}
             onChange={(e) => setForm({ ...form, role: e.target.value })}
@@ -239,7 +252,6 @@ export default function Usuarios() {
         </form>
       </div>
 
-      
       <div className="filtros-usuarios">
         <input
           type="text"
