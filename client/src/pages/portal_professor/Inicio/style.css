@@ -45,16 +45,315 @@
   border-radius: 8px;
   cursor: pointer;
 }
-.turmas-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 20px;
-  margin-top: 30px;
+
+.dashboard{
+    display: flex;   
 }
 
-.sem-turmas {
+.barra-pesquisa-dashboard{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #555;
+    background-color: #fff;
+    border-radius: 30px;
+    padding: 0px 20px;
+    margin: 15px;
+}
+
+.frase{
+    background: #FFEC82;
+    background: linear-gradient(90deg,rgba(255, 236, 130, 1) 0%, rgba(251, 188, 5, 1) 100%);
+    color: #000;
+    font-weight: 500;
+    border-radius: 20px;
+    padding: 30px;
+    text-align: center;
+    margin: 15px;
+}
+.inicio-dashboard{
+    display: flex;
+}
+
+/* agenda */
+
+.mini-semana {
+  background: linear-gradient(135deg, #15b9cc, #1e3b7d);
+  border-radius: 20px;
+  color: #fff;
+  width: 100%;
+  padding: 20px;
+  font-family: "Poppins", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 8px 20px;
+}
+
+.topo-mini h3 {
+  text-transform: capitalize;
+  font-weight: 700;
   font-size: 18px;
-  color: #555;
-  margin-top: 20px;
+  margin-bottom: 15px;
   text-align: center;
+}
+
+.semana-atual {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  overflow-x: auto;
+  padding: 5px 0 15px 0;
+}
+
+.dia-semana {
+  flex: 1;
+  min-width: 50px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 8px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.dia-semana:hover {
+  background: rgba(255, 255, 255, 0.3);
+  
+}
+
+.nome-dia {
+  display: block;
+  font-size: 13px;
+  color: #cce6f5;
+  font-weight: 500;
+}
+
+.numero-dia {
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.hoje-semana {
+  background: #ffffff;
+  color: #1e3b7d;
+  box-shadow: 0 0 10px rgba(255,255,255,0.4);
+  transform: scale(1.1);
+}
+
+.hoje-semana .nome-dia {
+  color: #1e3b7d;
+}
+.hoje-semana .numero-dia {
+  color: #1e3b7d;
+}
+
+.botao-mini-agenda {
+  font-size: 14px;
+  text-decoration: none;
+  color: #fff;
+  border: 1px solid #fff;
+  border-radius: 10px;
+  padding: 6px 12px;
+  transition: all 0.3s ease;
+}
+
+.botao-mini-agenda:hover {
+  background: #fff;
+  color: #1e3b7d;
+  transform: scale(1.05);
+}
+
+@media (max-width: 600px) {
+  .semana-atual {
+    gap: 8px;
+  }
+  .dia-semana {
+    min-width: 44px;
+    padding: 6px;
+  }
+  .numero-dia {
+    font-size: 18px;
+  }
+}
+
+/* turmas */
+.titulo-turmas{
+    color: #000;
+    padding: 10px 30px;
+}
+.turmas-grid{
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); 
+    gap: 20px; 
+    padding: 10px; 
+    justify-items: center;
+}
+.container-turma{
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 15px 30px -10px,
+                rgba(0, 0, 0, 0.3) 0px 10px 20px -10px;
+
+    width: 220px;      
+    height: 250px;     
+    padding: 0px;
+    margin: 15px;
+    text-decoration: none;
+    color: black;
+    transition: transform 0.2s ease-in-out;
+    overflow: hidden;
+    cursor: pointer;
+}
+.container-turma:hover {
+    transform: scale(1.05);
+}
+.turma-inicio{
+    border-radius: 20px 20px 0 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    color: rgb(0, 0, 0);
+    position: relative;
+}
+.img-turma{
+    height: 150px;
+}
+.turma-inicio p{
+    margin-top: 8px;
+    font-family: "Poppins", sans-serif;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+}
+
+/* avisos */
+.section-avisos{
+    background-color: #fff;
+    color: #000;
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    margin: 0 30px 40px;
+    width: 50%;
+}
+.section-avisos strong {
+    color: #000;
+    font-size: 1rem;
+    margin-bottom: 10px;
+    display: block;
+}
+.aviso div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 15px;
+    align-items: center;
+    background-color: #c5c6c7;
+    border-radius: 16px;
+    padding: 20px;
+    margin-top: 10px;
+}
+.aviso div strong {
+  display: block;
+  margin-top: 10px;
+}
+.todos-avisos{
+    background-color: #FBBC05;
+    font-weight: bold;
+    color: #000;
+    text-decoration: none;
+    border-radius: 20px;
+    padding: 12px 18px;
+    transition: all 0.3s ease;
+    
+}
+.todos-avisos:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* video */
+.video-destaque-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+  padding: 20px;
+  width: 50%;
+  margin: 0 30px 40px;
+}
+.video-destaque-wrapper > p {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #000;
+}
+.video-destaque { 
+    width: 100%;
+}
+.video-destaque .titulo-video { 
+    margin: 0 0 10px; 
+    font-weight: 600; 
+}
+.video-destaque .descricao-video { 
+    margin-top: 10px; 
+    opacity: .9; 
+    text-align: justify;
+    font-weight: 500;
+}
+.video-destaque .chip { 
+    display:inline-block; 
+    margin-top:10px; 
+    padding:6px 10px; 
+    border-radius:999px; 
+    background:#f3f4f6; 
+    color: #000;
+    font-size:.85rem; 
+}
+.video-destaque.vazio { 
+    display:flex; 
+    align-items:center; 
+    justify-content:center; 
+    min-height:160px; 
+    background:#f9fafb; 
+    border-radius:16px; 
+}
+.video-iframe iframe {
+  width: 100%;
+  border-radius: 12px;
+}
+
+
+/* responsividade */
+@media (max-width: 800px) {
+    .inicio-dashboard{
+        flex-direction: column; 
+        padding-bottom: 30px;
+    }
+    .dashboard{
+        flex-direction: column;
+    }
+    .video-destaque-wrapper{
+        width: 90%;
+    }
+    .section-avisos{
+        width: 90%;
+    }
+}
+@media (max-width: 370px) {
+    .container-turma{
+        width: 190px;
+    }
+    .video-destaque-wrapper{
+        width: 80%;
+    }
+    .section-avisos{
+        width: 80%;
+    }
+    
 }
