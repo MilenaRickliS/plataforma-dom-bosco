@@ -7,12 +7,12 @@ import { MdOutlineStarBorder } from "react-icons/md";
 import { IoSchoolSharp } from "react-icons/io5";
 import { FaRegClock } from "react-icons/fa";
 import { IoIosSunny } from "react-icons/io";
-import { BsFillMoonStarsFill } from "react-icons/bs";
-import { BsFillCloudSunFill } from "react-icons/bs";
-import { FaArrowLeft } from "react-icons/fa";
-import { FaArrowRight } from "react-icons/fa";
 import { FaWhatsapp } from "react-icons/fa";
 import CorpoDocenteSlider from "./CorpoDocenteSlider";
+import Slider from "react-slick";
+import { IoIosArrowDropleft, IoIosArrowDropright } from "react-icons/io";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 
 export default function DetalhesCurso() {
@@ -33,8 +33,39 @@ export default function DetalhesCurso() {
     { key: "oportunidades", label: "Oportunidades" },
   ];
 
+  function PrevArrow({ onClick }) {
+    return (
+      <button className="arrow-espaco arrow-espaco-left" onClick={onClick}>
+        <IoIosArrowDropleft />
+      </button>
+    );
+  }
+
+  function NextArrow({ onClick }) {
+    return (
+      <button className="arrow-espaco arrow-espaco-right" onClick={onClick}>
+        <IoIosArrowDropright />
+      </button>
+    );
+  }
   
-  
+  const settingsEspaco = {
+    dots: true,
+    infinite: true,
+    speed: 600,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    arrows: true,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
+    responsive: [
+      { breakpoint: 1024, settings: { slidesToShow: 1 } },
+      { breakpoint: 768, settings: { slidesToShow: 1 } },
+      { breakpoint: 480, settings: { slidesToShow: 1 } },
+    ],
+  };
 
   useEffect(() => {
     (async () => {
@@ -44,7 +75,7 @@ export default function DetalhesCurso() {
         setCurso(cursoData);
 
         
-        const { data: equipeData } = await axios.get(`${API}api/equipe`);
+        const { data: equipeData } = await axios.get(`${API}/api/equipe`);
 
         
         const docentesFiltrados = equipeData.filter((d) =>
@@ -58,6 +89,21 @@ export default function DetalhesCurso() {
     })();
   }, [id]);
 
+  const getHeaderClass = (curso) => {
+    if (!curso?.nome) return "header-curso padrao";
+
+    const nome = curso.nome.toLowerCase();
+
+    if (nome.includes("jovem aprendiz")) return "header-curso jovem";
+    if (nome.includes("música")) return "header-curso musica";
+    if (nome.includes("informática")) return "header-curso informatica";
+    if (nome.includes("esporte")) return "header-curso esportes";
+    if (nome.includes("pré-aprendizagem")) return "header-curso pre";
+
+    return "header-curso padrao";
+  };
+
+
   if (erro) return <p className="erro">{erro}</p>;
   if (!curso) return <p>Carregando informações...</p>;
 
@@ -68,17 +114,17 @@ export default function DetalhesCurso() {
       </Link>
 
       
-      <div className="header-curso">
+      <div className={getHeaderClass(curso)}>
         <div className="titulo-curso">
             <div>
-                <h1>{curso.nome}</h1>
+                <h1 className="h1-curso">{curso.nome}</h1>
                 <p className="descricao">{curso.descricao}</p>
             </div>
             
             <div className="detalhes-basicos">
-                <p><strong><IoSchoolSharp /> Característica</strong> <br/>{curso.caracteristica}</p>
-                <p><strong><FaRegClock /> Duração</strong><br/> {curso.duracao}</p>
-                <p><strong><IoIosSunny /> Tipo</strong> <br/>{curso.tipo}</p>
+                <p><strong><IoSchoolSharp /><br/>Característica</strong> <br/>{curso.caracteristica}</p>
+                <p><strong><FaRegClock /><br/>Duração</strong><br/> {curso.duracao}</p>
+                <p><strong><IoIosSunny /><br/>Tipo</strong> <br/>{curso.tipo}</p>
             </div>
         </div>
         <br/>
@@ -143,22 +189,28 @@ export default function DetalhesCurso() {
       <CorpoDocenteSlider docentes={docentes} />
 
       
-      <section>
+      <section className="espaco-section">
         <h2>Espaço</h2>
-        <FaArrowLeft />
-        <div className="grid-imagens">
+        <Slider {...settingsEspaco}>
           {curso.imagens?.map((img, i) => (
-            <img key={i} src={img.url} alt={`Imagem ${i + 1}`} />
+            <div key={i} className="slide-espaco">
+              <img src={img.url} alt={`Imagem ${i + 1}`} />
+            </div>
           ))}
-        </div>
-        <FaArrowRight />
+        </Slider>
       </section>
 
-      
-      <section className="contato-section">
-        <div>
+      <section className="como-ingressar">
+        <strong>COMO INGRESSAR?</strong>
+        <p>VESTIBULAR: O vestibular é a forma mais comum de ingresso na graduação. O vestibular tradicional é aquele em que o estudante comparece à instituição na data determinada e realiza a prova junto com os demais candidatos. Já no vestibular agendado, a Campo Real oferece várias datas para que você escolha aquela em que poderá estar presente.</p>
+      </section>
+
+
+      <section className="duvidas-section">
+        <div className="div-duvidas">
+          <div>
           <strong>Tem dúvidas ou precisa de mais informações?</strong>
-          <p>Entre em contato com a gente!</p>
+          <p>Entre em contato com a gente!</p><br/>
           <Link
             to="https://api.whatsapp.com/send/?phone=5542984055914&text&type=phone_number&app_absent=0"
             target="_blank"
@@ -166,13 +218,14 @@ export default function DetalhesCurso() {
           >
             <FaWhatsapp /> Enviar WhatsApp
           </Link>
-        </div>
-        <img
-          src="/src/assets/site/Beautiful My Photos.jpg"
-          alt="Contato"
-          className="contato-img"
-        />
-      </section>
+          </div>
+          <img
+            src="/src/assets/site/Beautiful My Photos.jpg"
+            alt="Contato"
+            className="contato-img"
+          />
+        </div>        
+      </section><br/>
     </div>
   );
 

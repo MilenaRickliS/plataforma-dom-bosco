@@ -87,30 +87,78 @@ export default function CriarCurso() {
     
   const validateFront = () => {
     const errors = [];
-    if (!form.nome.trim() || !REGEX_ALFA_NUM_COM_ACENTO.test(form.nome)) {
+
+    const isEmpty = (s = "") => s.trim().length === 0;
+    const atLeastWords = (s = "", n = 15) => countWords(s) >= n;
+
+    
+    if (isEmpty(form.nome) || !REGEX_ALFA_NUM_COM_ACENTO.test(form.nome)) {
       errors.push("Nome inválido (letras, números e acentos).");
     }
-    if (countWords(form.descricao) < 15) errors.push("Descrição: mínimo 15 palavras.");
-    if (!REGEX_SO_LETRAS_COM_ACENTO.test(form.caracteristica || "")) {
+
+   
+    if (!atLeastWords(form.descricao, 15)) {
+      errors.push("Descrição: mínimo 15 palavras.");
+    }
+
+   
+    if (isEmpty(form.caracteristica) || !REGEX_SO_LETRAS_COM_ACENTO.test(form.caracteristica)) {
       errors.push("Característica: apenas letras e acentos.");
     }
-    if (!REGEX_ALFA_NUM_COM_ACENTO.test(form.duracao || "")) {
+
+   
+    if (isEmpty(form.duracao) || !REGEX_ALFA_NUM_COM_ACENTO.test(form.duracao)) {
       errors.push("Duração: letras, números e acentos.");
     }
-    if (!form.tipo) errors.push("Selecione o tipo.");
-    if (!form.linkInscricao.trim()) errors.push("Link de inscrição não pode ser vazio.");
-    const textosMin = ["porqueFazer", "porqueEscolher", "oqueAprender", "oportunidades"];
-    textosMin.forEach(k => {
-      if (countWords(form[k]) < 15) errors.push(`${k}: mínimo 15 palavras.`);
-    });
+
+    
+    if (isEmpty(form.tipo)) errors.push("Selecione o tipo.");
+
+    
+    if (isEmpty(form.linkInscricao)) {
+      errors.push("Link de inscrição não pode ser vazio.");
+    } else {
+      try {
+        new URL(form.linkInscricao);
+      } catch {
+        errors.push("Link de inscrição inválido (URL).");
+      }
+    }
+
+    
+    const camposLongos = [
+      { key: "porqueFazer", label: "Por que fazer?" },
+      { key: "porqueEscolher", label: "Por que escolher?" },
+      { key: "oqueAprender", label: "O que vai aprender?" },
+      { key: "oportunidades", label: "Oportunidades" },
+    ];
+    for (const { key, label } of camposLongos) {
+      if (!atLeastWords(form[key], 15)) {
+        errors.push(`${label}: mínimo 15 palavras.`);
+      }
+    }
+
+   
     if (!Array.isArray(form.corpoDocente) || form.corpoDocente.length < 3) {
       errors.push("Selecione no mínimo 3 docentes.");
     }
+
+    
     if (imagens.length === 0) errors.push("Envie pelo menos 1 imagem.");
     if (imagens.length > 5) errors.push("Máximo de 5 imagens.");
+
     
+    if (!isEmpty(form.matrizLink)) {
+      try {
+        new URL(form.matrizLink);
+      } catch {
+        errors.push("Link da Matriz Curricular inválido (URL).");
+      }
+    }
+
     return errors;
   };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -181,58 +229,73 @@ export default function CriarCurso() {
         <label>Link Inscrição:</label>    
         <input type="url" name="linkInscricao" placeholder="Link de inscrição" onChange={handleChange} required />
          <label>Por que fazer esse curso?</label>
-         <div className="descricao-container">
-          <textarea
-            name="porqueFazer"
-            placeholder="Por que fazer? (mín. 15 palavras)" onChange={handleChange} required 
-          />
-          <span
-            className={`contador-palavras ${
-              countWords(form.porqueFazer) < 15 ? "incompleto" : "ok"
-            }`}
-          >
-            {countWords(form.porqueFazer)} / 15 palavras
-          </span>
-        </div>  
-        <label>Por que escolher esse curso no Instituto?</label>
-        <div className="descricao-container">
-          <textarea
-            name="porqueEscolher" placeholder="Por que escolher este curso no Instituto? (mín. 15 palavras)" onChange={handleChange} required 
-          />
-          <span
-            className={`contador-palavras ${
-              countWords(form.porqueFazer) < 15 ? "incompleto" : "ok"
-            }`}
-          >
-            {countWords(form.porqueFazer)} / 15 palavras
-          </span>
-        </div>  
-        <label>O que vai aprender com o curso?</label>
-        <div className="descricao-container">
-          <textarea
-            name="oqueAprender" placeholder="O que vai aprender com o curso? (mín. 15 palavras)" onChange={handleChange} required 
-          />
-          <span
-            className={`contador-palavras ${
-              countWords(form.porqueFazer) < 15 ? "incompleto" : "ok"
-            }`}
-          >
-            {countWords(form.porqueFazer)} / 15 palavras
-          </span>
-        </div>  
-        <label>Oportunidades:</label>    
-        <div className="descricao-container">
-          <textarea
-            name="oportunidades" placeholder="Oportunidades (mín. 15 palavras)" onChange={handleChange} required 
-          />
-          <span
-            className={`contador-palavras ${
-              countWords(form.porqueFazer) < 15 ? "incompleto" : "ok"
-            }`}
-          >
-            {countWords(form.porqueFazer)} / 15 palavras
-          </span>
-        </div>       
+          <div className="descricao-container">
+            <textarea
+              name="porqueFazer"
+              placeholder="Por que fazer? (mín. 15 palavras)"
+              onChange={handleChange}
+              required
+            />
+            <span
+              className={`contador-palavras ${
+                countWords(form.porqueFazer) < 15 ? "incompleto" : "ok"
+              }`}
+            >
+              {countWords(form.porqueFazer)} / 15 palavras
+            </span>
+          </div>
+
+          <label>Por que escolher esse curso no Instituto?</label>
+          <div className="descricao-container">
+            <textarea
+              name="porqueEscolher"
+              placeholder="Por que escolher este curso no Instituto? (mín. 15 palavras)"
+              onChange={handleChange}
+              required
+            />
+            <span
+              className={`contador-palavras ${
+                countWords(form.porqueEscolher) < 15 ? "incompleto" : "ok"
+              }`}
+            >
+              {countWords(form.porqueEscolher)} / 15 palavras
+            </span>
+          </div>
+
+          <label>O que vai aprender com o curso?</label>
+          <div className="descricao-container">
+            <textarea
+              name="oqueAprender"
+              placeholder="O que vai aprender com o curso? (mín. 15 palavras)"
+              onChange={handleChange}
+              required
+            />
+            <span
+              className={`contador-palavras ${
+                countWords(form.oqueAprender) < 15 ? "incompleto" : "ok"
+              }`}
+            >
+              {countWords(form.oqueAprender)} / 15 palavras
+            </span>
+          </div>
+
+          <label>Oportunidades:</label>
+          <div className="descricao-container">
+            <textarea
+              name="oportunidades"
+              placeholder="Oportunidades (mín. 15 palavras)"
+              onChange={handleChange}
+              required
+            />
+            <span
+              className={`contador-palavras ${
+                countWords(form.oportunidades) < 15 ? "incompleto" : "ok"
+              }`}
+            >
+              {countWords(form.oportunidades)} / 15 palavras
+            </span>
+          </div>
+     
     
 
         <label>Corpo docente (mín. 3):</label>

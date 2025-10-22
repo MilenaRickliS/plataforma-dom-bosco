@@ -15,13 +15,28 @@ export default function Educacao() {
 
   const sliderRef = useRef(null);
 
-  const cursos = [
-    { id: 1, nome: "Jovem Aprendiz", subtitulo: "A oportunidade que abre portas para o seu futuro!", bg: "linear-gradient(135deg, #6a11cb 0%, #2575fc 100%)", link: "/detalhes-curso"},
-    { id: 2, nome: "Música", subtitulo: "Aprenda a tocar instrumentos do básico ao avançado com professores capacitados!", bg: "linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%)", link: "/detalhes-curso" },
-    { id: 3, nome: "Informática", subtitulo: "Uso básico de computador e internet, Office/Google, e-mail e nuvem, segurança online e noções de hardware/programação para o dia a dia.", bg: "linear-gradient(135deg, #43cea2 0%, #185a9d 100%)", link: "/detalhes-curso" },
-    { id: 4, nome: "Esportes", subtitulo: "Aprenda ou aprimore suas habilidades no seu esporte favorito!", bg: "linear-gradient(135deg, #f7971e 0%, #ffd200 100%)", link: "/detalhes-curso" },
-    { id: 5, nome: "Pré-aprendizagem", subtitulo: "Estimula o aprendizado de habilidades essenciais!", bg: "linear-gradient(135deg, #ff512f 0%, #dd2476 100%)", link: "/detalhes-curso" },
-  ];
+  const [cursos, setCursos] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`${API}/api/cursos`)
+      .then((res) => setCursos(res.data))
+      .catch((err) => console.error("Erro ao carregar cursos:", err));
+  }, []);
+
+  const getCursoGradient = (nome) => {
+    if (!nome) return "linear-gradient(135deg, #606c88 0%, #3f4c6b 100%)";
+
+    const n = nome.toLowerCase();
+    if (n.includes("jovem aprendiz")) return "linear-gradient(135deg, #6a11cb 0%, #2575fc 100%)";
+    if (n.includes("música")) return "linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%)";
+    if (n.includes("informática")) return "linear-gradient(135deg, #43cea2 0%, #185a9d 100%)";
+    if (n.includes("esporte")) return "linear-gradient(135deg, #f7971e 0%, #ffd200 100%)";
+    if (n.includes("pré")) return "linear-gradient(135deg, #ff512f 0%, #dd2476 100%)";
+
+    return "linear-gradient(135deg, #606c88 0%, #3f4c6b 100%)";
+  };
+
 
 
   return (
@@ -32,13 +47,18 @@ export default function Educacao() {
 
         <div className="menu-cursos">
           {cursos.map((curso) => (
-            <div key={curso.id} className="card-curso" style={{ background: curso.bg }}>
+            <div
+              key={curso.id}
+              className="card-curso"
+              style={{ background: getCursoGradient(curso.nome) }}
+            >
               <h4>{curso.nome}</h4>
-              <p>{curso.subtitulo}</p>
-              <Link to={curso.link}>Saiba mais!</Link>
+              <p>{curso.descricao?.split(" ").slice(0, 15).join(" ")}...</p>
+              <Link to={`/detalhes-curso/${curso.id}`}>Saiba mais!</Link>
             </div>
           ))}
         </div>
+
 
         <br/>
 
