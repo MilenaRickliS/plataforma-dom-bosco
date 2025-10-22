@@ -100,8 +100,37 @@ export default function Inicio() {
               <p>{fraseHoje}</p>
             </div>
             <div className="agenda">
-              <p>agenda</p>
+              <div className="mini-calendario">
+                <div className="topo-mini">
+                  <h3>{new Date().toLocaleString("pt-BR", { month: "long" })} {new Date().getFullYear()}</h3>
+                </div>
+                <div className="semana-mini">
+                  {["D", "S", "T", "Q", "Q", "S", "S"].map((dia) => (
+                    <span key={dia}>{dia}</span>
+                  ))}
+                </div>
+                <div className="dias-mini">
+                  {Array.from({ length: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate() }, (_, i) => i + 1).map((dia) => {
+                    const hoje = new Date();
+                    const isHoje =
+                      dia === hoje.getDate() &&
+                      hoje.getMonth() === new Date().getMonth() &&
+                      hoje.getFullYear() === new Date().getFullYear();
+
+                    return (
+                      <div
+                        key={dia}
+                        className={`dia-mini ${isHoje ? "hoje-mini" : ""}`}
+                      >
+                        {dia}
+                      </div>
+                    );
+                  })}
+                </div>
+                <Link to="/aluno/agenda" className="botao-mini-agenda">Ver Agenda Completa</Link>
+              </div>
             </div>
+
           </div>
           <div className="dashboard">
             <div>

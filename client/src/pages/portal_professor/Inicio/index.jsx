@@ -7,6 +7,10 @@ import { GoKebabHorizontal } from "react-icons/go";
 import MenuLateralProfessor from "../../../components/portais/MenuLateralProfessor";
 import MenuTopoProfessor from "../../../components/portais/MenuTopoProfessor";
 import "./style.css";
+import { FaSearch } from "react-icons/fa";
+import { FaQuoteLeft } from "react-icons/fa";
+import { FaBell } from "react-icons/fa";
+import frases from "../../../data/frases.json";
 
 export default function Inicio() {
   const { user } = useContext(AuthContext);
@@ -15,6 +19,7 @@ export default function Inicio() {
   const [materia, setMateria] = useState("");
   const [imagem, setImagem] = useState(null);
   const [turmas, setTurmas] = useState([]);
+  const [fraseHoje, setFraseHoje] = useState("");
   const API = import.meta.env.VITE_API_URL;
 
   
@@ -64,13 +69,32 @@ export default function Inicio() {
       setNomeTurma("");
       setMateria("");
       setImagem(null);
-      // Atualiza lista
+      
       setTurmas((prev) => [...prev, { nomeTurma, materia, imagem: imgUrl, codigo: data.codigo }]);
     } catch (error) {
       console.error("Erro ao criar turma:", error.response?.data || error);
       alert("Erro ao criar turma. Verifique os dados e tente novamente.");
     }
   };
+  
+  useEffect(() => {
+    if (!user?.uid) return;
+
+    const hoje = new Date();
+    const diaDoAno = Math.floor(
+      (hoje - new Date(hoje.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24)
+    );
+
+    
+    const somaChar = user.uid
+      .split("")
+      .reduce((acc, c) => acc + c.charCodeAt(0), 0);
+
+   
+    const index = (diaDoAno + somaChar) % frases.length;
+
+    setFraseHoje(frases[index]);
+  }, [user]);
 
   if (!user) {
     return <p>Carregando informações do professor...</p>;
@@ -82,34 +106,95 @@ export default function Inicio() {
       <div className="page2">
         <main>
           <MenuTopoProfessor />
-          <h1>Minhas Turmas</h1>
-
-          <div className="turmas-grid">
-            {turmas.length > 0 ? (
-              turmas.map((turma) => (
-                <Link
-                  key={turma.codigo}
-                  to={`/professor/turma/${turma.codigo}`}
-                  className="container-turma"
-                >
-                  <div className="turma-inicio">
-                    <div className="img-turma">
-                      <img src={turma.imagem} alt={turma.nomeTurma} />
-                      <GoKebabHorizontal size={20} className="kebab-icon" />
-                    </div>
-                    <p>{turma.nomeTurma}</p>
-                  </div>
-                  <div className="atividades-turma">
-                    <p>
-                      <MdOutlinePushPin /> {turma.materia}
-                    </p>
-                  </div>
-                </Link>
-              ))
-            ) : (
-              <p className="sem-turmas">Nenhuma turma criada ainda.</p>
-            )}
+          <div className="barra-pesquisa-dashboard">
+              <p>Pesquisar...</p>
+              <FaSearch />
           </div>
+          <div className="inicio-dashboard">
+            <div className="frase">
+              <FaQuoteLeft />
+              <p>{fraseHoje}</p>
+            </div>
+            <div className="agenda">
+              <div className="mini-calendario">
+                <div className="topo-mini">
+                  <h3>{new Date().toLocaleString("pt-BR", { month: "long" })} {new Date().getFullYear()}</h3>
+                </div>
+                <div className="semana-mini">
+                  {["D", "S", "T", "Q", "Q", "S", "S"].map((dia) => (
+                    <span key={dia}>{dia}</span>
+                  ))}
+                </div>
+                <div className="dias-mini">
+                  {Array.from({ length: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate() }, (_, i) => i + 1).map((dia) => {
+                    const hoje = new Date();
+                    const isHoje =
+                      dia === hoje.getDate() &&
+                       hoje.getMonth() === new Date().getMonth() &&
+                       hoje.getFullYear() === new Date().getFullYear();
+          
+                      return (
+                        <div
+                          key={dia}
+                          className={`dia-mini ${isHoje ? "hoje-mini" : ""}`}
+                        >
+                          {dia}
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <Link to="/professor/agenda" className="botao-mini-agenda">Ver Agenda Completa</Link>
+                </div>
+              </div>
+          
+            </div>
+            <div className="dashboard">
+              <div>
+                <div className="turmas-grid">
+                  {turmas.length > 0 ? (
+                    turmas.map((turma) => (
+                      <Link
+                         key={turma.codigo}
+                         to={`/professor/turma/${turma.codigo}`}
+                         className="container-turma"
+                       >
+                         <div className="turma-inicio">
+                          <div className="img-turma">
+                            <img src={turma.imagem || prof} alt="turma" />
+                            <GoKebabHorizontal size={20} className="kebab-icon" />
+                           </div>
+                           <p>{turma.nomeTurma}</p>
+                         </div>
+                        <div className="atividades-turma">
+                          <p>
+                            <MdOutlinePushPin /> {turma.materia}
+                          </p>
+                        </div>
+                        </Link>
+                          ))
+                          ) : (
+                            <p className="sem-turmas">Nenhuma turma encontrada.</p>
+                          )}
+                        </div>
+                        <div className="section-avisos">
+                          <p>Avisos e Comunicados</p>
+                          <div className="aviso">
+                            <div>
+                              <strong>Titulo</strong>
+                              <p>descricao</p>
+                              <strong>Atensiosamente,<br/>Nome Completo</strong>
+                            </div>
+                            <Link to="/professor/avisos"><FaBell /> Visualizar todos</Link>
+                          </div>
+                        </div>
+                      </div>
+                      <div>
+                        <p>Vídeo Destaque</p>
+                        <div>
+                          Vídeo
+                        </div>
+                      </div>
+                    </div>
 
          
           <button className="botao-flutuante" onClick={() => setOpen(true)}>
