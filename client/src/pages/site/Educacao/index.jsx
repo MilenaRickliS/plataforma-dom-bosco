@@ -14,8 +14,8 @@ export default function Educacao() {
   const API = import.meta.env.VITE_API_URL || "https://plataforma-dom-bosco-backend-krq4dua7f-milenaricklis-projects.vercel.app";
 
   const sliderRef = useRef(null);
-
   const [cursos, setCursos] = useState([]);
+  const [aberta, setAberta] = useState(null);
 
   useEffect(() => {
     axios
@@ -37,7 +37,38 @@ export default function Educacao() {
     return "linear-gradient(135deg, #606c88 0%, #3f4c6b 100%)";
   };
 
-
+  const perguntas = [
+      {
+        pergunta: "Como faço para me inscrever em um curso?",
+        resposta:
+          "As inscrições são realizadas diretamente pelo site, na página do curso desejado. Basta clicar em 'Inscreva-se' e preencher o formulário.",
+      },
+      {
+        pergunta: "Existe idade mínima ou máxima para participar dos cursos?",
+        resposta:
+          "Sim. A idade varia conforme o curso. A maioria dos cursos é voltada para jovens entre 14 e 24 anos, mas alguns projetos aceitam outras faixas etárias.",
+      },
+      {
+        pergunta: "Posso participar de mais de um curso ao mesmo tempo?",
+        resposta:
+          "Depende da disponibilidade de horários e da compatibilidade entre os cursos. Entre em contato com a coordenação para verificar as possibilidades.",
+      },
+      {
+        pergunta: "Qual a duração média dos cursos?",
+        resposta:
+          "Os cursos têm duração variável, geralmente entre 3 e 12 meses, dependendo da carga horária e do conteúdo programático.",
+      },
+      {
+        pergunta: "Quais documentos são necessários para matrícula?",
+        resposta:
+          "Documento de identidade, CPF, comprovante de residência e, no caso de menores de idade, documentos do responsável legal.",
+      },
+      {
+        pergunta: "Como sei se minha matrícula foi confirmada?",
+        resposta:
+          "Você receberá um e-mail ou mensagem de confirmação após a análise da inscrição. Também é possível confirmar diretamente com o Instituto.",
+      },
+    ];
 
   return (
     <div className="page">
@@ -110,12 +141,16 @@ export default function Educacao() {
         <section className="perguntas">
           <h2>Perguntas frequentes</h2>
           <ul>
-            <li><FaLongArrowAltRight /> Como faço para me inscrever em um curso?</li>
-            <li><FaLongArrowAltRight /> Existe idade mínima ou máxima para participar dos cursos?</li>
-            <li><FaLongArrowAltRight /> Posso participar de mais de um curso ao mesmo tempo?</li>
-            <li><FaLongArrowAltRight /> Qual a duração média dos cursos?</li>
-            <li><FaLongArrowAltRight /> Quais documentos são necessários para matrícula?</li>
-            <li><FaLongArrowAltRight /> Como sei se minha matrícula foi confirmada?</li>
+            {perguntas.map((item, i) => (
+              <li
+                key={i}
+                onClick={() => setAberta(aberta === i ? null : i)}
+                className={aberta === i ? "aberta" : ""}
+              >
+                <FaLongArrowAltRight /> {item.pergunta}
+                {aberta === i && <p className="resposta">{item.resposta}</p>}
+              </li>
+            ))}
           </ul>
         </section>
       </main>
