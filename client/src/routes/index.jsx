@@ -50,8 +50,6 @@ import AddAtividadeProfessor from '../pages/portal_professor/AddAtividade';
 import AtividadesProfessor from '../pages/portal_professor/Atividades';
 import AtivDetalheProfessor from '../pages/portal_professor/AtivDetalhes';
 import AlunosProfessor from '../pages/portal_professor/Alunos';
-import ChamadaProfessor from '../pages/portal_professor/Chamada';
-import TodasChamadasProfessor from '../pages/portal_professor/TodasChamadas';
 
 import InicioRefeicao from '../pages/adm/refeicao/Inicio';
 import AdicionarRefeicao from '../pages/adm/refeicao/Adicionar';

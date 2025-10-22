@@ -1,3 +1,39 @@
+.barra-pesquisa-dashboard{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #555;
+    background-color: #fff;
+    border-radius: 30px;
+    padding: 0px 20px;
+    margin: 15px;
+}
+.inicio-dashboard{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+.frase{
+    background: #FFEC82;
+    background: linear-gradient(90deg,rgba(255, 236, 130, 1) 0%, rgba(251, 188, 5, 1) 100%);
+    color: #000;
+    font-weight: 500;
+    border-radius: 20px;
+    padding: 30px;
+}
+.agenda{
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 30px;
+    color: #000;
+}
+.dashboard{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+/* turmas */
 .container-turma{
     display: flex;
     flex-direction: column;
@@ -60,6 +96,29 @@
   color: #555;
 }
 
+/* avisos */
+.section-avisos{
+    color: #000;
+}
+.aviso{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 30px;
+    padding: 30px;
+}
+.aviso a{
+    background-color: #FBBC05;
+    font-weight: bold;
+    color: #000;
+    text-decoration: none;
+    border-radius: 20px;
+    padding: 30px;
+    margin-left: 15px;
+}
+
+/* responsividade */
 @media (max-width: 370px) {
     .container-turma{
         width: 190px;

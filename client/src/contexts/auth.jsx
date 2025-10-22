@@ -32,6 +32,7 @@ export default function AuthProvider({ children }) {
           if (!res.ok) throw new Error(data.message);
 
           setUser({
+            uid: firebaseUser.uid, 
             email: data.email,
             role: data.role,
             displayName: data.nome || firebaseUser.displayName || data.email,
@@ -67,6 +68,7 @@ export default function AuthProvider({ children }) {
       if (!res.ok) throw new Error(data.message);
 
       setUser({
+        uid: firebaseUser.uid,
         email: data.email,
         role: data.role,
         displayName: data.nome || firebaseUser.displayName || data.email,
