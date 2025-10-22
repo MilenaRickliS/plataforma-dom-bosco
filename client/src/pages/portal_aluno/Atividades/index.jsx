@@ -11,9 +11,9 @@ export default function Atividades() {
         <main id="sala">
             <MenuTopoAluno/>
           <div className="menu-turma">
-            <NavLink to="/turma-aluno">Painel</NavLink>
-            <NavLink to="#">Todas as atividades</NavLink>
-            <NavLink to="/alunos">Alunos</NavLink>
+            <NavLink to="/aluno/turma">Painel</NavLink>
+            <NavLink to="/aluno/atividades">Todas as atividades</NavLink>
+            <NavLink to="/aluno/alunos-turma">Alunos</NavLink>
           </div>
         </main>
       </div>

@@ -15,8 +15,8 @@ export default function Turma() {
             <MenuTopoProfessor/>
           <div className="menu-turma">
             <NavLink to="#">Painel</NavLink>
-            <NavLink to="/atividades-professor">Todas as atividades</NavLink>
-            <NavLink to="/alunos-professor">Alunos</NavLink>
+            <NavLink to="/professor/atividades">Todas as atividades</NavLink>
+            <NavLink to="/professor/alunos-turma">Alunos</NavLink>
           </div>
           <div className="titulo-sala-alunos">
             <div>
@@ -35,7 +35,7 @@ export default function Turma() {
                     <li>Data de entrega:15/09 - 00:00h - Atividade 1</li>
                 </ul>
             </div>
-                <Link to="/ativ-detalhes-professor" className="atividade">
+                <Link to="/professor/detalhes-ativ" className="atividade">
                     <FaFolder className="folder"/>
                     <div>
                     <h4>Título Atividade</h4>

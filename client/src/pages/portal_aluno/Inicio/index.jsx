@@ -15,7 +15,7 @@ export default function Inicio() {
         <main>
             <MenuTopoAluno/>
           <h1>Conteúdo do Aluno</h1>
-          <Link to="/turma-aluno" className="container-turma">
+          <Link to="/aluno/turma" className="container-turma">
             <div className="turma-inicio">
                 <div className="img-turma">
                     <img src={prof} alt="professor"/>

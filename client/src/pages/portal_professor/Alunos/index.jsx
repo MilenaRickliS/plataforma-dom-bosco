@@ -11,19 +11,16 @@ export default function Alunos() {
         <main id="sala">
             <MenuTopoProfessor/>
           <div className="menu-turma">
-            <NavLink to="/turma-professor">Painel</NavLink>
-            <NavLink to="/atividades-professor">Todas as atividades</NavLink>
-            <NavLink to="/alunos-professor">Alunos</NavLink>
+            <NavLink to="/professor/turma">Painel</NavLink>
+            <NavLink to="/professor/atividades">Todas as atividades</NavLink>
+            <NavLink to="/professor/alunos-turma">Alunos</NavLink>
           </div>
           <div className="titulo-sala-alunos">
             <div>
                 <h3>Informática</h3>
                 <p>Turma A</p>
             </div>
-            <div className="botoes-chamada">
-                <Link to="/chamada-professor" className="botao-chamada">Realizar chamada</Link>
-                <Link to="/todas-chamadas-professor" className="botao-visualizar-chamada">Ver todas as chamadas</Link>
-            </div>
+            
             
           </div>
         </main>
