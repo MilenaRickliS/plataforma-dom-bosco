@@ -87,10 +87,17 @@ export default async function handler(req, res) {
 
     
     if (method === "PUT" && id) {
-      const { title } = await parseJson(req);
-      await db.collection("galeria").doc(id).update({ title });
-      return res.status(200).json({ message: "Título atualizado com sucesso!" });
+    const { title } = req.body; // 👈 usa o body já tratado pelo Express
+    if (!title) {
+      return res.status(400).json({ error: "Título não fornecido." });
     }
+
+    await db.collection("galeria").doc(id).update({ title });
+    return res.status(200).json({ message: "Título atualizado com sucesso!" });
+  }
+
+
+
 
     
     if (method === "DELETE" && id) {

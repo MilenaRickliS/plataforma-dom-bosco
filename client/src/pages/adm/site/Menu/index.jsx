@@ -69,7 +69,7 @@ export default function MenuGestao() {
 
         try {
         if (editando) {
-            await axios.put(`${API}/api/equipe/${editando}`, formData);
+            await axios.put(`${API}/api/equipe?id=${editando}`, formData);
             mostrarToast("Membro atualizado com sucesso!", "sucesso");
         } else {
             await axios.post(`${API}/api/equipe`, formData);
@@ -91,7 +91,7 @@ export default function MenuGestao() {
     const handleDelete = async (id) => {
         if (window.confirm("Tem certeza que deseja excluir este membro?")) {
         try {
-            await axios.delete(`${API}/api/equipe/${id}`);
+            await axios.delete(`${API}/api/equipe?id=${id}`);
             fetchEquipe();
             mostrarToast("Membro excluído com sucesso!", "sucesso");
         } catch (error) {

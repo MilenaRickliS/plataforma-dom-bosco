@@ -89,10 +89,11 @@ export default function GaleriaGestao() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${API}/api/galeria/${id}`);
+      await axios.delete(`${API}/api/galeria?id=${id}`);
       fetchFotos();
       showToast("Imagem excluída! 🗑️");
     } catch {
+      
       showToast("Erro ao excluir imagem ❌", "erro");
     }
   };
@@ -110,7 +111,7 @@ export default function GaleriaGestao() {
     }
 
     try {
-      await axios.put(`${API}/api/galeria/${id}`, { title: novoTitulo });
+      await axios.put(`${API}/api/galeria?id=${id}`, { title: novoTitulo });
       setEditando(null);
       fetchFotos();
       showToast("Título atualizado! ✏️");
