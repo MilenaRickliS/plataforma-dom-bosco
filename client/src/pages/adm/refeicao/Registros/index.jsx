@@ -14,7 +14,7 @@ export default function Registros() {
     import.meta.env.VITE_API_URL ||
     "https://plataforma-dom-bosco-backend.vercel.app";
 
-  // Buscar registros
+  
   const carregarRegistros = async () => {
     try {
       const res = await fetch(`${API_URL}/api/refeicoes`);
@@ -29,7 +29,7 @@ export default function Registros() {
     carregarRegistros();
   }, []);
 
-  // Salvar edições
+  
   const salvarEdicao = async (id) => {
     try {
       const res = await fetch(`${API_URL}/api/refeicoes`, {
@@ -49,7 +49,7 @@ export default function Registros() {
     }
   };
 
-  // Excluir registro
+  
   const excluirRegistro = async (id) => {
     if (!window.confirm("Tem certeza que deseja excluir este registro?")) return;
     try {

@@ -14,6 +14,7 @@ import usuariosRoutes from "./src/api/usuarios.js";
 import videosRoutes from "./src/api/videos.js";
 import turmasRoutes from "./src/api/turmas.js";
 import refeicoesRoutes from "./src/api/refeicoes.js";
+import relatoriosRoutes from "./src/api/relatorios.js";
 dotenv.config();
 
 const app = express();
@@ -40,6 +41,7 @@ app.use("/api/usuarios", usuariosRoutes);
 app.use("/api/videos", videosRoutes);
 app.use("/api/turmas", turmasRoutes);
 app.use("/api/refeicoes", refeicoesRoutes);
+app.use("/api/relatorios", relatoriosRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
