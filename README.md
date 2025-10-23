@@ -48,16 +48,22 @@ plataforma-dom-bosco/
 │
 └── server/                     # Backend Node.js + Express
     ├── src/
-    │   ├── api/
+    │   ├── api/                # Principais Rotas
     │   │   ├── auth.js
+    │   │   ├── cursos.js
     │   │   ├── depoimentos.js
+    │   │   ├── email.js
     │   │   ├── equipe.js
     │   │   ├── eventos.js
+    │   │   ├── galeria.js
     │   │   ├── oficinas.js
     │   │   ├── projetos.js
-    │   │   └── cursos.js
-    │   └── firebaseAdmin.js
-    ├── server.js
+    │   │   ├── turmas.js
+    │   │   ├── usuarios.js
+    │   │   └── videos.js
+    │   ├── cloudinary.js        # Banco de dados (Fotos e Vídeos)
+    │   └── firebaseAdmin.js     # Banco de dados Firebase
+    ├── server.js                # Código principal            
     ├── package.json
     └── vercel.json
 ```
@@ -116,6 +122,7 @@ plataforma-dom-bosco/
 📁 .env (client)
 ```bash
    VITE_API_URL=https://plataforma-dom-bosco-backend.vercel.app
+   # VITE_API_URL=http://localhost:5000 - quando localmente
 ```
 
 📁 .env (server)

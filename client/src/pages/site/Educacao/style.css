@@ -14,10 +14,6 @@ h1{
     scroll-behavior: smooth;
 }
 
-main h1{
-    font-size: 80px;
-}
-
 .card-curso {
     font-size: 23px;
     min-height: 280px;
