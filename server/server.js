@@ -13,6 +13,7 @@ import cursosRoutes from "./src/api/cursos.js";
 import usuariosRoutes from "./src/api/usuarios.js";
 import videosRoutes from "./src/api/videos.js";
 import turmasRoutes from "./src/api/turmas.js";
+import refeicoesRoutes from "./src/api/refeicoes.js";
 dotenv.config();
 
 const app = express();
@@ -38,6 +39,7 @@ app.use("/api/cursos", cursosRoutes);
 app.use("/api/usuarios", usuariosRoutes);
 app.use("/api/videos", videosRoutes);
 app.use("/api/turmas", turmasRoutes);
+app.use("/api/refeicoes", refeicoesRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));

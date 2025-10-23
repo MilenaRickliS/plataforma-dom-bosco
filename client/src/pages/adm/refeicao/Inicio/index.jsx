@@ -3,9 +3,9 @@ import logo from '../../../../assets/logo2.png';
 import './style.css';
 import { IoIosArrowBack } from "react-icons/io";
 import { FaPlus } from "react-icons/fa6";
-import { FiUpload } from "react-icons/fi";
 import { RiFileEditLine } from "react-icons/ri";
 import { GiBinoculars } from "react-icons/gi";
+import { FaUserPlus } from "react-icons/fa6";
 
 export default function Inicio() {
 
@@ -24,7 +24,7 @@ export default function Inicio() {
           <Link to="/adicionar-refeicao">Adicionar registro diário</Link>
         </Link>
         <Link to="/contar-refeicao" className="opcao1">
-          <FiUpload />
+          <FaUserPlus />
           <Link to="/contar-refeicao" >Fazer contagem de alunos</Link>
         </Link>
         <Link to="/relatorios-refeicao" className="opcao1">
