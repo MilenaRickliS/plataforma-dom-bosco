@@ -53,7 +53,7 @@ import AlunosProfessor from '../pages/portal_professor/Alunos';
 
 import InicioRefeicao from '../pages/adm/refeicao/Inicio';
 import AdicionarRefeicao from '../pages/adm/refeicao/Adicionar';
-import UploadRefeicao from '../pages/adm/refeicao/Upload';
+import ContarRefeicao from '../pages/adm/refeicao/Contar';
 import RelatoriosRefeicao from '../pages/adm/refeicao/Relatorios';
 import RegistrosRefeicao from '../pages/adm/refeicao/Registros';
 
@@ -92,7 +92,7 @@ function RoutesApp(){
 
       <Route path="/inicio-refeicao" element={ <Private rota="admin"><InicioRefeicao/></Private> } />
       <Route path="/adicionar-refeicao" element={ <Private rota="admin"><AdicionarRefeicao/></Private> } />
-      <Route path="/upload-refeicao" element={ <Private rota="admin"><UploadRefeicao/></Private> } />
+      <Route path="/contar-refeicao" element={ <Private rota="admin"><ContarRefeicao/></Private> } />
       <Route path="/relatorios-refeicao" element={ <Private rota="admin"><RelatoriosRefeicao/></Private> } />
       <Route path="/registros-refeicao" element={ <Private rota="admin"><RegistrosRefeicao/></Private> } />
 

@@ -23,9 +23,9 @@ export default function Inicio() {
           <FaPlus />
           <Link to="/adicionar-refeicao">Adicionar registro diário</Link>
         </Link>
-        <Link to="/upload-refeicao" className="opcao1">
+        <Link to="/contar-refeicao" className="opcao1">
           <FiUpload />
-          <Link to="/upload-refeicao" >Fazer upload de alunos matriculados</Link>
+          <Link to="/contar-refeicao" >Fazer contagem de alunos</Link>
         </Link>
         <Link to="/relatorios-refeicao" className="opcao1">
           <RiFileEditLine />
