@@ -1,5 +1,4 @@
 import admin from "../firebaseAdmin.js";
-
 const db = admin.firestore();
 
 export default async function handler(req, res) {
@@ -7,20 +6,20 @@ export default async function handler(req, res) {
 
   if (req.method === "POST") {
     try {
-      const { titulo, total } = req.body;
+      const { titulo, total, data } = req.body;
       if (!titulo || total === undefined) {
         return res.status(400).json({ error: "Título e total são obrigatórios." });
       }
 
-      const dataAtual = new Date();
-      const dataFormatada = dataAtual.toLocaleString("pt-BR", {
-        timeZone: "America/Sao_Paulo",
-      });
+      
+      const dataString =
+        data ||
+        new Date().toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" });
 
       const doc = {
         titulo,
-        total,
-        data: dataFormatada,
+        total: Number(total),
+        data: dataString, 
         timestamp: admin.firestore.FieldValue.serverTimestamp(),
       };
 
@@ -52,9 +51,9 @@ export default async function handler(req, res) {
       if (!id) return res.status(400).json({ error: "ID é obrigatório." });
 
       const atualizacoes = {};
-      if (titulo !== undefined) atualizacoes.titulo = titulo;
+      if (titulo) atualizacoes.titulo = titulo;
       if (total !== undefined) atualizacoes.total = Number(total);
-      if (data) atualizacoes.data = data;
+      if (data) atualizacoes.data = data; 
 
       await refeicoesRef.doc(id).update(atualizacoes);
 

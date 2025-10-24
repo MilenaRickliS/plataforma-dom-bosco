@@ -91,14 +91,22 @@ export default function Contar() {
     }
     setSalvando(true);
     try {
+      
+      const dataAtual = new Date();
+      const dataString = dataAtual.toLocaleString("pt-BR", {
+        timeZone: "America/Sao_Paulo",
+      });
+
       const response = await fetch(`${API_URL}/api/refeicoes`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           titulo,
           total: contador,
+          data: dataString, 
         }),
       });
+
 
       if (response.ok) {
         setMensagem("💾 Registro salvo com sucesso!");

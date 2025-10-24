@@ -21,19 +21,19 @@ export default function Inicio() {
       <div className="opcoes-ref">
         <Link to="/adicionar-refeicao" className="opcao1">
           <FaPlus />
-          <Link to="/adicionar-refeicao">Adicionar registro diário</Link>
+          Adicionar registro diário
         </Link>
         <Link to="/contar-refeicao" className="opcao1">
           <FaUserPlus />
-          <Link to="/contar-refeicao" >Fazer contagem de alunos</Link>
+          Fazer contagem de alunos
         </Link>
         <Link to="/relatorios-refeicao" className="opcao1">
           <RiFileEditLine />
-          <Link to="/relatorios-refeicao" >Relatórios</Link>
+          Relatórios
         </Link>
         <Link to="/registros-refeicao" className="opcao1">
           <GiBinoculars />
-          <Link to="/registros-refeicao" >Ver todos os registros</Link>
+          Ver todos os registros
         </Link>
       </div>
     </div>
