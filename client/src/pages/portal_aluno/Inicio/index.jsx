@@ -152,6 +152,25 @@ export default function Inicio() {
     setVideoDestaque(videos[idx]);
   }, [videos, user]);
 
+  useEffect(() => {
+    if (!user?.uid) return;
+
+    const carregarAvisosNaoLidos = async () => {
+      try {
+        const res = await axios.get(`${API}/api/avisos?alunoId=${user.uid}`);
+        const naoLidos = res.data.filter((a) => !a.lido).length;
+        
+        
+        localStorage.setItem("avisosNaoLidos", naoLidos.toString());
+        window.dispatchEvent(new Event("storage"));
+      } catch (err) {
+        console.error("Erro ao atualizar avisos não lidos:", err);
+      }
+    };
+
+    carregarAvisosNaoLidos();
+  }, [user]);
+
   return (
     <div className="layout">
       <MenuLateralAluno />
