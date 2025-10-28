@@ -15,6 +15,11 @@ export default function Atividades() {
             <NavLink to="/professor/atividades">Todas as atividades</NavLink>
             <NavLink to="/professor/alunos-turma">Alunos</NavLink>
           </div>
+          <div className="add-atividade-area">
+            <NavLink to="/add-atividade-professor" className="add-atividade-box">
+              + Adicionar atividade
+            </NavLink>
+          </div>
         </main>
       </div>
     </div>

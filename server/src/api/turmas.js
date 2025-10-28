@@ -7,40 +7,45 @@ export default async function handler(req, res) {
   const { method } = req;
 
   try {
-    
     if (method === "GET") {
-        const { professorId, alunoId } = req.query;
-        let turmasQuery = db.collection("turmas");
+      const { professorId, alunoId } = req.query;
+      let turmasQuery = db.collection("turmas");
 
-        if (professorId) {
+      
+      if (professorId) {
         turmasQuery = turmasQuery.where("professorId", "==", professorId);
-        } else if (alunoId) {
+      } else if (alunoId) {
         turmasQuery = turmasQuery.where("alunos", "array-contains", alunoId);
+      }
+
+      const snapshot = await turmasQuery.get();
+      const turmas = [];
+
+      for (const doc of snapshot.docs) {
+        const data = doc.data();
+
+        
+        let professor = null;
+        if (data.professorId) {
+          const profDoc = await db.collection("usuarios").doc(data.professorId).get();
+          if (profDoc.exists) {
+            professor = profDoc.data().nome || "Professor não identificado";
+          }
         }
 
-        try {
-            const { professorId } = req.query;
-            let turmasQuery = db.collection("turmas");
+        turmas.push({
+          id: doc.id,
+          ...data,
+          professorNome: professor,
+        });
+      }
 
-            if (professorId) {
-            turmasQuery = turmasQuery.where("professorId", "==", professorId);
-            }
-
-            const snapshot = await turmasQuery.get();
-            const turmas = snapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-            }));
-
-            return res.status(200).json(turmas);
-        } catch (error) {
-            console.error("Erro ao buscar turmas:", error);
-            return res.status(500).json({ error: "Erro ao buscar turmas" });
-        }
+      return res.status(200).json(turmas);
     }
 
+    
     if (method === "POST" && req.url.includes("/criar")) {
-      const { nomeTurma, materia, imagem, professorId } = req.body;
+      const { nomeTurma, materia, imagem, professorId, professorNome } = req.body;
 
       if (!nomeTurma || !materia || !professorId) {
         return res.status(400).json({ error: "Campos obrigatórios faltando" });
@@ -51,9 +56,10 @@ export default async function handler(req, res) {
       const turmaRef = await db.collection("turmas").add({
         nomeTurma,
         materia,
-        imagem,
+        imagem: imagem || "",
         codigo,
-        professorId, 
+        professorId,
+        professorNome: professorNome || "",
         alunos: [],
         criadoEm: new Date(),
       });
@@ -61,19 +67,14 @@ export default async function handler(req, res) {
       return res.status(201).json({ id: turmaRef.id, codigo });
     }
 
-  
+    
     if (method === "POST" && req.url.includes("/ingressar")) {
       const { codigo, alunoId } = req.body;
-
       if (!codigo || !alunoId) {
         return res.status(400).json({ error: "Código e alunoId são obrigatórios" });
       }
 
-      const turmaSnap = await db
-        .collection("turmas")
-        .where("codigo", "==", codigo)
-        .get();
-
+      const turmaSnap = await db.collection("turmas").where("codigo", "==", codigo).get();
       if (turmaSnap.empty) {
         return res.status(404).json({ error: "Turma não encontrada" });
       }
@@ -85,17 +86,12 @@ export default async function handler(req, res) {
         alunos: admin.firestore.FieldValue.arrayUnion(alunoId),
       });
 
-      return res.json({
-        message: "Aluno adicionado com sucesso",
-        turmaId: turmaDoc.id,
-      });
+      return res.json({ message: "Aluno adicionado com sucesso", turmaId: turmaDoc.id });
     }
 
-   
     return res.status(405).json({ error: "Método não permitido" });
-
   } catch (error) {
     console.error("Erro na rota de turmas:", error);
-    res.status(500).json({ error: "Erro interno no servidor" });
+    return res.status(500).json({ error: "Erro interno no servidor" });
   }
 }

@@ -1,0 +1,71 @@
+.form-add-ativ {
+  background: #868CFD;
+  border-radius: 20px;
+  padding: 24px;
+  margin: 16px 0;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 3px 0px,
+    rgba(0, 0, 0, 0.03) 0px 1px 2px 0px;
+}
+
+.form-add-ativ h3 {
+  margin: 0 0 12px;
+  color: #000;
+}
+
+.form-add-ativ label {
+  display: block;
+  margin-bottom: 12px;
+}
+
+.form-add-ativ label span {
+  display: block;
+  font-size: 0.95rem;
+  margin-bottom: 6px;
+  color: #000;
+}
+
+.form-add-ativ input,
+.form-add-ativ textarea,
+.form-add-ativ select {
+  width: 100%;
+  border: 1px solid #d7d7d7;
+  border-radius: 10px;
+  padding: 10px 12px;
+  outline: none;
+  background: #fff;
+  color: #000;
+}
+
+.form-add-ativ input::placeholder,
+.form-add-ativ textarea::placeholder {
+  color: #666;
+}
+
+.form-add-ativ .row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.form-add-ativ .acoes {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.btn {
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn.primario {
+  background: #1E3B7D; 
+  color: #fff;
+}
+
+.btn.secundario {
+  background: #eeeeee;
+}
