@@ -10,9 +10,13 @@ import axios from "axios";
 import { FaSearch } from "react-icons/fa";
 import { FiEdit3 } from "react-icons/fi";
 import { FaTrashCan } from "react-icons/fa6";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 export default function Agenda() {
   const { user } = useContext(AuthContext);
+  const [contagemDescricao, setContagemDescricao] = useState(0);
   const [dataAtual, setDataAtual] = useState(new Date());
   const [tarefas, setTarefas] = useState({});
    const [mostrarForm, setMostrarForm] = useState(null);
@@ -91,10 +95,29 @@ export default function Agenda() {
   }, [diaSelecionado]);
 
   
-  const handleAdicionarTarefa = async (e) => {
+ const handleAdicionarTarefa = async (e) => {
     e.preventDefault();
-    if (!novaTarefa.nome.trim()) return alert("Informe o nome da tarefa.");
-    if (!user) return alert("Usuário não autenticado.");
+
+    if (!user) return toast.error("Usuário não autenticado.");
+
+    const nome = novaTarefa.nome.trim();
+    const descricao = novaTarefa.descricao.trim();
+    const prioridade = novaTarefa.prioridade;
+
+    
+    if (!nome) return toast.error("Informe o nome da tarefa.");
+    if (nome.length < 3)
+      return toast.error("O nome deve ter pelo menos 3 letras.");
+    if (nome.split(" ").length > 5)
+      return toast.error("O nome pode ter no máximo 5 palavras.");
+
+    
+    if (descricao && descricao.split(" ").length > 30)
+      return toast.error("A descrição pode ter no máximo 30 palavras.");
+
+   
+    if (!prioridade)
+      return toast.error("Selecione uma prioridade para a tarefa.");
 
     const payload = {
       ...novaTarefa,
@@ -115,10 +138,13 @@ export default function Agenda() {
       setNovaTarefa({ nome: "", descricao: "", prioridade: "baixa", lembrete: "" });
       setMostrarForm(null);
       setDiaSelecionado(null);
+      toast.success("Tarefa adicionada com sucesso!");
     } catch (err) {
       console.error("Erro ao criar tarefa:", err);
+      toast.error("Erro ao salvar tarefa. Tente novamente.");
     }
   };
+
 
   
   const toggleConclusao = async (chaveDia, id) => {
@@ -140,6 +166,27 @@ export default function Agenda() {
   const handleEditarTarefa = async () => {
   if (!novaTarefa.id) return alert("Nenhuma tarefa selecionada para edição.");
 
+   if (!user) return toast.error("Usuário não autenticado.");
+
+    const nome = novaTarefa.nome.trim();
+    const descricao = novaTarefa.descricao.trim();
+    const prioridade = novaTarefa.prioridade;
+
+    
+    if (!nome) return toast.error("Informe o nome da tarefa.");
+    if (nome.length < 3)
+      return toast.error("O nome deve ter pelo menos 3 letras.");
+    if (nome.split(" ").length > 5)
+      return toast.error("O nome pode ter no máximo 5 palavras.");
+
+    
+    if (descricao && descricao.split(" ").length > 30)
+      return toast.error("A descrição pode ter no máximo 30 palavras.");
+
+   
+    if (!prioridade)
+      return toast.error("Selecione uma prioridade para a tarefa.");
+  
   try {
     await axios.put(`${API_URL}/api/tarefas?id=${novaTarefa.id}`, {
       nome: novaTarefa.nome,
@@ -160,8 +207,11 @@ export default function Agenda() {
     setNovaTarefa({ nome: "", descricao: "", prioridade: "baixa", lembrete: "" });
     setEditando(null);
     setMostrarForm(null);
+    toast.success("Tarefa atualizada com sucesso!");
+
   } catch (err) {
     console.error("Erro ao editar tarefa:", err);
+    toast.error("Erro ao salvar tarefa. Tente novamente.");
   }
 };
 
@@ -432,13 +482,25 @@ export default function Agenda() {
                                 setNovaTarefa({ ...novaTarefa, nome: e.target.value })
                               }
                             />
+                            <div className="campo-descricao-tarefa">
                             <textarea
                               placeholder="Descrição (opcional)"
                               value={novaTarefa.descricao}
-                              onChange={(e) =>
-                                setNovaTarefa({ ...novaTarefa, descricao: e.target.value })
-                              }
+                              onChange={(e) => {
+                                const texto = e.target.value;
+                                const palavras = texto.trim().split(/\s+/).filter(Boolean);
+                                setNovaTarefa({ ...novaTarefa, descricao: texto });
+                                setContagemDescricao(palavras.length);
+                                if (palavras.length > 30) {
+                                  toast.warning("⚠️ Limite de 30 palavras atingido!");
+                                }
+                              }}
                             />
+                            <p className={`contador-palavras-tarefa ${contagemDescricao > 30 ? "excedido" : ""}`}>
+                              {contagemDescricao}/30 palavras
+                            </p>
+                          </div>
+
                             <select
                               value={novaTarefa.prioridade}
                               onChange={(e) =>
