@@ -1,6 +1,7 @@
 .menu-portais{
     background-color: #fff;
     padding: 30px;
+    gap: 10px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -20,4 +21,17 @@
 }
 .link-usuarios:hover{
     background-color: #2c71f6;
+}
+.link-turmas{
+    text-align: center;
+    background-color: #0c530c;
+    color: #fff;
+    padding: 10px;
+    text-decoration: none;
+    border-radius: 20px;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+.link-turmas:hover{
+    background-color: #36be0c;
 }
