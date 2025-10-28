@@ -133,7 +133,8 @@ function RoutesApp(){
       <Route path="/professor/documentos" element={ <Private rota="professor"><DocumentosProfessor/></Private> } />
       <Route path="/professor/ajuda" element={ <Private rota="professor"><AjudaProfessor/></Private> } />
       <Route path="/professor/avisos" element={ <Private rota="professor"><AvisosProfessor/></Private> } />
-      <Route path="/add-avisos-professor" element={ <Private rota="professor"><PostAvisosProfessor/></Private> } />
+      <Route path="/professor/add-avisos-professor" element={<Private rota="professor"><PostAvisosProfessor/></Private>} />
+      <Route path="/professor/editar-aviso/:id" element={<Private rota="professor"><PostAvisosProfessor/></Private>} />
       <Route path="/professor/perfil" element={ <Private rota="professor"><PerfilProfessor/></Private> } />
       <Route path="/professor/turma" element={ <Private rota="professor"><TurmaProfessor/></Private> } />
       <Route path="/add-atividade-professor" element={ <Private rota="professor"><AddAtividadeProfessor/></Private> } />
