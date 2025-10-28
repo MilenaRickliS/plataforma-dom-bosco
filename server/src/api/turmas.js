@@ -11,7 +11,7 @@ export default async function handler(req, res) {
       const { professorId, alunoId } = req.query;
       let turmasQuery = db.collection("turmas");
 
-      // 🔹 Filtros opcionais
+      
       if (professorId) {
         turmasQuery = turmasQuery.where("professorId", "==", professorId);
       } else if (alunoId) {
@@ -24,7 +24,7 @@ export default async function handler(req, res) {
       for (const doc of snapshot.docs) {
         const data = doc.data();
 
-        // Buscar dados do professor
+        
         let professor = null;
         if (data.professorId) {
           const profDoc = await db.collection("usuarios").doc(data.professorId).get();
@@ -43,7 +43,7 @@ export default async function handler(req, res) {
       return res.status(200).json(turmas);
     }
 
-    // 🔹 Criar turma
+    
     if (method === "POST" && req.url.includes("/criar")) {
       const { nomeTurma, materia, imagem, professorId, professorNome } = req.body;
 
@@ -67,7 +67,7 @@ export default async function handler(req, res) {
       return res.status(201).json({ id: turmaRef.id, codigo });
     }
 
-    // 🔹 Ingressar em turma
+    
     if (method === "POST" && req.url.includes("/ingressar")) {
       const { codigo, alunoId } = req.body;
       if (!codigo || !alunoId) {
