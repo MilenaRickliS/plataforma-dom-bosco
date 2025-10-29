@@ -4,14 +4,14 @@ import { v4 as uuidv4 } from "uuid";
 const db = admin.firestore();
 
 export default async function handler(req, res) {
-  const { method } = req;
+  const { method, url, query, body } = req;
 
   try {
-    if (method === "GET") {
-      const { professorId, alunoId } = req.query;
+    
+    if (method === "GET" && !url.includes("/alunos")) {
+      const { professorId, alunoId } = query;
       let turmasQuery = db.collection("turmas");
 
-      
       if (professorId) {
         turmasQuery = turmasQuery.where("professorId", "==", professorId);
       } else if (alunoId) {
@@ -23,8 +23,6 @@ export default async function handler(req, res) {
 
       for (const doc of snapshot.docs) {
         const data = doc.data();
-
-        
         let professor = null;
         if (data.professorId) {
           const profDoc = await db.collection("usuarios").doc(data.professorId).get();
@@ -44,8 +42,59 @@ export default async function handler(req, res) {
     }
 
     
-    if (method === "POST" && req.url.includes("/criar")) {
-      const { nomeTurma, materia, imagem, professorId, professorNome } = req.body;
+    if (method === "GET" && url.includes("/alunos")) {
+      const turmaId = query.turmaId;
+      if (!turmaId) {
+        return res.status(400).json({ error: "turmaId é obrigatório" });
+      }
+
+      const turmaDoc = await db.collection("turmas").doc(turmaId).get();
+      if (!turmaDoc.exists) {
+        return res.status(404).json({ error: "Turma não encontrada" });
+      }
+
+      const { alunos } = turmaDoc.data();
+      if (!alunos || alunos.length === 0) {
+        return res.status(200).json([]);
+      }
+
+      const alunosDetalhes = [];
+
+      for (const alunoId of alunos) {
+        let alunoData = null;
+
+       
+        const alunoDoc = await db.collection("usuarios").doc(alunoId).get();
+        if (alunoDoc.exists) {
+          alunoData = alunoDoc.data();
+        }
+
+        
+        if (!alunoData) {
+          const snap = await db.collection("usuarios").where("uid", "==", alunoId).get();
+          if (!snap.empty) {
+            alunoData = snap.docs[0].data();
+          }
+        }
+
+        
+        if (alunoData) {
+          alunosDetalhes.push({
+            id: alunoId,
+            nome: alunoData.nome || "Sem nome",
+            email: alunoData.email || "",
+            foto: alunoData.foto || "",
+            role: alunoData.role || "",
+          });
+        }
+      }
+
+      return res.status(200).json(alunosDetalhes);
+    }
+
+   
+    if (method === "POST" && url.includes("/criar")) {
+      const { nomeTurma, materia, imagem, professorId, professorNome } = body;
 
       if (!nomeTurma || !materia || !professorId) {
         return res.status(400).json({ error: "Campos obrigatórios faltando" });
@@ -68,8 +117,8 @@ export default async function handler(req, res) {
     }
 
     
-    if (method === "POST" && req.url.includes("/ingressar")) {
-      const { codigo, alunoId } = req.body;
+    if (method === "POST" && url.includes("/ingressar")) {
+      const { codigo, alunoId } = body;
       if (!codigo || !alunoId) {
         return res.status(400).json({ error: "Código e alunoId são obrigatórios" });
       }

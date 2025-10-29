@@ -123,8 +123,9 @@ export default async function handler(req, res) {
         criadoEm: new Date(),
       };
 
-      const ref = await db.collection("usuarios").add(novoUsuario);
-      console.log("✅ Usuário salvo no Firestore:", ref.id);
+      await db.collection("usuarios").doc(userRecord.uid).set(novoUsuario);
+      console.log("✅ Usuário salvo no Firestore com ID igual ao UID:", userRecord.uid);
+
 
       return res.status(201).json({ message: "Usuário criado com sucesso!" });
     } catch (error) {

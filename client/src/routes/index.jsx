@@ -51,6 +51,7 @@ import AddAtividadeProfessor from '../pages/portal_professor/AddAtividade';
 import AtividadesProfessor from '../pages/portal_professor/Atividades';
 import AtivDetalheProfessor from '../pages/portal_professor/AtivDetalhes';
 import AlunosProfessor from '../pages/portal_professor/Alunos';
+import MedalhasAtribuir from '../pages/portal_professor/MedalhasAtribuir';
 
 import InicioRefeicao from '../pages/adm/refeicao/Inicio';
 import AdicionarRefeicao from '../pages/adm/refeicao/Adicionar';
@@ -131,6 +132,7 @@ function RoutesApp(){
       <Route path="/professor/editar-video/:id" element={<Private rota="professor"><EditarVideo/></Private>} />
       <Route path="/add-videos-professor" element={ <Private rota="professor"><AddVideos/></Private> } />
       <Route path="/professor/notas" element={ <Private rota="professor"><NotasProfessor/></Private> } />
+      <Route path="/professor/medalhas/atribuir" element={<Private rota="professor"><MedalhasAtribuir/></Private>} />
       <Route path="/professor/documentos" element={ <Private rota="professor"><DocumentosProfessor/></Private> } />
       <Route path="/professor/ajuda" element={ <Private rota="professor"><AjudaProfessor/></Private> } />
       <Route path="/professor/avisos" element={ <Private rota="professor"><AvisosProfessor/></Private> } />
