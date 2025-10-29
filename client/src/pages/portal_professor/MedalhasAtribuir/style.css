@@ -1,0 +1,462 @@
+.aviso-vazio {
+  text-align: center;
+  color: #555;
+  border-radius: 8px;
+  padding: 8px;
+  margin-top: 10px;
+}
+.titulo-atribuir{
+    text-align: center;
+}
+.filtros-atribuir {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+}
+
+.filtros-atribuir label {
+  display: block;
+  font-weight: 500;
+  color: #334155;
+  margin-bottom: 1rem;
+}
+
+.filtros-atribuir select {
+    color: #1e293b;
+  margin-top: 0.3rem;
+  width: 100%;
+  padding: 0.6rem;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 0.95rem;
+  background: #fff;
+  transition: border 0.2s;
+}
+
+.filtros-atribuir select:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+.alunos-box {
+  margin-top: 1.5rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 1rem;
+  color: #1e293b;
+}
+
+.alunos-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.8rem;
+  color: #1e293b;
+}
+
+.alunos-header strong {
+  font-size: 1.1rem;
+  color: #1e293b;
+}
+
+.alunos-header button {
+  background: #1e293b;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 0.9rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.alunos-header button:hover {
+  background: #1e40af;
+}
+
+
+.lista-alunos-medalhas {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 240px;
+  overflow-y: auto;
+  border-top: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.lista-alunos-medalhas li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0.6rem;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 0.95rem;
+  color: #334155;
+}
+
+.lista-alunos-medalhas li:hover {
+  background: #f1f5f9;
+  transition: 0.2s;
+}
+
+.lista-alunos-medalhas input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 22px;
+  height: 22px;
+  border: 2px solid #94a3b8;
+  border-radius: 50%;
+  background-color: #f8fafc;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+.lista-alunos-medalhas input[type="checkbox"]:hover {
+  border-color: #2563eb;
+}
+
+.lista-alunos-medalhas input[type="checkbox"]:checked {
+  background-color: #2563eb;
+  border-color: #2563eb;
+}
+
+.lista-alunos-medalhas input[type="checkbox"]:checked::after {
+  content: "🏅";
+  font-size: 14px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -52%);
+}
+
+
+/* escolher */
+.picker {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+  color: #1e293b;
+}
+
+.picker h3 {
+  color: #1e3a8a;
+  margin-bottom: 1rem;
+}
+
+.grid-medalhas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.card-medalha {
+  background: #f8fafc;
+  border: 2px solid transparent;
+  border-radius: 14px;
+  padding: 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+
+.card-medalha:hover {
+  transform: translateY(-2px);
+  border-color: #2563eb;
+  background: #f0f5ff;
+}
+
+.card-medalha.selecionado {
+  border-color: #2563eb;
+  box-shadow: 0 0 10px rgba(37,99,235,0.25);
+  background: #e0ecff;
+}
+
+.imagem-medalha {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 0.8rem;
+  border-radius: 50%;
+  border: 3px solid #cbd5e1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  overflow: hidden;
+}
+
+.imagem-medalha img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.info-medalha h4 {
+  margin: 0;
+  font-size: 1rem;
+  color: #1e3a8a;
+  font-weight: 600;
+}
+
+.badge-categoria {
+  display: inline-block;
+  background: #e2e8f0;
+  color: #1e293b;
+  font-size: 0.8rem;
+  border-radius: 6px;
+  padding: 2px 8px;
+}
+
+.status-unico {
+  font-size: 0.85rem;
+  color: #334155;
+  margin-top: 4px;
+}
+
+
+.picker input[type="text"] {
+    background-color: #e2e8f0;
+    color: #1e293b;
+  width: 100%;
+  padding: 0.6rem;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+}
+
+.picker input:focus, 
+.picker select:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+.acoes-medalha button{
+    border-radius: 30px;
+    border: none;
+    padding: 10px;
+    background-color: #b91c1c;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.acoes-medalha button:hover{
+    background-color: #f73a3a;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+}
+.acoes-medalha .edit{
+    background-color: #1e293b;
+    margin-right: 10px;
+}
+.acoes-medalha .edit:hover{
+    background-color: #1e51a3;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+}
+/* criar */
+.criar-modelo {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.criar-modelo h3 {
+  color: #1e3a8a;
+  margin-bottom: 1rem;
+}
+
+.form-modelo label {
+  display: block;
+  margin-bottom: 0.8rem;
+  color: #334155;
+  font-weight: 500;
+}
+
+.form-modelo input[type="text"],
+.form-modelo input[type="url"],
+.form-modelo input[type="color"] {
+    background-color: #e5e7eb;
+    color: #1e293b;
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  font-size: 0.95rem;
+}
+
+.form-modelo input[type="checkbox"] {
+  margin-left: 0.5rem;
+  transform: scale(1.2);
+  accent-color: #2563eb;
+}
+.form-modelo input:focus{
+  outline: none;
+  border-color: #2563eb;
+}
+
+.form-modelo button {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  padding: 0.7rem 1.2rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.form-modelo button:hover {
+  background: #1e40af;
+}
+
+
+
+.lista-alunos-medalhas::-webkit-scrollbar {
+  width: 8px;
+}
+
+.lista-alunos-medalhas::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 8px;
+}
+
+.lista-alunos-medalhas::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.input-nova-categoria {
+  background-color: #e5e7eb;
+  color: #1e293b;
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  font-size: 0.95rem;
+}
+
+.input-nova-categoria:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+.form-modelo select {
+  width: 100%;
+  padding: 0.6rem;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  margin-bottom: 0.8rem;
+  background-color: #e2e8f0;
+  color: #1e293b;
+}
+.form-modelo select:focus{
+  outline: none;
+  border-color: #2563eb;
+}
+.form-modelo input[type="file"] {
+  display: block;
+  margin-top: 6px;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px dashed #94a3b8;
+  background-color: #f8fafc;
+  width: 100%;
+  cursor: pointer;
+  color: #1e293b;
+  font-size: 0.9rem;
+  transition: all 0.25s ease;
+}
+
+.form-modelo input[type="file"]:hover {
+  border-color: #2563eb;
+  background-color: #eff6ff;
+}
+
+.form-modelo input[type="file"]::file-selector-button {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-right: 8px;
+}
+
+.form-modelo input[type="file"]::file-selector-button:hover {
+  background: #1e40af;
+}
+
+
+.preview-imagem {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.preview-imagem img {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 2px solid #2563eb;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+
+
+.form-modelo input[type="color"] {
+  appearance: none;
+  -webkit-appearance: none;
+  border: none;
+  width: 50px;
+  height: 36px;
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 0;
+  background: transparent;
+  box-shadow: 0 0 0 2px #cbd5e1 inset;
+  transition: box-shadow 0.2s;
+}
+
+.form-modelo input[type="color"]:hover {
+  box-shadow: 0 0 0 2px #2563eb inset;
+}
+
+.form-modelo input[type="color"]::-webkit-color-swatch {
+  border-radius: 6px;
+  border: none;
+}
+
+.form-modelo input[type="color"]::-moz-color-swatch {
+  border-radius: 6px;
+  border: none;
+}
+
+
+label[for="color"] {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-cancelar-edicao {
+  background: #ef4444;
+  color: #fff;
+  border: none;
+  padding: 0.7rem 1.2rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: background 0.2s;
+}
+
+.btn-cancelar-edicao:hover {
+  background: #b91c1c;
+}

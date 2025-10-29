@@ -93,6 +93,7 @@ export default function Atividades() {
               + Adicionar atividade
             </NavLink>
           </div>
+<<<<<<< HEAD
 
           {carregando ? (
             <p className="info">Carregando atividades...</p>
@@ -115,6 +116,8 @@ export default function Atividades() {
               </section>
             ))
           )}
+=======
+>>>>>>> main
         </main>
       </div>
     </div>

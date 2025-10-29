@@ -43,6 +43,8 @@ export default function Videos() {
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 2,
+    adaptiveHeight: true,
+    centerMode: false,
     responsive: [
       { breakpoint: 1200, settings: { slidesToShow: 3 } },
       { breakpoint: 900, settings: { slidesToShow: 2 } },

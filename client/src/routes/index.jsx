@@ -51,6 +51,7 @@ import AddAtividadeProfessor from '../pages/portal_professor/AddAtividade';
 import AtividadesProfessor from '../pages/portal_professor/Atividades';
 import AtivDetalheProfessor from '../pages/portal_professor/AtivDetalhes';
 import AlunosProfessor from '../pages/portal_professor/Alunos';
+import MedalhasAtribuir from '../pages/portal_professor/MedalhasAtribuir';
 
 import InicioRefeicao from '../pages/adm/refeicao/Inicio';
 import AdicionarRefeicao from '../pages/adm/refeicao/Adicionar';
@@ -120,6 +121,7 @@ function RoutesApp(){
       <Route path="/aluno/perfil" element={ <Private rota="aluno"><PerfilAluno/></Private> } />
       <Route path="/aluno/turma/:codigo" element={ <Private rota="aluno"><TurmaAluno/></Private> } />
       <Route path="/aluno/turma" element={ <Private rota="aluno"><TurmaAluno/></Private> } />
+      <Route path="/aluno/turma/:codigo" element={ <Private rota="aluno"><TurmaAluno/></Private> } />
       <Route path="/aluno/atividades" element={ <Private rota="aluno"><AtividadesAluno/></Private> } />
       <Route path="/aluno/detalhes-ativ" element={ <Private rota="aluno"><AtivDetalheAluno/></Private> } />
       <Route path="/aluno/alunos-turma" element={ <Private rota="aluno"><AlunosAluno/></Private> } />
@@ -131,6 +133,7 @@ function RoutesApp(){
       <Route path="/professor/editar-video/:id" element={<Private rota="professor"><EditarVideo/></Private>} />
       <Route path="/add-videos-professor" element={ <Private rota="professor"><AddVideos/></Private> } />
       <Route path="/professor/notas" element={ <Private rota="professor"><NotasProfessor/></Private> } />
+      <Route path="/professor/medalhas/atribuir" element={<Private rota="professor"><MedalhasAtribuir/></Private>} />
       <Route path="/professor/documentos" element={ <Private rota="professor"><DocumentosProfessor/></Private> } />
       <Route path="/professor/ajuda" element={ <Private rota="professor"><AjudaProfessor/></Private> } />
       <Route path="/professor/avisos" element={ <Private rota="professor"><AvisosProfessor/></Private> } />

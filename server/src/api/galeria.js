@@ -87,7 +87,7 @@ export default async function handler(req, res) {
 
     
     if (method === "PUT" && id) {
-    const { title } = req.body; // 👈 usa o body já tratado pelo Express
+    const { title } = req.body; 
     if (!title) {
       return res.status(400).json({ error: "Título não fornecido." });
     }

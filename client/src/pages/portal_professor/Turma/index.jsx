@@ -30,12 +30,15 @@ export default function Turma() {
     fetch();
   }, [user, codigo, API]);
 
+<<<<<<< HEAD
   useEffect(() => {
     if (codigo) {
       try { localStorage.setItem('lastTurmaCodigo', codigo); } catch {}
     }
   }, [codigo]);
 
+=======
+>>>>>>> main
   const titulo = turma?.materia || "Turma";
   const subtitulo = turma?.nomeTurma || (codigo ? `Código: ${codigo}` : "");
 

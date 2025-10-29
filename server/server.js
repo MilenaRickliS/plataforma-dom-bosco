@@ -16,6 +16,11 @@ import turmasRoutes from "./src/api/turmas.js";
 import refeicoesRoutes from "./src/api/refeicoes.js";
 import relatoriosRoutes from "./src/api/relatorios.js";
 import tarefasRoutes from "./src/api/tarefas.js";
+<<<<<<< HEAD
+=======
+import avisosRoutes from "./src/api/avisos.js";
+import medalhasRoutes from "./src/api/medalhas.js";
+>>>>>>> main
 dotenv.config();
 
 const app = express();
@@ -44,6 +49,11 @@ app.use("/api/turmas", turmasRoutes);
 app.use("/api/refeicoes", refeicoesRoutes);
 app.use("/api/relatorios", relatoriosRoutes);
 app.use("/api/tarefas", tarefasRoutes);
+<<<<<<< HEAD
+=======
+app.use("/api/avisos", avisosRoutes);
+app.use("/api/medalhas", medalhasRoutes);
+>>>>>>> main
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));

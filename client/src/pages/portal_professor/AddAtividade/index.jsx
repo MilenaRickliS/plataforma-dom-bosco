@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
 import { addDoc, collection, Timestamp, getDocs, query, where } from "firebase/firestore";
+=======
+import { useContext, useState } from "react";
+import { useNavigate, NavLink } from "react-router-dom";
+import { addDoc, collection, Timestamp } from "firebase/firestore";
+>>>>>>> main
 import MenuLateralProfessor from "../../../components/portais/MenuLateralProfessor";
 import MenuTopoProfessor from "../../../components/portais/MenuTopoProfessor";
 import { db } from "../../../services/firebaseConnection";
@@ -19,6 +25,7 @@ export default function AddAtividade() {
   const [valor, setValor] = useState("");
   const [estadoEntregue, setEstadoEntregue] = useState(false);
   const [salvando, setSalvando] = useState(false);
+<<<<<<< HEAD
   const [conteudosSugeridos, setConteudosSugeridos] = useState([]);
 
   useEffect(() => {
@@ -42,6 +49,8 @@ export default function AddAtividade() {
     };
     fetchConteudos();
   }, [user]);
+=======
+>>>>>>> main
 
   const handleSalvar = async (e) => {
     e.preventDefault();
@@ -51,7 +60,10 @@ export default function AddAtividade() {
     try {
       setSalvando(true);
       const dateTime = new Date(`${data}T${hora}:59`);
+<<<<<<< HEAD
       const lastCodigo = (() => { try { return localStorage.getItem('lastTurmaCodigo'); } catch { return null } })();
+=======
+>>>>>>> main
       const payload = {
         tituloAtividade,
         Descricao: descricao,
@@ -59,18 +71,25 @@ export default function AddAtividade() {
         entrega: Timestamp.fromDate(dateTime),
         valor: valor ? Number(valor) : 0,
         estadoEntregue,
+<<<<<<< HEAD
         turmaCodigo: lastCodigo || null,
+=======
+>>>>>>> main
         usuarioId: user.uid,
         criadaEm: new Date().toISOString(),
       };
 
       await addDoc(collection(db, "atividade"), payload);
       alert("Atividade adicionada com sucesso!");
+<<<<<<< HEAD
       if (lastCodigo) {
         navigate(`/professor/turma/${lastCodigo}`);
       } else {
         navigate("/professor/atividades");
       }
+=======
+      navigate("/professor/atividades");
+>>>>>>> main
     } catch (err) {
       console.error("Erro ao salvar atividade:", err);
       alert("Não foi possível salvar. Tente novamente.");
@@ -118,6 +137,7 @@ export default function AddAtividade() {
               <p>Conteúdo:</p>
               <input
                 type="text"
+<<<<<<< HEAD
                 list="conteudos-sugeridos"
                 value={conteudo}
                 onChange={(e) => setConteudo(e.target.value)}
@@ -128,6 +148,12 @@ export default function AddAtividade() {
                   <option key={c} value={c} />
                 ))}
               </datalist>
+=======
+                value={conteudo}
+                onChange={(e) => setConteudo(e.target.value)}
+                placeholder="Coloque o conteúdo da atividade, exemplo: segunda guerra, equações de primeiro grau, etc."
+              />
+>>>>>>> main
             </label>
 
             <div className="row">
@@ -175,6 +201,10 @@ export default function AddAtividade() {
       </div>
     </div>
   );
+<<<<<<< HEAD
 }
 
 
+=======
+}
+>>>>>>> main

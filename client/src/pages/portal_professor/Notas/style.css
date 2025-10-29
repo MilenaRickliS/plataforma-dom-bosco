@@ -1,0 +1,170 @@
+.notas{
+    padding: 20px;
+}
+.btn-atribuir{
+    font-family: "Poppins", sans-serif;
+    background-color: #FBBC05;
+    color: black;
+    font-weight: bold;
+    border:none;
+     padding: 0.6rem 1.2rem;
+    border-radius: 30px;
+    cursor: pointer;
+     font-size: 1rem;
+     display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+}
+.btn-atribuir:hover{
+    background-color: #c49405;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.container-medalhas {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.selecao-turma label{
+    color: #1e293b;
+    font-weight: bold;
+}
+
+.selecao-turma select {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  background: #f8fafc;
+  color: #1e293b;
+  width: 100%;
+}
+.selecao-turma select:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+.lista-alunos-medalhas-view {
+  background: #fff;
+  color: #1e293b;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-top: 1.5rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.aluno-item {
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 10px;
+  border-radius: 20px;
+}
+
+.mini-medalha {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+  text-align: center;
+}
+
+.mini-medalha .mini-img img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #2563eb;
+}
+
+.select-editar-medalha {
+  font-size: 0.7rem;
+  margin-top: 3px;
+  padding: 2px;
+  border-radius: 6px;
+  background-color: #1e293b;
+  color: #fff;
+  cursor: pointer;
+}
+
+.btn-excluir-mini {
+  position: absolute;
+  top: -10px;
+  right: 10px;
+  background: #ef4444;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  font-size: 0.7rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-excluir-mini:hover {
+  background: #b91c1c;
+}
+
+.sem-medalhas {
+  font-style: italic;
+  color: #e0987b;
+}
+
+.grid-todas-medalhas {
+  margin-top: 2rem;
+}
+.grid-todas-medalhas h3, .grid-todas-medalhas p{
+    color: #1e293b;
+}
+
+.grid-medalhas {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.card-medalha-view {
+    
+  background: #fff;
+  border-radius: 10px;
+  padding: 1rem;
+  text-align: center;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
+.card-medalha-view:hover {
+  transform: translateY(-4px);
+}
+
+.card-medalha-view img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #2563eb;
+}
+
+.info-medalha h4 {
+  margin-top: 0.5rem;
+  color: #1e3a8a;
+}
+@media (max-width: 500px) {
+    .container-medalhas{
+        flex-direction: column;
+    }
+    .aluno-item{
+        flex-direction: column;
+    }
+    .mini-medalha{
+        display: flex;
+    }
+}
