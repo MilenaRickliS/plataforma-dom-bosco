@@ -6,6 +6,7 @@ import { MdAdd, MdOutlinePushPin } from "react-icons/md";
 import { GoKebabHorizontal } from "react-icons/go";
 import MenuLateralProfessor from "../../../components/portais/MenuLateralProfessor";
 import MenuTopoProfessor from "../../../components/portais/MenuTopoProfessor";
+import prof from "../../../assets/site/Enri-Clemente-Leigman-scaled-removebg-preview.png";
 import "./style.css";
 import { FaSearch } from "react-icons/fa";
 import { FaQuoteLeft } from "react-icons/fa";

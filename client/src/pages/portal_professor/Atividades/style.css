@@ -1,0 +1,26 @@
+.add-atividade-area {
+  margin: 16px 0 8px;
+}
+
+.add-atividade-box {
+  display: block;
+  width: 100%;
+  padding: 22px 18px;
+  border: 2px dashed #cfcfcf;
+  border-radius: 16px;
+  text-align: center;
+  color: #1f1f1f;
+  background: #ffffff;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.05s ease;
+}
+
+.add-atividade-box:hover {
+  background: #f9f9f9;
+  border-color: #bdbdbd;
+}
+
+.add-atividade-box:active {
+  transform: scale(0.998);
+}

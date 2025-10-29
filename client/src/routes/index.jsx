@@ -119,6 +119,7 @@ function RoutesApp(){
       <Route path="/aluno/avisos" element={ <Private rota="aluno"><AvisosAluno/></Private> } />
       <Route path="/aluno/perfil" element={ <Private rota="aluno"><PerfilAluno/></Private> } />
       <Route path="/aluno/turma" element={ <Private rota="aluno"><TurmaAluno/></Private> } />
+      <Route path="/aluno/turma/:codigo" element={ <Private rota="aluno"><TurmaAluno/></Private> } />
       <Route path="/aluno/atividades" element={ <Private rota="aluno"><AtividadesAluno/></Private> } />
       <Route path="/aluno/detalhes-ativ" element={ <Private rota="aluno"><AtivDetalheAluno/></Private> } />
       <Route path="/aluno/alunos-turma" element={ <Private rota="aluno"><AlunosAluno/></Private> } />
@@ -136,6 +137,7 @@ function RoutesApp(){
       <Route path="/professor/add-avisos-professor" element={<Private rota="professor"><PostAvisosProfessor/></Private>} />
       <Route path="/professor/editar-aviso/:id" element={<Private rota="professor"><PostAvisosProfessor/></Private>} />
       <Route path="/professor/perfil" element={ <Private rota="professor"><PerfilProfessor/></Private> } />
+      <Route path="/professor/turma/:codigo" element={ <Private rota="professor"><TurmaProfessor/></Private> } />
       <Route path="/professor/turma" element={ <Private rota="professor"><TurmaProfessor/></Private> } />
       <Route path="/add-atividade-professor" element={ <Private rota="professor"><AddAtividadeProfessor/></Private> } />
       <Route path="/professor/atividades" element={ <Private rota="professor"><AtividadesProfessor/></Private> } />
