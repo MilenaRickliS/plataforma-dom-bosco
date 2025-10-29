@@ -67,9 +67,4 @@ export default function Turma() {
       </div>
     </div>
   );
-<<<<<<< HEAD
 }
-
-=======
-}
->>>>>>> main

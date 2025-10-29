@@ -16,13 +16,8 @@ export default function GerenciarTurmas() {
   const carregarTurmas = async () => {
     if (!user?.uid) return;
     const url = mostrarTodas
-<<<<<<< HEAD
-      ? `${API}/api/turmas` // Todas
-      : `${API}/api/turmas?professorId=${user.uid}`; // Minhas
-=======
        `${API}/api/turmas` 
     
->>>>>>> main
 
     try {
       const res = await axios.get(url);
