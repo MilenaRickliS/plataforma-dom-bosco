@@ -16,8 +16,6 @@ import turmasRoutes from "./src/api/turmas.js";
 import refeicoesRoutes from "./src/api/refeicoes.js";
 import relatoriosRoutes from "./src/api/relatorios.js";
 import tarefasRoutes from "./src/api/tarefas.js";
-import avisosRoutes from "./src/api/avisos.js";
-import medalhasRoutes from "./src/api/medalhas.js";
 dotenv.config();
 
 const app = express();
