@@ -21,6 +21,7 @@ export default function Inicio() {
   const [turmas, setTurmas] = useState([]);
   const [fraseHoje, setFraseHoje] = useState("");
   const API = import.meta.env.VITE_API_URL;
+  const [avisos, setAvisos] = useState([]);
   
   const [videos, setVideos] = useState([]); 
   const [videoDestaque, setVideoDestaque] = useState(null);
@@ -166,6 +167,22 @@ const toEmbed = (url) => {
     setVideoDestaque(videos[idx]);
   }, [videos, user]);
 
+  const carregarAvisos = async () => {
+    if (!user?.uid) return;
+    try {
+      
+      const res = await axios.get(`${API}/api/avisos?professorId=${user.uid}`);
+      setAvisos(res.data || []);
+    } catch (err) {
+      console.error("Erro ao carregar avisos:", err);
+    }
+  };
+
+  useEffect(() => {
+    carregarAvisos();
+  }, [user]);
+
+
   if (!user) {
     return <p>Carregando informações do professor...</p>;
   }
@@ -256,26 +273,30 @@ const toEmbed = (url) => {
           <div className="dashboard">
             <div className="section-avisos">
                 <strong>Avisos e Comunicados</strong>
-                <div className="aviso">
-                  <div>
-                    <strong>Titulo</strong>
-                    <p>descricao</p>
-                    <strong>Atensiosamente,<br/>Nome Completo</strong>
+
+                {avisos.length > 0 ? (
+                  <div className="aviso">
+                    {avisos.slice(0, 3).map((aviso) => (
+                      <div key={aviso.id} className="aviso-cards">
+                        <h4>{aviso.titulo}</h4>
+                        <p>{aviso.descricao}</p>
+                        <p className="turmas">
+                          Turmas: {aviso.turmasNomes?.join(", ") || "—"}
+                        </p>
+                        <strong className="responsavel">Atenciosamente, {aviso.responsavel}</strong>
+                        
+                      </div>
+                    ))}
                   </div>
-                  <div>
-                    <strong>Titulo</strong>
-                    <p>descricao</p>
-                    <strong>Atensiosamente,<br/>Nome Completo</strong>
-                  </div>
-                  <div>
-                    <strong>Titulo</strong>
-                    <p>descricao</p>
-                    <strong>Atensiosamente,<br/>Nome Completo</strong>
-                  </div>
-                  
-                </div><br/>
-                <Link to="/professor/avisos" className="todos-avisos"><FaBell /> Visualizar todos</Link>
-              </div> 
+                ) : (
+                  <p className="sem-avisos">Nenhum aviso encontrado.</p>
+                )}
+
+                <Link to="/professor/avisos" className="todos-avisos">
+                  <FaBell /> Visualizar todos
+                </Link>
+              </div>
+
                <div className="video-destaque-wrapper">
                 <p>Vídeo Destaque</p>
 

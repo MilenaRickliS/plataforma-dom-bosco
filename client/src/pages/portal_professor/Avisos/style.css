@@ -51,6 +51,7 @@
 .aviso-card p {
   margin: 6px 0;
   font-size: 15px;
+  text-align: justify;
 }
 
 .aviso-card .turmas,
