@@ -1,6 +1,6 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
-import { addDoc, collection, Timestamp } from "firebase/firestore";
+import { addDoc, collection, Timestamp, getDocs, query, where } from "firebase/firestore";
 import MenuLateralProfessor from "../../../components/portais/MenuLateralProfessor";
 import MenuTopoProfessor from "../../../components/portais/MenuTopoProfessor";
 import { db } from "../../../services/firebaseConnection";
@@ -19,6 +19,29 @@ export default function AddAtividade() {
   const [valor, setValor] = useState("");
   const [estadoEntregue, setEstadoEntregue] = useState(false);
   const [salvando, setSalvando] = useState(false);
+  const [conteudosSugeridos, setConteudosSugeridos] = useState([]);
+
+  useEffect(() => {
+    if (!user?.uid) return;
+    const fetchConteudos = async () => {
+      try {
+        let turmaCodigo = null; try { turmaCodigo = localStorage.getItem('lastTurmaCodigo'); } catch {}
+        const filtros = [where("usuarioId", "==", user.uid)];
+        if (turmaCodigo) filtros.push(where("turmaCodigo", "==", turmaCodigo));
+        const qy = query(collection(db, "atividade"), ...filtros);
+        const snap = await getDocs(qy);
+        const s = new Set();
+        snap.forEach((doc) => {
+          const c = doc.data()?.conteudo;
+          if (c && typeof c === 'string') s.add(c.trim());
+        });
+        setConteudosSugeridos(Array.from(s).sort((a,b)=>a.localeCompare(b)));
+      } catch (e) {
+        console.error('Erro ao carregar conteúdos sugeridos:', e);
+      }
+    };
+    fetchConteudos();
+  }, [user]);
 
   const handleSalvar = async (e) => {
     e.preventDefault();
@@ -28,6 +51,7 @@ export default function AddAtividade() {
     try {
       setSalvando(true);
       const dateTime = new Date(`${data}T${hora}:59`);
+      const lastCodigo = (() => { try { return localStorage.getItem('lastTurmaCodigo'); } catch { return null } })();
       const payload = {
         tituloAtividade,
         Descricao: descricao,
@@ -35,13 +59,18 @@ export default function AddAtividade() {
         entrega: Timestamp.fromDate(dateTime),
         valor: valor ? Number(valor) : 0,
         estadoEntregue,
+        turmaCodigo: lastCodigo || null,
         usuarioId: user.uid,
         criadaEm: new Date().toISOString(),
       };
 
       await addDoc(collection(db, "atividade"), payload);
       alert("Atividade adicionada com sucesso!");
-      navigate("/professor/atividades");
+      if (lastCodigo) {
+        navigate(`/professor/turma/${lastCodigo}`);
+      } else {
+        navigate("/professor/atividades");
+      }
     } catch (err) {
       console.error("Erro ao salvar atividade:", err);
       alert("Não foi possível salvar. Tente novamente.");
@@ -89,10 +118,16 @@ export default function AddAtividade() {
               <p>Conteúdo:</p>
               <input
                 type="text"
+                list="conteudos-sugeridos"
                 value={conteudo}
                 onChange={(e) => setConteudo(e.target.value)}
-                placeholder="Coloque o conteúdo da atividade, exemplo: segunda guerra, equações de primeiro grau, etc."
+                placeholder="Selecione ou digite um conteúdo"
               />
+              <datalist id="conteudos-sugeridos">
+                {conteudosSugeridos.map((c) => (
+                  <option key={c} value={c} />
+                ))}
+              </datalist>
             </label>
 
             <div className="row">
@@ -141,3 +176,5 @@ export default function AddAtividade() {
     </div>
   );
 }
+
+
