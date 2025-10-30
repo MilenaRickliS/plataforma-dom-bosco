@@ -2,8 +2,6 @@ import admin from "../firebaseAdmin.js";
 
 const db = admin.firestore();
 
-
-
 async function atualizarPontos(userId, delta) {
   const ref = db.collection("usuarios").doc(userId);
   await db.runTransaction(async (t) => {
@@ -15,14 +13,23 @@ async function atualizarPontos(userId, delta) {
   return true;
 }
 
-
 export default async function handler(req, res) {
   const { method } = req;
 
   try {
     
+    let body = req.body;
+    if (typeof body === "string") {
+      try {
+        body = JSON.parse(body);
+      } catch {
+        console.warn("⚠️ Corpo enviado não é JSON válido (provavelmente vazio)");
+      }
+    }
+
+    
     if (method === "POST" && req.url.includes("/add")) {
-      const { userId, valor } = req.body;
+      const { userId, valor } = body || {};
       if (!userId || valor === undefined)
         return res.status(400).json({ error: "userId e valor são obrigatórios" });
 
@@ -30,19 +37,19 @@ export default async function handler(req, res) {
       return res.status(200).json({ success: true });
     }
 
-   
+    
     if (method === "POST" && req.url.includes("/remove")) {
-      const { userId, valor } = req.body;
+      const { userId, valor } = body || {};
       if (!userId || valor === undefined)
         return res.status(400).json({ error: "userId e valor são obrigatórios" });
 
-      await atualizarPontos(userId, -valor);
+      await atualizarPontos(userId, -Math.abs(valor));
       return res.status(200).json({ success: true });
     }
 
-    
+   
     if (method === "GET") {
-      const userId = req.query.userId || req.url.split("/").pop(); 
+      const userId = req.query.userId || req.url.split("/").pop();
       if (!userId) return res.status(400).json({ error: "userId obrigatório" });
 
       const doc = await db.collection("usuarios").doc(userId).get();
@@ -50,7 +57,6 @@ export default async function handler(req, res) {
       return res.status(200).json({ pontos });
     }
 
-    
     return res.status(405).json({ error: "Método não permitido" });
   } catch (err) {
     console.error("❌ Erro na rota gamificacao:", err);

@@ -9,6 +9,7 @@ import { AuthContext } from "../../../contexts/auth";
 import { adicionarPontos, removerPontos, mostrarToastPontosAdicionar, mostrarToastPontosRemover, regrasPontuacao } from "../../../services/gamificacao";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { usePenalidadeSaida } from "../../../hooks/usePenalidadeSaida";
 
 
 export default function DetalhesVideo() {
@@ -18,6 +19,9 @@ export default function DetalhesVideo() {
   const { id } = useParams();
   const [video, setVideo] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [assistirVideo, setAssistiuVideo] = useState(false);
+  usePenalidadeSaida(assistirVideo, user, API, regrasPontuacao.sairVideo);
+
 
   useEffect(() => {
     const carregar = async () => {
@@ -85,6 +89,7 @@ export default function DetalhesVideo() {
                 const progresso = parseFloat(vid.dataset.progresso || 0);
 
                 if (progresso >= 80) {
+                  setAssistiuVideo(true); 
                   const chaveAssistido = `${user.uid}-video-${video.id}`;
                   if (!localStorage.getItem(chaveAssistido)) {
                     await adicionarPontos(user.uid, regrasPontuacao.assistirVideo);
