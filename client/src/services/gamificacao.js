@@ -1,6 +1,7 @@
 import axios from "axios";
 const API = import.meta.env.VITE_API_URL;
 import { toast, Zoom } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export async function adicionarPontos(userId, valor) {
   await axios.post(`${API}/api/gamificacao/add`, { userId, valor });
@@ -15,7 +16,27 @@ export async function getPontos(userId) {
   return res.data.pontos;
 }
 
+export function mostrarToastPontosAdicionar(valor, motivo) {
+  toast.success(`🏅 +${Math.abs(valor)} pontos! ${motivo}`, {
+    position: "bottom-right",
+    autoClose: 2500,
+    transition: Zoom,
+    theme: "colored",
+    style: { background: "linear-gradient(135deg, #16a34a, #22c55e)", color: "#fff" },
+    icon: "🎉",
+  });
+}
 
+export function mostrarToastPontosRemover(valor, motivo) {
+  toast.error(`💀 -${Math.abs(valor)} pontos! ${motivo}`, {
+    position: "bottom-right",
+    autoClose: 3000,
+    transition: Zoom,
+    theme: "colored",
+    style: { background: "linear-gradient(135deg, #b91c1c, #ef4444)", color: "#fff" },
+    icon: "⚠️",
+  });
+}
 export const regrasPontuacao = {
   criarTarefa: 5,
   concluirTarefaAntes: 10,
@@ -26,6 +47,7 @@ export const regrasPontuacao = {
 
   assistirVideo: 10,
   sairVideo: -10,
+  postarVideo: 10,
 
   acertarQuestao: 15,
   concluirAtividade: 10,

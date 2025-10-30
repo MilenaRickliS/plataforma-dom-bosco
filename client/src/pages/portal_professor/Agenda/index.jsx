@@ -10,47 +10,9 @@ import axios from "axios";
 import { FaSearch } from "react-icons/fa";
 import { FiEdit3 } from "react-icons/fi";
 import { FaTrashCan } from "react-icons/fa6";
-
-import { adicionarPontos, removerPontos } from "../../../services/gamificacao";
-import { regrasPontuacao } from "../../../services/gamificacao.js"; 
-
-import { ToastContainer, toast, Zoom } from "react-toastify";
+import { adicionarPontos, removerPontos, mostrarToastPontosAdicionar, mostrarToastPontosRemover, regrasPontuacao } from "../../../services/gamificacao";
+import { ToastContainer, toast} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-
-export function mostrarToastPontosAdicionar(valor, motivo) {
-  toast.success(`🏅 +${Math.abs(valor)} pontos! ${motivo}`, {
-    position: "bottom-right",
-    autoClose: 2500,
-    transition: Zoom,
-    theme: "colored",
-    style: {
-      background: "linear-gradient(135deg, #16a34a, #22c55e)",
-      color: "#fff",
-      fontWeight: "bold",
-      borderRadius: "10px",
-    },
-    icon: "🎉",
-  });
-}
-export function mostrarToastPontosRemover(valor, motivo) {
-  toast.error(`💀 -${Math.abs(valor)} pontos! ${motivo}`, {
-    position: "bottom-right",
-    autoClose: 3000,
-    transition: Zoom,
-    theme: "colored",
-    style: {
-      background: "linear-gradient(135deg, #b91c1c, #ef4444)",
-      color: "#fff",
-      fontWeight: "bold",
-      borderRadius: "10px",
-    },
-    icon: "⚠️",
-  });
-}
-
-
-
 
 export default function Agenda() {
   const { user } = useContext(AuthContext);

@@ -9,6 +9,10 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { MdModeEditOutline } from "react-icons/md";
 import { FaRegTrashAlt } from "react-icons/fa";
+import { adicionarPontos, removerPontos, mostrarToastPontosAdicionar, mostrarToastPontosRemover, regrasPontuacao } from "../../../services/gamificacao";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 
 export default function DetalhesVideo() {
@@ -61,6 +65,8 @@ export default function DetalhesVideo() {
 
   return (
     <div className="layout">
+      <ToastContainer position="bottom-right" theme="colored" />
+
       <MenuLateralProfessor />  
       <div className="page2">
         <main className="detalhes-video">
@@ -84,6 +90,9 @@ export default function DetalhesVideo() {
                       try {
                         await axios.delete(`${API}/api/videos?id=${video.id}`);
                         toast.success("Vídeo excluído com sucesso!");
+                        await removerPontos(user.uid, Math.abs(regrasPontuacao.postarVideo));
+                        mostrarToastPontosRemover(regrasPontuacao.postarVideo, "Vídeo removido 😢 -10 pontos");
+
                         navigate("/professor/videos");
 
                       } catch {
@@ -106,7 +115,42 @@ export default function DetalhesVideo() {
               width="100%"
               height="400"
               style={{ borderRadius: "12px", backgroundColor: "#000" }}
+              onTimeUpdate={(e) => {
+                const vid = e.target;
+                const progresso = (vid.currentTime / vid.duration) * 100;
+                vid.dataset.progresso = progresso;
+              }}
+              onEnded={async (e) => {
+                const vid = e.target;
+                const progresso = parseFloat(vid.dataset.progresso || 0);
+
+                if (progresso >= 80) {
+                  const chaveAssistido = `${user.uid}-video-${video.id}`;
+                  if (!localStorage.getItem(chaveAssistido)) {
+                    await adicionarPontos(user.uid, regrasPontuacao.assistirVideo);
+                    mostrarToastPontosAdicionar(
+                      regrasPontuacao.assistirVideo,
+                      "Parabéns! Você assistiu 100% do vídeo 🎥"
+                    );
+                    localStorage.setItem(chaveAssistido, "assistido");
+                  }
+                }
+              }}
+              onPause={async (e) => {
+                const vid = e.target;
+                const progresso = parseFloat(vid.dataset.progresso || 0);
+
+                if (progresso < 80 && !vid.dataset.penalizado) {
+                  vid.dataset.penalizado = true;
+                  await removerPontos(user.uid, Math.abs(regrasPontuacao.sairVideo));
+                  mostrarToastPontosRemover(
+                    regrasPontuacao.sairVideo,
+                    `Saiu antes de 100% (${Math.round(progresso)}%) 😞`
+                  );
+                }
+              }}
             >
+
               Seu navegador não suporta vídeos.
             </video>
           ) : isYouTube ? (

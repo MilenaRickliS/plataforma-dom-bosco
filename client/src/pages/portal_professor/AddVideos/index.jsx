@@ -7,6 +7,14 @@ import { toast } from "react-toastify";
 import { TiUpload } from "react-icons/ti";
 import { FaLink } from "react-icons/fa";
 import "./style.css";
+import {
+  adicionarPontos,
+  mostrarToastPontosAdicionar,
+  regrasPontuacao,
+} from "../../../services/gamificacao";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 export default function AddVideos() {
   const API =
@@ -130,6 +138,9 @@ export default function AddVideos() {
         setCategorias([...categorias, novaCategoria]);
       }
       toast.success("Vídeo enviado com sucesso!");
+      await adicionarPontos(user.uid, regrasPontuacao.postarVideo);
+      mostrarToastPontosAdicionar(regrasPontuacao.postarVideo, "Vídeo enviado 🎥 +10 pontos!");
+
       resetForm();
     } catch (err) {
       toast.error("Erro ao enviar vídeo.");
@@ -159,6 +170,10 @@ export default function AddVideos() {
 
       if (res.status === 200) {
         toast.success(res.data.message || "Vídeo enviado com sucesso!");
+        await adicionarPontos(user.uid, regrasPontuacao.postarVideo);
+        mostrarToastPontosAdicionar(regrasPontuacao.postarVideo, "Link de vídeo adicionado 🎬 +10 pontos!");
+
+        
         resetForm();
       }
     } catch (err) {
@@ -182,6 +197,7 @@ export default function AddVideos() {
 
   return (
     <div className="layout">
+      <ToastContainer position="bottom-right" theme="colored" />
       <MenuLateralProfessor />
       <div className="page2">
         <main className="add-videos">
