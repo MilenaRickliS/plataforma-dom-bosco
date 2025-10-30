@@ -7,8 +7,9 @@ import { getTurmasDoProfessor, getAlunosDaTurma } from "../../../services/turma"
 import { getTemplates } from "../../../services/medalhas";
 import { FaMedal } from "react-icons/fa6";
 import "./style.css";
+import { adicionarPontos, removerPontos, mostrarToastPontosAdicionar, mostrarToastPontosRemover, regrasPontuacao } from "../../../services/gamificacao";
+import { ToastContainer, toast} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer, toast } from "react-toastify";
 import { BiHappyHeartEyes } from "react-icons/bi";
 import { TbMoodSadSquint } from "react-icons/tb";
 import { FaRegFaceGrinBeamSweat } from "react-icons/fa6";
@@ -83,6 +84,12 @@ export default function Notas() {
       ...prev,
       [alunoId]: prev[alunoId].filter((m) => m.id !== awardId),
     }));
+    await removerPontos(user.uid, Math.abs(regrasPontuacao.removerMedalhaAluno), "Removeu uma medalha de um aluno 😔");
+    mostrarToastPontosRemover(
+      regrasPontuacao.removerMedalhaAluno,
+      "Removeu uma medalha de um aluno 😔"
+    );
+
     toast.success("✅ Medalha excluída com sucesso!");
   } catch (err) {
     console.error(err);
@@ -162,6 +169,7 @@ async function handleEditarMedalha(awardId, alunoId, newTemplateId) {
 
   return (
     <div className="layout">
+       <ToastContainer position="bottom-right" theme="colored" />
       <MenuLateralProfessor />
       <div className="page2">
         <main className="notas">

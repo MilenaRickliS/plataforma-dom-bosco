@@ -14,7 +14,7 @@ export default function Documentos() {
   const { user } = useContext(AuthContext);
   const API = import.meta.env.VITE_API_URL;
   const [acessouDocumento, setAcessouDocumento] = useState(false);
-  usePenalidadeSaida(acessouDocumento, user, API, regrasPontuacao.ignorarDocumento);
+  usePenalidadeSaida(acessouDocumento, user, API, regrasPontuacao.ignorarDocumento, "Saiu sem abrir nenhum documento 📄");
 
 
   const documentos = [
@@ -70,7 +70,7 @@ export default function Documentos() {
     const jaLeu = localStorage.getItem(chave);
 
     if (!jaLeu) {
-      await adicionarPontos(user.uid, regrasPontuacao.lerDocumento);
+      await adicionarPontos(user.uid, regrasPontuacao.lerDocumento,  `Leu "${titulo}" 📘`);
       mostrarToastPontosAdicionar(regrasPontuacao.lerDocumento, `Leu "${titulo}" 📘`);
       localStorage.setItem(chave, "lido");
     }

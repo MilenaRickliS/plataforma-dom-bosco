@@ -61,14 +61,14 @@ export default function Avisos() {
   }, [naoLidos]);
 
  
-  usePenalidadeSaida(naoLidos === 0, user, API, regrasPontuacao.ignorarAviso);
+  usePenalidadeSaida(naoLidos === 0, user, API, regrasPontuacao.ignorarAviso, "Saiu sem ver aviso 📄");
 
  
   useEffect(() => {
     if (avisosCarregados && naoLidos > 0 && !penalizadoHoje) {
       const chaveDia = `${user.uid}-penalidade-${new Date().toDateString()}`;
       if (!localStorage.getItem(chaveDia)) {
-        removerPontos(user.uid, Math.abs(regrasPontuacao.ignorarAviso));
+        removerPontos(user.uid, Math.abs(regrasPontuacao.ignorarAviso), "Ignorou avisos não lidos 💀");
         mostrarToastPontosRemover(
           Math.abs(regrasPontuacao.ignorarAviso),
           "Ignorou avisos não lidos 💀"
@@ -101,7 +101,7 @@ export default function Avisos() {
      
       if (!lido) {
         if (!localStorage.getItem(chave)) {
-          await adicionarPontos(user.uid, regrasPontuacao.lerAviso);
+          await adicionarPontos(user.uid, regrasPontuacao.lerAviso, `Leu "${titulo}" 📰`);
           mostrarToastPontosAdicionar(
             regrasPontuacao.lerAviso,
             `Leu "${titulo}" 📰`
@@ -112,7 +112,7 @@ export default function Avisos() {
       
       else {
         if (localStorage.getItem(chave)) {
-          await removerPontos(user.uid, Math.abs(regrasPontuacao.lerAviso));
+          await removerPontos(user.uid, Math.abs(regrasPontuacao.lerAviso), `Desmarcou "${titulo}" 👎`);
           mostrarToastPontosRemover(
             Math.abs(regrasPontuacao.lerAviso),
             `Desmarcou "${titulo}" 👎`

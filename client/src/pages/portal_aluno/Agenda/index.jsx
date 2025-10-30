@@ -139,7 +139,7 @@ export default function Agenda() {
       setMostrarForm(null);
       setDiaSelecionado(null);
       toast.success("Tarefa adicionada com sucesso!");
-      await adicionarPontos(user.uid, regrasPontuacao.criarTarefa);
+      await adicionarPontos(user.uid, regrasPontuacao.criarTarefa, "Tarefa criada 📝");
       mostrarToastPontosAdicionar(regrasPontuacao.criarTarefa, "Tarefa criada 📝");
 
     } catch (err) {
@@ -174,27 +174,27 @@ export default function Agenda() {
           .length;
 
        
-        await adicionarPontos(user.uid, regrasPontuacao.concluirAtividade);
+        await adicionarPontos(user.uid, regrasPontuacao.concluirAtividade, "Tarefa concluída ✅");
         mostrarToastPontosAdicionar(regrasPontuacao.concluirAtividade, "Tarefa concluída ✅");
 
         if (dataTarefa > hoje) {
-          await adicionarPontos(user.uid, regrasPontuacao.concluirTarefaAntes);
+          await adicionarPontos(user.uid, regrasPontuacao.concluirTarefaAntes, "Concluiu antes do prazo 🎯");
           mostrarToastPontosAdicionar(regrasPontuacao.concluirTarefaAntes, "Concluiu antes do prazo 🎯");
         }
 
         if (tarefaImportante) {
-          await adicionarPontos(user.uid, regrasPontuacao.concluirTarefaImportante);
+          await adicionarPontos(user.uid, regrasPontuacao.concluirTarefaImportante, "Tarefa importante finalizada 🏅");
           mostrarToastPontosAdicionar(regrasPontuacao.concluirTarefaImportante, "Tarefa importante finalizada 🏅");
         }
 
         if (totalConcluidasHoje >= 5) {
-          await adicionarPontos(user.uid, regrasPontuacao.concluir5AtivDia);
+          await adicionarPontos(user.uid, regrasPontuacao.concluir5AtivDia, "Bônus do dia: 5 tarefas concluídas! 🔥");
           mostrarToastPontosAdicionar(regrasPontuacao.concluir5AtivDia, "Bônus do dia: 5 tarefas concluídas! 🔥");
         }
 
         } else {
         
-        await removerPontos(user.uid, Math.abs(regrasPontuacao.tarefaPendente));
+        await removerPontos(user.uid, Math.abs(regrasPontuacao.tarefaPendente), "Tarefa desmarcada 😞");
         mostrarToastPontosRemover(-regrasPontuacao.tarefaPendente, "Tarefa desmarcada 😞");
 
       }
@@ -301,7 +301,7 @@ export default function Agenda() {
       const idUnico = `${user.uid}-${t.id}`;
 
       if (!t.concluida && dataTarefa < hoje && !penalizados[idUnico]) {
-        await removerPontos(user.uid, Math.abs(regrasPontuacao.tarefaPendente));
+        await removerPontos(user.uid, Math.abs(regrasPontuacao.tarefaPendente), `Tarefa pendente: "${t.nome}" expirou ⏰`);
         mostrarToastPontosRemover(-regrasPontuacao.tarefaPendente, `Tarefa pendente: "${t.nome}" expirou ⏰`);
 
 
@@ -325,7 +325,7 @@ export default function Agenda() {
       .length;
 
     if (concluidasHoje >= 10) {
-      adicionarPontos(user.uid, regrasPontuacao.concluir10AtivDia);
+      adicionarPontos(user.uid, regrasPontuacao.concluir10AtivDia, "Bônus do dia: 10 tarefas concluídas! 🎉");
       mostrarToastPontosAdicionar(regrasPontuacao.concluir10AtivDia, "Bônus do dia: 10 tarefas concluídas! 🎉");
       localStorage.setItem(chaveBonus, "true");
     }

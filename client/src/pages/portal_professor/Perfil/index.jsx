@@ -95,7 +95,7 @@ export default function Perfil() {
         const chaveDiaria = `${user.uid}-foto-${hoje}`;
 
         if (!localStorage.getItem(chaveDiaria)) {
-          await adicionarPontos(user.uid, regrasPontuacao.atualizarFoto);
+          await adicionarPontos(user.uid, regrasPontuacao.atualizarFoto, "Foto atualizada com sucesso 🖼️");
           mostrarToastPontosAdicionar(
             regrasPontuacao.atualizarFoto,
             "Foto atualizada com sucesso 🖼️"

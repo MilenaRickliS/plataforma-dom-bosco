@@ -148,7 +148,7 @@ export default function PostAvisos() {
           turmasNomes,
           criadorId: user.uid,
         });
-        await adicionarPontos(user.uid, regrasPontuacao.postAviso);
+        await adicionarPontos(user.uid, regrasPontuacao.postAviso, "Aviso criado com sucesso 🗞️");
         mostrarToastPontosAdicionar(
           regrasPontuacao.postAviso,
           "Aviso criado com sucesso 🗞️"

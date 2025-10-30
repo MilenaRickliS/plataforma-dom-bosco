@@ -138,7 +138,7 @@ export default function AddVideos() {
         setCategorias([...categorias, novaCategoria]);
       }
       toast.success("Vídeo enviado com sucesso!");
-      await adicionarPontos(user.uid, regrasPontuacao.postarVideo);
+      await adicionarPontos(user.uid, regrasPontuacao.postarVideo, "Vídeo enviado 🎥 +10 pontos!");
       mostrarToastPontosAdicionar(regrasPontuacao.postarVideo, "Vídeo enviado 🎥 +10 pontos!");
 
       resetForm();

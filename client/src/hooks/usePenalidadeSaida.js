@@ -1,16 +1,14 @@
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 
-export function usePenalidadeSaida(condicao, user, API, regra) {
+export function usePenalidadeSaida(condicao, user, API, regra, motivo = "Saiu antes de concluir") {
   useEffect(() => {
     const penalizar = () => {
-     
       if (!condicao && user) {
-        
-        const jaAssistiu = localStorage.getItem(`${user.uid}-video-assistido-hoje`);
-        if (jaAssistiu) return;
+        const jaPenalizado = localStorage.getItem(`${user.uid}-penalizado-hoje`);
+        if (jaPenalizado) return;
 
-        toast.error(`💀 -${Math.abs(regra)} pontos! Saiu antes do fim 😢`, {
+        toast.error(`💀 -${Math.abs(regra)} pontos! ${motivo} 😢`, {
           position: "bottom-right",
           theme: "colored",
         });
@@ -20,14 +18,15 @@ export function usePenalidadeSaida(condicao, user, API, regra) {
           JSON.stringify({
             userId: user.uid,
             valor: Math.abs(regra),
+            motivo,
           })
         );
+
+        localStorage.setItem(`${user.uid}-penalizado-hoje`, "true");
       }
     };
 
     window.addEventListener("beforeunload", penalizar);
-    return () => {
-      window.removeEventListener("beforeunload", penalizar);
-    };
-  }, [condicao, user, API, regra]);
+    return () => window.removeEventListener("beforeunload", penalizar);
+  }, [condicao, user, API, regra, motivo]);
 }

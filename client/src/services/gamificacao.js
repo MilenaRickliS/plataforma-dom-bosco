@@ -3,12 +3,12 @@ const API = import.meta.env.VITE_API_URL;
 import { toast, Zoom } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export async function adicionarPontos(userId, valor) {
-  await axios.post(`${API}/api/gamificacao/add`, { userId, valor });
+export async function adicionarPontos(userId, valor, motivo = "Ação positiva") {
+  await axios.post(`${API}/api/gamificacao/add`, { userId, valor, motivo });
 }
 
-export async function removerPontos(userId, valor) {
-  await axios.post(`${API}/api/gamificacao/remove`, { userId, valor });
+export async function removerPontos(userId, valor, motivo = "Ação negativa") {
+  await axios.post(`${API}/api/gamificacao/remove`, { userId, valor, motivo });
 }
 
 export async function getPontos(userId) {
@@ -101,5 +101,10 @@ export const regrasPontuacao = {
   diasSemLogar: -10, 
 
   receberMedalha: 20,
-  
+  criarMedalha: 10,
+  atribuirMedalha: 5,
+  perderMedalha: -20,
+  excluirMedalha: -5,
+  removerMedalhaAluno: -5,
+    
 };

@@ -18,6 +18,9 @@ import {
   getDocs,
 
 } from "firebase/firestore";
+import { adicionarPontos, removerPontos, mostrarToastPontosAdicionar, mostrarToastPontosRemover, regrasPontuacao } from "../../../services/gamificacao";
+import { ToastContainer, toast} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Notas() {
   const { user } = useContext(AuthContext);
@@ -28,25 +31,54 @@ export default function Notas() {
   const [preview, setPreview] = useState(null);
 
   useEffect(() => {
-    if (!user?.uid) return;
+  async function carregarMedalhas() {
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/medalhas/aluno/${user.uid}`);
+      const data = await res.json();
+      setMedalhas(data);
 
-    async function carregarMedalhas() {
-      try {
-        const res = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/medalhas/aluno/${user.uid}`
+      
+      const medalhasAntigas = JSON.parse(localStorage.getItem("medalhasAluno") || "[]");
+
+    
+      const novas = data.filter((m) => !medalhasAntigas.find((a) => a.id === m.id));
+      if (novas.length > 0) {
+        await adicionarPontos(user.uid, regrasPontuacao.receberMedalha, "Você recebeu uma nova medalha! 🥇");
+        mostrarToastPontosAdicionar(
+          regrasPontuacao.receberMedalha,
+          "Você recebeu uma nova medalha! 🥇"
         );
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error || "Erro ao buscar medalhas");
-        setMedalhas(data);
-      } catch (err) {
-        console.error("Erro ao carregar medalhas:", err);
-      } finally {
-        setLoading(false);
       }
-    }
 
-    carregarMedalhas();
-  }, [user]);
+      
+      const removidas = medalhasAntigas.filter((a) => !data.find((m) => m.id === a.id));
+      if (removidas.length > 0) {
+        await removerPontos(user.uid, regrasPontuacao.perderMedalha, "Você perdeu uma medalha 😞");
+        mostrarToastPontosRemover(
+          regrasPontuacao.perderMedalha,
+          "Você perdeu uma medalha 😞"
+        );
+      }
+
+      
+      localStorage.setItem("medalhasAluno", JSON.stringify(data));
+
+    } catch (err) {
+      console.error("Erro ao carregar medalhas:", err);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  if (user?.uid) carregarMedalhas();
+}, [user]);
+
+
+
+     
+
+
+
 
   useEffect(() => {
     if (user?.uid) getPontos(user.uid).then(setPontos);
@@ -94,6 +126,7 @@ export default function Notas() {
 
   return (
     <div className="layout">
+       <ToastContainer position="bottom-right" theme="colored" />
       <MenuLateralAluno />
       <div className="page2">
         <main className="notas-aluno">

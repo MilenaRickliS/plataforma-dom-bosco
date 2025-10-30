@@ -31,6 +31,7 @@ export default async function handler(req, res) {
       role: userData.role,
       nome: userData.nome,
       foto: userData.foto || null,
+      ultimoLogin: userData.ultimoLogin || null,
     });
   } catch (err) {
     console.error("Erro ao verificar token:", err);

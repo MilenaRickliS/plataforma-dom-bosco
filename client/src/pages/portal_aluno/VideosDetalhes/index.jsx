@@ -20,7 +20,7 @@ export default function DetalhesVideo() {
   const [video, setVideo] = useState(null);
   const [loading, setLoading] = useState(true);
   const [assistirVideo, setAssistiuVideo] = useState(false);
-  usePenalidadeSaida(assistirVideo, user, API, regrasPontuacao.sairVideo);
+  usePenalidadeSaida(assistirVideo, user, API, regrasPontuacao.sairVideo, "Saiu sem ver vídeo 📄");
 
 
   useEffect(() => {
@@ -92,7 +92,7 @@ export default function DetalhesVideo() {
                   setAssistiuVideo(true); 
                   const chaveAssistido = `${user.uid}-video-${video.id}`;
                   if (!localStorage.getItem(chaveAssistido)) {
-                    await adicionarPontos(user.uid, regrasPontuacao.assistirVideo);
+                    await adicionarPontos(user.uid, regrasPontuacao.assistirVideo, "Parabéns! Você assistiu 80% do vídeo 🎥");
                     mostrarToastPontosAdicionar(
                       regrasPontuacao.assistirVideo,
                       "Parabéns! Você assistiu 80% do vídeo 🎥"
@@ -108,7 +108,7 @@ export default function DetalhesVideo() {
 
                 if (progresso < 80 && !vid.dataset.penalizado) {
                   vid.dataset.penalizado = true;
-                  await removerPontos(user.uid, Math.abs(regrasPontuacao.sairVideo));
+                  await removerPontos(user.uid, Math.abs(regrasPontuacao.sairVideo), `Saiu antes de 80% (${Math.round(progresso)}%) 😞`);
                   mostrarToastPontosRemover(
                     regrasPontuacao.sairVideo,
                     `Saiu antes de 80% (${Math.round(progresso)}%) 😞`

@@ -58,7 +58,7 @@ export default function Avisos() {
     try {
       await axios.delete(`${API}/api/avisos?id=${id}`);
       toast.success("Aviso excluído com sucesso!");
-      await removerPontos(user.uid, Math.abs(regrasPontuacao.excluirAviso));
+      await removerPontos(user.uid, Math.abs(regrasPontuacao.excluirAviso), "Aviso removido 🗑️");
       mostrarToastPontosRemover(
         regrasPontuacao.excluirAviso,
         "Aviso removido 🗑️"
