@@ -98,6 +98,7 @@ export default function DetalhesVideo() {
                       "Parabéns! Você assistiu 80% do vídeo 🎥"
                     );
                     localStorage.setItem(chaveAssistido, "assistido");
+                    localStorage.setItem(`${user.uid}-video-assistido-hoje`, "true");
                   }
                 }
               }}

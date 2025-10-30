@@ -37,6 +37,33 @@ export function mostrarToastPontosRemover(valor, motivo) {
     icon: "⚠️",
   });
 }
+
+export function usePenalidadeSaida(condicao, user, API, regra) {
+  useEffect(() => {
+    const penalizar = () => {
+      if (!condicao && user) {
+        toast.error(`💀 -${Math.abs(regra)} pontos! Ignorou aviso 😢`, {
+          position: "bottom-right",
+          theme: "colored",
+        });
+        navigator.sendBeacon(
+          `${API}/api/gamificacao/remove`,
+          JSON.stringify({
+            userId: user.uid,
+            valor: Math.abs(regra),
+          })
+        );
+      }
+    };
+
+    window.addEventListener("beforeunload", penalizar);
+    return () => {
+      window.removeEventListener("beforeunload", penalizar);
+      penalizar();
+    };
+  }, [condicao, user]);
+}
+
 export const regrasPontuacao = {
   criarTarefa: 5,
   concluirTarefaAntes: 10,
@@ -65,8 +92,10 @@ export const regrasPontuacao = {
 
   lerAviso: 2,
   ignorarAviso: -2,
+  postAviso: 3,
+  excluirAviso: -3,
 
-  AtualizarFoto: 3,
+  atualizarFoto: 3,
 
   loginDiario: 5, 
   diasSemLogar: -10, 

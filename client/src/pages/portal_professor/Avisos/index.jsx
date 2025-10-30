@@ -11,6 +11,12 @@ import { MdModeEdit } from "react-icons/md";
 import { FaTrashAlt } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import {
+  removerPontos,
+  mostrarToastPontosRemover,
+  regrasPontuacao,
+} from "../../../services/gamificacao";
+
 
 export default function Avisos() {
   const { user } = useContext(AuthContext);
@@ -52,6 +58,11 @@ export default function Avisos() {
     try {
       await axios.delete(`${API}/api/avisos?id=${id}`);
       toast.success("Aviso excluído com sucesso!");
+      await removerPontos(user.uid, Math.abs(regrasPontuacao.excluirAviso));
+      mostrarToastPontosRemover(
+        regrasPontuacao.excluirAviso,
+        "Aviso removido 🗑️"
+      );
       await carregarAvisos();
     } catch {
       toast.error("Erro ao excluir aviso.");
