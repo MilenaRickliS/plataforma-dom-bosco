@@ -87,6 +87,8 @@ export const regrasPontuacao = {
   sairDaTurma: -10,
   abadonarAtividade: -10,
 
+  abriuAjuda: 2, //CORRIGIR DUPLICIDADE
+
   lerDocumento: 5,
   ignorarDocumento: -5,
 

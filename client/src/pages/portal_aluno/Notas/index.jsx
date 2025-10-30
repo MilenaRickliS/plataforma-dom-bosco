@@ -74,12 +74,6 @@ export default function Notas() {
 }, [user]);
 
 
-
-     
-
-
-
-
   useEffect(() => {
     if (user?.uid) getPontos(user.uid).then(setPontos);
   }, [user]);
@@ -102,27 +96,50 @@ export default function Notas() {
 
 
   useEffect(() => {
-    const carregarPerfil = async () => {
-      if (!user?.email) return;
+    async function carregarMedalhas() {
       try {
-        const q = query(
-          collection(db, "usuarios"),
-          where("email", "==", user.email)
-        );
-        const snapshot = await getDocs(q);
-        if (!snapshot.empty) {
-          const docRef = snapshot.docs[0];
-          setPerfil({ id: docRef.id, ...docRef.data() });
-        } else {
-          toast.warn("Perfil não encontrado no banco.");
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/medalhas/aluno/${user.uid}`);
+        const data = await res.json();
+        setMedalhas(data);
+
+      
+        const medalhasAntigas = JSON.parse(localStorage.getItem("medalhasProcessadas") || "[]");
+        const idsAtuais = data.map((m) => m.id);
+
+        
+        const novas = data.filter((m) => !medalhasAntigas.includes(m.id));
+        if (novas.length > 0) {
+          await adicionarPontos(user.uid, regrasPontuacao.receberMedalha, "Você recebeu uma nova medalha! 🥇");
+          mostrarToastPontosAdicionar(
+            regrasPontuacao.receberMedalha,
+            `Você recebeu ${novas.length > 1 ? `${novas.length} novas medalhas! 🥇` : "uma nova medalha! 🥇"}`
+          );
+        }
+
+       
+        const removidas = medalhasAntigas.filter((id) => !idsAtuais.includes(id));
+        if (removidas.length > 0) {
+          await removerPontos(user.uid, regrasPontuacao.perderMedalha, "Você perdeu uma medalha 😞");
+          mostrarToastPontosRemover(
+            regrasPontuacao.perderMedalha,
+            `Você perdeu ${removidas.length > 1 ? `${removidas.length} medalhas 😞` : "uma medalha 😞"}`
+          );
+        }
+
+      
+        if (novas.length > 0 || removidas.length > 0) {
+          localStorage.setItem("medalhasProcessadas", JSON.stringify(idsAtuais));
         }
       } catch (err) {
-        console.error("Erro ao carregar perfil:", err);
-        toast.error("Erro ao carregar dados do perfil.");
+        console.error("Erro ao carregar medalhas:", err);
+      } finally {
+        setLoading(false);
       }
-    };
-    carregarPerfil();
+    }
+
+    if (user?.uid) carregarMedalhas();
   }, [user]);
+
 
   return (
     <div className="layout">

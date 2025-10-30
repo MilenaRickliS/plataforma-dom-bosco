@@ -40,7 +40,12 @@ export default function GerenciarTurmas() {
 
   return (
     <main>
-      <h2>Gerenciar Turmas</h2>
+      <div className="inicio-menug">
+        <Link to="/gestao-portais" className="voltar-adm">
+          <IoIosArrowBack /> Voltar
+        </Link>
+        <h1 className="titulo-usuarios">Gerenciar Turmas</h1>
+      </div>
 
       <div className="toggle-turmas">
         <button onClick={() => setMostrarTodas(!mostrarTodas)}>

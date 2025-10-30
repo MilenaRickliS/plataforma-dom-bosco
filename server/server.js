@@ -20,6 +20,8 @@ import tarefasRoutes from "./src/api/tarefas.js";
 import avisosRoutes from "./src/api/avisos.js";
 import medalhasRoutes from "./src/api/medalhas.js"; 
 import gamificacaoRoutes from "./src/api/gamificacao.js";
+import logsRoutes from "./src/api/logs/gamificacao.js";
+
 
 dotenv.config();
 
@@ -62,6 +64,8 @@ app.use("/api/relatorios", relatoriosRoutes);
 app.use("/api/tarefas", tarefasRoutes);
 app.use("/api/avisos", avisosRoutes);
 app.use("/api/gamificacao", gamificacaoRoutes);
+app.use("/api/logs", logsRoutes);
+
 
 
 const PORT = process.env.PORT || 5000;

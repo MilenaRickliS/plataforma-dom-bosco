@@ -11,16 +11,18 @@ async function atualizarPontos(userId, delta, motivo = "") {
     const pontosAtuais = dados.pontos || 0;
     const nome = dados.nome || "Sem nome";
     const email = dados.email || "Sem email";
+    const role = dados.role || "desconhecido";
     const novosPontos = Math.max(0, pontosAtuais + delta);
 
-    // Atualiza os pontos
+    
     t.set(ref, { pontos: novosPontos }, { merge: true });
 
-    // Cria log de histórico
+    
     t.set(logRef, {
       userId,
       nome,
       email,
+      role,
       tipo: delta > 0 ? "ganho" : "perda",
       valor: Math.abs(delta),
       motivo,
@@ -72,6 +74,54 @@ export default async function handler(req, res) {
 
       return res.status(200).json({ pontos });
     }
+
+    
+  if (method === "POST" && req.url.includes("/salvar")) {
+    const { userId, pontos } = body || {};
+    if (!userId || pontos === undefined)
+      return res.status(400).json({ error: "userId e pontos são obrigatórios" });
+
+    const ref = db.collection("usuarios").doc(userId);
+    const doc = await ref.get();
+    const dados = doc.exists ? doc.data() : {};
+
+    await ref.set({ pontos }, { merge: true });
+
+    await db.collection("gamificacao_logs").add({
+      userId,
+      nome: dados.nome || "Desconhecido",
+      email: dados.email || "Sem email",
+      role: dados.role || "desconhecido",
+      tipo: "ajuste",
+      valor: pontos,
+      motivo: "Ajuste manual no painel",
+      pontosTotais: pontos,
+      data: admin.firestore.FieldValue.serverTimestamp(),
+    });
+
+    return res.status(200).json({ success: true });
+  }
+
+  
+  if (method === "POST" && req.url.includes("/zerar")) {
+    const usuariosSnap = await db.collection("usuarios").get();
+    const batch = db.batch();
+
+    usuariosSnap.forEach((doc) => {
+      batch.update(doc.ref, { pontos: 0 });
+    });
+
+    await batch.commit();
+
+    
+    const logsSnap = await db.collection("gamificacao_logs").get();
+    const batch2 = db.batch();
+    logsSnap.forEach((doc) => batch2.delete(doc.ref));
+    await batch2.commit();
+
+    return res.status(200).json({ success: true, message: "Gamificação zerada" });
+  }
+
 
     return res.status(405).json({ error: "Método não permitido" });
   } catch (err) {
