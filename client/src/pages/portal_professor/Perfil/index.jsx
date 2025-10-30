@@ -11,13 +11,18 @@ import {
 } from "firebase/firestore";
 import { getAuth, updatePassword, EmailAuthProvider, reauthenticateWithCredential } from "firebase/auth";
 import axios from "axios";
-import { toast } from "react-toastify";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { FiCamera } from "react-icons/fi";
 import { IoEye, IoEyeOff } from "react-icons/io5";
 import "./style.css";
 import MenuTopoProfessor from "../../../components/portais/MenuTopoProfessor";
 import MenuLateralProfessor from "../../../components/portais/MenuLateralProfessor";
+import {
+  adicionarPontos,
+  mostrarToastPontosAdicionar,
+  regrasPontuacao,
+} from "../../../services/gamificacao";
 
 export default function Perfil() {
   const { user } = useContext(AuthContext);
@@ -84,6 +89,22 @@ export default function Perfil() {
         const ref = doc(db, "usuarios", userDoc.id);
         await updateDoc(ref, { foto: imageUrl });
         setPerfil((prev) => ({ ...prev, foto: imageUrl }));
+
+        
+        const hoje = new Date().toDateString();
+        const chaveDiaria = `${user.uid}-foto-${hoje}`;
+
+        if (!localStorage.getItem(chaveDiaria)) {
+          await adicionarPontos(user.uid, regrasPontuacao.atualizarFoto, "Foto atualizada com sucesso 🖼️");
+          mostrarToastPontosAdicionar(
+            regrasPontuacao.atualizarFoto,
+            "Foto atualizada com sucesso 🖼️"
+          );
+          localStorage.setItem(chaveDiaria, "true");
+        } else {
+          toast.info("✅ Você já ganhou pontos por atualizar a foto hoje!");
+        }
+
         toast.success("Foto atualizada com sucesso!");
       } else {
         toast.error("Usuário não encontrado no banco.");
@@ -159,6 +180,7 @@ export default function Perfil() {
   return (
     <div className="layout">
       <MenuLateralProfessor />
+        <ToastContainer position="bottom-right" theme="colored" />
       <div className="page2">
         <main>
           <MenuTopoProfessor />

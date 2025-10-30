@@ -1,3 +1,41 @@
+.meu-ranking {
+  display: flex;
+  align-items: center;          
+  justify-content: flex-start;  
+  gap: 40px;                    
+  background: linear-gradient(90deg, rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 50%, rgba(237, 221, 83, 1) 100%);
+  padding: 20px 40px;
+  border-radius: 100px;
+  color: white;
+}
+
+.foto-circulo-ranking {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid white;
+}
+
+.status-pontuacao {
+  flex: 1;                     
+  text-align: center;           
+}
+
+.status-pontuacao p {
+  font-family: "Poppins", sans-serif;
+  font-weight: bold;
+  margin: 5px 0;
+  
+}
+.meus-pontos{
+  color: #45835c;
+  font-size: 25px;
+}
+.pontos{
+  color: #1e293b;
+}
+
 .notas{
     padding: 20px;
 }
@@ -166,5 +204,8 @@
     }
     .mini-medalha{
         display: flex;
+    }
+    .meu-ranking{
+      flex-direction: column;
     }
 }

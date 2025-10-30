@@ -8,6 +8,12 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./style.css";
 import { AiTwotoneNotification } from "react-icons/ai";
+import {
+  adicionarPontos,
+  mostrarToastPontosAdicionar,
+  regrasPontuacao,
+} from "../../../services/gamificacao";
+
 
 export default function PostAvisos() {
   const { user } = useContext(AuthContext);
@@ -142,6 +148,11 @@ export default function PostAvisos() {
           turmasNomes,
           criadorId: user.uid,
         });
+        await adicionarPontos(user.uid, regrasPontuacao.postAviso, "Aviso criado com sucesso 🗞️");
+        mostrarToastPontosAdicionar(
+          regrasPontuacao.postAviso,
+          "Aviso criado com sucesso 🗞️"
+        );
         toast.success("Aviso criado com sucesso!");
       }
 

@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+
 import authRoutes from "./src/api/auth.js";
 import depoimentosRoutes from "./src/api/depoimentos.js";
 import equipeRoutes from "./src/api/equipe.js";
@@ -16,18 +17,38 @@ import turmasRoutes from "./src/api/turmas.js";
 import refeicoesRoutes from "./src/api/refeicoes.js";
 import relatoriosRoutes from "./src/api/relatorios.js";
 import tarefasRoutes from "./src/api/tarefas.js";
+<<<<<<< HEAD
+=======
+import avisosRoutes from "./src/api/avisos.js";
+import medalhasRoutes from "./src/api/medalhas.js"; 
+import gamificacaoRoutes from "./src/api/gamificacao.js";
+import logsRoutes from "./src/api/logs/gamificacao.js";
+
+
+>>>>>>> main
 dotenv.config();
 
 const app = express();
-app.use(cors({
-  origin: [
-    "http://localhost:5173", 
-    "https://plataforma-dom-bosco.vercel.app" 
-  ],
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-}));
-app.use(express.json());
+
+
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://plataforma-dom-bosco.vercel.app",
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
+
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ extended: true, limit: "20mb" }));
+
+app.use("/api/medalhas", medalhasRoutes);
+
+
 
 app.use("/api/auth", authRoutes);
 app.use("/api/depoimentos", depoimentosRoutes);
@@ -45,9 +66,12 @@ app.use("/api/refeicoes", refeicoesRoutes);
 app.use("/api/relatorios", relatoriosRoutes);
 app.use("/api/tarefas", tarefasRoutes);
 app.use("/api/avisos", avisosRoutes);
-app.use("/api/medalhas", medalhasRoutes);
+app.use("/api/gamificacao", gamificacaoRoutes);
+app.use("/api/logs", logsRoutes);
+
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
 
-export default app; 
+export default app;

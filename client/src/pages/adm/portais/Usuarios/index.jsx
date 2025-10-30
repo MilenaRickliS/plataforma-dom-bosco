@@ -32,7 +32,15 @@ export default function Usuarios() {
   async function carregarUsuarios() {
     try {
       const res = await axios.get(`${API}/api/usuarios`);
-      setUsuarios(res.data);
+      
+      const listaNormalizada = (res.data || []).map((u) => ({
+        nome: u.nome?.trim() || "Sem nome",
+        email: u.email || "—",
+        role: u.role || "indefinido",
+        foto: u.foto || "/src/assets/user-placeholder.png",
+        ...u,
+      }));
+      setUsuarios(listaNormalizada);
     } catch (err) {
       console.error(err);
       toast.error("Erro ao carregar usuários");
@@ -152,8 +160,11 @@ export default function Usuarios() {
     }
   }
 
+ 
   const usuariosFiltrados = usuarios.filter((u) => {
-    const nomeMatch = u.nome.toLowerCase().includes(busca.toLowerCase());
+    const nomeSeguro = (u?.nome || "").toString().toLowerCase();
+    const buscaNormalizada = (busca || "").toString().toLowerCase();
+    const nomeMatch = nomeSeguro.includes(buscaNormalizada);
     const roleMatch = filtroRole === "todos" || u.role === filtroRole;
     return nomeMatch && roleMatch;
   });

@@ -33,6 +33,7 @@ import InicioAdm from '../pages/adm/Inicio';
 import Usuarios from '../pages/adm/portais/Usuarios';
 import TurmasAdm from "../pages/adm/portais/Turmas";
 import MenuPortais from '../pages/adm/portais/Menu';
+import Gamificacao from '../pages/adm/portais/Gamificacao';
 
 import InicioProfessor from '../pages/portal_professor/Inicio';
 import AgendaProfessor from '../pages/portal_professor/Agenda';
@@ -92,7 +93,8 @@ function RoutesApp(){
       <Route path="/gestao-portais" element={ <Private rota="admin"><MenuPortais/></Private> } />
       <Route path="/usuarios" element={ <Private rota="admin"><Usuarios/></Private> } />
       <Route path="/turmas" element={ <Private rota="admin"><TurmasAdm/></Private> } />
-
+      <Route path="/gamificacao" element={ <Private rota="admin"><Gamificacao/></Private>} />
+      
       <Route path="/inicio-refeicao" element={ <Private rota="admin"><InicioRefeicao/></Private> } />
       <Route path="/adicionar-refeicao" element={ <Private rota="admin"><AdicionarRefeicao/></Private> } />
       <Route path="/contar-refeicao" element={ <Private rota="admin"><ContarRefeicao/></Private> } />

@@ -1,4 +1,3 @@
-
 import { useContext, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MenuLateralProfessor from "../../../components/portais/MenuLateralProfessor";
@@ -10,8 +9,9 @@ import "./style.css";
 import { FaMedal } from "react-icons/fa6";
 import { MdModeEdit } from "react-icons/md";
 import { FaTrashAlt } from "react-icons/fa";
+import { adicionarPontos, removerPontos, mostrarToastPontosAdicionar, mostrarToastPontosRemover, regrasPontuacao } from "../../../services/gamificacao";
+import { ToastContainer, toast} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer, toast } from "react-toastify";
 
 
 export default function MedalhasAtribuir() {
@@ -134,11 +134,17 @@ export default function MedalhasAtribuir() {
         const method = isEditing ? "PUT" : "POST";
 
         const res = await fetch(url, {
-        method,
-        body: formData,
+          method,
+          body: formData,
+          headers: {},
         });
 
+        if (!res.ok) {
+          const text = await res.text();
+          throw new Error(`Erro HTTP ${res.status}: ${text}`);
+        }
         const data = await res.json();
+
         if (!res.ok) throw new Error(data.error || "Erro ao salvar medalha.");
 
         if (isEditing) {
@@ -149,6 +155,12 @@ export default function MedalhasAtribuir() {
         setEditando(null);
         } else {
         setTemplates((prev) => [data, ...prev]);
+        await adicionarPontos(user.uid, regrasPontuacao.criarMedalha, "Criou um novo modelo de medalha 🏅");
+        mostrarToastPontosAdicionar(
+          regrasPontuacao.criarMedalha,
+          "Criou um novo modelo de medalha 🏅"
+        );
+
         toast.success(" Modelo criado com sucesso!");
         setNovo({
             title: "",
@@ -171,6 +183,7 @@ export default function MedalhasAtribuir() {
 
 
     async function handleAtribuir() {
+        if (!user?.uid) return toast.error("⚠️ Usuário não autenticado.");
         if (!templateId) return toast.error("⚠️ Selecione um modelo de medalha.");
         const lista = alunosSelecionados;
         if (lista.length === 0)
@@ -180,15 +193,29 @@ export default function MedalhasAtribuir() {
         if (comment && palavrasComentario > 15) {
             return toast.error("⚠️ O comentário deve ter no máximo 15 palavras.");
         }
+        
 
     try {
+      console.log({
+        professorId: user?.uid,
+        turmaId,
+        templateId,
+        alunos: lista,
+        comment,
+      });
       await atribuirMedalhas({
-        professorId: user.uid,
+        professorId: user?.uid,
         turmaId,
         templateId,
         comment,
         alunos: lista
       });
+      await adicionarPontos(user.uid, regrasPontuacao.atribuirMedalha, `Atribuiu medalhas a ${lista.length} aluno(s) 🏆`);
+      mostrarToastPontosAdicionar(
+        regrasPontuacao.atribuirMedalha,
+        `Atribuiu medalhas a ${lista.length} aluno(s) 🏆`
+      );
+
       toast.success("🏆 Medalha(s) atribuída(s) com sucesso!");
       navigate(-1);
     } catch (err) {
@@ -210,6 +237,12 @@ export default function MedalhasAtribuir() {
             });
             if (!res.ok) throw new Error("Erro ao excluir");
             setTemplates((prev) => prev.filter((tpl) => tpl.id !== id));
+            await removerPontos(user.uid, Math.abs(regrasPontuacao.excluirMedalha), "Excluiu um modelo de medalha 🗑️");
+            mostrarToastPontosRemover(
+              regrasPontuacao.excluirMedalha,
+              "Excluiu um modelo de medalha 🗑️"
+            );
+
              toast.success("Medalha excluída com sucesso!");
         } catch (err) {
             console.error(err);
@@ -223,6 +256,7 @@ export default function MedalhasAtribuir() {
 
   return (
     <div className="layout">
+      <ToastContainer position="bottom-right" theme="colored" />
       <MenuLateralProfessor />
       <div className="page2">
         <main>

@@ -7,8 +7,21 @@ import { getTurmasDoProfessor, getAlunosDaTurma } from "../../../services/turma"
 import { getTemplates } from "../../../services/medalhas";
 import { FaMedal } from "react-icons/fa6";
 import "./style.css";
+import { adicionarPontos, removerPontos, mostrarToastPontosAdicionar, mostrarToastPontosRemover, regrasPontuacao } from "../../../services/gamificacao";
+import { ToastContainer, toast} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer, toast } from "react-toastify";
+import { BiHappyHeartEyes } from "react-icons/bi";
+import { TbMoodSadSquint } from "react-icons/tb";
+import { FaRegFaceGrinBeamSweat } from "react-icons/fa6";
+import { getPontos } from "../../../services/gamificacao";
+import { db } from "../../../services/firebaseConnection";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+
+} from "firebase/firestore";
 
 export default function Notas() {
   const { user } = useContext(AuthContext);
@@ -19,6 +32,10 @@ export default function Notas() {
   const [alunos, setAlunos] = useState([]);
   const [medalhasProfessor, setMedalhasProfessor] = useState([]);
   const [medalhasAlunos, setMedalhasAlunos] = useState({});
+
+  const [pontos, setPontos] = useState(0);
+  const [perfil, setPerfil] = useState(null);
+  const [preview, setPreview] = useState(null);
 
   useEffect(() => {
     if (!user?.uid) return;
@@ -67,6 +84,12 @@ export default function Notas() {
       ...prev,
       [alunoId]: prev[alunoId].filter((m) => m.id !== awardId),
     }));
+    await removerPontos(user.uid, Math.abs(regrasPontuacao.removerMedalhaAluno), "Removeu uma medalha de um aluno 😔");
+    mostrarToastPontosRemover(
+      regrasPontuacao.removerMedalhaAluno,
+      "Removeu uma medalha de um aluno 😔"
+    );
+
     toast.success("✅ Medalha excluída com sucesso!");
   } catch (err) {
     console.error(err);
@@ -99,13 +122,79 @@ async function handleEditarMedalha(awardId, alunoId, newTemplateId) {
   }
 }
 
+  useEffect(() => {
+    if (user?.uid) getPontos(user.uid).then(setPontos);
+  }, [user]);
+
+  let icone, humor, corHumor;
+
+  if (pontos < 25) {
+    icone = <TbMoodSadSquint color="red" size={40} />;
+    humor = "Triste 😢";
+    corHumor = "red";
+  } else if (pontos < 50) {
+    icone = <FaRegFaceGrinBeamSweat color="orange" size={40} />;
+    humor = "Feliz 😊";
+    corHumor = "orange";
+  } else {
+    icone = <BiHappyHeartEyes color="green" size={40} />;
+    humor = "Apaixonado 😍";
+    corHumor = "green";
+  }
+
+
+  useEffect(() => {
+    const carregarPerfil = async () => {
+      if (!user?.email) return;
+      try {
+        const q = query(
+          collection(db, "usuarios"),
+          where("email", "==", user.email)
+        );
+        const snapshot = await getDocs(q);
+        if (!snapshot.empty) {
+          const docRef = snapshot.docs[0];
+          setPerfil({ id: docRef.id, ...docRef.data() });
+        } else {
+          toast.warn("Perfil não encontrado no banco.");
+        }
+      } catch (err) {
+        console.error("Erro ao carregar perfil:", err);
+        toast.error("Erro ao carregar dados do perfil.");
+      }
+    };
+    carregarPerfil();
+  }, [user]);
+
 
   return (
     <div className="layout">
+       <ToastContainer position="bottom-right" theme="colored" />
       <MenuLateralProfessor />
       <div className="page2">
         <main className="notas">
           <MenuTopoProfessor />
+
+          <div className="meu-ranking">
+              {!perfil ? (
+                  <p>Carregando perfil...</p>
+                ) : (
+                  <img
+                    src={preview || perfil?.foto || "/src/assets/user-placeholder.png"}
+                    alt="Foto do usuário"
+                    className="foto-circulo-ranking"
+                    onError={(e) => e.target.src = "/src/assets/user-placeholder.png"}
+                  />
+                )}
+
+            <div className="status-pontuacao">
+              <p className="meus-pontos">Meus pontos</p>              
+              
+              <p className="pontos">{pontos} pontos</p>
+              <p style={{ color: corHumor }}>{humor}</p>
+            </div>
+
+          </div>
 
           <div className="container-medalhas">
             <h2>Medalhas</h2>
