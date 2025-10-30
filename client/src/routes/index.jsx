@@ -25,6 +25,7 @@ import AjudaAluno from '../pages/portal_aluno/Ajuda';
 import AvisosAluno from '../pages/portal_aluno/Avisos';
 import PerfilAluno from '../pages/portal_aluno/Perfil';
 import TurmaAluno from '../pages/portal_aluno/Turma';
+import TurmasArquivadasAluno from '../pages/portal_aluno/TurmasArquivadas';
 import AtividadesAluno from '../pages/portal_aluno/Atividades';
 import AtivDetalheAluno from '../pages/portal_aluno/AtivDetalhe';
 import AlunosAluno from '../pages/portal_aluno/Alunos';
@@ -48,6 +49,7 @@ import AvisosProfessor from '../pages/portal_professor/Avisos';
 import PostAvisosProfessor from '../pages/portal_professor/PostAvisos';
 import PerfilProfessor from '../pages/portal_professor/Perfil';
 import TurmaProfessor from '../pages/portal_professor/Turma';
+import TurmasArquivadas from '../pages/portal_professor/TurmasArquivadas';
 import AddAtividadeProfessor from '../pages/portal_professor/AddAtividade';
 import AtividadesProfessor from '../pages/portal_professor/Atividades';
 import AtivDetalheProfessor from '../pages/portal_professor/AtivDetalhes';
@@ -123,8 +125,12 @@ function RoutesApp(){
       <Route path="/aluno/perfil" element={ <Private rota="aluno"><PerfilAluno/></Private> } />
       <Route path="/aluno/turma" element={ <Private rota="aluno"><TurmaAluno/></Private> } />
       <Route path="/aluno/turma/:codigo" element={ <Private rota="aluno"><TurmaAluno/></Private> } />
+      <Route path="/aluno/turmas-arquivadas" element={<Private rota="aluno"><TurmasArquivadasAluno /></Private>} />
+      <Route path="/aluno/atividades/:codigo" element={ <Private rota="aluno"><AtividadesAluno/></Private> } />
       <Route path="/aluno/atividades" element={ <Private rota="aluno"><AtividadesAluno/></Private> } />
+      <Route path="/aluno/detalhes-ativ/:codigo" element={ <Private rota="aluno"><AtivDetalheAluno/></Private> } />
       <Route path="/aluno/detalhes-ativ" element={ <Private rota="aluno"><AtivDetalheAluno/></Private> } />
+      <Route path="/aluno/alunos-turma/:codigo" element={ <Private rota="aluno"><AlunosAluno/></Private> } />
       <Route path="/aluno/alunos-turma" element={ <Private rota="aluno"><AlunosAluno/></Private> } />
 
       <Route path="/professor/inicio" element={ <Private rota="professor"><InicioProfessor/></Private> } />
@@ -143,9 +149,13 @@ function RoutesApp(){
       <Route path="/professor/perfil" element={ <Private rota="professor"><PerfilProfessor/></Private> } />
       <Route path="/professor/turma/:codigo" element={ <Private rota="professor"><TurmaProfessor/></Private> } />
       <Route path="/professor/turma" element={ <Private rota="professor"><TurmaProfessor/></Private> } />
+      <Route path="/professor/turmas-arquivadas" element={<Private rota="professor"><TurmasArquivadas /></Private>} />
+      <Route path="/professor/atividades/:codigo" element={ <Private rota="professor"><AtividadesProfessor/></Private> } />
       <Route path="/add-atividade-professor" element={ <Private rota="professor"><AddAtividadeProfessor/></Private> } />
       <Route path="/professor/atividades" element={ <Private rota="professor"><AtividadesProfessor/></Private> } />
+      <Route path="/professor/detalhes-ativ/:codigo" element={ <Private rota="professor"><AtivDetalheProfessor/></Private> } />
       <Route path="/professor/detalhes-ativ" element={ <Private rota="professor"><AtivDetalheProfessor/></Private> } />
+      <Route path="/professor/alunos-turma/:codigo" element={ <Private rota="professor"><AlunosProfessor/></Private> } />
       <Route path="/professor/alunos-turma" element={ <Private rota="professor"><AlunosProfessor/></Private> } />
            
 

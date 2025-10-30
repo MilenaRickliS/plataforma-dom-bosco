@@ -6,12 +6,14 @@ import { MdAdd, MdOutlinePushPin } from "react-icons/md";
 import { GoKebabHorizontal } from "react-icons/go";
 import MenuLateralProfessor from "../../../components/portais/MenuLateralProfessor";
 import MenuTopoProfessor from "../../../components/portais/MenuTopoProfessor";
-import prof from "../../../assets/site/Enri-Clemente-Leigman-scaled-removebg-preview.png";
+import prof from "../../../assets/logo.png";
 import "./style.css";
 import { FaSearch } from "react-icons/fa";
 import { FaQuoteLeft } from "react-icons/fa";
 import { FaBell } from "react-icons/fa";
 import frases from "../../../data/frases.json";
+import { ToastContainer, toast} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Inicio() {
   const { user } = useContext(AuthContext);
@@ -93,8 +95,26 @@ const toEmbed = (url) => {
       alert("Usuário não autenticado. Faça login novamente.");
       return;
     }
-    if (!nomeTurma || !materia) {
-      alert("Preencha todos os campos antes de criar a turma.");
+    if (!nomeTurma.trim() || !materia.trim()) {
+      toast.warn("Preencha o nome da turma e a matéria antes de criar.");
+      return;
+    }
+
+    if (!imagem) {
+      toast.warn("Selecione uma imagem de fundo para a turma.");
+      return;
+    }
+
+   
+    const regexValido = /^[A-Za-zÀ-ú0-9\s]+$/;
+
+    if (!regexValido.test(nomeTurma)) {
+      toast.error("O nome da turma contém caracteres inválidos.");
+      return;
+    }
+
+    if (!regexValido.test(materia)) {
+      toast.error("A matéria contém caracteres inválidos.");
       return;
     }
 
@@ -105,17 +125,21 @@ const toEmbed = (url) => {
         materia,
         imagem: imgUrl,
         professorId: user.uid,
+        professorNome: user.nome,
+        
       });
-      alert(`Turma criada com sucesso!\nCódigo: ${data.codigo}`);
+      toast.success(`Turma criada com sucesso!\nCódigo: ${data.codigo}`);
+     
       setOpen(false);
       setNomeTurma("");
       setMateria("");
       setImagem(null);
-      
+      document.getElementById("preview-img").style.display = "none";
       setTurmas((prev) => [...prev, { nomeTurma, materia, imagem: imgUrl, codigo: data.codigo }]);
     } catch (error) {
       console.error("Erro ao criar turma:", error.response?.data || error);
-      alert("Erro ao criar turma. Verifique os dados e tente novamente.");
+      toast.error("Erro ao criar turma. Verifique os dados e tente novamente.");
+      
     }
   };
 
@@ -190,6 +214,7 @@ const toEmbed = (url) => {
 
   return (
     <div className="layout">
+      <ToastContainer position="bottom-right" theme="colored" />
       <MenuLateralProfessor />
       <div className="page2">
         <main>
@@ -251,25 +276,33 @@ const toEmbed = (url) => {
 
             <strong className="titulo-turmas">Turmas</strong>
             <div className="turmas-grid">
-              {turmas.length > 0 ? (
-                turmas.map((turma) => (
-                  <Link
-                    key={turma.codigo}
-                    to={`/professor/turma/${turma.codigo}`}
-                    className="container-turma"
-                  >
-                    <div className="turma-inicio">                   
-                      <img src={turma.imagem || prof} alt="turma" className="img-turma"/>
-                      <p>{turma.nomeTurma}</p>
-                      <p>{turma.materia}</p>
-                    </div>
-                  
-                  </Link>
-                    ))
-                     ) : (
-                      <p className="sem-turmas">Nenhuma turma encontrada.</p>
-                    )}
-                  </div>
+            {turmas.length > 0 ? (
+              turmas.map((turma) => (
+                <Link to={`/professor/turma/${turma.codigo}`} key={turma.codigo} className="container-turma">
+
+                  <div className="turma-inicio">
+                   
+                    <img
+                      src={turma.imagem || "/src/assets/fundo-turma-padrao.jpg"}
+                      alt="Fundo da turma"
+                      className="img-turma"
+                    />
+
+                    <img
+                      src={turma.professorFoto || user.foto || prof}
+                      alt="Foto do professor"
+                      className="foto-circulo-prof"
+                    />
+                    <p className="nome-turma">{turma.nomeTurma}</p>
+                    <p className="materia-turma">{turma.materia}</p>
+                      </div>
+          
+                </Link>
+              ))
+            ) : (
+              <p className="sem-turmas">Nenhuma turma encontrada.</p>
+            )}
+          </div>
 
           <div className="dashboard">
             <div className="section-avisos">
@@ -382,22 +415,54 @@ const toEmbed = (url) => {
             <div className="modal-criar">
               <div className="modal-content">
                 <h2>Criar Turma</h2>
+
                 <input
                   placeholder="Nome da Turma"
                   value={nomeTurma}
                   onChange={(e) => setNomeTurma(e.target.value)}
                 />
+
                 <input
                   placeholder="Matéria"
                   value={materia}
                   onChange={(e) => setMateria(e.target.value)}
                 />
-                <input type="file" onChange={(e) => setImagem(e.target.files[0])} />
+
+                <div className="upload-section-criarTurma">
+                  <label htmlFor="file-upload" className="label-upload-criarTurma">
+                    Escolher imagem de fundo
+                  </label>
+
+                  <input
+                    id="file-upload"
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      const file = e.target.files[0];
+                      setImagem(file);
+                      if (file) {
+                        const reader = new FileReader();
+                        reader.onloadend = () => {
+                          const preview = document.getElementById("preview-img");
+                          preview.src = reader.result;
+                          preview.style.display = "block";
+                        };
+                        reader.readAsDataURL(file);
+                      }
+                    }}
+                  />
+
+                  <img id="preview-img" className="preview-img-criarTurma" alt="Prévia da imagem" />
+                </div>
+
                 <button onClick={handleCriar}>Criar</button>
-                <button onClick={() => setOpen(false)}>Cancelar</button>
+                <button onClick={() => setOpen(false)} className="cancelar">
+                  Cancelar
+                </button>
               </div>
             </div>
           )}
+
         </main>
       </div>
     </div>

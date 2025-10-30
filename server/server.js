@@ -21,6 +21,12 @@ import avisosRoutes from "./src/api/avisos.js";
 import medalhasRoutes from "./src/api/medalhas.js"; 
 import gamificacaoRoutes from "./src/api/gamificacao.js";
 import logsRoutes from "./src/api/logs/gamificacao.js";
+import chatRoutes from "./src/api/chat.js";
+import publicacoesRoutes from "./src/api/publicacoes.js";
+import conteudoRoutes from "./src/api/conteudo.js";
+import atividadeRoutes from "./src/api/atividades.js";
+import avaliacoesRoutes from "./src/api/avaliacoes.js";
+import questoesRoutes from "./src/api/questoes.js";
 
 
 dotenv.config();
@@ -65,7 +71,12 @@ app.use("/api/tarefas", tarefasRoutes);
 app.use("/api/avisos", avisosRoutes);
 app.use("/api/gamificacao", gamificacaoRoutes);
 app.use("/api/logs", logsRoutes);
-
+app.use("/api/chat", chatRoutes);
+app.use("/api/publicacoes", publicacoesRoutes);
+app.use("/api/conteudo", conteudoRoutes);
+app.use("/api/atividade", atividadeRoutes);
+app.use("/api/avaliacoes", avaliacoesRoutes);
+app.use("/api/questoes", questoesRoutes);
 
 
 const PORT = process.env.PORT || 5000;

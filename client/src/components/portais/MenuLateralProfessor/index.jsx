@@ -4,6 +4,7 @@ import './style.css';
 import { FaRegCalendar } from "react-icons/fa";
 import { IoPlayForward } from "react-icons/io5";
 import { LuLayoutDashboard } from "react-icons/lu";
+import { TbFolderSearch } from "react-icons/tb";
 import { CgNotes } from "react-icons/cg";
 import { FaBoxArchive } from "react-icons/fa6";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
@@ -28,6 +29,7 @@ function MenuLateralProfessor() {
     { to: "/professor/inicio", icon: <LuLayoutDashboard />, label: "Turmas" },
     { to: "/professor/notas", icon: <CgNotes />, label: "Notas" },
     { to: "/professor/documentos", icon: <FaBoxArchive />, label: "Documentos" },
+    { to: "/professor/turmas-arquivadas", icon: <TbFolderSearch />, label: "Turmas arquivadas" },
   ];
 
   return (

@@ -1,6 +1,6 @@
 import MenuLateralAluno from "../../../components/portais/MenuLateralAluno";
 import MenuTopoAluno from "../../../components/portais/MenuTopoAluno";
-import prof from "../../../assets/site/Enri-Clemente-Leigman-scaled-removebg-preview.png";
+import prof from "../../../assets/logo.png";
 import { GoKebabHorizontal } from "react-icons/go";
 import { MdOutlinePushPin, MdAdd } from "react-icons/md";
 import { Link } from "react-router-dom";
@@ -12,6 +12,8 @@ import { FaSearch } from "react-icons/fa";
 import { FaQuoteLeft } from "react-icons/fa";
 import { FaBell } from "react-icons/fa";
 import frases from "../../../data/frases.json";
+import { ToastContainer, toast} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Inicio() {
   const { user } = useContext(AuthContext); 
@@ -92,7 +94,8 @@ export default function Inicio() {
         codigo,
         alunoId: user.uid, 
       });
-      alert("Ingressou na turma com sucesso!");
+      toast.success("Ingressou na turma com sucesso!");
+      
       setOpen(false);
       setCodigo("");
 
@@ -101,7 +104,8 @@ export default function Inicio() {
       setTurmas(res.data);
     } catch (err) {
       console.error("Erro ao ingressar:", err.response?.data || err);
-      alert(err.response?.data?.error || "Código inválido ou erro ao ingressar.");
+      toast.error(err.response?.data?.error || "Código inválido ou erro ao ingressar.");
+      
     }
   };
 
@@ -191,6 +195,7 @@ export default function Inicio() {
 
   return (
     <div className="layout">
+       <ToastContainer position="bottom-right" theme="colored" />
       <MenuLateralAluno />
       <div className="page2">
         <main>
@@ -249,28 +254,37 @@ export default function Inicio() {
                   </Link>
                 </div>
           </div>
-         
+
           <strong className="titulo-turmas">Turmas</strong>
-              <div className="turmas-grid">
-                {turmas.length > 0 ? (
-                  turmas.map((turma) => (
-                    <Link
-                      key={turma.codigo}
-                      to={`/aluno/turma/${turma.codigo}`}
-                      className="container-turma"
-                    >
-                      <div className="turma-inicio">                       
-                          <img src={turma.imagem || prof} alt="turma" className="img-turma"/>                       
-                          <p>{turma.nomeTurma}</p>
-                          <p>{turma.materia}</p>
-                      </div>
-                      
-                    </Link>
-                  ))
-                ) : (
-                  <p className="sem-turmas">Nenhuma turma encontrada.</p>
-                )}
-              </div>
+                      <div className="turmas-grid">
+                      {turmas.length > 0 ? (
+                        turmas.map((turma) => (
+                          <Link to={`/aluno/turma/${turma.codigo}`} key={turma.codigo} className="container-turma">
+                            <div className="turma-inicio">
+                             
+                              <img
+                                src={turma.imagem || "/src/assets/fundo-turma-padrao.jpg"}
+                                alt="Fundo da turma"
+                                className="img-turma"
+                              />
+          
+                              <img
+                                src={turma.professorFoto || user.foto || prof}
+                                alt="Foto do professor"
+                                className="foto-circulo-prof"
+                              />
+                              <p className="nome-turma">{turma.nomeTurma}</p>
+                              <p className="materia-turma">{turma.materia}</p>
+                                </div>
+                    
+                          </Link>
+                        ))
+                      ) : (
+                        <p className="sem-turmas">Nenhuma turma encontrada.</p>
+                      )}
+                    </div>
+         
+         
           
            <div className="dashboard">
             <div className="section-avisos">
@@ -385,7 +399,7 @@ export default function Inicio() {
                   onChange={(e) => setCodigo(e.target.value)}
                 />
                 <button onClick={handleIngressar}>Ingressar</button>
-                <button onClick={() => setOpen(false)}>Cancelar</button>
+                <button onClick={() => setOpen(false)} className="cancelar">Cancelar</button>
               </div>
             </div>
           )}

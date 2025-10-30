@@ -1,79 +1,20 @@
-.add-atividade-area {
-  margin: 16px 0 8px;
-}
-
-.add-atividade-box {
-  display: block;
-  width: 100%;
-  padding: 22px 18px;
-  border: 2px dashed #cfcfcf;
-  border-radius: 16px;
-  text-align: center;
-  color: #1f1f1f;
-  background: #ffffff;
-  font-weight: 700;
-  text-decoration: none;
-  transition: background 0.2s ease, border-color 0.2s ease, transform 0.05s ease;
-}
-
-.add-atividade-box:hover {
-  background: #f9f9f9;
-  border-color: #bdbdbd;
-}
-
-.add-atividade-box:active {
-  transform: scale(0.998);
-}
-.add-atividade-box:active {
-  transform: scale(0.998);
-}
-
-.grupo-conteudo {
-  margin: 18px 0 28px;
-}
-
-.titulo-conteudo {
-  margin: 0 4px 12px;
-  padding: 10px 16px;
-  background: #868CFD; 
-  border-radius: 16px;
-  color: #000;
-  font-size: 1rem;
-}
-
-.atividade {
-  position: relative;
+.lista-publicacoes-ativ{
   display: flex;
+  flex-direction: column;
+  justify-content: center;
   gap: 15px;
+}
+
+.ativ{
+  border-radius: 30px;
+  padding: 20px;
+  border-left: 10px solid #4059AD;
   background-color: #fff;
   color: #000;
-  border-radius: 20px;
-  padding: 20px;
   text-decoration: none;
-  transition: all 0.2s ease;
-  border: 1px solid #e2e2e2;
-  margin: 12px 4px;
+    transition: all 0.2s ease;
 }
-
-.atividade:hover { 
-  box-shadow: rgba(0, 0, 0, 0.07) 0px 4px 14px;
-}
-
-.folder{
-  background-color: #1E3B7D;
-  color: white;
-  border-radius: 50%;
-  padding: 15px;
-  flex-shrink: 0;
-}
-
-.atividade svg:last-child {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-}
-
-.info {
-  color: #555;
-  padding: 10px 6px;
+.ativ:hover{
+  transform: scale(1.02);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
 }

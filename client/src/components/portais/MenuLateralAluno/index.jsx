@@ -10,6 +10,7 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { IoIosLogOut } from "react-icons/io";
 import { AuthContext } from "../../../contexts/auth";
 import logo from "../../../assets/logo.png";
+import { TbFolderSearch } from "react-icons/tb";
 
 function MenuLateralAluno() {
   const [isOpen, setIsOpen] = useState(false); 
@@ -28,6 +29,7 @@ function MenuLateralAluno() {
     { to: "/aluno/inicio", icon: <LuLayoutDashboard />, label: "Turmas" },
     { to: "/aluno/notas", icon: <CgNotes />, label: "Notas" },
     { to: "/aluno/documentos", icon: <FaBoxArchive />, label: "Documentos" },
+    { to: "/aluno/turmas-arquivadas", icon: <TbFolderSearch />, label: "Turmas arquivadas" },
   ];
 
   return (
