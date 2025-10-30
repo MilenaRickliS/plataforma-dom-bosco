@@ -10,8 +10,46 @@ import axios from "axios";
 import { FaSearch } from "react-icons/fa";
 import { FiEdit3 } from "react-icons/fi";
 import { FaTrashCan } from "react-icons/fa6";
-import { ToastContainer, toast } from "react-toastify";
+
+import { adicionarPontos, removerPontos } from "../../../services/gamificacao";
+import { regrasPontuacao } from "../../../services/gamificacao.js"; 
+
+import { ToastContainer, toast, Zoom } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+
+export function mostrarToastPontosAdicionar(valor, motivo) {
+  toast.success(`🏅 +${Math.abs(valor)} pontos! ${motivo}`, {
+    position: "bottom-right",
+    autoClose: 2500,
+    transition: Zoom,
+    theme: "colored",
+    style: {
+      background: "linear-gradient(135deg, #16a34a, #22c55e)",
+      color: "#fff",
+      fontWeight: "bold",
+      borderRadius: "10px",
+    },
+    icon: "🎉",
+  });
+}
+export function mostrarToastPontosRemover(valor, motivo) {
+  toast.error(`💀 -${Math.abs(valor)} pontos! ${motivo}`, {
+    position: "bottom-right",
+    autoClose: 3000,
+    transition: Zoom,
+    theme: "colored",
+    style: {
+      background: "linear-gradient(135deg, #b91c1c, #ef4444)",
+      color: "#fff",
+      fontWeight: "bold",
+      borderRadius: "10px",
+    },
+    icon: "⚠️",
+  });
+}
+
+
 
 
 export default function Agenda() {
@@ -139,6 +177,9 @@ export default function Agenda() {
       setMostrarForm(null);
       setDiaSelecionado(null);
       toast.success("Tarefa adicionada com sucesso!");
+      await adicionarPontos(user.uid, regrasPontuacao.criarTarefa);
+      mostrarToastPontosAdicionar(regrasPontuacao.criarTarefa, "Tarefa criada 📝");
+
     } catch (err) {
       console.error("Erro ao criar tarefa:", err);
       toast.error("Erro ao salvar tarefa. Tente novamente.");
@@ -158,7 +199,45 @@ export default function Agenda() {
       await axios.put(`${API_URL}/api/tarefas?id=${id}`, {
         concluida: !tarefas[chaveDia].find((t) => t.id === id).concluida,
       });
-    } catch (err) {
+      const tarefa = tarefas[chaveDia].find((t) => t.id === id);
+      const concluindo = !tarefa.concluida; 
+
+      if (concluindo) {
+        const hoje = new Date();
+        const dataTarefa = new Date(tarefa.data);
+        const tarefaImportante = tarefa.prioridade === "alta";
+        const totalConcluidasHoje = Object.values(tarefas)
+          .flat()
+          .filter((t) => t.concluida && new Date(t.data).toDateString() === hoje.toDateString())
+          .length;
+
+       
+        await adicionarPontos(user.uid, regrasPontuacao.concluirAtividade);
+        mostrarToastPontosAdicionar(regrasPontuacao.concluirAtividade, "Tarefa concluída ✅");
+
+        if (dataTarefa > hoje) {
+          await adicionarPontos(user.uid, regrasPontuacao.concluirTarefaAntes);
+          mostrarToastPontosAdicionar(regrasPontuacao.concluirTarefaAntes, "Concluiu antes do prazo 🎯");
+        }
+
+        if (tarefaImportante) {
+          await adicionarPontos(user.uid, regrasPontuacao.concluirTarefaImportante);
+          mostrarToastPontosAdicionar(regrasPontuacao.concluirTarefaImportante, "Tarefa importante finalizada 🏅");
+        }
+
+        if (totalConcluidasHoje >= 5) {
+          await adicionarPontos(user.uid, regrasPontuacao.concluir5AtivDia);
+          mostrarToastPontosAdicionar(regrasPontuacao.concluir5AtivDia, "Bônus do dia: 5 tarefas concluídas! 🔥");
+        }
+
+        } else {
+        
+        await removerPontos(user.uid, Math.abs(regrasPontuacao.tarefaPendente));
+        mostrarToastPontosRemover(-regrasPontuacao.tarefaPendente, "Tarefa desmarcada 😞");
+
+      }
+  
+  } catch (err) {
       console.error("Erro ao atualizar tarefa:", err);
     }
   };
@@ -249,12 +328,58 @@ export default function Agenda() {
       );
     });
 
+    useEffect(() => {
+    if (!user) return;
+
+    const penalizados = JSON.parse(localStorage.getItem("penalizados")) || {};
+    const hoje = new Date();
+
+    Object.values(tarefas).flat().forEach(async (t) => {
+      const dataTarefa = new Date(t.data);
+      const idUnico = `${user.uid}-${t.id}`;
+
+      if (!t.concluida && dataTarefa < hoje && !penalizados[idUnico]) {
+        await removerPontos(user.uid, Math.abs(regrasPontuacao.tarefaPendente));
+        mostrarToastPontosRemover(-regrasPontuacao.tarefaPendente, `Tarefa pendente: "${t.nome}" expirou ⏰`);
+
+
+        penalizados[idUnico] = true;
+        localStorage.setItem("penalizados", JSON.stringify(penalizados));
+      }
+    });
+  }, [tarefas]);
+
+
+     useEffect(() => {
+        if (!user) return;
+        
+        const hoje = new Date().toDateString();
+        const chaveBonus = `${user.uid}-bonus-${hoje}`;
+        if (localStorage.getItem(chaveBonus)) return; 
+    
+        const concluidasHoje = Object.values(tarefas)
+          .flat()
+          .filter((t) => t.concluida && new Date(t.data).toDateString() === hoje)
+          .length;
+    
+        if (concluidasHoje >= 10) {
+          adicionarPontos(user.uid, regrasPontuacao.concluir10AtivDia);
+          mostrarToastPontosAdicionar(regrasPontuacao.concluir10AtivDia, "Bônus do dia: 10 tarefas concluídas! 🎉");
+          localStorage.setItem(chaveBonus, "true");
+        }
+      }, [tarefas]);
+
+
+
+
   
   return (
     <div className="layout">
       <MenuLateralProfessor />
       <div className="page2">
         <main>
+          <ToastContainer position="bottom-right" theme="colored" />
+
           <MenuTopoProfessor />
           <div className="sigar">
             <p>Não perca nenhum detalhe do Instituto</p>
