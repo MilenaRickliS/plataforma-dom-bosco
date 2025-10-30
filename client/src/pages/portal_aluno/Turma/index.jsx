@@ -167,7 +167,7 @@ export default function Turma() {
                 publicacoes.map((p) => (
                   <Link
                     key={p.id}
-                    to={`/professor/detalhes-ativ/${p.id}`}
+                    to={`/aluno/detalhes-ativ/${p.id}`}
                     className="atividade"
                     style={{ borderLeft: `10px solid ${getCorTipo(p.tipo)}` }}
                   >
