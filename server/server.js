@@ -27,13 +27,13 @@ import conteudoRoutes from "./src/api/conteudo.js";
 import atividadeRoutes from "./src/api/atividades.js";
 import avaliacoesRoutes from "./src/api/avaliacoes.js";
 import questoesRoutes from "./src/api/questoes.js";
-import contadorRoutes from "./src/api/contarEsp32.js"
+import contadorRoutes from "./src/api/contarEsp32.js";
+import uploadRoutes from "./src/api/upload.js";
 
 
 dotenv.config();
 
 const app = express();
-
 
 app.use(
   cors({
@@ -41,7 +41,7 @@ app.use(
       "http://localhost:5173",
       "https://plataforma-dom-bosco.vercel.app",
     ],
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
@@ -79,6 +79,7 @@ app.use("/api/atividade", atividadeRoutes);
 app.use("/api/avaliacoes", avaliacoesRoutes);
 app.use("/api/questoes", questoesRoutes);
 app.use("/api/contador", contadorRoutes);
+app.use("/api/upload", uploadRoutes);
 
 
 const PORT = process.env.PORT || 5000;

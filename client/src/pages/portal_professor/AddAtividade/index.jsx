@@ -6,6 +6,8 @@ import MenuTopoProfessor from "../../../components/portais/MenuTopoProfessor";
 import { db } from "../../../services/firebaseConnection";
 import { AuthContext } from "../../../contexts/auth";
 import "./style.css";
+import { useParams } from "react-router-dom";
+
 
 function NovaQuestao({ index, value, onChange, onRemove }) {
   const [tipo, setTipo] = useState(value?.tipo || "dissertativa");
@@ -244,20 +246,31 @@ export default function AddPublicacao() {
   const [valor, setValor] = useState("");
   const [conteudosSugeridos, setConteudosSugeridos] = useState([]);
   const [salvando, setSalvando] = useState(false);
-  const codigo = localStorage.getItem("lastTurmaCodigo");
-
-
-
-  const [configRespostasMultiplas, setConfigRespostasMultiplas] = useState(true);
+  const { id: paramId } = useParams();
+  const [id, setId] = useState(paramId || null);
+   const [configRespostasMultiplas, setConfigRespostasMultiplas] = useState(true);
   const [questoes, setQuestoes] = useState([]);
 
+
   useEffect(() => {
+    if (!paramId) {
+      try {
+        const lastId = localStorage.getItem("lastTurmaId");
+        if (lastId) setId(lastId);
+      } catch {}
+    }
+  }, [paramId]);
+
+ 
+
+ useEffect(() => {
     if (!user?.uid) return;
     (async () => {
       try {
-        let turmaCodigo = null; try { turmaCodigo = localStorage.getItem("lastTurmaCodigo"); } catch {}
+        let turmaId = null;
+        try { turmaId = localStorage.getItem("lastTurmaId"); } catch {}
         const filtros = [where("usuarioId", "==", user.uid)];
-        if (turmaCodigo) filtros.push(where("turmaCodigo", "==", turmaCodigo));
+        if (turmaId) filtros.push(where("turmaId", "==", turmaId));
         const qy = query(collection(db, "publicacoes"), ...filtros);
         const snap = await getDocs(qy);
         const s = new Set();
@@ -265,12 +278,13 @@ export default function AddPublicacao() {
           const c = doc.data()?.conteudo;
           if (c && typeof c === "string") s.add(c.trim());
         });
-        setConteudosSugeridos(Array.from(s).sort((a,b)=>a.localeCompare(b)));
+        setConteudosSugeridos(Array.from(s).sort((a, b) => a.localeCompare(b)));
       } catch (e) {
         console.error("Erro ao carregar conteúdos:", e);
       }
     })();
   }, [user]);
+
 
   const addAnexoFile = async (file) => {
     
@@ -287,73 +301,77 @@ export default function AddPublicacao() {
   const removerAnexo = (url) => setAnexos((prev) => prev.filter((a) => a.url !== url));
 
   const handleSalvar = async (e) => {
-    e.preventDefault();
-    if (!user?.uid) return alert("Faça login novamente.");
-    if (!titulo) return alert("Informe o título.");
+  e.preventDefault();
+  if (!user?.uid) return alert("Faça login novamente.");
+  if (!titulo) return alert("Informe o título.");
 
-    try {
-      setSalvando(true);
-      const lastCodigo = (() => { try { return localStorage.getItem("lastTurmaCodigo"); } catch { return null; } })();
-      const agoraIso = new Date().toISOString();
+  try {
+    setSalvando(true);
+    
+    
+    const turmaId = (() => { 
+      try { 
+        return localStorage.getItem("lastTurmaId"); 
+      } catch { 
+        return null; 
+      } 
+    })();
 
-      const basePayload = {
-        tipo,
-        titulo,
-        descricao,
-        conteudo,
-        turmaCodigo: lastCodigo || null,
-        usuarioId: user.uid,
-        criadaEm: agoraIso,
-        atualizadaEm: agoraIso
-      };
+    const agoraIso = new Date().toISOString();
 
-     
-      const pubRef = await addDoc(collection(db, "publicacoes"), {
-        ...basePayload,
-        ...(tipo !== "avaliacao" ? { anexos } : {}),
-        ...(tipo === "atividade" ? {
-          entrega: Timestamp.fromDate(new Date(`${data}T${hora}:59`)),
-          valor: valor ? Number(valor) : 0
-        } : {}),
-        ...(tipo === "conteudo" ? {} : {}),
-        ...(tipo === "avaliacao" ? {
-          valor: valor ? Number(valor) : 0,
-          configuracoes: { respostasMultiplas: !!configRespostasMultiplas }
-        } : {})
-      });
+    const basePayload = {
+      tipo,
+      titulo,
+      descricao,
+      conteudo,
+      turmaId,   
+      usuarioId: user.uid,
+      criadaEm: agoraIso,
+      atualizadaEm: agoraIso
+    };
 
-      if (tipo === "avaliacao") {
-        
-        const pubId = pubRef.id;
-        let ordem = 1;
-        for (const q of questoes) {
-          const qRef = doc(collection(db, "publicacoes", pubId, "questoes"));
-          await setDoc(qRef, {
+    const pubRef = await addDoc(collection(db, "publicacoes"), {
+      ...basePayload,
+      ...(tipo !== "avaliacao" ? { anexos } : {}),
+      ...(tipo === "atividade" ? {
+        entrega: Timestamp.fromDate(new Date(`${data}T${hora}:59`)),
+        valor: valor ? Number(valor) : 0
+      } : {}),
+      ...(tipo === "avaliacao" ? {
+        valor: valor ? Number(valor) : 0,
+        configuracoes: { respostasMultiplas: !!configRespostasMultiplas }
+      } : {})
+    });
+
+    if (tipo === "avaliacao") {
+      const pubId = pubRef.id;
+      let ordem = 1;
+      for (const q of questoes) {
+        const qRef = doc(collection(db, "publicacoes", pubId, "questoes"));
+        await setDoc(qRef, {
           ordem: ordem++,
           enunciado: q.enunciado || "",
           tipo: q.tipo,
-          ...(q.imagem?.url ? { imagem: { url: q.imagem.url, nome: q.imagem.nome || "" } } : {}), // <-- corrigido
+          ...(q.imagem?.url ? { imagem: { url: q.imagem.url, nome: q.imagem.nome || "" } } : {}),
           ...(q.tipo === "dissertativa" ? { textoEsperado: q.textoEsperado || "" } : {}),
           ...(q.tipo === "multipla" ? { alternativas: q.alternativas || [], permiteMultiplas: !!q.permiteMultiplas } : {}),
-          ...(q.tipo === "correspondencia"
-            ? { colA: q.colA || [], colB: q.colB || [], paresCorretos: q.paresCorretos || [] }
-            : {}),
+          ...(q.tipo === "correspondencia" ? { colA: q.colA || [], colB: q.colB || [] } : {}),
           ...(q.valor ? { valor: q.valor } : {}),
         });
-
-        }
       }
-
-      alert("Publicado com sucesso!");
-      if (lastCodigo) navigate(`/professor/turma/${lastCodigo}`);
-      else navigate("/professor/atividades");
-    } catch (err) {
-      console.error("Erro ao salvar:", err);
-      alert("Não foi possível salvar. Tente novamente.");
-    } finally {
-      setSalvando(false);
     }
-  };
+
+    alert("Publicado com sucesso!");
+     if (turmaId) navigate(`/professor/turma/${turmaId}`);
+    else navigate("/professor/atividades");
+
+  } catch (err) {
+    console.error("Erro ao salvar:", err);
+    alert("Não foi possível salvar. Tente novamente.");
+  } finally {
+    setSalvando(false);
+  }
+};
 
   return (
     <div className="layout">
@@ -362,11 +380,9 @@ export default function AddPublicacao() {
         <main id="sala">
           <MenuTopoProfessor />
           <div className="menu-turma">
-            <NavLink to={codigo ? `/professor/turma/${codigo}` : "/professor/turma"}>
-              Painel
-            </NavLink>
-            <NavLink to={codigo ? `/professor/atividades/${codigo}` : "/professor/turma"}>Todas as atividades</NavLink>
-            <NavLink to={codigo ? `/professor/alunos-turma/${codigo}` : "/professor/alunos-turma"}>Alunos</NavLink>
+            <NavLink to={`/professor/turma/${id}`}>Painel</NavLink>
+            <NavLink to={`/professor/atividades/${id}`}>Todas as atividades</NavLink>
+            <NavLink to={`/professor/alunos-turma/${id}`}>Alunos</NavLink>
           </div>
 
 

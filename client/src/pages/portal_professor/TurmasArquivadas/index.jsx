@@ -28,14 +28,29 @@ export default function TurmasArquivadas() {
           <div className="turmas-grid">
             {turmas.length ? (
               turmas.map((turma) => (
-                <div key={turma.id} className="container-turma">
+                <div className="container-turma arquivada">
                   <img src={turma.imagem} className="img-turma" />
                   <p>{turma.nomeTurma}</p>
                   <p>{turma.materia}</p>
+                  <small>(somente visualização)</small>
+                  <button
+                    className="btn-acao desarquivar"
+                    onClick={async () => {
+                      if (confirm("Deseja desarquivar esta turma?")) {
+                        await axios.patch(`${API}/api/turmas/desarquivar?id=${turma.id}`);
+                        alert("Turma desarquivada com sucesso!");
+                        window.location.reload();
+                      }
+                    }}
+                  >
+                    🔓 Desarquivar
+                  </button>
+
                 </div>
+
               ))
             ) : (
-              <p>Nenhuma turma arquivada.</p>
+              <p className="sem-turmas">Nenhuma turma arquivada.</p>
             )}
           </div>
         </main>

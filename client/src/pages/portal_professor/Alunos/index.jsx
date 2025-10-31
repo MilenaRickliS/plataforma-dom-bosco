@@ -8,7 +8,7 @@ import { AuthContext } from "../../../contexts/auth";
 import "./style.css";
 
 export default function Alunos() {
-  const { codigo } = useParams();
+  const { id } = useParams(); // 🔹 Agora usa o ID da turma, não o código
   const { user } = useContext(AuthContext);
   const API = import.meta.env.VITE_API_URL;
 
@@ -17,27 +17,27 @@ export default function Alunos() {
   const [carregando, setCarregando] = useState(true);
   const [turma, setTurma] = useState(null);
 
-
+  // 🔹 Carrega dados da turma e alunos da turma
   useEffect(() => {
-    if (!user?.uid) return;
+    if (!user?.uid || !id) return;
 
     const carregarDados = async () => {
       try {
         setCarregando(true);
 
-      
+        // 🔸 Carrega a turma pelo professor e filtra pelo ID
         const turmasRes = await axios.get(`${API}/api/turmas?professorId=${user.uid}`);
         const lista = turmasRes.data || [];
-        const turmaEncontrada = lista.find((t) => t.codigo === codigo);
+        const turmaEncontrada = lista.find((t) => t.id === id);
         setTurma(turmaEncontrada || null);
 
         if (!turmaEncontrada) return;
 
-       
-        const alunosRes = await axios.get(`${API}/api/turmas/alunos?turmaId=${turmaEncontrada.id}`);
+        // 🔸 Carrega os alunos da turma usando o ID
+        const alunosRes = await axios.get(`${API}/api/turmas/alunos?turmaId=${id}`);
         let alunosList = alunosRes.data || [];
 
-        
+        // 🔸 Busca os pontos de gamificação de cada aluno
         const alunosComPontos = await Promise.all(
           alunosList.map(async (a) => {
             try {
@@ -49,7 +49,7 @@ export default function Alunos() {
           })
         );
 
-        
+        // 🔸 Ordena do maior para o menor pontuador
         alunosComPontos.sort((a, b) => b.pontos - a.pontos);
 
         setAlunos(alunosComPontos);
@@ -61,9 +61,9 @@ export default function Alunos() {
     };
 
     carregarDados();
-  }, [user, codigo, API]);
+  }, [user, id, API]);
 
- 
+  // 🔹 Carrega medalhas dos alunos
   useEffect(() => {
     if (alunos.length === 0) return;
     const carregarMedalhas = async () => {
@@ -83,7 +83,7 @@ export default function Alunos() {
   }, [alunos, API]);
 
   const titulo = turma?.materia || "Turma";
-  const subtitulo = turma?.nomeTurma || (codigo ? `Código: ${codigo}` : "");
+  const subtitulo = turma?.nomeTurma || "";
 
   return (
     <div className="layout">
@@ -92,22 +92,14 @@ export default function Alunos() {
         <main id="sala">
           <MenuTopoProfessor />
 
+          {/* 🔹 Menu superior da turma */}
           <div className="menu-turma">
-            <NavLink to={codigo ? `/professor/turma/${codigo}` : "/professor/turma"}>
-              Painel
-            </NavLink>
-            <NavLink
-              to={codigo ? `/professor/atividades/${codigo}` : "/professor/atividades"}
-            >
-              Todas as atividades
-            </NavLink>
-            <NavLink
-              to={codigo ? `/professor/alunos-turma/${codigo}` : "/professor/alunos-turma"}
-              className="ativo"
-            >
-              Alunos
-            </NavLink>
+            <NavLink to={`/professor/turma/${id}`}>Painel</NavLink>
+            <NavLink to={`/professor/atividades/${id}`}>Todas as atividades</NavLink>
+            <NavLink to={`/professor/alunos-turma/${id}`}>Alunos</NavLink>
           </div>
+
+          {/* 🔹 Banner da turma */}
           <div
             className="titulo-sala-alunos"
             style={{
@@ -126,9 +118,8 @@ export default function Alunos() {
               <p>{subtitulo}</p>
             </div>
           </div>
-        
 
-         
+          {/* 🔹 Lista de alunos com pontuação e medalhas */}
           <section className="lista-alunos">
             <h3>Alunos da turma</h3>
 
@@ -149,7 +140,7 @@ export default function Alunos() {
                       <span className="pontos-alunos">{aluno.pontos} pts</span>
                     </div>
 
-                    
+                    {/* Medalhas */}
                     <div className="medalhas-miniaturas">
                       {(medalhasAlunos[aluno.id] || []).length === 0 ? (
                         <span className="sem-medalhas">Sem medalhas</span>

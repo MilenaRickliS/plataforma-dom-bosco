@@ -1,57 +1,48 @@
 import MenuLateralAluno from "../../../components/portais/MenuLateralAluno";
 import MenuTopoAluno from "../../../components/portais/MenuTopoAluno";
-import './style.css';
+import "./style.css";
 import { useContext, useEffect, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useParams } from "react-router-dom";
 import { VscKebabVertical } from "react-icons/vsc";
 import { AuthContext } from "../../../contexts/auth";
 import axios from "axios";
-import { useParams } from "react-router-dom";
-
 
 export default function Atividades() {
-   const { user } = useContext(AuthContext);
-  const { codigo } = useParams();
+  const { user } = useContext(AuthContext);
+  const { id } = useParams(); // 🔹 Agora usamos o ID da turma
   const [carregando, setCarregando] = useState(true);
   const [publicacoes, setPublicacoes] = useState([]);
-   const [turma, setTurma] = useState(null);
+  const [turma, setTurma] = useState(null);
   const API = import.meta.env.VITE_API_URL;
 
-
+  // 🔹 Carrega dados da turma pelo ID
   useEffect(() => {
-    if (!user?.uid) return;
+    if (!user?.uid || !id) return;
     const carregarTurma = async () => {
       try {
-        const res = await axios.get(`${API}/api/turmas?alunoId=${user.uid}`);
-        const lista = res.data || [];
-        const encontrada =
-          codigo
-            ? lista.find((t) => t.codigo === codigo)
-            : lista.find((t) => t.codigo === localStorage.getItem("lastTurmaCodigo"));
-        setTurma(encontrada || null);
+        const res = await axios.get(`${API}/api/turmas?id=${id}`);
+        setTurma(res.data || null);
+        localStorage.setItem("lastTurmaId", id);
       } catch (e) {
         console.error("Erro ao carregar turma:", e);
       }
     };
     carregarTurma();
-  }, [user, codigo, API]);
+  }, [user, id, API]);
 
-   useEffect(() => {
-    if (!user?.uid) return;
+  // 🔹 Busca publicações da turma
+  useEffect(() => {
+    if (!user?.uid || !id) return;
     const fetch = async () => {
       try {
         setCarregando(true);
         const res = await axios.get(`${API}/api/publicacoes`);
         const todas = res.data || [];
 
-        let turmaCodigo = null;
-        try { turmaCodigo = localStorage.getItem("lastTurmaCodigo"); } catch {}
-
-        
         const filtradas = todas
           .filter(
             (p) =>
-              p.turmaCodigo === turmaCodigo &&
+              p.turmaId === id &&
               (p.tipo === "atividade" || p.tipo === "avaliacao")
           )
           .sort(
@@ -66,8 +57,9 @@ export default function Atividades() {
       }
     };
     fetch();
-  }, [user, API]);
+  }, [user, API, id]);
 
+  // 🔹 Estilos auxiliares
   const getCorTipo = (tipo) => {
     switch (tipo) {
       case "atividade":
@@ -94,20 +86,23 @@ export default function Atividades() {
   };
 
   const titulo = turma?.materia || "Turma";
-  const subtitulo = turma?.nomeTurma || (codigo ? `Código: ${codigo}` : "");
+  const subtitulo = turma?.nomeTurma || "";
 
   return (
     <div className="layout">
-      <MenuLateralAluno />  
+      <MenuLateralAluno />
       <div className="page2">
         <main id="sala">
-            <MenuTopoAluno/>
+          <MenuTopoAluno />
+
+          {/* 🔹 Menu da turma */}
           <div className="menu-turma">
-            <NavLink to={codigo ? `/aluno/turma/${codigo}` : "/aluno/turma"}>Painel</NavLink>
-            <NavLink to={codigo ? `/aluno/atividades/${codigo}` : "/aluno/atividades"}>Todas as atividades</NavLink>
-            <NavLink to={codigo ? `/aluno/alunos-turma/${codigo}` : "/aluno/alunos-turma"}>Alunos</NavLink>
+            <NavLink to={`/aluno/turma/${id}`}>Painel</NavLink>
+            <NavLink to={`/aluno/atividades/${id}`}>Todas as atividades</NavLink>
+            <NavLink to={`/aluno/alunos-turma/${id}`}>Alunos</NavLink>
           </div>
 
+          {/* 🔹 Cabeçalho visual */}
           <div
             className="titulo-sala-alunos"
             style={{
@@ -126,11 +121,12 @@ export default function Atividades() {
           >
             <div>
               <h3 style={{ marginBottom: "0.5rem" }}>{titulo}</h3>
-              {subtitulo ? <p>{subtitulo}</p> : null}
+              {subtitulo && <p>{subtitulo}</p>}
             </div>
-            </div>
+          </div>
 
-            <div className="menu-ativ">
+          {/* 🔹 Legenda de cores */}
+          <div className="menu-ativ">
             <div className="div-cor">
               <div className="cor1">cor</div>
               <p>Conteúdo consulta</p>
@@ -145,6 +141,7 @@ export default function Atividades() {
             </div>
           </div>
 
+          {/* 🔹 Lista de publicações */}
           {carregando ? (
             <p className="info">Carregando publicações...</p>
           ) : publicacoes.length === 0 ? (
@@ -160,14 +157,12 @@ export default function Atividades() {
                   className="ativ"
                   style={{ borderLeft: `10px solid ${getCorTipo(p.tipo)}` }}
                 >
-                  <div>
+                  <div className="div-atividade">
                     <h4>{p.titulo}</h4>
-                    <p>{p.descricao || "Sem descrição"}</p>
-                    <p>
-                      <strong>Postada em:</strong> {formatData(p.criadaEm)}
-                    </p>
+                    
+                    
                     {p.tipo === "atividade" && p.entrega && (
-                      <p>
+                      <p className="prazo">
                         <strong>Prazo:</strong>{" "}
                         {new Date(p.entrega._seconds * 1000).toLocaleDateString(
                           "pt-BR"
@@ -175,17 +170,16 @@ export default function Atividades() {
                       </p>
                     )}
                     {p.tipo === "avaliacao" && (
-                      <p>
+                      <p className="valor">
                         <strong>Valor total:</strong> {p.valor || 0} pts
                       </p>
                     )}
                   </div>
-                  <VscKebabVertical />
+                  
                 </Link>
               ))}
             </div>
           )}
-          
         </main>
       </div>
     </div>

@@ -124,16 +124,13 @@ function RoutesApp(){
       <Route path="/aluno/documentos" element={ <Private rota="aluno"><DocumentosAluno/></Private> } />
       <Route path="/aluno/ajuda" element={ <Private rota="aluno"><AjudaAluno/></Private> } />
       <Route path="/aluno/avisos" element={ <Private rota="aluno"><AvisosAluno/></Private> } />
-      <Route path="/aluno/perfil" element={ <Private rota="aluno"><PerfilAluno/></Private> } />
-      <Route path="/aluno/turma" element={ <Private rota="aluno"><TurmaAluno/></Private> } />
-      <Route path="/aluno/turma/:codigo" element={ <Private rota="aluno"><TurmaAluno/></Private> } />
+      <Route path="/aluno/perfil" element={ <Private rota="aluno"><PerfilAluno/></Private> } />    
+      <Route path="/aluno/turma/:id" element={ <Private rota="aluno"><TurmaAluno/></Private> } />
       <Route path="/aluno/turmas-arquivadas" element={<Private rota="aluno"><TurmasArquivadasAluno /></Private>} />
-      <Route path="/aluno/atividades/:codigo" element={ <Private rota="aluno"><AtividadesAluno/></Private> } />
-      <Route path="/aluno/atividades" element={ <Private rota="aluno"><AtividadesAluno/></Private> } />
-      <Route path="/aluno/detalhes-ativ/:codigo" element={ <Private rota="aluno"><AtivDetalheAluno/></Private> } />
-      <Route path="/aluno/detalhes-ativ" element={ <Private rota="aluno"><AtivDetalheAluno/></Private> } />
-      <Route path="/aluno/alunos-turma/:codigo" element={ <Private rota="aluno"><AlunosAluno/></Private> } />
-      <Route path="/aluno/alunos-turma" element={ <Private rota="aluno"><AlunosAluno/></Private> } />
+      <Route path="/aluno/atividades/:id" element={ <Private rota="aluno"><AtividadesAluno/></Private> } />      
+      <Route path="/aluno/detalhes-ativ/:id" element={ <Private rota="aluno"><AtivDetalheAluno/></Private> } />      
+      <Route path="/aluno/alunos-turma/:id" element={ <Private rota="aluno"><AlunosAluno/></Private> } />
+    
 
       <Route path="/professor/inicio" element={ <Private rota="professor"><InicioProfessor/></Private> } />
       <Route path="/professor/agenda" element={ <Private rota="professor"><AgendaProfessor/></Private> } />
@@ -149,18 +146,12 @@ function RoutesApp(){
       <Route path="/professor/add-avisos-professor" element={<Private rota="professor"><PostAvisosProfessor/></Private>} />
       <Route path="/professor/editar-aviso/:id" element={<Private rota="professor"><PostAvisosProfessor/></Private>} />
       <Route path="/professor/perfil" element={ <Private rota="professor"><PerfilProfessor/></Private> } />
-      <Route path="/professor/turma/:codigo" element={ <Private rota="professor"><TurmaProfessor/></Private> } />
-      <Route path="/professor/turma" element={ <Private rota="professor"><TurmaProfessor/></Private> } />
+      <Route path="/professor/turma/:id" element={ <Private rota="professor"><TurmaProfessor/></Private> } />
       <Route path="/professor/turmas-arquivadas" element={<Private rota="professor"><TurmasArquivadas /></Private>} />
-      <Route path="/professor/atividades/:codigo" element={ <Private rota="professor"><AtividadesProfessor/></Private> } />
-      <Route path="/add-atividade-professor" element={ <Private rota="professor"><AddAtividadeProfessor/></Private> } />
-      <Route path="/professor/atividades" element={ <Private rota="professor"><AtividadesProfessor/></Private> } />
-      <Route path="/professor/detalhes-ativ/:codigo" element={ <Private rota="professor"><AtivDetalheProfessor/></Private> } />
-      <Route path="/professor/detalhes-ativ" element={ <Private rota="professor"><AtivDetalheProfessor/></Private> } />
-      <Route path="/professor/alunos-turma/:codigo" element={ <Private rota="professor"><AlunosProfessor/></Private> } />
-      <Route path="/professor/alunos-turma" element={ <Private rota="professor"><AlunosProfessor/></Private> } />
-           
-
+      <Route path="/add-atividade-professor" element={<Private rota="professor"><AddAtividadeProfessor/></Private>} />
+      <Route path="/professor/atividades/:id" element={ <Private rota="professor"><AtividadesProfessor/></Private> } />
+      <Route path="/professor/detalhes-ativ/:id" element={ <Private rota="professor"><AtivDetalheProfessor/></Private> } />
+      <Route path="/professor/alunos-turma/:id" element={ <Private rota="professor"><AlunosProfessor/></Private> } />
     
     </Routes>
   )

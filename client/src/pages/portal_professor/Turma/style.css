@@ -31,7 +31,7 @@
 }
 .titulo-sala-alunos {
   position: relative;
-  height: 200px;
+  height: 30%;
   border-radius: 12px;
   overflow: hidden;
   display: flex;
@@ -69,7 +69,54 @@
     text-decoration: underline;
 
 }
+.acoes-turma {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 1rem;
+  justify-content: flex-end;
+}
 
+.btn-acao-turma {
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.3s;
+  color: white;
+}
+
+.btn-acao-turma.editar { background-color: #3b82f6; }
+.btn-acao-turma.arquivar { background-color: #f59e0b; }
+.btn-acao-turma.excluir { background-color: #ef4444; }
+
+.btn-acao-turma:hover { 
+  transform: scale(1.03);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.modal-codigo input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.botoes-editar {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.botoes-editar button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+/* atividades */
 .ativ-sala{
     display: flex;
     gap: 5px;
@@ -108,7 +155,7 @@
 }
 
 .prox-link:hover {
-  color: #4059ad;
+  color: #9c6b09;
   text-decoration: underline;
 }
 .atividades{
@@ -132,6 +179,19 @@
   transform: scale(1.02);
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
 }
+.div-atividade{
+  display: flex;
+  justify-content: space-between;
+}
+.div-atividade p{
+  font-size: 12px;
+}
+.div-atividade .prazo{
+  color: #9c6b09;
+}
+.div-atividade .valor{
+  color: #00155a;
+}
 .postar-ativ{
   text-align: center;
 }
@@ -152,7 +212,7 @@
 .botao-postar-ativ:hover{
   background-color: #00155a;
 }
-
+/* codigo turma */
 .btn-codigo {
   margin-top: 10px;
   padding: 8px 14px;
@@ -167,6 +227,8 @@
 
 .btn-codigo:hover {
   background-color: #0040ff;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  transform: scale(1.03);
 }
 
 
@@ -194,7 +256,17 @@
   color: #4059ad;
   margin-bottom: 1rem;
 }
-
+.modal-codigo input{
+  background-color: #fff;
+  color: #000;
+}
+.modal-codigo input:focus{
+  outline: none;
+  border-color: #5856d3;
+}
+.modal-codigo .labels {
+  color: #5856d3;
+}
 .codigo-grande {
   font-size: 3rem;
   font-weight: bold;
@@ -213,9 +285,34 @@
   cursor: pointer;
   transition: 0.2s;
 }
-
+.modal-codigo .salvar{
+  background-color: #00155a;
+}
+.modal-codigo .salvar:hover{
+  background-color: #002ab3;
+}
 .modal-codigo button:hover {
   background-color: #8f1f3a;
+}
+.upload-section-editarTurma {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.label-upload-editarTurma {
+  background-color: #a556d3;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+.label-upload-editarTurma:hover {
+  background-color: #42165c;
 }
 
 
@@ -254,6 +351,23 @@
 
 
 @media (max-width: 600px) {
+  .acoes-turma{
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 10px;
+    
+  }
+  .div-atividade{
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .menu-ativ{
+    flex-direction: column;
+    gap: 0px;
+  }
+ 
   .ativ-sala {
     flex-direction: column; 
     gap: 20px; 

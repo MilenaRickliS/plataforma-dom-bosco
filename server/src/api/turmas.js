@@ -3,55 +3,160 @@ import { v4 as uuidv4 } from "uuid";
 
 const db = admin.firestore();
 
+function allowCors(res) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,PATCH,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+}
+
+
+function handleCors(req, res) {
+  allowCors(res);
+  if (req.method === "OPTIONS") {
+    res.status(200).end();
+    return true;
+  }
+  return false;
+}
+
+
 export default async function handler(req, res) {
+  if (handleCors(req, res)) return;
   const { method, url, query, body } = req;
 
   try {
-    
+    if (method === "GET" && (query.id || query.codigo)) {
+    let docSnap;
+
+    if (query.id) {
+      docSnap = await db.collection("turmas").doc(query.id).get();
+    } else if (query.codigo) {
+      const snap = await db.collection("turmas").where("codigo", "==", query.codigo).limit(1).get();
+      docSnap = snap.empty ? null : snap.docs[0];
+    }
+
+    if (!docSnap || !docSnap.exists) {
+      return res.status(404).json({ error: "Turma não encontrada" });
+    }
+
+    const data = docSnap.data();
+    let professorNome = "Professor não identificado";
+    let professorFoto = "";
+
+    if (data.professorId) {
+      const profDoc = await db.collection("usuarios").doc(data.professorId).get();
+      if (profDoc.exists) {
+        const profData = profDoc.data();
+        professorNome = profData.nome || "Professor não identificado";
+        professorFoto = profData.foto || "";
+      }
+    }
+
+    return res.status(200).json({
+      id: docSnap.id,
+      nomeTurma: data.nomeTurma || "",
+      materia: data.materia || "",
+      imagem: data.imagem || "",
+      codigo: data.codigo || "",
+      professorId: data.professorId || "",
+      professorNome,
+      professorFoto,
+      alunos: data.alunos || [],
+      arquivada: data.arquivada || false,
+      criadoEm: data.criadoEm || null,
+    });
+  }
+
+
     if (method === "GET" && !url.includes("/alunos")) {
       const { professorId, alunoId, arquivada } = query;
-      let turmasQuery = db.collection("turmas");
+      let turmasRef = db.collection("turmas");
+      let turmasSnapshot;
 
+      // 🔹 Caso seja professor (filtra normalmente)
       if (professorId) {
-        turmasQuery = turmasQuery.where("professorId", "==", professorId);
-      } else if (alunoId) {
-        turmasQuery = turmasQuery.where("alunos", "array-contains", alunoId);
+        if (arquivada === "true") {
+          turmasSnapshot = await turmasRef
+            .where("professorId", "==", professorId)
+            .where("arquivada", "==", true)
+            .get();
+        } else if (arquivada === "false") {
+          turmasSnapshot = await turmasRef
+            .where("professorId", "==", professorId)
+            .where("arquivada", "==", false)
+            .get();
+        } else {
+          turmasSnapshot = await turmasRef
+            .where("professorId", "==", professorId)
+            .get();
+        }
       }
 
-      if (arquivada === "true") {
-        turmasQuery = turmasQuery.where("arquivada", "==", true);
-      } else if (arquivada === "false") {
-        turmasQuery = turmasQuery.where("arquivada", "==", false);
-      }
+      // 🔹 Caso seja aluno (filtra turmas onde ele está na lista E arquivadas)
+      else if (alunoId) {
+        const snapshot = await turmasRef
+          .where("alunos", "array-contains", alunoId)
+          .get();
 
-      const snapshot = await turmasQuery.get();
-      const turmas = [];
+        // 🔸 Filtra manualmente as arquivadas (pois Firestore não permite ambos os where juntos)
+        const turmas = [];
+        for (const doc of snapshot.docs) {
+          const data = doc.data();
+          if (arquivada === "true" && !data.arquivada) continue;
+          if (arquivada === "false" && data.arquivada) continue;
 
-      for (const doc of snapshot.docs) {
-        const data = doc.data();
-        let professorNome = "Professor não identificado";
-        let professorFoto = "";
-
-        if (data.professorId) {
-          const profDoc = await db.collection("usuarios").doc(data.professorId).get();
-          if (profDoc.exists) {
-            const profData = profDoc.data();
-            professorNome = profData.nome || "Professor não identificado";
-            professorFoto = profData.foto || "";
+          let professorNome = "Professor não identificado";
+          let professorFoto = "";
+          if (data.professorId) {
+            const profDoc = await db.collection("usuarios").doc(data.professorId).get();
+            if (profDoc.exists) {
+              const profData = profDoc.data();
+              professorNome = profData.nome || "Professor não identificado";
+              professorFoto = profData.foto || "";
+            }
           }
+
+          turmas.push({
+            id: doc.id,
+            ...data,
+            professorNome,
+            professorFoto,
+          });
         }
 
-        turmas.push({
-          id: doc.id,
-          ...data,
-          professorNome,
-          professorFoto, 
-        });
+        return res.status(200).json(turmas);
       }
 
+      // 🔹 Monta lista para o caso de professor
+      if (turmasSnapshot) {
+        const turmas = [];
+        for (const doc of turmasSnapshot.docs) {
+          const data = doc.data();
+          let professorNome = "Professor não identificado";
+          let professorFoto = "";
 
-      return res.status(200).json(turmas);
+          if (data.professorId) {
+            const profDoc = await db.collection("usuarios").doc(data.professorId).get();
+            if (profDoc.exists) {
+              const profData = profDoc.data();
+              professorNome = profData.nome || "Professor não identificado";
+              professorFoto = profData.foto || "";
+            }
+          }
+
+          turmas.push({
+            id: doc.id,
+            ...data,
+            professorNome,
+            professorFoto,
+          });
+        }
+        return res.status(200).json(turmas);
+      }
+
+      return res.status(404).json([]);
     }
+
 
     
     if (method === "GET" && url.includes("/alunos")) {
@@ -137,22 +242,79 @@ export default async function handler(req, res) {
       return res.status(201).json({ id: turmaRef.id, codigo });
     }
 
-    if (method === "PATCH" && url.includes("/arquivar")) {
+    // ✅ Arquivar turma
+    if (method === "PATCH" && (url.includes("/arquivar") || query?.action === "arquivar")) {
+      console.log("📦 Arquivando turma:", query.id);
       const { id } = query;
       if (!id) return res.status(400).json({ error: "ID da turma é obrigatório" });
 
-      await db.collection("turmas").doc(id).update({ arquivada: true });
+      await db.collection("turmas").doc(id).update({
+        arquivada: true,
+      });
+
       return res.status(200).json({ message: "Turma arquivada com sucesso" });
     }
 
-    
-    if (method === "DELETE") {
+    if (method === "PATCH" && url.includes("/desarquivar")) {
       const { id } = query;
       if (!id) return res.status(400).json({ error: "ID da turma é obrigatório" });
 
-      await db.collection("turmas").doc(id).delete();
-      return res.status(200).json({ message: "Turma excluída com sucesso" });
+      await db.collection("turmas").doc(id).update({
+        arquivada: false,
+      });
+
+      return res.status(200).json({ message: "Turma desarquivada com sucesso" });
     }
+
+  // ✅ Atualizar turma (nome, matéria, imagem)
+  if (method === "PATCH" && !url.includes("/arquivar") && !url.includes("/desarquivar")) {
+    const { id } = query;
+    const { nomeTurma, materia, imagem } = body;
+
+    if (!id) return res.status(400).json({ error: "ID da turma é obrigatório" });
+
+    // Validação básica
+    if (!nomeTurma?.trim() || !materia?.trim()) {
+      return res.status(400).json({ error: "Nome e matéria são obrigatórios" });
+    }
+
+    await db.collection("turmas").doc(id).update({
+      nomeTurma,
+      materia,
+      imagem: imagem || "",
+    });
+
+    return res.status(200).json({ message: "Turma atualizada com sucesso" });
+  }
+
+
+
+    
+    // ✅ Excluir turma (apenas se não houver alunos inscritos)
+  if (method === "DELETE") {
+    const { id } = query;
+    if (!id) return res.status(400).json({ error: "ID da turma é obrigatório" });
+
+    const turmaRef = db.collection("turmas").doc(id);
+    const turmaSnap = await turmaRef.get();
+
+    if (!turmaSnap.exists) {
+      return res.status(404).json({ error: "Turma não encontrada" });
+    }
+
+    const turmaData = turmaSnap.data();
+
+    // 🚫 Impede exclusão se houver alunos na turma
+    if (turmaData.alunos && turmaData.alunos.length > 0) {
+      return res.status(400).json({
+        error: "Não é possível excluir a turma pois há alunos inscritos. Remova-os antes.",
+      });
+    }
+
+    await turmaRef.delete();
+    return res.status(200).json({ message: "Turma excluída com sucesso" });
+  }
+
 
     
     if (method === "POST" && url.includes("/ingressar")) {

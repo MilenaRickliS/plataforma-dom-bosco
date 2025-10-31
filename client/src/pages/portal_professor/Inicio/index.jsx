@@ -71,7 +71,8 @@ const toEmbed = (url) => {
     if (!user?.uid) return;
     const fetchTurmas = async () => {
       try {
-        const res = await axios.get(`${API}/api/turmas?professorId=${user.uid}`);
+        const res = await axios.get(`${API}/api/turmas?professorId=${user.uid}&arquivada=false`);
+
         setTurmas(res.data);
       } catch (err) {
         console.error("Erro ao carregar turmas:", err);
@@ -106,7 +107,8 @@ const toEmbed = (url) => {
     }
 
    
-    const regexValido = /^[A-Za-zÀ-ú0-9\s]+$/;
+    const regexValido = /^[A-Za-zÀ-ú0-9\s.,;:/()º°'"!?\-_]+$/;
+
 
     if (!regexValido.test(nomeTurma)) {
       toast.error("O nome da turma contém caracteres inválidos.");
@@ -278,7 +280,7 @@ const toEmbed = (url) => {
             <div className="turmas-grid">
             {turmas.length > 0 ? (
               turmas.map((turma) => (
-                <Link to={`/professor/turma/${turma.codigo}`} key={turma.codigo} className="container-turma">
+                <Link to={`/professor/turma/${turma.id}`} key={turma.id} className="container-turma">
 
                   <div className="turma-inicio">
                    
