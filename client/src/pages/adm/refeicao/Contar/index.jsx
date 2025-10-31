@@ -135,7 +135,7 @@ export default function Contar() {
       </div>
 
       {!finalizado ? (
-        <div className="contagem">
+        <div className="cont">
           <h1>{contador}</h1>
           <p>{mensagem}</p>
           {segundos !== null && <p className="contador-tempo">⏱️ {segundos}s</p>}

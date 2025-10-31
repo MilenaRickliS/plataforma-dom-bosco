@@ -15,13 +15,13 @@
   width: 80px;
 }
 
-.contagem h1 {
+.cont h1 {
   font-size: 120px;
   margin: 40px 0 10px;
   color: #3f51b5;
 }
 
-.contagem p {
+.cont p {
   font-size: 22px;
 }
 .contador-tempo {
