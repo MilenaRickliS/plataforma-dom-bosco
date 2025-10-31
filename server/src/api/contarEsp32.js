@@ -3,18 +3,18 @@ import admin from "../firebaseAdmin.js";
 const db = admin.firestore();
 const DEVICE_TOKEN = process.env.DEVICE_TOKEN;
 
-// --- Habilita CORS ---
+
 function allowCors(res) {
   res.setHeader("Access-Control-Allow-Origin", process.env.CORS_ORIGIN || "*");
   res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 }
 
-// --- Faz o parsing do corpo da requisição ---
+
 async function parseBody(req) {
   try {
-    if (typeof req.json === "function") return await req.json(); // Vercel
-    if (req.body && typeof req.body === "object") return req.body; // Express
+    if (typeof req.json === "function") return await req.json(); 
+    if (req.body && typeof req.body === "object") return req.body;
     const raw = await new Promise((resolve) => {
       let data = "";
       req.on("data", (chunk) => (data += chunk));
@@ -30,13 +30,13 @@ export default async function handler(req, res) {
   allowCors(res);
   const { method } = req;
     const parts = req.url.split("/").filter(Boolean);
-  const contadorId = parts[0]; // agora pega "porta-refeitorio"
+  const contadorId = parts[0]; 
   const action = parts[1] || null;
 
   if (!contadorId) return res.status(400).json({ error: "contadorId obrigatório" });
 
   try {
-    // === GET /api/contador/:id ===
+    
     if (method === "GET") {
       const ref = db.collection("contadores").doc(contadorId);
       const snap = await ref.get();
@@ -53,7 +53,7 @@ export default async function handler(req, res) {
       return res.status(200).json(snap.data());
     }
 
-    // === POST /api/contador/:id/start ===
+    
     if (method === "POST" && action === "start") {
       const body = await parseBody(req);
       const { titulo } = body;
@@ -72,7 +72,7 @@ export default async function handler(req, res) {
       return res.status(200).json({ ok: true });
     }
 
-    // === POST /api/contador/:id/finalize ===
+   
     if (method === "POST" && action === "finalize") {
       const body = await parseBody(req);
       const { titulo } = body;
@@ -109,7 +109,7 @@ export default async function handler(req, res) {
       return res.status(200).json({ ok: true });
     }
 
-    // === POST /api/contador/:id/increment ===
+    
     if (method === "POST" && action === "increment") {
       const auth = req.headers.authorization || "";
       const token = auth.startsWith("Bearer ") ? auth.slice(7) : "";
