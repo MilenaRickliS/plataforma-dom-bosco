@@ -4,7 +4,7 @@ const db = admin.firestore();
 
 export default async function handler(req, res) {
   try {
-    // Criar questão
+    
     if (req.method === "POST") {
       const { avaliacaoId } = req.query;
       const dados = req.body;
@@ -24,7 +24,7 @@ export default async function handler(req, res) {
       return res.status(201).json({ ok: true, id: ref.id });
     }
 
-    // Listar questões de uma avaliação
+  
     if (req.method === "GET") {
       const { avaliacaoId } = req.query;
 

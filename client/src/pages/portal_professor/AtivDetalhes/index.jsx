@@ -8,7 +8,7 @@ import axios from "axios";
 import { FaPaperclip, FaClock, FaBookOpen, FaCalendarAlt } from "react-icons/fa";
 
 export default function AtivDetalhes() {
-  const { id } = useParams(); // ID da publicação (atividade ou avaliação)
+  const { id } = useParams(); 
   const { user } = useContext(AuthContext);
   const [publicacao, setPublicacao] = useState(null);
   const [turma, setTurma] = useState(null);
@@ -20,13 +20,13 @@ export default function AtivDetalhes() {
     const carregar = async () => {
       try {
         setCarregando(true);
-        // Busca a publicação específica
+       
         const res = await axios.get(`${API}/api/publicacoes`);
         const todas = res.data || [];
         const encontrada = todas.find((p) => p.id === id);
         setPublicacao(encontrada || null);
 
-        // Se a publicação tiver turmaId, busca os dados da turma
+        
         if (encontrada?.turmaId) {
           const turmaRes = await axios.get(`${API}/api/turmas?professorId=${user.uid}`);
           const lista = turmaRes.data || [];
@@ -70,14 +70,14 @@ export default function AtivDetalhes() {
         <main id="sala">
           <MenuTopoProfessor />
 
-          {/* 🔹 Menu fixo da turma */}
+          
           <div className="menu-turma">
             <NavLink to={`/professor/turma/${publicacao.turmaId || ""}`}>Painel</NavLink>
             <NavLink to={`/professor/atividades/${publicacao.turmaId || ""}`}>Todas as atividades</NavLink>
             <NavLink to={`/professor/alunos-turma/${publicacao.turmaId || ""}`}>Alunos</NavLink>
           </div>
 
-          {/* 🔹 Cabeçalho da atividade */}
+         
            <div
             className="titulo-sala-alunos"
             style={{
@@ -97,7 +97,7 @@ export default function AtivDetalhes() {
             </div>
           </div><br/>
 
-          {/* 🔹 Corpo do conteúdo */}
+          
           <section className="detalhes-atividade">
             <h3><FaBookOpen /> Descrição</h3>
             <p>{publicacao.descricao || "Sem descrição"}</p>

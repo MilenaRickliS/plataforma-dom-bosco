@@ -8,13 +8,13 @@ import { AuthContext } from "../../../contexts/auth";
 import ChatTurma from "../../../components/portais/ChatTurma";
 
 export default function Turma() {
-  const { id } = useParams(); // agora usamos o ID da turma
+  const { id } = useParams(); 
   const { user } = useContext(AuthContext);
   const [turma, setTurma] = useState(null);
   const [publicacoes, setPublicacoes] = useState([]);
   const API = import.meta.env.VITE_API_URL;
 
-  // 🔹 Carrega dados da turma pelo ID
+ 
   useEffect(() => {
     if (!user?.uid || !id) return;
     const fetch = async () => {
@@ -28,7 +28,7 @@ export default function Turma() {
     fetch();
   }, [user, id, API]);
 
-  // 🔹 Salva o último ID da turma no localStorage
+  
   useEffect(() => {
     if (id) {
       try {
@@ -37,7 +37,7 @@ export default function Turma() {
     }
   }, [id]);
 
-  // 🔹 Carrega publicações por turmaId
+  
   useEffect(() => {
     if (!id) return;
     const carregarPublicacoes = async () => {

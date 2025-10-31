@@ -10,14 +10,14 @@ import axios from "axios";
 
 export default function Atividades() {
   const { user } = useContext(AuthContext);
-  const { id } = useParams(); // 🔹 Agora pegamos o ID da turma, não o código
+  const { id } = useParams(); 
   const [carregando, setCarregando] = useState(true);
   const [publicacoes, setPublicacoes] = useState([]);
   const [turma, setTurma] = useState(null);
   const [mostrarCodigo, setMostrarCodigo] = useState(false);
   const API = import.meta.env.VITE_API_URL;
 
-  // 🔹 Carrega os dados da turma pelo ID
+ 
   useEffect(() => {
     if (!user?.uid || !id) return;
     const carregarTurma = async () => {
@@ -26,7 +26,7 @@ export default function Atividades() {
         const lista = res.data || [];
         const encontrada = lista.find((t) => t.id === id);
         setTurma(encontrada || null);
-        // opcionalmente salva no localStorage
+        
         localStorage.setItem("lastTurmaId", id);
       } catch (e) {
         console.error("Erro ao carregar turma:", e);
@@ -35,7 +35,7 @@ export default function Atividades() {
     carregarTurma();
   }, [user, id, API]);
 
-  // 🔹 Busca as publicações dessa turma
+
   useEffect(() => {
     if (!user?.uid || !id) return;
     const fetch = async () => {
@@ -65,7 +65,7 @@ export default function Atividades() {
     fetch();
   }, [user, API, id]);
 
-  // 🔹 Funções auxiliares
+ 
   const getCorTipo = (tipo) => {
     switch (tipo) {
       case "atividade":

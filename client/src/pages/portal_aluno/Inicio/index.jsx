@@ -23,7 +23,7 @@ export default function Inicio() {
   const [avisos, setAvisos] = useState([]);
   const API = import.meta.env.VITE_API_URL;
 
-  // 🔹 Converter links de vídeo (YouTube, Vimeo, MP4 etc.)
+ 
   const toEmbed = (url) => {
     if (!url) return null;
     try {
@@ -53,7 +53,7 @@ export default function Inicio() {
     }
   };
 
-  // 🔹 Carregar turmas não arquivadas
+ 
   useEffect(() => {
     if (!user?.uid) return;
     const fetchTurmas = async () => {
@@ -67,7 +67,7 @@ export default function Inicio() {
     fetchTurmas();
   }, [user]);
 
-  // 🔹 Entrar em uma turma
+
   const handleIngressar = async () => {
     if (!codigo.trim()) {
       toast.warn("Digite o código da turma.");
@@ -88,7 +88,7 @@ export default function Inicio() {
       setOpen(false);
       setCodigo("");
 
-      // ✅ Recarrega somente turmas ativas (não arquivadas)
+      
       const res = await axios.get(`${API}/api/turmas?alunoId=${user.uid}&arquivada=false`);
       setTurmas(res.data);
     } catch (err) {
@@ -97,7 +97,7 @@ export default function Inicio() {
     }
   };
 
-  // 🔹 Carregar vídeos
+  
   useEffect(() => {
     const carregarVideos = async () => {
       try {
@@ -110,7 +110,7 @@ export default function Inicio() {
     carregarVideos();
   }, [API]);
 
-  // 🔹 Selecionar frase do dia
+  
   useEffect(() => {
     if (!user?.uid) return;
     const hoje = new Date();
@@ -120,7 +120,7 @@ export default function Inicio() {
     setFraseHoje(frases[index]);
   }, [user]);
 
-  // 🔹 Selecionar vídeo destaque
+ 
   useEffect(() => {
     if (!videos?.length) return;
     const hoje = new Date();
@@ -130,7 +130,7 @@ export default function Inicio() {
     setVideoDestaque(videos[idx]);
   }, [videos, user]);
 
-  // 🔹 Carregar avisos
+  
   useEffect(() => {
     if (!user?.uid) return;
     const carregarAvisos = async () => {

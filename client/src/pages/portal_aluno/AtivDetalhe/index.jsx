@@ -8,7 +8,7 @@ import "./style.css";
 import { FaPaperclip, FaClock, FaBookOpen, FaCalendarAlt, FaCheckCircle } from "react-icons/fa";
 
 export default function AtivDetalhesAluno() {
-  const { id } = useParams(); // ID da publicação (atividade)
+  const { id } = useParams(); 
   const { user } = useContext(AuthContext);
   const [publicacao, setPublicacao] = useState(null);
   const [turma, setTurma] = useState(null);
@@ -18,7 +18,7 @@ export default function AtivDetalhesAluno() {
   const [carregando, setCarregando] = useState(true);
   const API = import.meta.env.VITE_API_URL;
 
-  // 🔹 Carrega detalhes da atividade
+ 
   useEffect(() => {
     if (!id || !user?.uid) return;
     const carregar = async () => {
@@ -29,13 +29,13 @@ export default function AtivDetalhesAluno() {
         const encontrada = todas.find((p) => p.id === id);
         setPublicacao(encontrada || null);
 
-        // Busca dados da turma
+       
         if (encontrada?.turmaId) {
           const turmaRes = await axios.get(`${API}/api/turmas?id=${encontrada.turmaId}`);
           setTurma(turmaRes.data || null);
         }
 
-        // Busca entrega do aluno (se existir)
+       
         const entregasRes = await axios.get(`${API}/api/entregas?atividadeId=${id}&alunoId=${user.uid}`);
         setEntrega(entregasRes.data?.[0] || null);
       } catch (err) {
@@ -58,13 +58,13 @@ export default function AtivDetalhesAluno() {
     });
   };
 
-  // 🔹 Enviar entrega
+
   const handleEnviarEntrega = async () => {
     if (!arquivo) return alert("Selecione um arquivo antes de enviar.");
     try {
       setEnviando(true);
 
-      // Faz upload base64
+     
       const base64 = await new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.onload = () => resolve(reader.result);
@@ -81,7 +81,7 @@ export default function AtivDetalhesAluno() {
       if (!uploadRes.ok) throw new Error("Erro no upload do arquivo");
       const upload = await uploadRes.json();
 
-      // Salva a entrega no backend
+      
       await axios.post(`${API}/api/entregas`, {
         atividadeId: id,
         alunoId: user.uid,
@@ -122,7 +122,7 @@ export default function AtivDetalhesAluno() {
         <main id="sala">
           <MenuTopoAluno />
 
-          {/* 🔹 Menu fixo */}
+         
           <div className="menu-turma">
             <NavLink to={`/aluno/turma/${publicacao.turmaId || ""}`}>Painel</NavLink>
             <NavLink to={`/aluno/atividades/${publicacao.turmaId || ""}`}>
@@ -132,7 +132,7 @@ export default function AtivDetalhesAluno() {
           </div>
 
 
-          {/* 🔹 Cabeçalho visual */}
+          
           <div
             className="titulo-sala-alunos"
             style={{
@@ -153,7 +153,7 @@ export default function AtivDetalhesAluno() {
           </div>
           <br />
 
-          {/* 🔹 Conteúdo da atividade */}
+         
           <section className="detalhes-atividade">
             <h3><FaBookOpen /> {publicacao.titulo}</h3>
             <p>{publicacao.descricao || "Sem descrição disponível."}</p>
@@ -189,7 +189,7 @@ export default function AtivDetalhesAluno() {
               </div>
             )}
 
-            {/* 🔹 Seção de entrega */}
+          
             {publicacao.tipo === "atividade" && (
               <div className="entrega-aluno">
                 <h3>📤 Entrega do aluno</h3>

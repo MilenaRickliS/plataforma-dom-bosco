@@ -8,7 +8,7 @@ import { FaMedal, FaCrown } from "react-icons/fa";
 import { AuthContext } from "../../../contexts/auth";
 
 export default function Alunos() {
-  const { id } = useParams(); // 🔹 agora usamos o ID da turma
+  const { id } = useParams();
   const { user } = useContext(AuthContext);
   const API = import.meta.env.VITE_API_URL;
 
@@ -17,7 +17,7 @@ export default function Alunos() {
   const [carregando, setCarregando] = useState(true);
   const [turma, setTurma] = useState(null);
 
-  // 🔹 Carrega turma e alunos da turma
+ 
   useEffect(() => {
     if (!user?.uid || !id) return;
 
@@ -25,16 +25,16 @@ export default function Alunos() {
       try {
         setCarregando(true);
 
-        // Buscar dados da turma pelo ID
+        
         const turmaRes = await axios.get(`${API}/api/turmas?id=${id}`);
         const turmaData = turmaRes.data || null;
         setTurma(turmaData);
 
-        // Buscar lista de alunos dessa turma
+        
         const alunosRes = await axios.get(`${API}/api/turmas/alunos?turmaId=${id}`);
         let alunosList = alunosRes.data || [];
 
-        // Buscar pontos de gamificação para cada aluno
+       
         const alunosComPontos = await Promise.all(
           alunosList.map(async (a) => {
             try {
@@ -46,7 +46,7 @@ export default function Alunos() {
           })
         );
 
-        // Ordena por pontuação
+       
         alunosComPontos.sort((a, b) => b.pontos - a.pontos);
         setAlunos(alunosComPontos);
       } catch (e) {
@@ -59,7 +59,7 @@ export default function Alunos() {
     carregarDados();
   }, [user, id, API]);
 
-  // 🔹 Carrega medalhas de cada aluno
+  
   useEffect(() => {
     if (alunos.length === 0) return;
     const carregarMedalhas = async () => {
@@ -88,14 +88,14 @@ export default function Alunos() {
         <main id="sala">
           <MenuTopoAluno />
 
-          {/* 🔹 Menu superior da turma */}
+       
           <div className="menu-turma">
             <NavLink to={`/aluno/turma/${id}`}>Painel</NavLink>
             <NavLink to={`/aluno/atividades/${id}`}>Todas as atividades</NavLink>
             <NavLink to={`/aluno/alunos-turma/${id}`}>Alunos</NavLink>
           </div>
 
-          {/* 🔹 Cabeçalho visual */}
+        
           <div
             className="titulo-sala-alunos"
             style={{
@@ -115,7 +115,7 @@ export default function Alunos() {
             </div>
           </div>
 
-          {/* 🔹 Lista de alunos */}
+        
           <section className="lista-alunos">
             <h3>Alunos da turma</h3>
 
@@ -136,7 +136,7 @@ export default function Alunos() {
                       <span className="pontos-alunos">{aluno.pontos} pts</span>
                     </div>
 
-                    {/* Medalhas */}
+                   
                     <div className="medalhas-miniaturas">
                       {(medalhasAlunos[aluno.id] || []).length === 0 ? (
                         <span className="sem-medalhas">Sem medalhas</span>

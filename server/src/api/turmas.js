@@ -73,7 +73,7 @@ export default async function handler(req, res) {
       let turmasRef = db.collection("turmas");
       let turmasSnapshot;
 
-      // 🔹 Caso seja professor (filtra normalmente)
+      
       if (professorId) {
         if (arquivada === "true") {
           turmasSnapshot = await turmasRef
@@ -92,13 +92,13 @@ export default async function handler(req, res) {
         }
       }
 
-      // 🔹 Caso seja aluno (filtra turmas onde ele está na lista E arquivadas)
+     
       else if (alunoId) {
         const snapshot = await turmasRef
           .where("alunos", "array-contains", alunoId)
           .get();
 
-        // 🔸 Filtra manualmente as arquivadas (pois Firestore não permite ambos os where juntos)
+        
         const turmas = [];
         for (const doc of snapshot.docs) {
           const data = doc.data();
@@ -127,7 +127,7 @@ export default async function handler(req, res) {
         return res.status(200).json(turmas);
       }
 
-      // 🔹 Monta lista para o caso de professor
+      
       if (turmasSnapshot) {
         const turmas = [];
         for (const doc of turmasSnapshot.docs) {
@@ -242,7 +242,7 @@ export default async function handler(req, res) {
       return res.status(201).json({ id: turmaRef.id, codigo });
     }
 
-    // ✅ Arquivar turma
+   
     if (method === "PATCH" && (url.includes("/arquivar") || query?.action === "arquivar")) {
       console.log("📦 Arquivando turma:", query.id);
       const { id } = query;
@@ -266,14 +266,14 @@ export default async function handler(req, res) {
       return res.status(200).json({ message: "Turma desarquivada com sucesso" });
     }
 
-  // ✅ Atualizar turma (nome, matéria, imagem)
+ 
   if (method === "PATCH" && !url.includes("/arquivar") && !url.includes("/desarquivar")) {
     const { id } = query;
     const { nomeTurma, materia, imagem } = body;
 
     if (!id) return res.status(400).json({ error: "ID da turma é obrigatório" });
 
-    // Validação básica
+   
     if (!nomeTurma?.trim() || !materia?.trim()) {
       return res.status(400).json({ error: "Nome e matéria são obrigatórios" });
     }
@@ -290,7 +290,7 @@ export default async function handler(req, res) {
 
 
     
-    // ✅ Excluir turma (apenas se não houver alunos inscritos)
+   
   if (method === "DELETE") {
     const { id } = query;
     if (!id) return res.status(400).json({ error: "ID da turma é obrigatório" });
@@ -304,7 +304,7 @@ export default async function handler(req, res) {
 
     const turmaData = turmaSnap.data();
 
-    // 🚫 Impede exclusão se houver alunos na turma
+   
     if (turmaData.alunos && turmaData.alunos.length > 0) {
       return res.status(400).json({
         error: "Não é possível excluir a turma pois há alunos inscritos. Remova-os antes.",

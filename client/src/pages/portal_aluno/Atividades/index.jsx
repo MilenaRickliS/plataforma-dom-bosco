@@ -9,13 +9,13 @@ import axios from "axios";
 
 export default function Atividades() {
   const { user } = useContext(AuthContext);
-  const { id } = useParams(); // 🔹 Agora usamos o ID da turma
+  const { id } = useParams(); 
   const [carregando, setCarregando] = useState(true);
   const [publicacoes, setPublicacoes] = useState([]);
   const [turma, setTurma] = useState(null);
   const API = import.meta.env.VITE_API_URL;
 
-  // 🔹 Carrega dados da turma pelo ID
+  
   useEffect(() => {
     if (!user?.uid || !id) return;
     const carregarTurma = async () => {
@@ -30,7 +30,7 @@ export default function Atividades() {
     carregarTurma();
   }, [user, id, API]);
 
-  // 🔹 Busca publicações da turma
+ 
   useEffect(() => {
     if (!user?.uid || !id) return;
     const fetch = async () => {
@@ -59,7 +59,7 @@ export default function Atividades() {
     fetch();
   }, [user, API, id]);
 
-  // 🔹 Estilos auxiliares
+ 
   const getCorTipo = (tipo) => {
     switch (tipo) {
       case "atividade":
@@ -95,14 +95,14 @@ export default function Atividades() {
         <main id="sala">
           <MenuTopoAluno />
 
-          {/* 🔹 Menu da turma */}
+        
           <div className="menu-turma">
             <NavLink to={`/aluno/turma/${id}`}>Painel</NavLink>
             <NavLink to={`/aluno/atividades/${id}`}>Todas as atividades</NavLink>
             <NavLink to={`/aluno/alunos-turma/${id}`}>Alunos</NavLink>
           </div>
 
-          {/* 🔹 Cabeçalho visual */}
+         
           <div
             className="titulo-sala-alunos"
             style={{
@@ -125,7 +125,7 @@ export default function Atividades() {
             </div>
           </div>
 
-          {/* 🔹 Legenda de cores */}
+          
           <div className="menu-ativ">
             <div className="div-cor">
               <div className="cor1">cor</div>
@@ -141,7 +141,7 @@ export default function Atividades() {
             </div>
           </div>
 
-          {/* 🔹 Lista de publicações */}
+         
           {carregando ? (
             <p className="info">Carregando publicações...</p>
           ) : publicacoes.length === 0 ? (
