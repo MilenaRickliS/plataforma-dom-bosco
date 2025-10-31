@@ -34,6 +34,9 @@ export default function Inicio() {
         <Link to="/registros-refeicao" className="opcao1">
           <GiBinoculars />
           Ver todos os registros
+        </Link><Link to="/contar-alunos" className="opcao1">
+          <FaUserPlus />
+          Contar Esp32
         </Link>
       </div>
     </div>

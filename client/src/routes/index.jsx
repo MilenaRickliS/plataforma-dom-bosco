@@ -61,6 +61,7 @@ import AdicionarRefeicao from '../pages/adm/refeicao/Adicionar';
 import ContarRefeicao from '../pages/adm/refeicao/Contar';
 import RelatoriosRefeicao from '../pages/adm/refeicao/Relatorios';
 import RegistrosRefeicao from '../pages/adm/refeicao/Registros';
+import ContadorESP32 from '../pages/adm/refeicao/ContarEsp32';
 
 import MenuGestao from '../pages/adm/site/Menu';
 import GaleriaGestao from '../pages/adm/site/Galeria';
@@ -102,7 +103,8 @@ function RoutesApp(){
       <Route path="/contar-refeicao" element={ <Private rota="admin"><ContarRefeicao/></Private> } />
       <Route path="/relatorios-refeicao" element={ <Private rota="admin"><RelatoriosRefeicao/></Private> } />
       <Route path="/registros-refeicao" element={ <Private rota="admin"><RegistrosRefeicao/></Private> } />
-
+      <Route path="/contar-alunos" element={ <Private rota="admin"><ContadorESP32/></Private> } />
+      
       <Route path="/menu-gestao" element={ <Private rota="admin"><MenuGestao/></Private> } />
       <Route path="/galeria-gestao" element={ <Private rota="admin"><GaleriaGestao/></Private> } />
       <Route path="/eventos-gestao" element={ <Private rota="admin"><EventosGestao/></Private> } /> 
