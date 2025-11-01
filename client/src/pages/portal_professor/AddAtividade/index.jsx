@@ -7,6 +7,15 @@ import { db } from "../../../services/firebaseConnection";
 import { AuthContext } from "../../../contexts/auth";
 import "./style.css";
 import { useParams } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { MdOutlineDriveFolderUpload } from "react-icons/md";
+import { MdOutlineInsertDriveFile } from "react-icons/md";
+import { FaLink } from "react-icons/fa";
+
+function contarPalavras(str = "") {
+  return str.trim().split(/\s+/).filter(Boolean).length;
+}
 
 
 function NovaQuestao({ index, value, onChange, onRemove }) {
@@ -17,7 +26,7 @@ function NovaQuestao({ index, value, onChange, onRemove }) {
     
   }, [tipo]);
 
- 
+
 
 
   const atualizar = (patch) => onChange({ ...value, ...patch });
@@ -39,13 +48,15 @@ function NovaQuestao({ index, value, onChange, onRemove }) {
       </label>
 
       <label>
-        <p>Enunciado</p>
-        <textarea
-          value={value?.enunciado || ""}
-          onChange={(e) => atualizar({ enunciado: e.target.value })}
-          rows={3}
-        />
-      </label>
+      <p>Enunciado</p>
+      <textarea
+        value={value?.enunciado || ""}
+        onChange={(e) => atualizar({ enunciado: e.target.value })}
+        rows={3}
+      />
+      <small>{contarPalavras(value?.enunciado)}/300 palavras máx</small>
+    </label>
+
 
       <label>
         <p>Imagem (URL opcional)</p>
@@ -65,6 +76,7 @@ function NovaQuestao({ index, value, onChange, onRemove }) {
             onChange={(e) => atualizar({ textoEsperado: e.target.value })}
             rows={2}
           />
+          <small>{contarPalavras(value?.textoEsperado)}/300 palavras máx</small>
         </label>
       )}
 
@@ -211,24 +223,19 @@ function NovaQuestao({ index, value, onChange, onRemove }) {
   );
 }
 async function uploadArquivo(file) {
-  
-  const base64 = await new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", import.meta.env.VITE_CLOUDINARY_PRESET);
 
-  
-  const response = await fetch(`${import.meta.env.VITE_API_URL}/api/uploads/base64`, {
+  const response = await fetch(`https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_NAME}/upload`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ fileBase64: base64, folder: "publicacoes" }),
+    body: formData,
   });
 
   if (!response.ok) throw new Error("Erro ao enviar arquivo");
-  return await response.json(); 
+  return await response.json();
 }
+
 
 export default function AddPublicacao() {
   const navigate = useNavigate();
@@ -250,6 +257,8 @@ export default function AddPublicacao() {
   const [id, setId] = useState(paramId || null);
    const [configRespostasMultiplas, setConfigRespostasMultiplas] = useState(true);
   const [questoes, setQuestoes] = useState([]);
+  const [nomeAnexo, setNomeAnexo] = useState("");
+
 
 
   useEffect(() => {
@@ -287,36 +296,115 @@ export default function AddPublicacao() {
 
 
   const addAnexoFile = async (file) => {
-    
     const r = await uploadArquivo(file);
     setAnexos((prev) => [...prev, { kind: "file", url: r.url, nome: file.name }]);
+    setNomeAnexo(file.name);
+    toast.success("Arquivo anexado!");
   };
 
+
   const addAnexoLink = () => {
-    if (!link) return;
-    setAnexos((prev) => [...prev, { kind: "link", url: link }]);
+    if (!link.trim()) return toast.error("Cole um link válido.");
+    if (!validarURL(link)) return toast.error("URL inválida.");
+    if (anexos.some((a) => a.url === link.trim()))
+      return toast.warning("Esse link já foi adicionado!");
+    
+    setAnexos((prev) => [...prev, { kind: "link", url: link.trim() }]);
     setLink("");
   };
 
+
   const removerAnexo = (url) => setAnexos((prev) => prev.filter((a) => a.url !== url));
 
-  const handleSalvar = async (e) => {
-  e.preventDefault();
-  if (!user?.uid) return alert("Faça login novamente.");
-  if (!titulo) return alert("Informe o título.");
 
+function validarTextoBasico(str) {
+  return /^[A-Za-zÀ-ÖØ-öø-ÿ0-9\s.,\-–—]+$/.test(str.trim());
+}
+function contarPalavras(str = "") {
+  return str.trim().split(/\s+/).filter(Boolean).length;
+}
+function validarURL(str) {
+  try {
+    new URL(str);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+
+function validarQuestao(q, index) {
+  const erros = [];
+  if (!q.tipo) erros.push(`Questão ${index + 1}: tipo é obrigatório`);
+  if (!q.enunciado?.trim()) erros.push(`Questão ${index + 1}: enunciado é obrigatório`);
+  if (contarPalavras(q.enunciado) > 300)
+    erros.push(`Questão ${index + 1}: enunciado excede 300 palavras`);
+
+  if (q.imagem?.url && !validarURL(q.imagem.url))
+    erros.push(`Questão ${index + 1}: URL da imagem inválida`);
+
+  if (q.valor && isNaN(q.valor))
+    erros.push(`Questão ${index + 1}: valor deve ser numérico`);
+
+  if (q.tipo === "dissertativa" && q.textoEsperado) {
+    if (contarPalavras(q.textoEsperado) > 300)
+      erros.push(`Questão ${index + 1}: texto esperado excede 300 palavras`);
+  }
+
+  if (q.tipo === "multipla") {
+    const alts = q.alternativas || [];
+    if (alts.length < 2)
+      erros.push(`Questão ${index + 1}: precisa ter ao menos 2 alternativas`);
+    if (!alts.some((a) => a.correta))
+      erros.push(`Questão ${index + 1}: precisa ter pelo menos 1 alternativa correta`);
+  }
+
+  if (q.tipo === "correspondencia") {
+    const a = q.colA || [];
+    const b = q.colB || [];
+    if (a.length < 2 || b.length < 2)
+      erros.push(`Questão ${index + 1}: precisa de ao menos 2 pares em cada coluna`);
+  }
+
+  return erros;
+}
+
+
+const handleSalvar = async (e) => {
+  e.preventDefault();
+
+ 
+  if (!titulo.trim()) return toast.error("Informe o título.");
+  if (!validarTextoBasico(titulo))
+    return toast.error("Título contém caracteres inválidos.");
+
+  if (!descricao.trim()) return toast.error("Descrição é obrigatória.");
+  if (contarPalavras(descricao) > 150)
+    return toast.error("Descrição não pode ultrapassar 150 palavras.");
+
+  if (!conteudo.trim()) return toast.error("Informe o conteúdo.");
+  if (!validarTextoBasico(conteudo))
+    return toast.error("Conteúdo contém caracteres inválidos.");
+
+  if (valor && isNaN(valor))
+    return toast.error("O campo valor deve conter apenas números.");
+
+  if (link && !validarURL(link))
+    return toast.error("O link informado não é uma URL válida.");
+
+  
+  if (tipo === "avaliacao") {
+    const errosQuestoes = questoes.flatMap((q, i) => validarQuestao(q, i));
+    if (errosQuestoes.length > 0) {
+      toast.error("Corrija os seguintes erros:\n\n" + errosQuestoes.join("\n"));
+      return;
+    }
+  }
+
+  
   try {
     setSalvando(true);
-    
-    
-    const turmaId = (() => { 
-      try { 
-        return localStorage.getItem("lastTurmaId"); 
-      } catch { 
-        return null; 
-      } 
-    })();
-
+    const turmaId = localStorage.getItem("lastTurmaId") || null;
     const agoraIso = new Date().toISOString();
 
     const basePayload = {
@@ -324,23 +412,27 @@ export default function AddPublicacao() {
       titulo,
       descricao,
       conteudo,
-      turmaId,   
+      turmaId,
       usuarioId: user.uid,
       criadaEm: agoraIso,
-      atualizadaEm: agoraIso
+      atualizadaEm: agoraIso,
     };
 
     const pubRef = await addDoc(collection(db, "publicacoes"), {
       ...basePayload,
       ...(tipo !== "avaliacao" ? { anexos } : {}),
-      ...(tipo === "atividade" ? {
-        entrega: Timestamp.fromDate(new Date(`${data}T${hora}:59`)),
-        valor: valor ? Number(valor) : 0
-      } : {}),
-      ...(tipo === "avaliacao" ? {
-        valor: valor ? Number(valor) : 0,
-        configuracoes: { respostasMultiplas: !!configRespostasMultiplas }
-      } : {})
+      ...(tipo === "atividade"
+        ? {
+            entrega: Timestamp.fromDate(new Date(`${data}T${hora}:59`)),
+            valor: valor ? Number(valor) : 0,
+          }
+        : {}),
+      ...(tipo === "avaliacao"
+        ? {
+            valor: valor ? Number(valor) : 0,
+            configuracoes: { respostasMultiplas: !!configRespostasMultiplas },
+          }
+        : {}),
     });
 
     if (tipo === "avaliacao") {
@@ -350,31 +442,34 @@ export default function AddPublicacao() {
         const qRef = doc(collection(db, "publicacoes", pubId, "questoes"));
         await setDoc(qRef, {
           ordem: ordem++,
-          enunciado: q.enunciado || "",
+          enunciado: q.enunciado,
           tipo: q.tipo,
-          ...(q.imagem?.url ? { imagem: { url: q.imagem.url, nome: q.imagem.nome || "" } } : {}),
+          ...(q.imagem?.url ? { imagem: q.imagem } : {}),
           ...(q.tipo === "dissertativa" ? { textoEsperado: q.textoEsperado || "" } : {}),
-          ...(q.tipo === "multipla" ? { alternativas: q.alternativas || [], permiteMultiplas: !!q.permiteMultiplas } : {}),
+          ...(q.tipo === "multipla"
+            ? { alternativas: q.alternativas || [], permiteMultiplas: !!q.permiteMultiplas }
+            : {}),
           ...(q.tipo === "correspondencia" ? { colA: q.colA || [], colB: q.colB || [] } : {}),
-          ...(q.valor ? { valor: q.valor } : {}),
+          ...(q.valor ? { valor: Number(q.valor) } : {}),
         });
       }
     }
 
-    alert("Publicado com sucesso!");
-     if (turmaId) navigate(`/professor/turma/${turmaId}`);
+    toast.success("Publicado com sucesso!");
+    if (turmaId) navigate(`/professor/turma/${turmaId}`);
     else navigate("/professor/atividades");
-
   } catch (err) {
-    console.error("Erro ao salvar:", err);
-    alert("Não foi possível salvar. Tente novamente.");
+    console.error(err);
+    toast.error("Erro ao salvar publicação. Tente novamente.");
   } finally {
     setSalvando(false);
   }
 };
 
+
   return (
     <div className="layout">
+       <ToastContainer position="bottom-right" theme="colored" />
       <MenuLateralProfessor />
       <div className="page2">
         <main id="sala">
@@ -401,10 +496,16 @@ export default function AddPublicacao() {
               <input value={titulo} onChange={(e)=>setTitulo(e.target.value)} required />
             </label>
 
-            <label>
-              <p>Descrição</p>
-              <textarea value={descricao} onChange={(e)=>setDescricao(e.target.value)} rows={4} />
-            </label>
+           <label>
+            <p>Descrição</p>
+            <textarea
+              value={descricao}
+              onChange={(e) => setDescricao(e.target.value)}
+              rows={4}
+            />
+            <small>{contarPalavras(descricao)}/150 palavras máx</small>
+          </label>
+
 
             <label>
               <p>Conteúdo (tema)</p>
@@ -416,64 +517,131 @@ export default function AddPublicacao() {
                 placeholder="Selecione ou digite um conteúdo"
               />
               <datalist id="conteudos-sugeridos">
-                {conteudosSugeridos.map((c) => <option key={c} value={c} />)}
+                {conteudosSugeridos.map((c, i) => <option key={`${c}-${i}`} value={c} />)}
+
               </datalist>
             </label>
 
             
-            {tipo !== "avaliacao" && (
-              <div className="anexos">
-                <p>Anexos</p>
-                <div className="anexo-actions">
+          {tipo !== "avaliacao" && (
+            <div className="anexos">
+              <p>Anexos (PDF, docs, imagem)</p>
+
+              
+              <div className="anexo-actions">
+                <label className="btn-add-anexo">
+                  <MdOutlineDriveFolderUpload size={20}/> Adicionar arquivo
                   <input
                     type="file"
+                    accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.png,.jpg,.jpeg,.gif,.txt"
+                    style={{ display: "none" }}
                     onChange={async (e) => {
                       const f = e.target.files?.[0];
-                      if (f) await addAnexoFile(f);
+                      if (!f) return;
+
+                      const tiposPermitidos = [
+                        "application/pdf",
+                        "application/msword",
+                        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                        "application/vnd.ms-excel",
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        "image/png",
+                        "image/jpeg",
+                        "image/gif",
+                        "text/plain",
+                      ];
+
+                      if (!tiposPermitidos.includes(f.type)) {
+                        toast.error("Tipo de arquivo não permitido!");
+                        e.target.value = "";
+                        return;
+                      }
+
+                      await addAnexoFile(f);
+                      toast.success(`Arquivo "${f.name}" anexado!`);
                       e.target.value = "";
                     }}
                   />
-                  <div className="link-add">
-                    <input
-                      type="url"
-                      placeholder="Cole um link"
-                      value={link}
-                      onChange={(e)=>setLink(e.target.value)}
-                    />
-                    <button type="button" onClick={addAnexoLink}>Adicionar link</button>
+                </label>
+
+               
+                {anexos.filter(a => a.kind === "file").length > 0 && (
+                  <div className="nome-anexo">
+                    <p>Último anexo: <strong>{anexos.filter(a => a.kind === "file").slice(-1)[0].nome}</strong></p>
                   </div>
-                </div>
-                {!!anexos.length && (
-                  <ul className="anexo-list">
-                    {anexos.map((a) => (
-                      <li key={a.url}>
-                        <span>{a.kind === "file" ? (a.nome || "arquivo") : "link"}: </span>
-                        <a href={a.url} target="_blank" rel="noreferrer">{a.url}</a>
-                        <button type="button" onClick={()=>removerAnexo(a.url)}>Remover</button>
-                      </li>
-                    ))}
-                  </ul>
                 )}
               </div>
-            )}
+
+              
+              {anexos.some(a => a.kind === "file") && (
+                <ul className="anexo-list">
+                  {anexos
+                    .filter(a => a.kind === "file")
+                    .map((a) => (
+                      <li key={a.url}>
+                        <span><MdOutlineInsertDriveFile size={20}/> {a.nome || "arquivo"}: </span>
+                        <a href={a.url} target="_blank" rel="noreferrer">{a.url}</a>
+                        <button type="button" onClick={() => removerAnexo(a.url)}>Remover</button>
+                      </li>
+                    ))}
+                </ul>
+              )}
+
+              
+              <div className="link-add">
+                <input
+                  type="url"
+                  placeholder="Cole um link"
+                  value={link}
+                  onChange={(e) => setLink(e.target.value)}
+                />
+                <button type="button" onClick={addAnexoLink}>Adicionar link</button>
+              </div>
+
+             
+              {anexos.some(a => a.kind === "link") && (
+                <ul className="anexo-list">
+                  {anexos
+                    .filter(a => a.kind === "link")
+                    .map((a) => (
+                      <li key={a.url}>
+                        <span><FaLink /> Link: </span>
+                        <a href={a.url} target="_blank" rel="noreferrer">{a.url}</a>
+                        <button type="button" onClick={() => removerAnexo(a.url)}>Remover</button>
+                      </li>
+                    ))}
+                </ul>
+              )}
+            </div>
+          )}
 
            
             {tipo === "atividade" && (
-              <div className="row">
-                <label>
-                  <p>Data de entrega</p>
-                  <input type="date" value={data} onChange={(e)=>setData(e.target.value)} required />
-                </label>
-                <label>
-                  <p>Hora de entrega</p>
-                  <input type="time" value={hora} onChange={(e)=>setHora(e.target.value)} />
-                </label>
-                <label>
-                  <p>Valor (nota)</p>
-                  <input type="number" min="0" step="1" value={valor} onChange={(e)=>setValor(e.target.value)} />
-                </label>
-              </div>
+              <>
+                <h4 style={{ marginTop: "1rem", color: "#12285a" }}>📅 Detalhes da entrega</h4>
+                <div className="row">
+                  <label>
+                    <p>Data de entrega</p>
+                    <input type="date" value={data} onChange={(e) => setData(e.target.value)} required />
+                  </label>
+                  <label>
+                    <p>Hora de entrega</p>
+                    <input type="time" value={hora} onChange={(e) => setHora(e.target.value)} />
+                  </label>
+                  <label>
+                    <p>Valor (nota)</p>
+                    <input
+                      type="number"
+                      min="0"
+                      step="1"
+                      value={valor}
+                      onChange={(e) => setValor(e.target.value)}
+                    />
+                  </label>
+                </div>
+              </>
             )}
+
 
             {tipo === "avaliacao" && (
               <>
@@ -524,9 +692,9 @@ export default function AddPublicacao() {
               </>
             )}
 
-            <div className="acoes">
-              <button type="button" className="btn secundario" onClick={()=>navigate(-1)}>Cancelar</button>
-              <button type="submit" className="btn primario" disabled={salvando}>
+            <div className="acoes-salvar-cancelar">
+              <button type="button" className="btn cancelar-atividade" onClick={()=>navigate(-1)}>Cancelar</button>
+              <button type="submit" className="btn salvar-atividade" disabled={salvando}>
                 {salvando ? "Salvando..." : "Salvar"}
               </button>
             </div>
