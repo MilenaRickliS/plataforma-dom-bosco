@@ -5,8 +5,9 @@ import MenuTopoProfessor from "../../../components/portais/MenuTopoProfessor";
 import { AuthContext } from "../../../contexts/auth";
 import "./style.css";
 import axios from "axios";
-import { FaPaperclip, FaClock, FaBookOpen, FaCalendarAlt, FaCheckCircle } from "react-icons/fa";
+import { FaPaperclip, FaClock, FaBookOpen, FaCalendarAlt, FaCheckCircle, FaLink } from "react-icons/fa";
 import { getAlunosDaTurma } from "../../../services/turma"; 
+import { TiUpload } from "react-icons/ti";
 
 export default function AtivDetalhes() {
   const { id } = useParams();
@@ -18,6 +19,9 @@ export default function AtivDetalhes() {
   const [resumoRespostas, setResumoRespostas] = useState({ alunos: [] });
   const [carregando, setCarregando] = useState(true);
   const API = import.meta.env.VITE_API_URL;
+  const [entregas, setEntregas] = useState([]);
+const [salvandoNota, setSalvandoNota] = useState(false);
+
 
   useEffect(() => {
     if (!id || !user?.uid) return;
@@ -41,6 +45,12 @@ export default function AtivDetalhes() {
           const alunosLista = await getAlunosDaTurma(encontrada.turmaId);
           setAlunos(alunosLista || []);
         }
+
+        if (encontrada?.tipo === "atividade") {
+          const entregasRes = await axios.get(`${API}/api/entregas?atividadeId=${id}`);
+          setEntregas(entregasRes.data || []);
+        }
+
 
         
         if (encontrada?.tipo === "avaliacao") {
@@ -79,13 +89,50 @@ export default function AtivDetalhes() {
   if (carregando) return <p className="info">Carregando detalhes...</p>;
   if (!publicacao) return <p className="info">Atividade não encontrada.</p>;
 
-  const formatarData = (dataIsoOuTs) => {
-    if (!dataIsoOuTs) return "—";
-    const data = dataIsoOuTs?._seconds
-      ? new Date(dataIsoOuTs._seconds * 1000)
-      : new Date(dataIsoOuTs);
-    return data.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "numeric" });
+  const formatarData = (valor) => {
+    if (!valor) return "—";
+
+    let data;
+
+    
+    if (valor._seconds) {
+      data = new Date(valor._seconds * 1000);
+    }
+    
+    else if (valor instanceof Date) {
+      data = valor;
+    }
+   
+    else if (typeof valor === "string" && !isNaN(Date.parse(valor))) {
+      data = new Date(valor);
+    } else {
+      return "—";
+    }
+
+    return data.toLocaleDateString("pt-BR", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
   };
+
+  const handleSalvarNota = async (entregaId, nota) => {
+    try {
+      setSalvandoNota(true);
+      await axios.patch(`${API}/api/entregas?id=${entregaId}`, { nota });
+      toast.success("Nota atualizada!");
+      setEntregas(prev =>
+        prev.map(e => (e.id === entregaId ? { ...e, nota } : e))
+      );
+    } catch (err) {
+      console.error(err);
+      toast.error("Erro ao salvar nota.");
+    } finally {
+      setSalvandoNota(false);
+    }
+  };
+
+
 
   const titulo = turma?.materia || "Turma";
   const subtitulo = turma?.nomeTurma || "";
@@ -255,6 +302,94 @@ export default function AtivDetalhes() {
               </div>
             )}
           </section>
+
+           <br/>
+            {publicacao.tipo === "atividade" && (
+           <section className="sessao-entrega">
+            <div className="div-entrega">
+              <h3><TiUpload /> Entregas dos alunos</h3>
+            </div>
+
+            <table className="tabela-entregas">
+              <thead>
+                <tr>
+                  <th>Aluno</th>
+                  <th>Status</th>
+                  <th>Data de Entrega</th>
+                  <th>Arquivos / Links</th>
+                  <th>Nota</th>
+                </tr>
+              </thead>
+              <tbody>
+                {alunos.map((aluno) => {
+                  const ent = entregas.find((e) => e.alunoId === aluno.uid || e.alunoId === aluno.id);
+
+                  return (
+                    <tr key={aluno.uid}>
+                      <td>{aluno.nome}</td>
+                      <td>
+                        {ent?.entregue ? (
+                          <span className="status entregue">✅ Entregue</span>
+                        ) : (
+                          <span className="status pendente">⏳ Pendente</span>
+                        )}
+                      </td>
+                      <td>
+                        {ent?.enviadaEm
+                          ? new Date(ent.enviadaEm).toLocaleDateString("pt-BR", {
+                              day: "2-digit",
+                              month: "2-digit",
+                              year: "numeric",
+                            })
+                          : "—"}
+                      </td>
+                      <td>
+                        {ent?.anexos?.length ? (
+                          <ul className="mini-anexos">
+                            {ent.anexos.map((a, i) => (
+                              <li key={`${a.url || a.nome || "anexo"}-${i}`}>
+                                <a
+                                  href={a.url}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  className="link-arquivo"
+                                >
+                                  {a.tipo === "arquivo" ? <FaPaperclip /> : <FaLink />}{" "}
+                                  {a.nome || "Link"}
+                                </a>
+                              </li>
+                            ))}
+                          </ul>
+                        ) : (
+                          "—"
+                        )}
+                      </td>
+                      <td>
+                        {ent ? (
+                          <input
+                            type="number"
+                            min="0"
+                            max={publicacao?.valor || 10}
+                            value={ent.nota || ""}
+                            className="input-nota"
+                            onChange={(e) =>
+                              handleSalvarNota(ent.id, e.target.value)
+                            }
+                            disabled={salvandoNota}
+                          />
+                        ) : (
+                          "-"
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </section>
+
+  
+              )}<br/>
         </main>
       </div>
     </div>

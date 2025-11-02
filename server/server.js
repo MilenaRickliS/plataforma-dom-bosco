@@ -30,6 +30,7 @@ import questoesRoutes from "./src/api/questoes.js";
 import contadorRoutes from "./src/api/contarEsp32.js";
 import repostasRoutes from "./src/api/respostas.js";
 import entregasRoutes from "./src/api/entregas.js";
+import uploadsRoutes from "./src/api/uploads.js";
 
 
 dotenv.config();
@@ -82,7 +83,7 @@ app.use("/api/questoes", questoesRoutes);
 app.use("/api/contador", contadorRoutes);
 app.use("/api/respostas", repostasRoutes);
 app.use("/api/entregas", entregasRoutes);
-
+app.use("/api/uploads", uploadsRoutes);
 
 
 const PORT = process.env.PORT || 5000;
