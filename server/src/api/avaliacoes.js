@@ -5,22 +5,32 @@ const db = admin.firestore();
 export default async function handler(req, res) {
   try {
     if (req.method === "POST") {
-      const { titulo, descricao, valor, usuarioId, turmaCodigo, configuracoes = {} } = req.body;
+      const { titulo, descricao, valor, usuarioId, turmaCodigo, configuracoes = {}, entrega } = req.body;
 
       if (!titulo || !usuarioId)
         return res.status(400).json({ error: "Campos obrigatórios faltando" });
 
-      const ref = await db.collection("publicacoes").add({
+       const payload = {
         tipo: "avaliacao",
         titulo,
         descricao,
         valor: Number(valor) || 0,
         usuarioId,
         turmaCodigo: turmaCodigo || null,
-        configuracoes,
+        configuracoes: {
+          respostasMultiplas: !!configuracoes?.respostasMultiplas,
+          embaralharRespostas: !!configuracoes?.embaralharRespostas,
+          permitirRepeticoes: !!configuracoes?.permitirRepeticoes,
+          tentativasMax: configuracoes?.permitirRepeticoes ? Number(configuracoes?.tentativasMax || 1) : 1,
+        },
         criadaEm: new Date().toISOString(),
-      });
+      };
 
+      if (entrega) {
+        payload.entrega = admin.firestore.Timestamp.fromDate(new Date(entrega));
+      }
+
+      const ref = await db.collection("publicacoes").add(payload);
       return res.status(201).json({ ok: true, id: ref.id });
     }
 

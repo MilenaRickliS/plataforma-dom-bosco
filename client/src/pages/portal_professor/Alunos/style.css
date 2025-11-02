@@ -88,4 +88,9 @@
     .titulo-sala-alunos{
         flex-direction: column;
     }
+    .aluno-topo{
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
 }

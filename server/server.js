@@ -28,7 +28,8 @@ import atividadeRoutes from "./src/api/atividades.js";
 import avaliacoesRoutes from "./src/api/avaliacoes.js";
 import questoesRoutes from "./src/api/questoes.js";
 import contadorRoutes from "./src/api/contarEsp32.js";
-
+import repostasRoutes from "./src/api/respostas.js";
+import entregasRoutes from "./src/api/entregas.js";
 
 
 dotenv.config();
@@ -79,6 +80,8 @@ app.use("/api/atividade", atividadeRoutes);
 app.use("/api/avaliacoes", avaliacoesRoutes);
 app.use("/api/questoes", questoesRoutes);
 app.use("/api/contador", contadorRoutes);
+app.use("/api/respostas", repostasRoutes);
+app.use("/api/entregas", entregasRoutes);
 
 
 

@@ -12,13 +12,15 @@ import "react-toastify/dist/ReactToastify.css";
 import { MdOutlineDriveFolderUpload } from "react-icons/md";
 import { MdOutlineInsertDriveFile } from "react-icons/md";
 import { FaLink } from "react-icons/fa";
+import { FaCalendarAlt } from "react-icons/fa";
+import { IoMdSettings } from "react-icons/io";
 
 function contarPalavras(str = "") {
   return str.trim().split(/\s+/).filter(Boolean).length;
 }
 
 
-function NovaQuestao({ index, value, onChange, onRemove }) {
+function NovaQuestao({ index, value, onChange, onRemove, onDuplicate }) {
   const [tipo, setTipo] = useState(value?.tipo || "dissertativa");
 
   useEffect(() => {
@@ -35,8 +37,20 @@ function NovaQuestao({ index, value, onChange, onRemove }) {
     <div className="questao">
       <div className="questao-header">
         <strong>Questão {index + 1}</strong>
-        <button type="button" onClick={onRemove}>Remover</button>
+        <div className="opcao-questao">
+          <button className="remover" type="button" onClick={onRemove}>Remover</button>
+          <button className="duplicar" type="button" onClick={onDuplicate}>Duplicar</button>
+        </div>
       </div>
+
+      <label className="checkbox-questoes" style={{marginTop:4}}>
+        <input
+          type="checkbox"
+          checked={!!value?.obrigatoria}
+          onChange={(e) => atualizar({ obrigatoria: e.target.checked })}
+        />
+        <span>Questão obrigatória</span>
+      </label>
 
       <label>
         <p>Tipo da questão</p>
@@ -95,7 +109,7 @@ function NovaQuestao({ index, value, onChange, onRemove }) {
                 }}
                 placeholder={`Alternativa ${i + 1}`}
               />
-              <label>
+              <label className="checkbox-questoes">
                 <input
                   type="checkbox"
                   checked={!!alt.correta}
@@ -108,6 +122,7 @@ function NovaQuestao({ index, value, onChange, onRemove }) {
                 Correta
               </label>
               <button
+              className="remover"
                 type="button"
                 onClick={() => {
                   const alts = (value.alternativas || []).filter((a) => a.id !== alt.id);
@@ -119,6 +134,7 @@ function NovaQuestao({ index, value, onChange, onRemove }) {
             </div>
           ))}
           <button
+          className="button"
             type="button"
             onClick={() => {
               const alts = [...(value.alternativas || [])];
@@ -128,8 +144,8 @@ function NovaQuestao({ index, value, onChange, onRemove }) {
           >
             + Alternativa
           </button>
-
-          <label>
+            <br/>  <br/>  
+          <label className="checkbox-questoes">
             <p>Permitir mais de uma resposta correta?</p>
             <input
               type="checkbox"
@@ -156,6 +172,7 @@ function NovaQuestao({ index, value, onChange, onRemove }) {
                   }}
                 />
                 <button
+                className="remover"
                   type="button"
                   onClick={() => {
                     const arr = [...(value.colA || [])];
@@ -168,6 +185,7 @@ function NovaQuestao({ index, value, onChange, onRemove }) {
               </div>
             ))}
             <button
+            className="button"
               type="button"
               onClick={() => atualizar({ colA: [ ...(value.colA || []), "" ] })}
             >
@@ -189,6 +207,7 @@ function NovaQuestao({ index, value, onChange, onRemove }) {
                   }}
                 />
                 <button
+                className="remover"
                   type="button"
                   onClick={() => {
                     const arr = [...(value.colB || [])];
@@ -201,9 +220,10 @@ function NovaQuestao({ index, value, onChange, onRemove }) {
               </div>
             ))}
             <button
+             className="button"
               type="button"
               onClick={() => atualizar({ colB: [ ...(value.colB || []), "" ] })}
-            >
+            > 
               + Item B
             </button>
           </div>
@@ -258,6 +278,11 @@ export default function AddPublicacao() {
    const [configRespostasMultiplas, setConfigRespostasMultiplas] = useState(true);
   const [questoes, setQuestoes] = useState([]);
   const [nomeAnexo, setNomeAnexo] = useState("");
+  const [dataAval, setDataAval] = useState("");     
+  const [horaAval, setHoraAval] = useState("23:59");
+  const [embaralharRespostas, setEmbaralharRespostas] = useState(true);
+  const [permitirRepeticoes, setPermitirRepeticoes] = useState(false);
+  const [tentativasMax, setTentativasMax] = useState(1);
 
 
 
@@ -399,7 +424,11 @@ const handleSalvar = async (e) => {
       toast.error("Corrija os seguintes erros:\n\n" + errosQuestoes.join("\n"));
       return;
     }
+    if (permitirRepeticoes && (!tentativasMax || Number(tentativasMax) < 1)) {
+      return toast.error("Informe um número de tentativas válido (>= 1).");
+    }
   }
+
 
   
   try {
@@ -430,8 +459,16 @@ const handleSalvar = async (e) => {
       ...(tipo === "avaliacao"
         ? {
             valor: valor ? Number(valor) : 0,
-            configuracoes: { respostasMultiplas: !!configRespostasMultiplas },
-          }
+            configuracoes: {  
+              respostasMultiplas: !!configRespostasMultiplas,
+              embaralharRespostas: !!embaralharRespostas,
+              permitirRepeticoes: !!permitirRepeticoes,
+              tentativasMax: permitirRepeticoes ? Number(tentativasMax || 1) : 1, },
+              ...(dataAval
+                ? { entrega: Timestamp.fromDate(new Date(`${dataAval}T${(horaAval||"23:59")}:59`)) }
+                : {}),
+            }
+          
         : {}),
     });
 
@@ -444,6 +481,7 @@ const handleSalvar = async (e) => {
           ordem: ordem++,
           enunciado: q.enunciado,
           tipo: q.tipo,
+          obrigatoria: !!q.obrigatoria,
           ...(q.imagem?.url ? { imagem: q.imagem } : {}),
           ...(q.tipo === "dissertativa" ? { textoEsperado: q.textoEsperado || "" } : {}),
           ...(q.tipo === "multipla"
@@ -456,15 +494,15 @@ const handleSalvar = async (e) => {
     }
 
     toast.success("Publicado com sucesso!");
-    if (turmaId) navigate(`/professor/turma/${turmaId}`);
-    else navigate("/professor/atividades");
-  } catch (err) {
-    console.error(err);
-    toast.error("Erro ao salvar publicação. Tente novamente.");
-  } finally {
-    setSalvando(false);
-  }
-};
+      if (turmaId) navigate(`/professor/turma/${turmaId}`);
+      else navigate("/professor/atividades");
+    } catch (err) {
+      console.error(err);
+      toast.error("Erro ao salvar publicação. Tente novamente.");
+    } finally {
+      setSalvando(false);
+    }
+  };
 
 
   return (
@@ -618,7 +656,7 @@ const handleSalvar = async (e) => {
            
             {tipo === "atividade" && (
               <>
-                <h4 style={{ marginTop: "1rem", color: "#12285a" }}>📅 Detalhes da entrega</h4>
+                <h4 style={{ marginTop: "1rem", color: "#12285a" }}><FaCalendarAlt /> Detalhes da entrega</h4>
                 <div className="row">
                   <label>
                     <p>Data de entrega</p>
@@ -650,12 +688,57 @@ const handleSalvar = async (e) => {
                     <p>Valor total da avaliação</p>
                     <input type="number" min="0" step="1" value={valor} onChange={(e)=>setValor(e.target.value)} />
                   </label>
-                  <label>
+                  <label  className="checkbox-questoes">
                     <p>Permitir múltiplas respostas por padrão?</p>
-                    <input
+                    <input 
+                   
                       type="checkbox"
                       checked={!!configRespostasMultiplas}
                       onChange={(e)=>setConfigRespostasMultiplas(e.target.checked)}
+                    />
+                  </label>
+                </div>
+
+                <h4 style={{ marginTop: 12, color: "#12285a" }}><FaCalendarAlt /> Prazo (opcional)</h4>
+                <div className="row">
+                  <label>
+                    <p>Data</p>
+                    <input type="date" value={dataAval} onChange={(e) => setDataAval(e.target.value)} />
+                  </label>
+                  <label>
+                    <p>Hora</p>
+                    <input type="time" value={horaAval} onChange={(e) => setHoraAval(e.target.value)} />
+                  </label>
+                </div>
+
+                <h4 style={{ marginTop: 12, color: "#12285a" }}><IoMdSettings /> Configurações</h4>
+                <div className="row">
+                  <label className="checkbox-questoes">
+                    <p>Embaralhar respostas</p>
+                    <input
+                      type="checkbox"
+                      checked={!!embaralharRespostas}
+                      onChange={(e)=>setEmbaralharRespostas(e.target.checked)}
+                    />
+                  </label>
+
+                  <label className="checkbox-questoes">
+                    <p>Permitir fazer mais de uma vez</p>
+                    <input
+                      type="checkbox"
+                      checked={!!permitirRepeticoes}
+                      onChange={(e)=>setPermitirRepeticoes(e.target.checked)}
+                    />
+                  </label>
+
+                  <label>
+                    <p>Tentativas (se permitido)</p>
+                    <input
+                      type="number"
+                      min="1"
+                      value={tentativasMax}
+                      disabled={!permitirRepeticoes}
+                      onChange={(e) => setTentativasMax(Number(e.target.value))}
                     />
                   </label>
                 </div>
@@ -684,6 +767,16 @@ const handleSalvar = async (e) => {
                       onRemove={() => {
                         const arr = [...questoes];
                         arr.splice(i, 1);
+                        setQuestoes(arr);
+                      }}
+                      onDuplicate={() => {
+                        const arr = [...questoes];
+                        const clone = JSON.parse(JSON.stringify(q));
+                       
+                        if (clone?.alternativas?.length) {
+                          clone.alternativas = clone.alternativas.map(a => ({...a, id: crypto.randomUUID()}));
+                        }
+                        arr.splice(i + 1, 0, clone);
                         setQuestoes(arr);
                       }}
                     />
