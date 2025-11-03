@@ -5,6 +5,15 @@ import MenuTopoProfessor from "../../../components/portais/MenuTopoProfessor";
 import { AuthContext } from "../../../contexts/auth";
 import axios from "axios";
 import "./style.css";
+import {
+  adicionarPontos,
+  removerPontos,
+  mostrarToastPontosAdicionar,
+  mostrarToastPontosRemover,
+  regrasPontuacao
+} from "../../../services/gamificacao";
+import { ToastContainer, toast} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function RespostasAvaliacao() {
   const { id } = useParams();
@@ -91,6 +100,7 @@ export default function RespostasAvaliacao() {
 
   return (
     <div className="layout">
+       <ToastContainer position="bottom-right" theme="colored" />
       <MenuLateralProfessor />
       <div className="page2">
         <main id="sala">
@@ -110,19 +120,75 @@ export default function RespostasAvaliacao() {
 
           <div className="acoes-topo">
             <button
-              className="btn-liberar-notas"
-              onClick={async () => {
-                try {
-                  await axios.patch(`${API}/api/avaliacoes?id=${id}`, { liberarNotas: true });
-                  alert("Notas liberadas para os alunos!");
-                } catch (e) {
-                  console.error(e);
-                  alert("Erro ao liberar notas.");
+            className="btn-liberar-notas"
+            onClick={async () => {
+              try {
+                await axios.patch(`${API}/api/avaliacoes?id=${id}`, { liberarNotas: true });
+                toast.success("Notas liberadas para os alunos!");
+
+              
+                const chave = `pontos-liberados-${id}`;
+                if (localStorage.getItem(chave)) return;
+                localStorage.setItem(chave, "true");
+
+               
+                const notas = (resp.alunos || []).map(a => a.total ?? a.notaTotal ?? 0);
+                const mediaGeral =
+                  notas.length > 0 ? notas.reduce((acc, n) => acc + n, 0) / notas.length : 0;
+                const gabaritouTodos = notas.every(n => n >= (publicacao?.valor || 10));
+
+                
+                for (const aluno of resp.alunos || []) {
+                  const notaAluno = aluno.total ?? aluno.notaTotal ?? 0;
+                  const porcentagem = (notaAluno / (publicacao?.valor || 10)) * 100;
+
+                 
+                  await adicionarPontos(
+                    aluno.alunoId,
+                    regrasPontuacao.concluirAtividade,
+                    "Concluiu a avaliação"
+                  );
+
+                 
+                  if (notaAluno > 0)
+                    await adicionarPontos(
+                      aluno.alunoId,
+                      regrasPontuacao.acertarQuestao,
+                      "Acertou questões da avaliação"
+                    );
+
+                  
+                  if (porcentagem >= 100)
+                    await adicionarPontos(
+                      aluno.alunoId,
+                      regrasPontuacao.gabaritarAtividade,
+                      "Gabaritou a avaliação!"
+                    );
                 }
-              }}
-            >
-              Liberar notas para alunos
-            </button>
+
+                
+                await adicionarPontos(user.uid, regrasPontuacao.PostarNota, "Publicou notas da avaliação");
+                await adicionarPontos(user.uid, regrasPontuacao.corrigirAtividade, "Corrigiu avaliações");
+
+                if (mediaGeral >= (publicacao?.valor || 10) * 0.7) {
+                  await adicionarPontos(user.uid, regrasPontuacao.mediaAlunosBoa, "Média boa da turma");
+                  mostrarToastPontosAdicionar(regrasPontuacao.mediaAlunosBoa, "Média boa da turma");
+                } else {
+                  await removerPontos(user.uid, regrasPontuacao.mediaAlunosRuim, "Média baixa da turma");
+                  mostrarToastPontosRemover(regrasPontuacao.mediaAlunosRuim, "Média baixa da turma");
+                }
+
+                mostrarToastPontosAdicionar(regrasPontuacao.PostarNota, "Publicou notas");
+                mostrarToastPontosAdicionar(regrasPontuacao.corrigirAtividade, "Corrigiu avaliações");
+              } catch (e) {
+                console.error(e);
+                toast.error("Erro ao liberar notas.");
+              }
+            }}
+          >
+            Liberar notas para alunos
+          </button>
+
           </div>
 
           <div className="tabela-respostas">

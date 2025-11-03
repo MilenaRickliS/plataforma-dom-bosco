@@ -9,7 +9,8 @@ import axios from "axios";
 import "./style.css";
 import { FaSearch, FaQuoteLeft, FaBell } from "react-icons/fa";
 import frases from "../../../data/frases.json";
-import { ToastContainer, toast } from "react-toastify";
+import { adicionarPontos, removerPontos, mostrarToastPontosAdicionar, mostrarToastPontosRemover, regrasPontuacao } from "../../../services/gamificacao";
+import { ToastContainer, toast} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function Inicio() {
@@ -83,6 +84,12 @@ export default function Inicio() {
         codigo,
         alunoId: user.uid,
       });
+      await adicionarPontos(
+        user.uid,
+        regrasPontuacao.participarTurma,
+        "Ingressou em uma nova turma!"
+      );
+      mostrarToastPontosAdicionar(regrasPontuacao.participarTurma, "Ingressou em uma nova turma!");
       toast.success("Ingressou na turma com sucesso!");
 
       setOpen(false);

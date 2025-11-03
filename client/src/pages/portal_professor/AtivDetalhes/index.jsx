@@ -16,6 +16,12 @@ import { FaTrashAlt } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import {
+  removerPontos,
+  mostrarToastPontosRemover,
+  regrasPontuacao
+} from "../../../services/gamificacao";
+
 
 export default function AtivDetalhes() {
   const { id } = useParams();
@@ -285,7 +291,15 @@ const [chatAlunoSelecionado, setChatAlunoSelecionado] = useState(null);
                   try {
                     await axios.delete(`${API}/api/publicacoes?id=${id}`);
                     toast.success("Atividade excluída com sucesso!");
-
+                        await removerPontos(
+                        user.uid,
+                        regrasPontuacao.excluirAtividade,
+                        `Excluiu a atividade "${publicacao?.titulo || "sem título"}"`
+                      );
+                      mostrarToastPontosRemover(
+                        regrasPontuacao.excluirAtividade,
+                        "Excluiu uma atividade"
+                      );
                     
                     setTimeout(() => {
                       navigate(`/professor/turma/${publicacao.turmaId || ""}`);

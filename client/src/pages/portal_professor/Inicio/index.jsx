@@ -14,6 +14,12 @@ import { FaBell } from "react-icons/fa";
 import frases from "../../../data/frases.json";
 import { ToastContainer, toast} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import {
+  adicionarPontos,
+  mostrarToastPontosAdicionar,
+  regrasPontuacao
+} from "../../../services/gamificacao";
+
 
 export default function Inicio() {
   const { user } = useContext(AuthContext);
@@ -131,7 +137,12 @@ const toEmbed = (url) => {
         
       });
       toast.success(`Turma criada com sucesso!\nCódigo: ${data.codigo}`);
-     
+     await adicionarPontos(
+        user.uid,
+        regrasPontuacao.criarTurma,
+        `Criou a turma ${nomeTurma}`
+      );
+      mostrarToastPontosAdicionar(regrasPontuacao.criarTurma, "Criou uma nova turma!");
       setOpen(false);
       setNomeTurma("");
       setMateria("");

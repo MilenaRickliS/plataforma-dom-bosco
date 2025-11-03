@@ -76,16 +76,25 @@ export const regrasPontuacao = {
   sairVideo: -10,
   postarVideo: 10,
 
-  acertarQuestao: 15,
-  concluirAtividade: 10,
-  gabaritarAtividade: 20,
+  criarTurma: 5,
   participarTurma: 5,
-  enviarDuvida: 10,
-  corrigirAtividade: 10,
-  naoCorrigirAtividade: -5,
+  postarAtividade: 2,
+  verAtividadeConteudo: 2,
+  entregarAtividade: 10,
   atividadeAtrasada: -10,
-  sairDaTurma: -10,
   abadonarAtividade: -10,
+  acertarQuestao: 15,  
+  concluirAtividade: 10,
+  gabaritarAtividade: 20,  
+  enviarDuvida: 5,
+  responderDuvida: 5,
+  mediaAlunosBoa: 5,
+  mediaAlunosRuim: -5,
+  PostarNota: 10,
+  corrigirAtividade: 5,
+  naoCorrigirAtividade: -5,
+  excluirAtividade: -5,
+  
 
   abriuAjuda: 2, //CORRIGIR DUPLICIDADE
 

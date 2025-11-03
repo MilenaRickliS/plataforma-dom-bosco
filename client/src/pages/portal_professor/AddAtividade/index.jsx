@@ -15,7 +15,11 @@ import { FaLink } from "react-icons/fa";
 import { FaCalendarAlt } from "react-icons/fa";
 import { IoMdSettings } from "react-icons/io";
 import NovaQuestao from "../../../components/portais/NovaQuestao";
-
+import {
+  adicionarPontos,
+  mostrarToastPontosAdicionar,
+  regrasPontuacao
+} from "../../../services/gamificacao";
 
 
 export default function AddPublicacao() {
@@ -266,6 +270,24 @@ const handleSalvar = async (e) => {
     }
 
     toast.success("Publicado com sucesso!");
+    if (tipo === "atividade" || tipo === "avaliacao") {
+      await adicionarPontos(
+        user.uid,
+        regrasPontuacao.postarAtividade,
+        tipo === "avaliacao" ? "Publicou uma nova avaliação" : "Publicou uma nova atividade"
+      );
+      mostrarToastPontosAdicionar(
+        regrasPontuacao.postarAtividade,
+        tipo === "avaliacao" ? "Publicou uma nova avaliação!" : "Publicou uma nova atividade!"
+      );
+    } else if (tipo === "conteudo") {
+      await adicionarPontos(
+        user.uid,
+        regrasPontuacao.lerDocumento,
+        "Publicou um novo conteúdo"
+      );
+      mostrarToastPontosAdicionar(regrasPontuacao.lerDocumento, "Publicou um novo conteúdo!");
+    }
       if (turmaId) navigate(`/professor/turma/${turmaId}`);
       else navigate("/professor/atividades");
     } catch (err) {

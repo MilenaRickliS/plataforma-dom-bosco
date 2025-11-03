@@ -12,6 +12,14 @@ import "react-toastify/dist/ReactToastify.css";
 import ChatPrivado from "../../../components/portais/ChatPrivado";
 import { IoChatbubblesOutline } from "react-icons/io5";
 import { IoClose } from "react-icons/io5";
+import {
+  adicionarPontos,
+  removerPontos,
+  mostrarToastPontosAdicionar,
+  mostrarToastPontosRemover,
+  regrasPontuacao
+} from "../../../services/gamificacao";
+
 
 
 export default function AtivDetalhesAluno() {
@@ -103,6 +111,51 @@ export default function AtivDetalhesAluno() {
 
   carregar();
 }, [id, user, API]);
+
+useEffect(() => {
+  if (!publicacao || !user?.uid) return;
+
+  const prazo =
+    publicacao.entrega?._seconds
+      ? new Date(publicacao.entrega._seconds * 1000)
+      : new Date(publicacao.entrega);
+
+ 
+  if (isNaN(prazo)) return;
+
+  const agora = new Date();
+  const jaPassou = agora > prazo && (!entrega || !entrega.entregue);
+
+  if (jaPassou) {
+    const key = `abandono-${publicacao.id}`;
+    if (!localStorage.getItem(key)) {
+      removerPontos(
+        user.uid,
+        regrasPontuacao.abadonarAtividade,
+        "Não entregou dentro do prazo"
+      );
+      mostrarToastPontosRemover(
+        regrasPontuacao.abadonarAtividade,
+        "Não entregou dentro do prazo"
+      );
+      localStorage.setItem(key, "true");
+    }
+  }
+}, [publicacao, entrega, user]);
+
+
+useEffect(() => {
+  if (publicacao && user?.uid) {
+    
+    const key = `vista-${publicacao.id}-${new Date().toDateString()}`;
+    if (!localStorage.getItem(key)) {
+      adicionarPontos(user.uid, regrasPontuacao.verAtividadeConteudo, "Visualizou a atividade/conteúdo");
+      mostrarToastPontosAdicionar(regrasPontuacao.verAtividadeConteudo, "Visualizou a atividade/conteúdo");
+      localStorage.setItem(key, "true");
+    }
+  }
+}, [publicacao, user]);
+
 
 
   const formatarData = (valor) => {
@@ -583,6 +636,9 @@ export default function AtivDetalhesAluno() {
                           avaliacaoIniciada: false,
                         });
                         toast.success("Avaliação enviada!");
+                        await adicionarPontos(user.uid, regrasPontuacao.concluirAtividade, "Concluiu avaliação");
+                        mostrarToastPontosAdicionar(regrasPontuacao.concluirAtividade, "Concluiu avaliação");
+
                       }}
                     >
                       {questoes.map((q, i) => (
@@ -1022,6 +1078,21 @@ export default function AtivDetalhesAluno() {
                   toast[novoEstado ? "success" : "info"](
                     novoEstado ? "Entrega enviada com sucesso!" : "Entrega devolvida para edição."
                   );
+                  if (novoEstado) {
+                  const prazo = publicacao.entrega?._seconds
+                    ? new Date(publicacao.entrega._seconds * 1000)
+                    : new Date(publicacao.entrega);
+                  const enviada = new Date();
+
+                  if (enviada > prazo) {
+                    await removerPontos(user.uid, regrasPontuacao.atividadeAtrasada, "Entrega atrasada");
+                    mostrarToastPontosRemover(regrasPontuacao.atividadeAtrasada, "Entrega atrasada");
+                  } else {
+                    await adicionarPontos(user.uid, regrasPontuacao.entregarAtividade, "Entrega dentro do prazo");
+                    mostrarToastPontosAdicionar(regrasPontuacao.entregarAtividade, "Entrega dentro do prazo");
+                  }
+                }
+
                 } catch (e) {
                    console.error("Erro ao atualizar entrega:", err);
                   toast.error("Não foi possível atualizar a entrega.");

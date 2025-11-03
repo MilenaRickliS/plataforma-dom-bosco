@@ -42,6 +42,9 @@ export default function ChatPrivado({ atividadeId, aluno, nomeAtividade }) {
       autorNome: user.nome || "Usuário",
       texto,
     });
+    await adicionarPontos(user.uid, regrasPontuacao.enviarDuvida, "Enviou dúvida ao professor");
+    mostrarToastPontosAdicionar(regrasPontuacao.enviarDuvida, "Enviou dúvida ao professor");
+
 
     setTexto("");
   };
