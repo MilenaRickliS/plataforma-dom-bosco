@@ -11,9 +11,15 @@ import { TiUpload } from "react-icons/ti";
 import ChatPrivado from "../../../components/portais/ChatPrivado";
 import { IoChatbubblesOutline } from "react-icons/io5";
 import { IoClose } from "react-icons/io5";
+import { MdEdit } from "react-icons/md";
+import { FaTrashAlt } from "react-icons/fa";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 export default function AtivDetalhes() {
   const { id } = useParams();
+  const navigate = useNavigate(); 
   const { user } = useContext(AuthContext);
   const [publicacao, setPublicacao] = useState(null);
   const [turma, setTurma] = useState(null);
@@ -167,6 +173,7 @@ const [chatAlunoSelecionado, setChatAlunoSelecionado] = useState(null);
   
   return (
     <div className="layout">
+       <ToastContainer position="bottom-right" theme="colored" />
       <MenuLateralProfessor />
       <div className="page2">
         <main id="sala">
@@ -262,6 +269,38 @@ const [chatAlunoSelecionado, setChatAlunoSelecionado] = useState(null);
           <section className="detalhes-atividade">
             <div className="div-detalhes">
               <div>
+                <div className="acoes-editar-excluir-atividade">
+                <button
+                  className="btn-editar-ativ"
+                  onClick={() => navigate(`/edit-atividade-professor/${id}`)}
+                >
+                  <MdEdit /> Editar
+                </button>
+
+                <button
+                className="btn-excluir-ativ"
+                onClick={async () => {
+                  if (!confirm("Tem certeza que deseja excluir esta atividade?")) return;
+
+                  try {
+                    await axios.delete(`${API}/api/publicacoes?id=${id}`);
+                    toast.success("Atividade excluída com sucesso!");
+
+                    
+                    setTimeout(() => {
+                      navigate(`/professor/turma/${publicacao.turmaId || ""}`);
+                    }, 1500);
+                  } catch (err) {
+                    console.error(err);
+                    toast.error("Erro ao excluir atividade.");
+                  }
+                }}
+              >
+                <FaTrashAlt /> Excluir
+              </button>
+
+              </div><br/>
+
                 <h2>{publicacao.titulo || "Sem título"} - {publicacao.tipo}</h2>
            
                 <p className="data-publicacao"><strong>Criada em:</strong> {formatarData(publicacao.criadaEm)}</p>
@@ -276,7 +315,19 @@ const [chatAlunoSelecionado, setChatAlunoSelecionado] = useState(null);
                       <>
       
                         <p style={{ fontWeight: "600", margin: 0, color: "#b6a50cff"}}>
-                          Prazo: {formatarData(publicacao.entrega)} -  {new Date(publicacao.entrega._seconds * 1000).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}
+                          Prazo: {formatarData(publicacao.entrega)} -  {(() => {
+                          if (!publicacao.entrega) return "—";
+                          if (typeof publicacao.entrega === "string" && /^\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}$/.test(publicacao.entrega)) {
+                            const [_, horaStr] = publicacao.entrega.split(" ");
+                            return horaStr;
+                          } else if (publicacao.entrega?._seconds) {
+                            return new Date(publicacao.entrega._seconds * 1000)
+                              .toTimeString()
+                              .slice(0, 5);
+                          }
+                          return "—";
+                        })()}
+
                           
                         </p>
                       </>

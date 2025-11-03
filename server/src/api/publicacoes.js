@@ -27,6 +27,25 @@ export default async function handler(req, res) {
       return res.status(200).json(lista);
     }
 
+    if (req.method === "PATCH") {
+      const { id } = req.query;
+      if (!id) return res.status(400).json({ error: "ID obrigatório" });
+
+      const dados = { ...req.body };
+
+      
+     
+      if (typeof dados.entrega === "string") {
+          dados.entrega = dados.entrega.trim();
+        }
+
+      dados.atualizadaEm = admin.firestore.Timestamp.now();
+
+      await db.collection("publicacoes").doc(id).set(dados, { merge: true });
+      return res.status(200).json({ ok: true, message: "Atualizado com sucesso" });
+    }
+
+
     if (req.method === "DELETE") {
       const { id } = req.query;
       if (!id) return res.status(400).json({ error: "ID obrigatório" });

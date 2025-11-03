@@ -11,6 +11,35 @@
   align-items: flex-start;
   gap: 10px;
 }
+.acoes-editar-excluir-atividade {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+.btn-editar-ativ {
+  background: #1565c0;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-editar-ativ:hover{
+  background-color: #12285a;
+}
+.btn-excluir-ativ {
+  background: #b71c1c;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+   transition: all 0.2s;
+}
+.btn-excluir-ativ:hover{
+  background-color: #5e1010;
+}
 .detalhes-atividade h2 {
   font-family: "Poppins", sans-serif;
   color: #000;
