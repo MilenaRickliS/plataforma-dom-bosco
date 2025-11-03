@@ -218,6 +218,35 @@ export default function AtivDetalhesAluno() {
   const titulo = turma?.materia || "Turma";
   const subtitulo = turma?.nomeTurma || "";
 
+ 
+  const isAtrasada = (() => {
+    if (!publicacao?.entrega || !entrega?.enviadaEm) return false;
+
+    let prazo, enviada;
+
+  
+    if (publicacao.entrega._seconds)
+      prazo = new Date(publicacao.entrega._seconds * 1000);
+    else if (typeof publicacao.entrega === "string" && !isNaN(Date.parse(publicacao.entrega)))
+      prazo = new Date(publicacao.entrega);
+    else
+      return false;
+
+   
+    if (entrega.enviadaEm?._seconds)
+      enviada = new Date(entrega.enviadaEm._seconds * 1000);
+    else if (typeof entrega.enviadaEm === "string" && !isNaN(Date.parse(entrega.enviadaEm)))
+      enviada = new Date(entrega.enviadaEm);
+    else
+      return false;
+
+    return enviada > prazo;
+  })();
+
+ 
+  const devolucaoBloqueada = typeof entrega?.nota === "number";
+
+
   return (
     <div className="layout">
       <ToastContainer position="bottom-right" theme="colored" />
@@ -525,14 +554,76 @@ export default function AtivDetalhesAluno() {
             <div className="status-entrega">
               {entrega?.entregue ? (
                 <div className="status entregue">
-                  <FaCheckCircle size={18} />
-                  <span>
-                    Entregue em {formatarData(entrega.enviadaEm)}{" "}
-                    {new Date(entrega.enviadaEm).toLocaleTimeString("pt-BR", {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </span>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                      {isAtrasada ? (
+                      <FaClock size={18} color="#d9534f" />
+                    ) : (
+                      <FaCheckCircle size={18} color="#25643c" />
+                    )}
+                      <span style={{ color: isAtrasada ? "#d9534f" : "#25643c", fontWeight: "600" }}>
+                      {(() => {
+                        if (!entrega?.enviadaEm) return "Entregue — sem data registrada";
+
+                        let dataHora;
+                        if (entrega.enviadaEm._seconds)
+                          dataHora = new Date(entrega.enviadaEm._seconds * 1000);
+                        else if (typeof entrega.enviadaEm === "string" && !isNaN(Date.parse(entrega.enviadaEm)))
+                          dataHora = new Date(entrega.enviadaEm);
+                        else if (entrega.enviadaEm instanceof Date)
+                          dataHora = entrega.enviadaEm;
+                        else
+                          return "Entregue — formato inválido";
+
+                        const dataFormatada = dataHora.toLocaleDateString("pt-BR", {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                        });
+                        const horaFormatada = dataHora.toLocaleTimeString("pt-BR", {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        });
+
+                        return isAtrasada
+                          ? `Entregue com atraso em ${dataFormatada} às ${horaFormatada}`
+                          : `Entregue em ${dataFormatada} às ${horaFormatada}`;
+                      })()}
+                    </span>
+
+                    </div>
+
+                   
+                    {typeof entrega.nota === "number" ? (
+                      <span
+                        className="nota-entrega"
+                        style={{
+                          background: "#25643c",
+                          color: "white",
+                          padding: "6px 12px",
+                          borderRadius: "8px",
+                          fontWeight: "bold",
+                          fontSize: "0.95rem",
+                        }}
+                      >
+                        Nota: {entrega.nota} / {publicacao?.valor || 10}
+                      </span>
+                    ) : (
+                      <span
+                        className="nota-pendente"
+                        style={{
+                          background: "#b6a50c",
+                          color: "#fff",
+                          padding: "6px 12px",
+                          borderRadius: "8px",
+                          fontWeight: "600",
+                          fontSize: "0.9rem",
+                        }}
+                      >
+                        Aguardando correção
+                      </span>
+                    )}
+                  </div>
                 </div>
               ) : (
                 <div className="status pendente">
@@ -541,6 +632,7 @@ export default function AtivDetalhesAluno() {
                 </div>
               )}
             </div>
+
           </div>
 
          
@@ -628,7 +720,17 @@ export default function AtivDetalhesAluno() {
            
            <button
               className={`btn-enviar-entrega ${entrega?.entregue ? "devolver" : ""}`}
+              disabled={devolucaoBloqueada}
+              style={{
+                opacity: devolucaoBloqueada ? 0.6 : 1,
+                cursor: devolucaoBloqueada ? "not-allowed" : "pointer",
+              }}
               onClick={async () => {
+                if (devolucaoBloqueada) {
+                    toast.info("Esta entrega já foi corrigida e não pode mais ser devolvida.");
+                    return;
+                  }
+
                 try {
                   const novoEstado = !entrega?.entregue;
                   if (!entrega?.id && novoEstado) {

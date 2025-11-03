@@ -175,11 +175,6 @@
   background-color: #383838;
 }
 
-.status-entrega {
-  margin-top: 1rem;
-
-}
-
 .status {
   display: flex;
   align-items: center;
@@ -188,9 +183,23 @@
 
 }
 
-.status.entregue { color: #16a34a; }
-.status.pendente { color: #b91c1c; }
+.status-entrega {
+  width: 100%;
+  background: #f8f8f8;
+  border-radius: 10px;
+  padding: 10px 16px;
+  margin-bottom: 1rem;
+}
 
+.status.entregue {
+  background: #e6f7ec;
+  border-left: 4px solid #2e7d32;
+}
+
+.status.pendente {
+  background: #fff7e6;
+  border-left: 4px solid #b68400;
+}
 .status svg {
   flex-shrink: 0;
 }

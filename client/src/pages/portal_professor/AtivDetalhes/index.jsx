@@ -140,6 +140,27 @@ const [salvandoNota, setSalvandoNota] = useState(false);
  
   const embaralharRespostas = !!publicacao?.configuracoes?.embaralharRespostas;
 
+ 
+  const verificarAtraso = (entrega, publicacao) => {
+    if (!entrega?.enviadaEm || !publicacao?.entrega) return false;
+
+    let prazo, enviada;
+
+  
+    if (publicacao.entrega._seconds)
+      prazo = new Date(publicacao.entrega._seconds * 1000);
+    else if (typeof publicacao.entrega === "string" && !isNaN(Date.parse(publicacao.entrega)))
+      prazo = new Date(publicacao.entrega);
+
+    if (entrega.enviadaEm._seconds)
+      enviada = new Date(entrega.enviadaEm._seconds * 1000);
+    else if (typeof entrega.enviadaEm === "string" && !isNaN(Date.parse(entrega.enviadaEm)))
+      enviada = new Date(entrega.enviadaEm);
+
+    return enviada > prazo;
+  };
+
+  
   return (
     <div className="layout">
       <MenuLateralProfessor />
@@ -329,20 +350,43 @@ const [salvandoNota, setSalvandoNota] = useState(false);
                       <td>{aluno.nome}</td>
                       <td>
                         {ent?.entregue ? (
-                          <span className="status entregue">✅ Entregue</span>
+                          <span className={`tag ${verificarAtraso(ent, publicacao) ? "atrasada" : "pontual"}`}>
+                            {verificarAtraso(ent, publicacao) ? "Atrasada" : "Pontual"}
+                          </span>
                         ) : (
-                          <span className="status pendente">⏳ Pendente</span>
+                          <span className="tag pendente">Pendente</span>
                         )}
                       </td>
+
                       <td>
-                        {ent?.enviadaEm
-                          ? new Date(ent.enviadaEm).toLocaleDateString("pt-BR", {
-                              day: "2-digit",
-                              month: "2-digit",
-                              year: "numeric",
-                            })
-                          : "—"}
-                      </td>
+                      {(() => {
+                        if (!ent?.enviadaEm) return "—";
+                        let data;
+
+                       
+                        if (ent.enviadaEm._seconds) {
+                          data = new Date(ent.enviadaEm._seconds * 1000);
+                        } 
+                       
+                        else if (typeof ent.enviadaEm === "string" && !isNaN(Date.parse(ent.enviadaEm))) {
+                          data = new Date(ent.enviadaEm);
+                        } 
+                   
+                        else if (ent.enviadaEm instanceof Date) {
+                          data = ent.enviadaEm;
+                        } 
+                        else {
+                          return "—";
+                        }
+
+                        return data.toLocaleDateString("pt-BR", {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                        });
+                      })()}
+                    </td>
+
                       <td>
                         {ent?.anexos?.length ? (
                           <ul className="mini-anexos">
@@ -370,13 +414,17 @@ const [salvandoNota, setSalvandoNota] = useState(false);
                             type="number"
                             min="0"
                             max={publicacao?.valor || 10}
-                            value={ent.nota || ""}
+                            defaultValue={ent.nota || ""}
                             className="input-nota"
-                            onChange={(e) =>
-                              handleSalvarNota(ent.id, e.target.value)
-                            }
+                            onBlur={(e) => {
+                              const novaNota = parseFloat(e.target.value);
+                              if (!isNaN(novaNota)) {
+                                handleSalvarNota(ent.id, novaNota);
+                              }
+                            }}
                             disabled={salvandoNota}
                           />
+
                         ) : (
                           "-"
                         )}
