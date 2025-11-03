@@ -122,7 +122,9 @@
   align-items: center;
   margin-bottom: 1.5rem;
 }
-
+.selecao-turma{
+  margin: 10px;
+}
 .selecao-turma label{
     color: #1e293b;
     font-weight: bold;

@@ -2,219 +2,270 @@ import { useContext, useEffect, useState } from "react";
 import MenuLateralAluno from "../../../components/portais/MenuLateralAluno";
 import MenuTopoAluno from "../../../components/portais/MenuTopoAluno";
 import { AuthContext } from "../../../contexts/auth";
-import { FaMedal } from "react-icons/fa6";
-import "./style.css";
-import { FaRegCalendarAlt } from "react-icons/fa";
-import { FaRegComment } from "react-icons/fa";
+import { FaBook, FaMedal, FaRegCalendarAlt, FaRegComment } from "react-icons/fa";
 import { BiHappyHeartEyes } from "react-icons/bi";
 import { TbMoodSadSquint } from "react-icons/tb";
 import { FaRegFaceGrinBeamSweat } from "react-icons/fa6";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "./style.css";
 import { getPontos } from "../../../services/gamificacao";
 import { db } from "../../../services/firebaseConnection";
-import {
-  collection,
-  query,
-  where,
-  getDocs,
+import { collection, query, where, getDocs } from "firebase/firestore";
 
-} from "firebase/firestore";
-import { adicionarPontos, removerPontos, mostrarToastPontosAdicionar, mostrarToastPontosRemover, regrasPontuacao } from "../../../services/gamificacao";
-import { ToastContainer, toast} from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-
-export default function Notas() {
+export default function NotasAluno() {
   const { user } = useContext(AuthContext);
-  const [medalhas, setMedalhas] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [pontos, setPontos] = useState(0);
   const [perfil, setPerfil] = useState(null);
-  const [preview, setPreview] = useState(null);
+  const [turmas, setTurmas] = useState([]);
+  const [turmaSelecionada, setTurmaSelecionada] = useState("");
+  const [boletim, setBoletim] = useState([]);
+  const [medalhas, setMedalhas] = useState([]);
+  const [pontos, setPontos] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const API = import.meta.env.VITE_API_URL;
 
+ 
   useEffect(() => {
-  async function carregarMedalhas() {
-    try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/medalhas/aluno/${user.uid}`);
-      const data = await res.json();
-      setMedalhas(data);
-
-      
-      const medalhasAntigas = JSON.parse(localStorage.getItem("medalhasAluno") || "[]");
-
-    
-      const novas = data.filter((m) => !medalhasAntigas.find((a) => a.id === m.id));
-      if (novas.length > 0) {
-        await adicionarPontos(user.uid, regrasPontuacao.receberMedalha, "Você recebeu uma nova medalha! 🥇");
-        mostrarToastPontosAdicionar(
-          regrasPontuacao.receberMedalha,
-          "Você recebeu uma nova medalha! 🥇"
-        );
+    async function carregarPerfil() {
+      try {
+        const q = query(collection(db, "usuarios"), where("email", "==", user.email));
+        const snapshot = await getDocs(q);
+        if (!snapshot.empty) {
+          const doc = snapshot.docs[0];
+          setPerfil({ id: doc.id, ...doc.data() });
+        }
+      } catch (e) {
+        console.error("Erro ao carregar perfil:", e);
       }
-
-      
-      const removidas = medalhasAntigas.filter((a) => !data.find((m) => m.id === a.id));
-      if (removidas.length > 0) {
-        await removerPontos(user.uid, regrasPontuacao.perderMedalha, "Você perdeu uma medalha 😞");
-        mostrarToastPontosRemover(
-          regrasPontuacao.perderMedalha,
-          "Você perdeu uma medalha 😞"
-        );
-      }
-
-      
-      localStorage.setItem("medalhasAluno", JSON.stringify(data));
-
-    } catch (err) {
-      console.error("Erro ao carregar medalhas:", err);
-    } finally {
-      setLoading(false);
     }
-  }
-
-  if (user?.uid) carregarMedalhas();
-}, [user]);
-
-
-  useEffect(() => {
-    if (user?.uid) getPontos(user.uid).then(setPontos);
+    if (user?.email) carregarPerfil();
   }, [user]);
 
-  let icone, humor, corHumor;
-
-  if (pontos < 25) {
-    icone = <TbMoodSadSquint color="red" size={40} />;
-    humor = "Triste 😢";
-    corHumor = "red";
-  } else if (pontos < 50) {
-    icone = <FaRegFaceGrinBeamSweat color="orange" size={40} />;
-    humor = "Feliz 😊";
-    corHumor = "orange";
-  } else {
-    icone = <BiHappyHeartEyes color="green" size={40} />;
-    humor = "Apaixonado 😍";
-    corHumor = "green";
-  }
-
-
+  
   useEffect(() => {
-    async function carregarMedalhas() {
+    if (!user?.uid) return;
+    const carregarTurmas = async () => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/medalhas/aluno/${user.uid}`);
+        const res = await fetch(`${API}/api/turmas?alunoId=${user.uid}`);
         const data = await res.json();
-        setMedalhas(data);
+        setTurmas(data || []);
+      } catch (err) {
+        console.error("Erro ao carregar turmas:", err);
+      }
+    };
+    carregarTurmas();
+  }, [user, API]);
 
-      
-        const medalhasAntigas = JSON.parse(localStorage.getItem("medalhasProcessadas") || "[]");
-        const idsAtuais = data.map((m) => m.id);
+  
+  useEffect(() => {
+    if (!turmaSelecionada || !user?.uid) return;
+    const carregarBoletim = async () => {
+      try {
+        setLoading(true);
+        const [atividadesRes, avaliacoesRes, notasRes] = await Promise.all([
+          fetch(`${API}/api/atividade?turmaId=${turmaSelecionada}`).then(r => r.json()),
+          fetch(`${API}/api/avaliacoes`).then(r => r.json()),
+          fetch(`${API}/api/notas?turmaId=${turmaSelecionada}&alunoId=${user.uid}`).then(r => r.json())
+        ]);
 
-        
-        const novas = data.filter((m) => !medalhasAntigas.includes(m.id));
-        if (novas.length > 0) {
-          await adicionarPontos(user.uid, regrasPontuacao.receberMedalha, "Você recebeu uma nova medalha! 🥇");
-          mostrarToastPontosAdicionar(
-            regrasPontuacao.receberMedalha,
-            `Você recebeu ${novas.length > 1 ? `${novas.length} novas medalhas! 🥇` : "uma nova medalha! 🥇"}`
-          );
-        }
+        const avaliacoesFiltradas = avaliacoesRes.filter(av => av.turmaCodigo === turmaSelecionada);
+        const notas = notasRes || [];
+
+        const todas = [
+          ...atividadesRes.map(a => ({
+            tipo: "Atividade",
+            titulo: a.titulo,
+            valor: a.valor || 10,
+            nota: notas.find(n => n.itemId === a.id)?.valor ?? null,
+          })),
+          ...avaliacoesFiltradas.map(av => ({
+            tipo: "Avaliação",
+            titulo: av.titulo,
+            valor: av.valor || 10,
+            nota: notas.find(n => n.itemId === av.id)?.valor ?? null,
+          })),
+        ];
 
        
-        const removidas = medalhasAntigas.filter((id) => !idsAtuais.includes(id));
-        if (removidas.length > 0) {
-          await removerPontos(user.uid, regrasPontuacao.perderMedalha, "Você perdeu uma medalha 😞");
-          mostrarToastPontosRemover(
-            regrasPontuacao.perderMedalha,
-            `Você perdeu ${removidas.length > 1 ? `${removidas.length} medalhas 😞` : "uma medalha 😞"}`
-          );
-        }
+        const notasValidas = todas.map(t => Number(t.nota) || 0);
+        const soma = notasValidas.reduce((acc, n) => acc + n, 0);
+        const mediaParcial = todas.length > 0 ? soma / todas.length : 0;
 
-      
-        if (novas.length > 0 || removidas.length > 0) {
-          localStorage.setItem("medalhasProcessadas", JSON.stringify(idsAtuais));
-        }
+        const notaExtra = notas.find(n => n.tipo === "extra")?.valor || 0;
+        const mediaFinal = Math.min(mediaParcial + notaExtra, 10);
+
+        setBoletim({ linhas: todas, mediaParcial, notaExtra, mediaFinal });
       } catch (err) {
-        console.error("Erro ao carregar medalhas:", err);
+        console.error("Erro ao carregar boletim:", err);
+        toast.error("Erro ao carregar notas.");
       } finally {
         setLoading(false);
       }
-    }
+    };
+    carregarBoletim();
+  }, [turmaSelecionada, user, API]);
 
-    if (user?.uid) carregarMedalhas();
-  }, [user]);
+ 
+  useEffect(() => {
+    if (!user?.uid) return;
+    const carregarMedalhas = async () => {
+      try {
+        const res = await fetch(`${API}/api/medalhas/aluno/${user.uid}`);
+        const data = await res.json();
+        setMedalhas(data || []);
+      } catch (err) {
+        console.error("Erro ao carregar medalhas:", err);
+      }
+    };
+    carregarMedalhas();
+    getPontos(user.uid).then(setPontos);
+  }, [user, API]);
 
+ 
+  const humorIcone =
+    pontos < 25 ? <TbMoodSadSquint color="red" size={40} /> :
+    pontos < 50 ? <FaRegFaceGrinBeamSweat color="orange" size={40} /> :
+    <BiHappyHeartEyes color="green" size={40} />;
+
+  const humorLabel =
+    pontos < 25 ? "Triste 😢" :
+    pontos < 50 ? "Feliz 😊" : "Motivado 😍";
+
+  const corHumor =
+    pontos < 25 ? "red" :
+    pontos < 50 ? "orange" : "green";
+
+  const formatarData = (valor) => {
+    if (!valor) return "—";
+    const data = valor._seconds ? new Date(valor._seconds * 1000) : new Date(valor);
+    return data.toLocaleDateString("pt-BR");
+  };
 
   return (
     <div className="layout">
-       <ToastContainer position="bottom-right" theme="colored" />
+      <ToastContainer position="bottom-right" theme="colored" />
       <MenuLateralAluno />
       <div className="page2">
         <main className="notas-aluno">
           <MenuTopoAluno />
+
+          
           <div className="meu-ranking">
-              {!perfil ? (
-                  <p>Carregando perfil...</p>
-                ) : (
-                  <img
-                    src={preview || perfil?.foto || "/src/assets/user-placeholder.png"}
-                    alt="Foto do usuário"
-                    className="foto-circulo-ranking"
-                    onError={(e) => e.target.src = "/src/assets/user-placeholder.png"}
-                  />
-                )}
-
+            <img
+              src={perfil?.foto || "/src/assets/user-placeholder.png"}
+              alt="Foto do usuário"
+              className="foto-circulo-ranking"
+              onError={(e) => (e.target.src = "/src/assets/user-placeholder.png")}
+            />
             <div className="status-pontuacao">
-              <p className="meus-pontos">Meus pontos</p>              
-              
+              <p className="meus-pontos">Meus pontos</p>
               <p className="pontos">{pontos} pontos</p>
-              <p style={{ color: corHumor }}>{humor}</p>
+              <p style={{ color: corHumor }}>{humorLabel}</p>
             </div>
-
           </div>
-          <h2 className="titulo-medalhas-aluno">🏅 Minhas Medalhas</h2>
 
-          {loading ? (
-            <p className="aviso-carregando">Carregando medalhas...</p>
-          ) : medalhas.length === 0 ? (
-            <p className="aviso-vazio">Você ainda não recebeu nenhuma medalha.</p>
-          ) : (
-            <div className="grid-medalhas-aluno">
-              {medalhas.map((m) => (
-                <div key={m.id} className="card-medalha-aluno">
-                  <div
-                    className="imagem-medalha"
-                    style={{ borderColor: m.template?.color || "#2563eb" }}
-                  >
-                    {m.template?.imageUrl ? (
-                      <img
-                        src={m.template.imageUrl}
-                        alt={m.template.title}
-                      />
-                    ) : (
-                      <FaMedal
-                        style={{
-                          color: m.template?.color || "#2563eb",
-                          fontSize: 50,
-                        }}
-                      />
-                    )}
+          
+          <section className="selecao-turma">
+            <label>
+              <strong>Selecione sua turma:</strong>
+              <select
+                value={turmaSelecionada}
+                onChange={(e) => setTurmaSelecionada(e.target.value)}
+              >
+                <option value="">Selecione...</option>
+                {turmas.map((t) => (
+                  <option key={t.id} value={t.id}>
+                    {t.nomeTurma} — {t.materia} ({t.professorNome})
+                  </option>
+                ))}
+              </select>
+            </label>
+          </section>
+
+          
+          {turmaSelecionada && (
+            <section className="boletim-section">
+              <h3><FaBook /> Meu Boletim</h3>
+              {loading ? (
+                <p>Carregando boletim...</p>
+              ) : boletim.linhas?.length === 0 ? (
+                <p>Você ainda não possui notas nesta turma.</p>
+              ) : (
+                <>
+                  <div className="boletim-tabela-container">
+                    <table className="boletim-tabela">
+                      <thead>
+                        <tr>
+                          <th>Tipo</th>
+                          <th>Atividade</th>
+                          <th>Nota</th>
+                          <th>Valor</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {boletim.linhas.map((linha, i) => (
+                          <tr key={i}>
+                            <td>{linha.tipo}</td>
+                            <td>{linha.titulo}</td>
+                            <td><strong>{linha.nota ?? "—"}</strong></td>
+                            <td>{linha.valor}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
 
-                  <div className="info-medalha-aluno">
-                    <h4>{m.template?.title || "Medalha"}</h4>
-                    <p className="categoria-aluno">
-                      {m.template?.category || "Sem categoria"}
-                    </p>
-                    {m.comment && (
-                      <p className="comentario">
-                        <FaRegComment /> <em>{m.comment}</em>
-                      </p>
-                    )}
-                    <p className="data">
-                      <FaRegCalendarAlt /> {new Date(m.awardedAt._seconds * 1000).toLocaleDateString("pt-BR")}
-                    </p>
+                  <div className="boletim-resumo">
+                    <p><strong>Média Parcial:</strong> {boletim.mediaParcial.toFixed(1)}</p>
+                    <p><strong>Nota Extra:</strong> {boletim.notaExtra}</p>
+                    <p><strong>Média Final:</strong> {boletim.mediaFinal.toFixed(1)}</p>
                   </div>
-                </div>
-              ))}
-            </div>
+                </>
+              )}
+            </section>
           )}
+
+          
+          <section className="medalhas-section">
+            <h3 className="titulo-medalhas-aluno">🏅 Minhas Medalhas</h3>
+            {medalhas.length === 0 ? (
+              <p>Você ainda não recebeu medalhas.</p>
+            ) : (
+              <div className="grid-medalhas-aluno">
+                {medalhas.map((m) => (
+                  <div key={m.id} className="card-medalha-aluno">
+                    <div
+                      className="imagem-medalha"
+                      style={{ borderColor: m.template?.color || "#2563eb" }}
+                    >
+                      {m.template?.imageUrl ? (
+                        <img src={m.template.imageUrl} alt={m.template.title} />
+                      ) : (
+                        <FaMedal
+                          style={{
+                            color: m.template?.color || "#2563eb",
+                            fontSize: 50,
+                          }}
+                        />
+                      )}
+                    </div>
+                    <div className="info-medalha-aluno">
+                      <h4>{m.template?.title || "Medalha"}</h4>
+                      <p>{m.template?.category || "Sem categoria"}</p>
+                      {m.comment && (
+                        <p className="comentario">
+                          <FaRegComment /> <em>{m.comment}</em>
+                        </p>
+                      )}
+                      <p className="data">
+                        <FaRegCalendarAlt /> {formatarData(m.awardedAt)}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </section>
         </main>
       </div>
     </div>
