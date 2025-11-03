@@ -203,42 +203,77 @@
 .status svg {
   flex-shrink: 0;
 }
+/* ======== SEÇÃO DE AVALIAÇÃO ======== */
 .sessao-avaliacao {
-  background: #f9fafb;
+  background: #fff;
+  padding: 2rem;
   border-radius: 12px;
-  padding: 1.5rem;
-  margin-top: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  color: #333;
+  margin-top: 2rem;
+  transition: 0.3s;
 }
-.questao { margin-bottom: 1.2rem; }
-.alternativa {
-  display: block;
-  margin: 4px 0;
+
+.sessao-avaliacao:hover {
+  box-shadow: 0 4px 14px rgba(0,0,0,0.12);
 }
-.btn-iniciar-avaliacao,
-.btn-enviar-prova {
-  background-color: #2563eb;
-  color: #fff;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 8px;
-  cursor: pointer;
+
+.sessao-avaliacao h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #1e3a8a;
+  margin-bottom: 1rem;
 }
-.btn-iniciar-avaliacao:hover,
-.btn-enviar-prova:hover {
-  background-color: #1d4ed8;
-}
-.regras-avaliacao {
-  background: #f9fafb;
-  border: 1px solid #e2e8f0;
+
+/* Questões */
+.questao {
+  margin-bottom: 1.8rem;
+  padding: 1.2rem;
   border-radius: 10px;
-  padding: 1rem 1.5rem;
-  margin-bottom: 1.5rem;
+  background: #f9fafc;
+  border: 1px solid #e2e8f0;
+  transition: all 0.25s ease;
 }
-.regras-avaliacao ul {
-  margin-left: 1rem;
-  list-style: disc;
+
+.questao:hover {
+  background: #f3f6ff;
+  border-color: #c7d2fe;
+}
+
+.questao strong {
+  color: #1e293b;
+  font-size: 1rem;
+}
+
+.questao p {
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
   color: #334155;
 }
+
+/* Alternativas (múltipla escolha) */
+.alternativa {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background-color: #f8fafc;
+  margin: 6px 0;
+  border: 1px solid #e2e8f0;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.alternativa:hover {
+  background-color: #eef2ff;
+  border-color: #c7d2fe;
+}
+
+.alternativa input[type="radio"] {
+  accent-color: #2563eb;
+}
+
+/* Questões de correspondência */
 .questao-colunas {
   margin-top: 1rem;
   background: #f9fafb;
@@ -262,6 +297,8 @@
 .coluna-esquerda li,
 .coluna-direita li {
   margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  color: #1f2937;
 }
 
 .coluna-direita select {
@@ -269,9 +306,79 @@
   padding: 6px;
   border-radius: 6px;
   border: 1px solid #ccc;
+  font-size: 0.9rem;
 }
 
+/* Questões dissertativas */
+.questao textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  resize: vertical;
+  font-size: 0.95rem;
+  color: #1e293b;
+  background: #fff;
+}
+
+.questao textarea:focus {
+  border-color: #2563eb;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+}
+
+/* Botões principais */
+.btn-iniciar-avaliacao,
+.btn-enviar-prova {
+  background-color: #2563eb;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: background-color 0.25s, transform 0.15s;
+  margin-top: 1rem;
+}
+
+.btn-iniciar-avaliacao:hover,
+.btn-enviar-prova:hover {
+  background-color: #1d4ed8;
+  transform: scale(1.03);
+}
+
+/* Regras da Avaliação */
+.regras-avaliacao {
+  background: #f9fafb;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 1.2rem 1.5rem;
+  margin-bottom: 1.5rem;
+  color: #334155;
+}
+
+.regras-avaliacao h4 {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #1e3a8a;
+  margin-bottom: 0.5rem;
+}
+
+.regras-avaliacao ul {
+  margin-left: 1rem;
+  list-style: disc;
+  color: #475569;
+  line-height: 1.6;
+}
+
+
+
 @media (max-width: 600px) {
+  .colunas-container {
+    flex-direction: column;
+    gap: 1rem;
+  }
   .lista-entregas li {
     flex: 1 1 100%;
   }

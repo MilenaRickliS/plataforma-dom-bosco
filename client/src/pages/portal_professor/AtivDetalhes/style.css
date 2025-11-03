@@ -203,28 +203,42 @@
 
 
 .corresp-view {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  background: #f9fafc;
-  padding: 1rem;
-  border-radius: 10px;
-  margin-bottom: 1rem;
+  margin-top: 10px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 8px;
 }
-.corresp-view strong {
-  color: #12285a;
-}
-.corresp-view ul {
-  list-style: none;
-  padding: 0;
+
+.tabela-corresp {
+  width: 100%;
+  border-collapse: collapse;
   margin-top: 0.5rem;
+  background: #fafafa;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
 }
-.corresp-view li {
-  background: #fff;
-  padding: 6px 10px;
-  border-radius: 6px;
-  margin-bottom: 6px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+
+.tabela-corresp th {
+  background-color: #12336b;
+  color: #fff;
+  padding: 10px;
+  text-align: left;
+  font-size: 15px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.tabela-corresp td {
+  padding: 10px;
+  border-top: 1px solid #e0e0e0;
+  font-size: 14px;
+  vertical-align: top;
+  word-break: break-word;
+}
+
+.tabela-corresp tr:nth-child(even) td {
+  background-color: #f5f8ff;
 }
 
 
@@ -334,19 +348,54 @@
 .tag.atrasada { background: #d9534f; }
 .tag.pendente { background: #b6a50c; }
 
+@media (max-width: 768px) {
+  .div-detalhes{
+    flex-direction: column;
+  }
+}
 @media (max-width: 700px) {
-  .tabela-entregas {
+  .tabela-corresp,
+  .tabela-corresp thead,
+  .tabela-corresp tbody,
+  .tabela-corresp th,
+  .tabela-corresp td,
+  .tabela-corresp tr {
+    display: block;
+  }
+
+  .tabela-corresp thead {
+    display: none;
+  }
+
+  .tabela-corresp tr {
+    margin-bottom: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background: #fff;
+    padding: 10px;
+  }
+
+  .tabela-corresp td {
+    border: none;
+    padding: 8px 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .tabela-corresp td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #12336b;
+    flex-shrink: 0;
+    margin-right: 10px;
+  }
+    .tabela-entregas {
     font-size: 12px;
   }
   .input-nota {
     width: 45px;
-  }
-}
-
-
-@media (max-width: 768px) {
-  .div-detalhes{
-    flex-direction: column;
   }
 }
 @media (max-width: 400px){
@@ -356,8 +405,5 @@
   .texto-esperado, .texto-esperado p{
     font-size: 8px;
   }
-  .corresp-view{
-    flex-direction: column;
-    justify-content: center;
-  }
+
 }

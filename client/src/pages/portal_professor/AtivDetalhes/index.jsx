@@ -300,15 +300,27 @@ const [salvandoNota, setSalvandoNota] = useState(false);
                           )}
 
                           {q.tipo === "correspondencia" && (
-                            <div className="corresp-view">
-                              <div><strong>Coluna A</strong>
-                                <ul>{(q.colA||[]).map((t,i)=> <li key={`A-${i}`}>{t}</li>)}</ul>
-                              </div>
-                              <div><strong>Coluna B</strong>
-                                <ul>{(q.colB||[]).map((t,i)=> <li key={`B-${i}`}>{t}</li>)}</ul>
-                              </div>
-                            </div>
-                          )}
+                          <div className="corresp-view">
+                            <h4>Gabarito de Correspondência</h4>
+                            <table className="tabela-corresp">
+                              <thead>
+                                <tr>
+                                  <th>Item (Coluna A)</th>
+                                  <th>Corresponde a (Coluna B)</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {(q.colA || []).map((itemA, i) => (
+                                  <tr key={`corresp-${i}`}>
+                                    <td data-label="Item (Coluna A)">{itemA}</td>
+                                    <td data-label="Corresponde a (Coluna B)">{q.gabarito?.[itemA] || "—"}</td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                        )}
+
 
                           {q.tipo === "dissertativa" && q.textoEsperado && (
                             <div className="texto-esperado">

@@ -501,29 +501,44 @@
 .corresp-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  margin-top: 1rem;
+  gap: 1.5rem;
+  background: #f9faff;
+  border: 1px solid #dbe3ff;
+  border-radius: 10px;
+  padding: 1rem;
 }
 
+.corresp-grid > div p {
+  font-weight: 600;
+  color: #12285a;
+  margin-bottom: 0.8rem;
+}
 .pair-row {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr auto; 
   align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.4rem;
+  gap: 0.6rem;
+  margin-bottom: 0.6rem;
 }
 
-.pair-row input {
-  flex: 1;
+.pair-row input,
+.pair-row select {
   border: 1px solid #cbd5e1;
   border-radius: 6px;
-  padding: 8px;
-  background: #fff;
+  padding: 8px 10px;
   font-size: 14px;
+  background-color: #fff;
+  width: 100%;
+}
+
+.pair-row select {
+  color: #12285a;
+  background-color: #f9fbff;
 }
 
 .pair-row button {
   background: #dc2626;
-  color: #fff;
+  color: white;
   border: none;
   border-radius: 6px;
   padding: 6px 10px;
@@ -627,15 +642,21 @@
     gap: 0.5rem;
   }
 
-  .alt-row,
-  .pair-row {
+  .alt-row{
     flex-direction: column;
     align-items: stretch;
   }
 
-  .alt-row button,
-  .pair-row button {
+  .alt-row button{
     align-self: flex-end;
+  }
+    .pair-row {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .pair-row button {
+    justify-self: flex-end;
   }
 }
 

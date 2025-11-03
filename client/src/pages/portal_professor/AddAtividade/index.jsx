@@ -156,7 +156,7 @@ function NovaQuestao({ index, value, onChange, onRemove, onDuplicate }) {
         </div>
       )}
 
-      {tipo === "correspondencia" && (
+     {tipo === "correspondencia" && (
         <div className="corresp-grid">
           <div>
             <p>Coluna A</p>
@@ -167,17 +167,49 @@ function NovaQuestao({ index, value, onChange, onRemove, onDuplicate }) {
                   value={txt}
                   onChange={(e) => {
                     const arr = [...(value.colA || [])];
+                    const antigo = arr[i];
                     arr[i] = e.target.value;
-                    atualizar({ colA: arr });
+                    const novoGabarito = { ...(value.gabarito || {}) };
+                 
+                    if (novoGabarito[antigo]) {
+                      novoGabarito[e.target.value] = novoGabarito[antigo];
+                      delete novoGabarito[antigo];
+                    }
+                    atualizar({ colA: arr, gabarito: novoGabarito });
                   }}
+                  placeholder={`Item A${i + 1}`}
                 />
+                <select
+                  value={value?.gabarito?.[txt] || ""}
+                  onChange={(e) => {
+                    const novoGabarito = { ...(value.gabarito || {}) };
+                    novoGabarito[txt] = e.target.value;
+                    atualizar({ gabarito: novoGabarito });
+                  }}
+                >
+                  <option value="">— Escolher correspondência —</option>
+                  {(value?.colB || [])
+                    
+                    .filter(
+                      (b) =>
+                        !Object.entries(value.gabarito || {})
+                          .some(([a, escolhido]) => a !== txt && escolhido === b)
+                    )
+                    .map((b, j) => (
+                      <option key={j} value={b}>
+                        {b || `Item B${j + 1}`}
+                      </option>
+                    ))}
+                </select>
                 <button
-                className="remover"
+                  className="remover"
                   type="button"
                   onClick={() => {
                     const arr = [...(value.colA || [])];
                     arr.splice(i, 1);
-                    atualizar({ colA: arr });
+                    const novoGabarito = { ...(value.gabarito || {}) };
+                    delete novoGabarito[txt];
+                    atualizar({ colA: arr, gabarito: novoGabarito });
                   }}
                 >
                   Remover
@@ -185,9 +217,9 @@ function NovaQuestao({ index, value, onChange, onRemove, onDuplicate }) {
               </div>
             ))}
             <button
-            className="button"
+              className="button"
               type="button"
-              onClick={() => atualizar({ colA: [ ...(value.colA || []), "" ] })}
+              onClick={() => atualizar({ colA: [...(value.colA || []), ""] })}
             >
               + Item A
             </button>
@@ -202,17 +234,34 @@ function NovaQuestao({ index, value, onChange, onRemove, onDuplicate }) {
                   value={txt}
                   onChange={(e) => {
                     const arr = [...(value.colB || [])];
+                    const antigo = arr[i];
                     arr[i] = e.target.value;
-                    atualizar({ colB: arr });
+
+                   
+                    const novoGabarito = {};
+                    Object.entries(value.gabarito || {}).forEach(([a, b]) => {
+                      novoGabarito[a] = b === antigo ? e.target.value : b;
+                    });
+
+                    atualizar({ colB: arr, gabarito: novoGabarito });
                   }}
+                  placeholder={`Item B${i + 1}`}
                 />
                 <button
-                className="remover"
+                  className="remover"
                   type="button"
                   onClick={() => {
                     const arr = [...(value.colB || [])];
+                    const removido = arr[i];
                     arr.splice(i, 1);
-                    atualizar({ colB: arr });
+
+                    
+                    const novoGabarito = {};
+                    Object.entries(value.gabarito || {}).forEach(([a, b]) => {
+                      if (b !== removido) novoGabarito[a] = b;
+                    });
+
+                    atualizar({ colB: arr, gabarito: novoGabarito });
                   }}
                 >
                   Remover
@@ -220,15 +269,17 @@ function NovaQuestao({ index, value, onChange, onRemove, onDuplicate }) {
               </div>
             ))}
             <button
-             className="button"
+              className="button"
               type="button"
-              onClick={() => atualizar({ colB: [ ...(value.colB || []), "" ] })}
-            > 
+              onClick={() => atualizar({ colB: [...(value.colB || []), ""] })}
+            >
               + Item B
             </button>
           </div>
         </div>
       )}
+
+
 
       <label>
         <p>Valor da questão (opcional)</p>
@@ -488,7 +539,18 @@ const handleSalvar = async (e) => {
           ...(q.tipo === "multipla"
             ? { alternativas: q.alternativas || [], permiteMultiplas: !!q.permiteMultiplas }
             : {}),
-          ...(q.tipo === "correspondencia" ? { colA: q.colA || [], colB: q.colB || [] } : {}),
+          ...(q.tipo === "correspondencia"
+          ? {
+              colA: q.colA || [],
+              colB: q.colB || [],
+              gabarito: Object.fromEntries(
+                Object.entries(q.gabarito || {}).filter(
+                  ([a, b]) => a.trim() && b.trim()
+                )
+              ),
+            }
+          : {}),
+
           ...(q.valor ? { valor: Number(q.valor) } : {}),
         });
       }
