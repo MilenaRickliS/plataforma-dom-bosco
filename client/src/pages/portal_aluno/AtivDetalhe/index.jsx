@@ -28,41 +28,76 @@ export default function AtivDetalhesAluno() {
 
  
   useEffect(() => {
-    if (!id || !user?.uid) return;
-    const carregar = async () => {
-      try {
-        setCarregando(true);
-        const res = await axios.get(`${API}/api/publicacoes`);
-        const todas = res.data || [];
-        const encontrada = todas.find((p) => p.id === id);
-        setPublicacao(encontrada || null);
+  if (!id || !user?.uid) return;
 
-       
-        if (encontrada?.turmaId) {
-          const turmaRes = await axios.get(`${API}/api/turmas?id=${encontrada.turmaId}`);
-          setTurma(turmaRes.data || null);
-        }
+  const carregar = async () => {
+    try {
+      setCarregando(true);
 
-       if (encontrada?.tipo === "avaliacao") {
+      
+      const res = await axios.get(`${API}/api/publicacoes`);
+      const todas = res.data || [];
+      const encontrada = todas.find((p) => p.id === id);
+      setPublicacao(encontrada || null);
+
+     
+      if (encontrada?.turmaId) {
+        const turmaRes = await axios.get(`${API}/api/turmas?id=${encontrada.turmaId}`);
+        setTurma(turmaRes.data || null);
+      }
+
+      
+      if (encontrada?.tipo === "avaliacao") {
         try {
           const qs = await axios.get(`${API}/api/questoes`, { params: { avaliacaoId: id } });
           setQuestoes(qs.data || []);
         } catch (e) {
           console.warn("Nenhuma questão encontrada para esta avaliação.");
         }
+
+        try {
+          const resp = await axios.get(`${API}/api/respostas?avaliacaoId=${id}`);
+          const respostaAluno = resp.data?.alunos?.find((a) => a.alunoId === user.uid);
+          if (respostaAluno) {
+            console.log("🔍 Resposta encontrada:", respostaAluno);
+            setEntrega({
+              ...respostaAluno,
+              avaliacaoIniciada: respostaAluno.avaliacaoIniciada || false,
+              tentativas: respostaAluno.tentativas || 0,
+              notaTotal: respostaAluno.notaTotal || 0,
+              entregue: respostaAluno.entregue || false,
+            });
+          } else {
+            console.log("🆕 Nenhuma resposta anterior — primeira tentativa.");
+            setEntrega({ avaliacaoIniciada: false, tentativas: 0 });
+          }
+        } catch (e) {
+          console.warn("Erro ao buscar respostas:", e);
+          setEntrega({ avaliacaoIniciada: false, tentativas: 0 });
+        }
       }
 
-        const entregasRes = await axios.get(`${API}/api/entregas?atividadeId=${id}&alunoId=${user.uid}`);
-        const first = entregasRes.data?.[0] || null;
-        setEntrega(first ? first : null);
-      } catch (err) {
-        console.error("Erro ao carregar detalhes:", err);
-      } finally {
-        setCarregando(false);
+      
+      if (encontrada?.tipo === "atividade") {
+        try {
+          const entregasRes = await axios.get(`${API}/api/entregas?atividadeId=${id}&alunoId=${user.uid}`);
+          const first = entregasRes.data?.[0] || null;
+          setEntrega(first || null);
+        } catch (e) {
+          console.warn("Erro ao buscar entrega de atividade:", e);
+        }
       }
-    };
-    carregar();
-  }, [id, user, API]);
+
+    } catch (err) {
+      console.error("Erro ao carregar detalhes:", err);
+    } finally {
+      setCarregando(false);
+    }
+  };
+
+  carregar();
+}, [id, user, API]);
+
 
   const formatarData = (valor) => {
     if (!valor) return "—";
@@ -342,205 +377,362 @@ export default function AtivDetalhesAluno() {
                 </ul>
               </div>
             )}
-            {publicacao.tipo === "avaliacao" && publicacao.configuracoes && (
-            <div className="regras-avaliacao">
-              <h4>📋 Regras da Avaliação</h4>
-              <ul>
-                {publicacao.configuracoes.embaralharQuestoes && <li>As questões serão apresentadas em ordem aleatória.</li>}
-                {publicacao.configuracoes.embaralharRespostas && <li>As alternativas serão embaralhadas.</li>}
-                {publicacao.configuracoes.obrigarRespostas && <li>Todas as questões obrigatórias devem ser respondidas antes do envio.</li>}
-                {publicacao.configuracoes.permitirRepeticoes ? (
-                  <li>Você pode refazer até {publicacao.configuracoes.tentativasMax} vezes. A melhor nota será mantida.</li>
-                ) : (
-                  <li>Você só pode enviar esta avaliação uma única vez.</li>
-                )}
-                {publicacao.configuracoes.tempoLimite && (
-                  <li>Tempo limite: {publicacao.configuracoes.tempoLimite} minutos.</li>
-                )}
-                {!publicacao.configuracoes.liberarRespostas && (
-                  <li>O gabarito será disponibilizado posteriormente pelo professor.</li>
-                )}
-              </ul>
-            </div>
-          )}
+            {publicacao.tipo === "avaliacao" && (
+              <section className="sessao-avaliacao">
+                <h3>Responda às questões</h3>
 
-            {publicacao.configuracoes?.liberarRespostas && entrega?.questoesRespondidas?.length > 0 && (
-              <div className="gabarito">
-                <h4>Respostas enviadas</h4>
-                <ul>
-                  {entrega.questoesRespondidas.map(r => (
-                    <li key={r.questaoId}>
-                      Questão {r.questaoId}: {r.resposta} — {r.valorObtido} pts
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-
-           {publicacao.tipo === "avaliacao" && (
-            <section className="sessao-avaliacao">
-              <h3>Responda às questões</h3>
-
-             {!entrega?.avaliacaoIniciada ? (
-                <div className="iniciar-avaliacao">
-                  <p>Quando estiver pronto, clique abaixo para começar. O cronômetro (se houver) iniciará automaticamente.</p>
-                  <button
-                    className="btn-iniciar-avaliacao"
-                    onClick={() => {
-                      let listaQuestoes = [...questoes];
-                      if (publicacao.configuracoes?.embaralharQuestoes)
-                        listaQuestoes = listaQuestoes.sort(() => Math.random() - 0.5);
-                      setQuestoes(listaQuestoes);
-                      setEntrega({
-                        ...entrega,
-                        avaliacaoIniciada: true,
-                        questoesRespondidas: [],
-                      });
-                    }}
-                  >
-                    Iniciar Avaliação
-                  </button>
-                </div>
-              ) : (
-                              <form
-                  onSubmit={async (e) => {
-                    e.preventDefault();
-
-                   
-                    const obrigatorias = questoes.filter((q) => q.obrigatoria);
-                    const respondidas = entrega.questoesRespondidas || [];
-                    const faltando = obrigatorias.filter(
-                      (q) => !respondidas.some((r) => r.questaoId === q.id)
+                {(() => {
+                  if (!publicacao?.configuracoes || entrega === null) {
+                    return (
+                      <p style={{ color: "#555" }}>
+                        Carregando informações da avaliação...
+                      </p>
                     );
-                    if (faltando.length > 0) {
-                      toast.error(`Responda todas as ${faltando.length} obrigatórias antes de enviar.`);
-                      return;
-                    }
+                  }
+                  const tentativasFeitas = Number(entrega?.tentativas || 0);
+                  const limite = Number(publicacao?.configuracoes?.tentativasMax || 1);
+                  const aindaPodeTentar = tentativasFeitas < limite;
 
-                   
-                    const total = respondidas.reduce(
-                      (acc, r) => acc + (r.valorObtido || 0),
-                      0
+
+              
+                  let prazoExpirado = false;
+                  if (publicacao.entrega) {
+                    const prazo =
+                      publicacao.entrega._seconds
+                        ? new Date(publicacao.entrega._seconds * 1000)
+                        : new Date(publicacao.entrega);
+                    prazoExpirado = new Date() > prazo;
+                  }
+                  console.log("DEBUG:", { tentativasFeitas, limite, aindaPodeTentar, prazoExpirado });
+                  if (!aindaPodeTentar || prazoExpirado) {
+                    return (
+                      <div className="limite-tentativas" style={{ background: "#fee2e2", padding: "1rem", borderRadius: "8px" }}>
+                        <p style={{ color: "#b91c1c", fontWeight: "600" }}>
+                          {prazoExpirado
+                            ? "⏰ O prazo para realizar esta avaliação expirou. Você não pode mais responder."
+                            : `⚠️ Você já atingiu o número máximo de tentativas (${limite}). Avaliação encerrada.`}
+                        </p>
+                      </div>
                     );
+                  }
 
-                    const novaTentativa = {
-                      ...entrega,
-                      entregue: true,
-                      enviadaEm: new Date().toISOString(),
-                      avaliacaoIniciada: false,
-                      nota: Math.max(entrega?.nota || 0, total),
-                    };
+                
+                  if (!entrega?.avaliacaoIniciada) {
+                    const tentativasFeitas = entrega?.tentativas || 0;
+                    const limite = publicacao.configuracoes?.tentativasMax || 1;
+                    const aindaPodeTentar = tentativasFeitas < limite;
 
-                    await axios.post(`${API}/api/entregas`, novaTentativa);
-                    setEntrega(novaTentativa);
-                    toast.success("Avaliação enviada!");
-                  }}
-                >
-                  {questoes.map((q, i) => (
-                    <div key={q.id} className="questao">
-                      <p><strong>Q{i + 1}:</strong> {q.enunciado}</p>
+                    
+                    
+                    return (
+                      <div className="iniciar-avaliacao">
+                        <p>
+                          Quando estiver pronto, clique abaixo para começar. O cronômetro (se houver) iniciará automaticamente.
+                        </p>
+                        <button
+                          className="btn-iniciar-avaliacao"
+                          disabled={!aindaPodeTentar}
+                          style={{
+                            backgroundColor: aindaPodeTentar ? "#2563eb" : "#ccc",
+                            cursor: aindaPodeTentar ? "pointer" : "not-allowed",
+                          }}
+                          onClick={async () => {
+                            
+                            if (!aindaPodeTentar) {
+                              toast.error("Você já atingiu o número máximo de tentativas.");
+                              return;
+                            }
 
-                      {q.tipo === "multipla" &&
-                        q.alternativas.map((alt, idx) => (
-                          <label key={idx} className="alternativa">
-                            <input
-                              type="radio"
-                              name={`q-${q.id}`}
-                              value={alt.texto}
-                              required={q.obrigatoria}
-                              onChange={() => {
-                                const ja = entrega.questoesRespondidas || [];
-                                const novo = ja.filter((r) => r.questaoId !== q.id);
-                                novo.push({
-                                  questaoId: q.id,
-                                  resposta: alt.texto,
-                                  valorObtido: alt.correta ? q.valor : 0,
-                                });
-                                setEntrega({ ...entrega, questoesRespondidas: novo });
-                              }}
-                            />
-                            {alt.texto}
-                          </label>
-                        ))}
+                            
+                            let listaQuestoes = [...questoes];
+                            if (publicacao.configuracoes?.embaralharQuestoes)
+                              listaQuestoes = listaQuestoes.sort(() => Math.random() - 0.5);
 
-                        {q.tipo === "colunas" && (
-                        <div className="questao-colunas">
-                          <div className="colunas-container">
-                            <div className="coluna-esquerda">
-                              <strong>Coluna A</strong>
-                              <ul>
-                                {q.colunaA?.map((itemA, idxA) => (
-                                  <li key={idxA}>
-                                    {idxA + 1}. {itemA}
-                                  </li>
-                                ))}
-                              </ul>
+                            listaQuestoes = listaQuestoes.map((q) => {
+                              if (publicacao.configuracoes?.embaralharRespostas && q.alternativas) {
+                                return {
+                                  ...q,
+                                  alternativas: [...q.alternativas].sort(() => Math.random() - 0.5),
+                                };
+                              }
+                              return q;
+                            });
+
+                            setQuestoes(listaQuestoes);
+                            await axios.post(`${API}/api/respostas`, {
+                              avaliacaoId: id,
+                              alunoId: user.uid,
+                              iniciouEm: new Date().toISOString(),
+                              avaliacaoIniciada: true,
+                            });
+
+                            setEntrega({
+                              ...entrega,
+                              avaliacaoIniciada: true,
+                              questoesRespondidas: [],
+                            });
+                          }}
+                        >
+                          Iniciar Avaliação
+                        </button>
+                      </div>
+                    );
+                  }
+
+
+                 
+                  return (
+                    <form
+                      onSubmit={async (e) => {
+                        e.preventDefault();
+
+                        const obrigatorias = questoes.filter((q) => q.obrigatoria);
+                        const respondidas = entrega.questoesRespondidas || [];
+                        const faltando = obrigatorias.filter(
+                          (q) => !respondidas.some((r) => r.questaoId === q.id)
+                        );
+                        if (faltando.length > 0) {
+                          toast.error(`Responda todas as ${faltando.length} obrigatórias antes de enviar.`);
+                          return;
+                        }
+
+                        const total = respondidas.reduce(
+                          (acc, r) => acc + (r.valorObtido || 0),
+                          0
+                        );
+
+                        const novaTentativa = {
+                          avaliacaoId: id,
+                          alunoId: user.uid,
+                          questoes: entrega.questoesRespondidas,
+                          notaTotal: total,
+                          tentativas: (entrega?.tentativas || 0) + 1,
+                        };
+
+                        await axios.post(`${API}/api/respostas`, novaTentativa);
+                        setEntrega({
+                          ...entrega,
+                          ...novaTentativa,
+                          avaliacaoIniciada: false,
+                        });
+                        toast.success("Avaliação enviada!");
+                      }}
+                    >
+                      {questoes.map((q, i) => (
+                        <div key={q.id} className="questao" style={{ marginBottom: "2rem" }}>
+                          <p style={{ fontWeight: "600" }}>
+                            <strong>Q{i + 1}:</strong> {q.enunciado}{" "}
+                             {q.obrigatoria && (
+                              <span
+                                style={{
+                                  color: "#b91c1c",
+                                  fontSize: "0.9rem",
+                                  fontWeight: "600",
+                                  marginLeft: "6px",
+                                }}
+                              >
+                                * Obrigatória
+                              </span>
+                            )}
+                            {q.valor ? (
+                              <span style={{ color: "#2563eb", fontSize: "0.9rem", marginLeft: "6px"  }}>({q.valor} pts)</span>
+                            ) : null}
+                          </p>
+
+                         
+                          {q.imagem && (
+                            <div style={{ textAlign: "center", margin: "1rem 0" }}>
+                              <img
+                                src={q.imagem.url}
+                                alt={`Imagem da questão ${i + 1}`}
+                                style={{
+                                  maxWidth: "100%",
+                                  maxHeight: "300px",
+                                  borderRadius: "8px",
+                                  boxShadow: "0 0 6px rgba(0,0,0,0.15)",
+                                }}
+                              />
                             </div>
+                          )}
 
-                            <div className="coluna-direita">
-                              <strong>Coluna B</strong>
-                              <ul>
-                                {q.colunaB?.map((itemB, idxB) => (
-                                  <li key={idxB}>
-                                    <select
-                                      defaultValue=""
-                                      required={q.obrigatoria}
+                         
+                          {q.tipo === "multipla" && (
+                            <>
+                              {q.alternativas?.filter((a) => a.correta).length > 1 ? (
+                               
+                                q.alternativas.map((alt, idx) => (
+                                  <label key={idx} className="alternativa">
+                                    <input
+                                      type="checkbox"
+                                      name={`q-${q.id}-${idx}`}
+                                      value={alt.texto}
                                       onChange={(e) => {
+                                        const ja = entrega.questoesRespondidas || [];
+                                        let novaLista = ja.filter((r) => r.questaoId !== q.id);
+
+                                        const anterior =
+                                          ja.find((r) => r.questaoId === q.id)?.resposta || [];
+
+                                        let novaResposta = [...anterior];
+                                        if (e.target.checked) {
+                                          novaResposta.push(alt.texto);
+                                        } else {
+                                          novaResposta = novaResposta.filter((v) => v !== alt.texto);
+                                        }
+
+                                        const pontos = q.alternativas
+                                          .filter(
+                                            (a) => novaResposta.includes(a.texto) && a.correta
+                                          )
+                                          .reduce(
+                                            (acc, _) => acc + q.valor / q.alternativas.length,
+                                            0
+                                          );
+
+                                        novaLista.push({
+                                          questaoId: q.id,
+                                          resposta: novaResposta,
+                                          valorObtido: pontos,
+                                        });
+
+                                        setEntrega({
+                                          ...entrega,
+                                          questoesRespondidas: novaLista,
+                                        });
+                                      }}
+                                    />
+                                    {alt.texto}
+                                  </label>
+                                ))
+                              ) : (
+                               
+                                q.alternativas.map((alt, idx) => (
+                                  <label key={idx} className="alternativa">
+                                    <input
+                                      type="radio"
+                                      name={`q-${q.id}`}
+                                      value={alt.texto}
+                                      required={q.obrigatoria}
+                                      onChange={() => {
                                         const ja = entrega.questoesRespondidas || [];
                                         const novo = ja.filter((r) => r.questaoId !== q.id);
                                         novo.push({
                                           questaoId: q.id,
-                                          resposta: novo[idxB]
-                                            ? { ...novo[idxB].resposta, [itemB]: e.target.value }
-                                            : { [itemB]: e.target.value },
-                                          valorObtido: 0, 
+                                          resposta: alt.texto,
+                                          valorObtido: alt.correta ? q.valor : 0,
                                         });
-                                        setEntrega({ ...entrega, questoesRespondidas: novo });
+                                        setEntrega({
+                                          ...entrega,
+                                          questoesRespondidas: novo,
+                                        });
                                       }}
-                                    >
-                                      <option value="">Selecione a correspondência</option>
-                                      {q.colunaA?.map((itemA, idxA) => (
-                                        <option key={idxA} value={itemA}>
-                                          {itemA}
-                                        </option>
-                                      ))}
-                                    </select>
-                                  </li>
-                                ))}
-                              </ul>
+                                    />
+                                    {alt.texto}
+                                  </label>
+                                ))
+                              )}
+                            </>
+                          )}
+                          {q.tipo === "correspondencia" && (
+                            <div className="questao-corresp">
+                              <div className="colunas-container">
+                                <div className="coluna-esquerda">
+                                  <strong>Coluna A</strong>
+                                  <ul>
+                                    {(q.colA || []).map((itemA, idxA) => (
+                                      <li key={idxA}>
+                                        {idxA + 1}. {itemA}
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
+
+                                <div className="coluna-direita">
+                                  <strong>Coluna B</strong>
+                                  <ul>
+                                    {(q.colB || []).map((itemB, idxB) => {
+                                      const respostasQuestao =
+                                        entrega.questoesRespondidas?.find((r) => r.questaoId === q.id)?.resposta || {};
+                                      const jaEscolhido = respostasQuestao[itemB];
+
+                                      
+                                      const usadas = Object.values(respostasQuestao).filter(Boolean);
+                                      const opcoesDisponiveis = (q.colA || []).filter(
+                                        (a) => !usadas.includes(a) || a === jaEscolhido
+                                      );
+
+                                      return (
+                                        <li key={idxB}>
+                                          <label>
+                                            {itemB}:
+                                            <select
+                                              value={jaEscolhido || ""}
+                                              required={q.obrigatoria}
+                                              onChange={(e) => {
+                                                const ja = entrega.questoesRespondidas || [];
+                                                const novaLista = ja.filter((r) => r.questaoId !== q.id);
+
+                                                const respostasAtuais =
+                                                  ja.find((r) => r.questaoId === q.id)?.resposta || {};
+                                                const novaResposta = { ...respostasAtuais, [itemB]: e.target.value };
+
+                                                novaLista.push({
+                                                  questaoId: q.id,
+                                                  resposta: novaResposta,
+                                                  valorObtido: 0,
+                                                });
+
+                                                setEntrega({ ...entrega, questoesRespondidas: novaLista });
+                                              }}
+                                            >
+                                              <option value="">Selecione</option>
+                                              {opcoesDisponiveis.map((itemA, idxA) => (
+                                                <option key={idxA} value={itemA}>
+                                                  {itemA}
+                                                </option>
+                                              ))}
+                                            </select>
+                                          </label>
+                                        </li>
+                                      );
+                                    })}
+                                  </ul>
+                                </div>
+                              </div>
                             </div>
-                          </div>
+                          )}
+
+                          {q.tipo === "dissertativa" && (
+                            <textarea
+                              required={q.obrigatoria}
+                              placeholder="Escreva sua resposta"
+                              onChange={(e) => {
+                                const ja = entrega.questoesRespondidas || [];
+                                const novo = ja.filter((r) => r.questaoId !== q.id);
+                                novo.push({
+                                  questaoId: q.id,
+                                  resposta: e.target.value,
+                                  valorObtido: 0,
+                                });
+                                setEntrega({
+                                  ...entrega,
+                                  questoesRespondidas: novo,
+                                });
+                              }}
+                            />
+                          )}
                         </div>
-                      )}
+                      ))}
 
+                      <button type="submit" className="btn-enviar-prova">
+                        Enviar Avaliação
+                      </button>
+                    </form>
+                  );
+                })()}
+              </section>
+            )}
 
-                      {q.tipo === "dissertativa" && (
-                        <textarea
-                          required={q.obrigatoria}
-                          placeholder="Escreva sua resposta"
-                          onChange={(e) => {
-                            const ja = entrega.questoesRespondidas || [];
-                            const novo = ja.filter((r) => r.questaoId !== q.id);
-                            novo.push({
-                              questaoId: q.id,
-                              resposta: e.target.value,
-                              valorObtido: 0, 
-                            });
-                            setEntrega({ ...entrega, questoesRespondidas: novo });
-                          }}
-                        />
-                      )}
-                    </div>
-                  ))}
-
-                  <button type="submit" className="btn-enviar-prova">
-                    Enviar Avaliação
-                  </button>
-                </form>
-              )}
-            </section>
-          )}
 
 
           </section>

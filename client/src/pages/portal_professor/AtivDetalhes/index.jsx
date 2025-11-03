@@ -236,7 +236,22 @@ const [salvandoNota, setSalvandoNota] = useState(false);
                 <>
                  <p><strong>Config:</strong> {publicacao?.configuracoes?.embaralharRespostas ? "Embaralhar respostas" : "Ordem fixa"} • {publicacao?.configuracoes?.permitirRepeticoes ? `Até ${publicacao?.configuracoes?.tentativasMax} tentativas` : "1 tentativa"}</p>
                 <div className="progresso-avaliacao">
-                    <p><FaCheckCircle /> Progresso: {progresso.feitos}/{progresso.total} alunos ({progresso.pct}%)</p>
+                   <div className="progresso-container">
+                    <h4><FaCheckCircle /> Progresso da Avaliação</h4>
+                    <div className="barra-progresso">
+                      <div
+                        className="barra-preenchida"
+                        style={{ width: `${progresso.pct}%` }}
+                      ></div>
+                    </div>
+                    <p className="progresso-texto">
+                      {progresso.feitos}/{progresso.total} alunos responderam ({progresso.pct}%)
+                    </p>
+                    {progresso.feitos === 0 && (
+                      <p className="nenhum-resp">Nenhum aluno respondeu ainda.</p>
+                    )}
+                  </div>
+
                     <br/><Link to={`/professor/avaliacao/${id}/respostas`}>Ver respostas</Link>
                   </div>
                 </>

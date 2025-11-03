@@ -39,7 +39,7 @@ export default function RespostasAvaliacao() {
       setQuestoes(qs.data || []);
 
       
-      const r = await axios.get(`${API}/api/avaliacoes/respostas`, { params: { avaliacaoId: id } });
+      const r = await axios.get(`${API}/api/respostas`, { params: { avaliacaoId: id } });
       setResp(r.data || { alunos: [] });
     })();
   }, [id, user, API]);
@@ -67,6 +67,15 @@ export default function RespostasAvaliacao() {
           <h2>Respostas — {publicacao?.titulo || "Avaliação"}</h2>
 
           <div className="tabela-respostas">
+            <div className="progresso-geral">
+            <p>
+              <strong>Progresso:</strong>{" "}
+              {(resp.alunos?.length || 0)}/{alunos.length || 0} alunos responderam (
+              {Math.round(((resp.alunos?.length || 0) / ((alunos.length || 1))) * 100)}%)
+            </p>
+
+          </div>
+
             <table>
               <thead>
                 <tr>
@@ -77,25 +86,70 @@ export default function RespostasAvaliacao() {
                   <th>Detalhes</th>
                 </tr>
               </thead>
-              <tbody>
-                {(resp.alunos||[]).map((a) => {
-                  const aluno = mapaAluno.get(a.alunoId);
-                  const concluidas = (a.questoes||[]).length;
-                  const pct = Math.round((concluidas / totalQuestoes) * 100);
-                  return (
-                    <tr key={a.alunoId}>
-                      <td>{aluno?.nome || a.alunoId}</td>
-                      <td>{a?.meta?.tentativas || 1}</td>
-                      <td>{concluidas}/{totalQuestoes} ({pct}%)</td>
-                      <td>{a.total}</td>
-                      <td>
-                       
-                        <button className="btn">Ver por questão</button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
+             <tbody>
+              {(resp.alunos || []).map((a) => {
+                const aluno = mapaAluno.get(a.alunoId);
+                const concluidas = (a.questoes || []).length;
+                const acertos = a.questoes.filter((q) => q.correta).length;
+                const erros = concluidas - acertos;
+                const pct = Math.round((acertos / (questoes.length || 1)) * 100);
+
+                return (
+                  <tr key={a.alunoId}>
+                    <td>{aluno?.nome || a.alunoId}</td>
+                    <td>{a.meta?.tentativas || 1}</td>
+                    <td>
+                      {acertos}/{questoes.length} ({pct}%)
+                    </td>
+                    <td>
+                      <strong>{a.total.toFixed(1)}</strong> / {publicacao?.valor || 10}
+                    </td>
+                    <td>
+                      <details>
+                        <summary style={{ cursor: "pointer", color: "#2563eb" }}>
+                          Ver questões
+                        </summary>
+                        <ul className="resumo-questoes">
+                          {a.questoes.map((q, i) => (
+                            <li key={q.id}>
+                              <span>
+                                Q{i + 1}:{" "}
+                                {q.correta ? (
+                                  <span style={{ color: "green", fontWeight: "bold" }}>
+                                    ✔ Correta
+                                  </span>
+                                ) : (
+                                  <span style={{ color: "red", fontWeight: "bold" }}>
+                                    ✖ Errada
+                                  </span>
+                                )}
+                                {" — "}
+                                <small>{q.valor} pts</small>
+                              </span>
+                            </li>
+                          ))}
+                          {a.tentativas?.length > 1 && (
+                            <div style={{ marginTop: "8px" }}>
+                              <strong>Histórico de tentativas:</strong>
+                              <ul>
+                                {a.tentativas.map((t, i) => (
+                                  <li key={t.id}>
+                                    Tentativa {i + 1}: {t.notaTotal} pts em{" "}
+                                    {new Date(t.enviadaEm._seconds * 1000).toLocaleString("pt-BR")}
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+
+                        </ul>
+                      </details>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+
             </table>
 
            
