@@ -22,6 +22,7 @@ import medalhasRoutes from "./src/api/medalhas.js";
 import gamificacaoRoutes from "./src/api/gamificacao.js";
 import logsRoutes from "./src/api/logs/gamificacao.js";
 import chatRoutes from "./src/api/chat.js";
+import chatPrivadoRoutes from "./src/api/chatPrivado.js";
 import publicacoesRoutes from "./src/api/publicacoes.js";
 import conteudoRoutes from "./src/api/conteudo.js";
 import atividadeRoutes from "./src/api/atividades.js";
@@ -31,7 +32,7 @@ import contadorRoutes from "./src/api/contarEsp32.js";
 import repostasRoutes from "./src/api/respostas.js";
 import entregasRoutes from "./src/api/entregas.js";
 import uploadsRoutes from "./src/api/uploads.js";
-
+import notasRoutes from "./src/api/notas.js";
 
 dotenv.config();
 
@@ -75,6 +76,7 @@ app.use("/api/avisos", avisosRoutes);
 app.use("/api/gamificacao", gamificacaoRoutes);
 app.use("/api/logs", logsRoutes);
 app.use("/api/chat", chatRoutes);
+app.use("/api/chatPrivado", chatPrivadoRoutes);
 app.use("/api/publicacoes", publicacoesRoutes);
 app.use("/api/conteudo", conteudoRoutes);
 app.use("/api/atividade", atividadeRoutes);
@@ -84,6 +86,7 @@ app.use("/api/contador", contadorRoutes);
 app.use("/api/respostas", repostasRoutes);
 app.use("/api/entregas", entregasRoutes);
 app.use("/api/uploads", uploadsRoutes);
+app.use("/api/notas", notasRoutes);
 
 
 const PORT = process.env.PORT || 5000;

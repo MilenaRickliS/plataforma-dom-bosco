@@ -54,6 +54,7 @@ import AddAtividadeProfessor from '../pages/portal_professor/AddAtividade';
 import AtividadesProfessor from '../pages/portal_professor/Atividades';
 import AtivDetalheProfessor from '../pages/portal_professor/AtivDetalhes';
 import RespostasAvaliacao from '../pages/portal_professor/Respostas';
+import RespostasAlunos from "../pages/portal_professor/RespostasAlunos";
 import AlunosProfessor from '../pages/portal_professor/Alunos';
 import MedalhasAtribuir from '../pages/portal_professor/MedalhasAtribuir';
 
@@ -153,6 +154,7 @@ function RoutesApp(){
       <Route path="/professor/atividades/:id" element={ <Private rota="professor"><AtividadesProfessor/></Private> } />
       <Route path="/professor/detalhes-ativ/:id" element={ <Private rota="professor"><AtivDetalheProfessor/></Private> } />
       <Route path="/professor/avaliacao/:id/respostas" element={ <Private rota="professor"><RespostasAvaliacao/></Private>} />
+      <Route path="/professor/avaliacao/:avaliacaoId/aluno/:alunoId" element={<Private rota="professor"><RespostasAlunos/></Private>} />
       <Route path="/professor/alunos-turma/:id" element={ <Private rota="professor"><AlunosProfessor/></Private> } />
     
     </Routes>

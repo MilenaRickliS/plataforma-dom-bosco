@@ -1,19 +1,99 @@
-.progresso-geral {
-  margin: 1rem 0;
-  background: #eef4ff;
-  border-left: 4px solid #2563eb;
-  padding: 0.75rem 1rem;
+.titulo-respostas{
+  color: #2b5c1f;
+  font-family: "Poppins", sans-serif;
+}
+.btn-ver-respostas {
+  background: #2563eb;
+  color: #fff;
+  padding: 6px 10px;
   border-radius: 6px;
+  text-decoration: none;
+  transition: 0.2s;
+}
+.btn-ver-respostas:hover {
+  background: #1d4ed8;
+}
+
+.btn-liberar-notas {
+  background: linear-gradient(90deg, #3b82f6, #2563eb);
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 12px;
+  transition: 0.2s;
+}
+.btn-liberar-notas:hover {
+  opacity: 0.9;
+}
+
+.tabela-respostas {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  padding: 20px;
+  margin-top: 20px;
+  overflow-x: auto;
+}
+
+.tabela-respostas table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabela-respostas th {
+  background: #2563eb;
+  color: #fff;
+  padding: 10px;
+  text-align: left;
+  border-radius: 4px 4px 0 0;
+}
+
+.tabela-respostas td {
+  border-bottom: 1px solid #e5e7eb;
+  padding: 10px;
+  vertical-align: top;
+  color: #2563eb;
+}
+
+.tabela-respostas tr:hover {
+  background-color: #f3f4f6;
+  transition: 0.2s;
+}
+
+.sem-resposta {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
+  color: #991b1b;
+}
+
+.sem-resposta li {
+  background: #fee2e2;
+  color: #991b1b;
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-bottom: 5px;
+}
+
+.progresso-geral {
+  background: #22C1C3;
+  background: linear-gradient(94deg,rgba(34, 193, 195, 1) 0%, rgba(192, 235, 185, 1) 100%);
+  color: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.progresso-geral strong {
+  color: #fffbeb;
+}
+
+.progresso-geral p {
+  margin: 0;
   font-weight: 500;
-  color: #1e3a8a;
 }
 
-.resumo-questoes {
-  margin-top: 0.5rem;
-  padding-left: 1.2rem;
-}
-
-.resumo-questoes li {
-  font-size: 0.9rem;
-  line-height: 1.4;
-}

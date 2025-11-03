@@ -9,6 +9,10 @@ import { FaPaperclip, FaBookOpen, FaCheckCircle, FaClock, FaLink } from "react-i
 import { TiUpload } from "react-icons/ti";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ChatPrivado from "../../../components/portais/ChatPrivado";
+import { IoChatbubblesOutline } from "react-icons/io5";
+import { IoClose } from "react-icons/io5";
+
 
 export default function AtivDetalhesAluno() {
   const { id } = useParams(); 
@@ -21,6 +25,8 @@ export default function AtivDetalhesAluno() {
   const [arquivos, setArquivos] = useState([]);
   const [link, setLink] = useState("");
   const [questoes, setQuestoes] = useState([]);
+  const [mostrarChatPrivado, setMostrarChatPrivado] = useState(false);
+
 
 
   const API = import.meta.env.VITE_API_URL;
@@ -320,6 +326,39 @@ export default function AtivDetalhesAluno() {
             </div>
           </div>
           <br />
+          <section className="sessao-chat-privado-aluno">
+            <h3><IoChatbubblesOutline /> Chat Privado com o Professor</h3>
+            <p className="info-chat-privado">
+              Converse com seu professor sobre dúvidas desta atividade:
+              <strong> {publicacao.titulo}</strong>.
+            </p>
+
+            <button
+              className="btn-chat-privado-abrir"
+              onClick={() => setMostrarChatPrivado(true)}
+            >
+              Abrir Chat
+            </button>
+
+            {mostrarChatPrivado && (
+              <div className="overlay-chat-privado" onClick={() => setMostrarChatPrivado(false)}>
+                <div className="modal-chat-privado" onClick={(e) => e.stopPropagation()}>
+                  <ChatPrivado
+                    atividadeId={id}
+                    aluno={user}
+                    nomeAtividade={publicacao.titulo}
+                  />
+                  <button
+                    className="btn-fechar-chat-privado"
+                    onClick={() => setMostrarChatPrivado(false)}
+                  >
+                    <IoClose />
+                  </button>
+                </div>
+              </div>
+            )}
+          </section><br/>
+
 
           <section className="detalhes-atividade">
             <div className="div-detalhes">
@@ -350,6 +389,34 @@ export default function AtivDetalhesAluno() {
                     ) : (
                       ""
                     )}
+                    {publicacao.notasLiberadas ? (
+                      <div
+                        style={{
+                          background: "#e0f7ea",
+                          color: "#25643c",
+                          padding: "10px",
+                          borderRadius: "8px",
+                          fontWeight: "600",
+                          marginTop: "8px",
+                        }}
+                      >
+                        <FaCheckCircle color="#25643c" /> Sua nota: {entrega?.notaTotal ?? "—"} / {publicacao.valor ?? 10}
+                      </div>
+                    ) : (
+                      <div
+                        style={{
+                          background: "#fff8e1",
+                          color: "#b6a50c",
+                          padding: "10px",
+                          borderRadius: "8px",
+                          fontWeight: "600",
+                          marginTop: "8px",
+                        }}
+                      >
+                        <FaClock color="#b6a50c" /> As notas ainda não foram liberadas.
+                      </div>
+                    )}
+
                   </div>
                 )}
               </div>

@@ -8,6 +8,9 @@ import axios from "axios";
 import { FaPaperclip, FaClock, FaBookOpen, FaCalendarAlt, FaCheckCircle, FaLink } from "react-icons/fa";
 import { getAlunosDaTurma } from "../../../services/turma"; 
 import { TiUpload } from "react-icons/ti";
+import ChatPrivado from "../../../components/portais/ChatPrivado";
+import { IoChatbubblesOutline } from "react-icons/io5";
+import { IoClose } from "react-icons/io5";
 
 export default function AtivDetalhes() {
   const { id } = useParams();
@@ -21,6 +24,7 @@ export default function AtivDetalhes() {
   const API = import.meta.env.VITE_API_URL;
   const [entregas, setEntregas] = useState([]);
 const [salvandoNota, setSalvandoNota] = useState(false);
+const [chatAlunoSelecionado, setChatAlunoSelecionado] = useState(null);
 
 
   useEffect(() => {
@@ -193,6 +197,67 @@ const [salvandoNota, setSalvandoNota] = useState(false);
             </div>
           </div>
           <br/>
+          <section className="sessao-chat-privado-geral">
+        <div className="div-chat-privado-geral">
+          <h3><IoChatbubblesOutline /> Chat Privado com Aluno</h3>
+          <p className="info-chat-privado">
+            Esta conversa é privada e vinculada à atividade <strong>{publicacao.titulo}</strong>.
+          </p>
+
+          <div className="chat-privado-selecao">
+            <label htmlFor="aluno-select">Escolha um aluno:</label>
+            <select
+              id="aluno-select"
+              value={chatAlunoSelecionado?.uid || chatAlunoSelecionado?.id || ""}
+              onChange={(e) => {
+                const valor = e.target.value;
+                const aluno = alunos.find(
+                  (a) => a.uid === valor || a.id === valor
+                );
+                
+                setChatAlunoSelecionado(aluno || null);
+              }}
+            >
+              <option value="">Selecione...</option>
+              {alunos.map((al, i) => (
+                <option key={al.uid || al.id || i} value={al.uid || al.id || `aluno-${i}`}>
+                  {al.nome || `Aluno ${i + 1}`}
+                </option>
+              ))}
+            </select>
+
+
+            <button
+              className="btn-chat-privado-abrir"
+              disabled={!chatAlunoSelecionado}
+              onClick={() => setChatAlunoSelecionado(chatAlunoSelecionado)}
+            >
+              {chatAlunoSelecionado
+                ? `Abrir chat com ${chatAlunoSelecionado.nome}`
+                : "Abrir Chat"}
+            </button>
+          </div>
+        </div>
+
+        {chatAlunoSelecionado && (
+          <div className="overlay-chat-privado" onClick={() => setChatAlunoSelecionado(null)}>
+            <div className="modal-chat-privado" onClick={(e) => e.stopPropagation()}>
+              <ChatPrivado
+                atividadeId={id}
+                aluno={chatAlunoSelecionado}
+                nomeAtividade={publicacao.titulo}
+              />
+
+              <button
+                className="btn-fechar-chat-privado"
+                onClick={() => setChatAlunoSelecionado(null)}
+              >
+                <IoClose />
+              </button>
+            </div>
+          </div>
+        )}
+      </section><br/>
 
           <section className="detalhes-atividade">
             <div className="div-detalhes">
@@ -236,22 +301,6 @@ const [salvandoNota, setSalvandoNota] = useState(false);
                 <>
                  <p><strong>Config:</strong> {publicacao?.configuracoes?.embaralharRespostas ? "Embaralhar respostas" : "Ordem fixa"} • {publicacao?.configuracoes?.permitirRepeticoes ? `Até ${publicacao?.configuracoes?.tentativasMax} tentativas` : "1 tentativa"}</p>
                 <div className="progresso-avaliacao">
-                   <div className="progresso-container">
-                    <h4><FaCheckCircle /> Progresso da Avaliação</h4>
-                    <div className="barra-progresso">
-                      <div
-                        className="barra-preenchida"
-                        style={{ width: `${progresso.pct}%` }}
-                      ></div>
-                    </div>
-                    <p className="progresso-texto">
-                      {progresso.feitos}/{progresso.total} alunos responderam ({progresso.pct}%)
-                    </p>
-                    {progresso.feitos === 0 && (
-                      <p className="nenhum-resp">Nenhum aluno respondeu ainda.</p>
-                    )}
-                  </div>
-
                     <br/><Link to={`/professor/avaliacao/${id}/respostas`}>Ver respostas</Link>
                   </div>
                 </>
@@ -456,15 +505,21 @@ const [salvandoNota, setSalvandoNota] = useState(false);
                           "-"
                         )}
                       </td>
+                      
                     </tr>
                   );
                 })}
               </tbody>
             </table>
           </section>
+          
+            )}
+        
 
-  
-              )}<br/>
+      
+      
+
+
         </main>
       </div>
     </div>

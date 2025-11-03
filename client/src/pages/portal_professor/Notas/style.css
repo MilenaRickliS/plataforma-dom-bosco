@@ -35,6 +35,64 @@
 .pontos{
   color: #1e293b;
 }
+.titulo-boletim{
+  color: #1e293b;
+}
+.boletim-section {
+  margin-top: 40px;
+}
+
+.boletim-tabela-container {
+  overflow-x: auto;
+}
+
+.boletim-tabela {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.1);
+}
+
+.boletim-tabela th,
+.boletim-tabela td {
+  padding: 8px;
+  border: 1px solid #ddd;
+  text-align: center;
+  color: #1e3a8a;
+}
+
+.boletim-tabela th {
+  background: #f5f5f5;
+  color: #1e293b;
+}
+
+.boletim-tabela input {
+  width: 60px;
+  padding: 4px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #333;
+}
+.mensagem-vazia {
+  text-align: center;
+  color: #a94442;
+  background-color: #fdecea;
+  border: 1px solid #f5c6cb;
+  border-radius: 8px;
+  padding: 12px;
+  margin-top: 10px;
+  font-weight: 500;
+}
+
+.aviso-notas-zeradas {
+  color: #b76e00;
+  font-size: 0.9rem;
+  font-style: italic;
+  padding-left: 5px;
+}
 
 .notas{
     padding: 20px;

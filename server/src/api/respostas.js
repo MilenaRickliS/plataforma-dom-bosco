@@ -15,12 +15,11 @@ export default async function handler(req, res) {
       const atual = snap.exists ? snap.data() : {};
       const tentativas = atual.tentativas || 0;
 
-     
       const pubSnap = await db.collection("publicacoes").doc(avaliacaoId).get();
       const pub = pubSnap.data() || {};
       const maxTentativas = pub.configuracoes?.tentativasMax || 1;
 
-     
+   
       if (avaliacaoIniciada && !questoes) {
         if (tentativas >= maxTentativas) {
           return res.status(403).json({ error: "Limite de tentativas atingido." });
@@ -37,7 +36,7 @@ export default async function handler(req, res) {
         return res.status(200).json({ ok: true, message: "Início registrado." });
       }
 
-      
+    
       if (questoes) {
         if (tentativas >= maxTentativas) {
           return res.status(403).json({ error: "Limite de tentativas atingido." });
@@ -46,7 +45,6 @@ export default async function handler(req, res) {
         const nota = notaTotal || 0;
         const tentativaAtual = tentativas + 1;
 
-       
         await respostaRef.set(
           {
             avaliacaoIniciada: false,
@@ -60,7 +58,6 @@ export default async function handler(req, res) {
           { merge: true }
         );
 
-        
         const tentRef = await respostaRef.collection("tentativas").add({
           numero: tentativaAtual,
           notaTotal: nota,
@@ -68,7 +65,6 @@ export default async function handler(req, res) {
           questoes,
         });
 
-       
         for (const q of questoes) {
           await respostaRef.collection("questoes").doc(q.questaoId).set({
             resposta: q.resposta,
@@ -87,7 +83,40 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "Requisição inválida." });
     }
 
-    
+   
+    if (req.method === "PATCH") {
+      const { avaliacaoId, alunoId, questoes, notaTotal } = req.body;
+      if (!avaliacaoId || !alunoId) {
+        return res.status(400).json({ error: "Campos obrigatórios" });
+      }
+
+      const respostaRef = db.collection("publicacoes").doc(avaliacaoId).collection("respostas").doc(alunoId);
+      const snap = await respostaRef.get();
+      const atual = snap.exists ? snap.data() : {};
+      await respostaRef.set(
+        {
+          corrigido: true,
+          notaTotal,
+          ultimaCorrecao: admin.firestore.Timestamp.now(),
+          melhorNota: Math.max(atual.melhorNota || 0, notaTotal),
+          ultimaNota: notaTotal,
+        },
+        { merge: true }
+      );
+
+      for (const q of questoes) {
+        await respostaRef.collection("questoes").doc(q.id).set(
+          {
+            valorObtido: q.valorObtido || 0,
+          },
+          { merge: true }
+        );
+      }
+
+      return res.status(200).json({ ok: true, message: "Correção salva com sucesso." });
+    }
+
+ 
     if (req.method === "GET") {
       const { avaliacaoId } = req.query;
       if (!avaliacaoId)
@@ -99,24 +128,23 @@ export default async function handler(req, res) {
       for (const doc of snap.docs) {
         const data = doc.data();
 
-        
+       
         const tentativasSnap = await doc.ref.collection("tentativas").orderBy("numero", "asc").get();
-        const tentativas = tentativasSnap.docs.map(t => ({
+        const tentativas = tentativasSnap.docs.map((t) => ({
           id: t.id,
           ...t.data(),
         }));
 
-        
+     
         const questoesSnap = await doc.ref.collection("questoes").get();
-        const questoes = questoesSnap.docs.map(q => ({
+        const questoes = questoesSnap.docs.map((q) => ({
           id: q.id,
           ...q.data(),
         }));
 
-        
         const melhorNota =
           tentativas.length > 0
-            ? Math.max(...tentativas.map(t => t.notaTotal || 0))
+            ? Math.max(...tentativas.map((t) => t.notaTotal || 0))
             : data.melhorNota || data.notaTotal || 0;
 
         alunos.push({

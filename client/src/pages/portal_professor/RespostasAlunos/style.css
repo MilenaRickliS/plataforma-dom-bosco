@@ -1,0 +1,54 @@
+.correcao-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  padding: 20px;
+  margin-top: 20px;
+  color: #333;
+}
+
+.lista-questoes-corrigir {
+  list-style: none;
+  padding: 0;
+}
+
+.item-corrigir {
+  border-bottom: 1px solid #e5e7eb;
+  padding: 10px 0;
+}
+
+.item-corrigir:last-child {
+  border-bottom: none;
+}
+.nota-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.nota-input input {
+  width: 80px;
+  padding: 5px 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #ccc;
+  color: #333;
+  font-weight: 600;
+}
+
+.btn-salvar-nota {
+  margin-top: 20px;
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-salvar-nota:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}

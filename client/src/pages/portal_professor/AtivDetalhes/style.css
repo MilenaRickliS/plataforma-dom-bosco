@@ -348,6 +348,7 @@
 .tag.atrasada { background: #d9534f; }
 .tag.pendente { background: #b6a50c; }
 
+
 @media (max-width: 768px) {
   .div-detalhes{
     flex-direction: column;
