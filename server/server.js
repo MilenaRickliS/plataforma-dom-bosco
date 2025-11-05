@@ -33,6 +33,7 @@ import repostasRoutes from "./src/api/respostas.js";
 import entregasRoutes from "./src/api/entregas.js";
 import uploadsRoutes from "./src/api/uploads.js";
 import notasRoutes from "./src/api/notas.js";
+import balancaRoutes from "./src/api/balanca.js";
 
 dotenv.config();
 
@@ -87,6 +88,7 @@ app.use("/api/respostas", repostasRoutes);
 app.use("/api/entregas", entregasRoutes);
 app.use("/api/uploads", uploadsRoutes);
 app.use("/api/notas", notasRoutes);
+app.use("/api/pesagem", balancaRoutes);
 
 
 const PORT = process.env.PORT || 5000;

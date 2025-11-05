@@ -6,6 +6,7 @@ import { FaPlus } from "react-icons/fa6";
 import { RiFileEditLine } from "react-icons/ri";
 import { GiBinoculars } from "react-icons/gi";
 import { FaUserPlus } from "react-icons/fa6";
+import { MdOutlineFoodBank } from "react-icons/md";
 
 export default function Inicio() {
 
@@ -23,10 +24,14 @@ export default function Inicio() {
           <FaPlus />
           Adicionar registro diário
         </Link>
-        <Link to="/contar-refeicao" className="opcao1">
+        {/* <Link to="/contar-refeicao" className="opcao1">
           <FaUserPlus />
           Fazer contagem de alunos
-        </Link>
+        </Link> */}
+        <Link to="/balanca-refeicao" className="opcao1">
+          
+          Balança
+        </Link> 
         <Link to="/relatorios-refeicao" className="opcao1">
           <RiFileEditLine />
           Relatórios
@@ -34,9 +39,14 @@ export default function Inicio() {
         <Link to="/registros-refeicao" className="opcao1">
           <GiBinoculars />
           Ver todos os registros
-        </Link><Link to="/contar-alunos" className="opcao1">
+        </Link>
+        {/* <Link to="/contar-alunos" className="opcao1">
           <FaUserPlus />
           Contar Esp32
+        </Link> */}
+        <Link to="/cardapio-nutricional" className="opcao1">
+          <MdOutlineFoodBank />
+          Cardápio Nutricional
         </Link>
       </div>
     </div>
