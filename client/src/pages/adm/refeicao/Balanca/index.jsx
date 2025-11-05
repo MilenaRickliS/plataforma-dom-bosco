@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import "./style.css";
 
 export default function DashboardPesagem() {
   const [registros, setRegistros] = useState([]);
@@ -36,76 +37,68 @@ export default function DashboardPesagem() {
   }, []);
 
   return (
-    <div style={{ padding: 20 }}>
-      <h1>🍽️ Contador de Refeições - Dom Bosco</h1>
+    <div className="balanca-container">
+      <div className="balanca-card">
+        <h1>🍽️ Contador de Refeições - Dom Bosco</h1>
 
-      {zerado && (
-        <div
-          style={{
-            backgroundColor: "#fff3cd",
-            color: "#856404",
-            padding: "10px",
-            borderRadius: "8px",
-            margin: "10px 0",
-            fontWeight: "bold",
-            textAlign: "center",
-          }}
-        >
-          ⚠️ Contagem reiniciada! Novo ciclo iniciado.
-        </div>
-      )}
+        {zerado && (
+          <div className="alert-reset">
+            ⚠️ Contagem reiniciada! Novo ciclo iniciado.
+          </div>
+        )}
 
-      {ultimaAtualizacao && (
-        <p style={{ fontSize: "0.9em", color: "#666" }}>
-          Última atualização: {ultimaAtualizacao}
-        </p>
-      )}
+        {ultimaAtualizacao && (
+          <p className="last-update">
+            Última atualização: {ultimaAtualizacao}
+          </p>
+        )}
 
-      <table
-        border="1"
-        cellPadding="8"
-        style={{
-          width: "100%",
-          marginTop: 10,
-          borderCollapse: "collapse",
-          textAlign: "center",
-        }}
-      >
-        <thead>
-          <tr style={{ background: "#f0f0f0" }}>
-            <th>Data/Hora</th>
-            <th>Peso do Prato (kg)</th>
-            <th>Peso Total (kg)</th>
-            <th>Pessoas</th>
-          </tr>
-        </thead>
-        <tbody>
-          {registros.length > 0 ? (
-            registros.map((r, i) => (
-              <tr
-                key={i}
-                style={{
-                  background:
-                    r.pessoas === 0 && r.pesoTotal === 0
-                      ? "#ffebeb"
-                      : "white",
-                }}
-              >
-                <td>{r.dataHora}</td>
-                <td>{r.pesoPrato?.toFixed?.(2) ?? r.pesoPrato}</td>
-                <td>{r.pesoTotal?.toFixed?.(2) ?? r.pesoTotal}</td>
-                <td>{r.pessoas}</td>
+        <div className="table-wrapper-pesagem">
+          <table className="tabela-pesagem">
+            <thead>
+              <tr>
+                <th>Data/Hora</th>
+                <th>Peso do Prato (kg)</th>
+                <th>Peso Total (kg)</th>
+                <th>Pessoas</th>
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="4" align="center">
-                Nenhum registro encontrado
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+            </thead>
+            <tbody>
+              {registros.length > 0 ? (
+                registros.map((r, i) => (
+                  <tr
+                    key={i}
+                    className={
+                      r.pessoas === 0 && r.pesoTotal === 0
+                        ? "linha-zerada"
+                        : i % 2 === 0
+                        ? "linha-par"
+                        : "linha-impar"
+                    }
+                  >
+                    <td>{r.dataHora}</td>
+                    <td>{r.pesoPrato?.toFixed?.(2) ?? r.pesoPrato}</td>
+                    <td>{r.pesoTotal?.toFixed?.(2) ?? r.pesoTotal}</td>
+                    <td
+                      className={
+                        r.pessoas === 0 ? "pessoas-zeradas" : "pessoas-ativas"
+                      }
+                    >
+                      {r.pessoas}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="4" className="sem-registro-peso">
+                    Nenhum registro encontrado
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 }
