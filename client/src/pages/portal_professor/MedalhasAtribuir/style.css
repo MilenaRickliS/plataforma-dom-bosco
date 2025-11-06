@@ -190,6 +190,7 @@
   align-items: center;
   justify-content: center;
   background: #fff;
+  box-shadow: 0 0 10px #807e70, 0 0 20px #9b9898;
   overflow: hidden;
 }
 
@@ -198,6 +199,7 @@
   height: 100%;
   object-fit: cover;
   border-radius: 50%;
+  
 }
 
 .info-medalha h4 {
