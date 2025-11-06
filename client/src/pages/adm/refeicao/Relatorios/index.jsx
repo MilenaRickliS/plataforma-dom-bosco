@@ -17,15 +17,16 @@ import {
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
-export default function Relatorios() {
+export default function RelatoriosCiclos() {
   const [dataset, setDataset] = useState([]);
   const [estatisticas, setEstatisticas] = useState({});
-  const [inicio, setInicio] = useState("");
-  const [fim, setFim] = useState("");
-  const [tipo, setTipo] = useState("dia");
   const [mensagem, setMensagem] = useState("");
   const [grafico, setGrafico] = useState("barras");
   const [carregando, setCarregando] = useState(false);
+  const [filtro, setFiltro] = useState("semanal");
+  const [inicio, setInicio] = useState("");
+  const [fim, setFim] = useState("");
+  const [valorUnitario, setValorUnitario] = useState(8.5); 
   const relatorioRef = useRef(null);
 
   const API_URL =
@@ -36,21 +37,47 @@ export default function Relatorios() {
   const carregarRelatorio = async () => {
     setCarregando(true);
     setMensagem("");
-    try {
-      const params = new URLSearchParams();
-      params.append("tipo", tipo);
-      if (inicio) params.append("inicio", inicio);
-      if (fim) params.append("fim", fim);
 
-      const res = await fetch(`${API_URL}/api/relatorios?${params.toString()}`);
+    try {
+      const res = await fetch(`${API_URL}/api/pesagem?tipo=relatorio`);
       const data = await res.json();
 
-      if (data.success) {
-        setDataset(data.dataset || []);
-        setEstatisticas(data.estatisticas || {});
-        if (!data.dataset?.length) {
-          setMensagem("Nenhum dado encontrado para o período selecionado 📅");
+      if (data.sucesso) {
+        let dados = data.dataset;
+
+        
+        const hoje = new Date();
+        let dataInicioFiltro = new Date();
+        if (filtro === "semanal") dataInicioFiltro.setDate(hoje.getDate() - 7);
+        else if (filtro === "mensal") dataInicioFiltro.setMonth(hoje.getMonth() - 1);
+        else if (filtro === "anual") dataInicioFiltro.setFullYear(hoje.getFullYear() - 1);
+        else if (filtro === "personalizado" && inicio && fim) {
+          dataInicioFiltro = new Date(inicio);
+          hoje.setTime(new Date(fim).getTime());
         }
+
+       
+        dados = dados.filter((c) => {
+          const dataCiclo = new Date(c.dataFim || c.dataInicio);
+          return dataCiclo >= dataInicioFiltro && dataCiclo <= hoje;
+        });
+
+        
+        const pesoTotal = dados.reduce((a, b) => a + (b.peso || 0), 0);
+        const pessoasTotal = dados.reduce((a, b) => a + (b.total || 0), 0);
+        const valorTotal = pessoasTotal * valorUnitario;
+        const mediaGastoAluno = pessoasTotal ? valorTotal / pessoasTotal : 0;
+
+        setDataset(dados);
+        setEstatisticas({
+          ...data.estatisticas,
+          pesoTotal,
+          pessoasTotal,
+          valorTotal,
+          mediaGastoAluno,
+        });
+
+        if (!dados.length) setMensagem("📅 Nenhum ciclo encontrado no período.");
       } else {
         setMensagem("Erro ao gerar relatório.");
       }
@@ -64,40 +91,27 @@ export default function Relatorios() {
 
   useEffect(() => {
     carregarRelatorio();
-  }, []); 
+  }, [filtro, inicio, fim]);
 
   
   const exportarPDF = async () => {
     if (!relatorioRef.current) return;
-
     const pdf = new jsPDF("p", "mm", "a4");
-    const elemento = relatorioRef.current;
-
-   
-    const canvas = await html2canvas(elemento, {
+    const canvas = await html2canvas(relatorioRef.current, {
       scale: 2,
       useCORS: true,
-      scrollY: -window.scrollY,
     });
-
     const imgData = canvas.toDataURL("image/png");
     const pdfWidth = pdf.internal.pageSize.getWidth();
     const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-
-  
-    pdf.setFontSize(16);
-    pdf.text(`Relatório - ${tipo.toUpperCase()}`, 10, 10);
-
-   
+    pdf.text("Relatório de Ciclos e Registros", 10, 10);
     pdf.addImage(imgData, "PNG", 0, 20, pdfWidth, pdfHeight);
-    pdf.save(`Relatorio_${tipo}_${new Date().toLocaleDateString("pt-BR")}.pdf`);
+    pdf.save(`Relatorio_${filtro}_${new Date().toLocaleDateString("pt-BR")}.pdf`);
   };
 
   
   const dadosOrdenados = [...dataset].sort(
-    (a, b) =>
-      new Date(a.data.split("/").reverse().join("-")) -
-      new Date(b.data.split("/").reverse().join("-"))
+    (a, b) => new Date(a.data) - new Date(b.data)
   );
 
   return (
@@ -109,46 +123,52 @@ export default function Relatorios() {
 
       <div className="titulo-ref">
         <img src={logo} alt="Logo" />
-        <h2>Relatórios</h2>
+        <h2>Relatório</h2>
       </div>
 
-      
       <div className="filtros-relatorios">
-        <label>
-          Tipo:
-          <select
-            value={tipo}
-            onChange={(e) => setTipo(e.target.value)}
-            disabled={carregando}
-          >
-            <option value="dia">Diário</option>
-            <option value="mes">Mensal</option>
-            <option value="ano">Anual</option>
-          </select>
-        </label>
+        <select
+          value={filtro}
+          onChange={(e) => setFiltro(e.target.value)}
+          disabled={carregando}
+        >
+          <option value="semanal">Semanal</option>
+          <option value="mensal">Mensal</option>
+          <option value="anual">Anual</option>
+          <option value="personalizado">Por período</option>
+        </select>
 
-        <label>
-          Início:
-          <input
-            type="date"
-            value={inicio}
-            onChange={(e) => setInicio(e.target.value)}
-            disabled={carregando}
-          />
-        </label>
+        {filtro === "personalizado" && (
+          <>
+            <input
+              type="date"
+              value={inicio}
+              onChange={(e) => setInicio(e.target.value)}
+              disabled={carregando}
+            />
+            <input
+              type="date"
+              value={fim}
+              onChange={(e) => setFim(e.target.value)}
+              disabled={carregando}
+            />
+          </>
+        )}
 
-        <label>
-          Fim:
+        <label className="valor-unitario">
+          💰 Valor por refeição:
           <input
-            type="date"
-            value={fim}
-            onChange={(e) => setFim(e.target.value)}
-            disabled={carregando}
+            type="number"
+            step="0.01"
+            value={valorUnitario}
+            onChange={(e) => setValorUnitario(Number(e.target.value))}
+            min="0"
+            style={{ width: "80px", marginLeft: "5px" }}
           />
         </label>
 
         <button onClick={carregarRelatorio} disabled={carregando}>
-          🔍 {carregando ? "Carregando..." : "Gerar"}
+          🔄 {carregando ? "Atualizando..." : "Atualizar"}
         </button>
 
         <button onClick={exportarPDF} disabled={!dataset.length}>
@@ -158,25 +178,31 @@ export default function Relatorios() {
 
       {mensagem && <p className="mensagem">{mensagem}</p>}
 
-      
       <div ref={relatorioRef} className="relatorio-painel">
         {dataset.length > 0 && (
           <>
             <div className="resumo-relatorio">
-              <h3>📊 Estatísticas do Período</h3>
+              <h3>📈 Estatísticas Gerais</h3>
               <ul>
                 <li>
-                  <strong>Total Geral:</strong>{" "}
-                  {estatisticas.totalGeral?.toFixed?.(2) || 0}
+                  <strong>Total de Ciclos:</strong> {estatisticas.totalCiclos}
                 </li>
                 <li>
-                  <strong>Média:</strong> {estatisticas.media || 0}
+                  <strong>Total de Registros:</strong> {estatisticas.totalRegistros}
                 </li>
                 <li>
-                  <strong>Pico Máximo:</strong> {estatisticas.maximo || 0}
+                  <strong>Total de Pessoas:</strong> {estatisticas.pessoasTotal}
                 </li>
                 <li>
-                  <strong>Menor Valor:</strong> {estatisticas.minimo || 0}
+                  <strong>Peso Total:</strong> {estatisticas.pesoTotal?.toFixed(2)} kg
+                </li>
+                <li>
+                  <strong>💰 Valor Gasto Total:</strong>{" "}
+                  R$ {estatisticas.valorTotal?.toFixed(2)}
+                </li>
+                <li>
+                  <strong>🎯 Média Gasto por Aluno:</strong>{" "}
+                  R$ {estatisticas.mediaGastoAluno?.toFixed(2)}
                 </li>
               </ul>
             </div>
@@ -204,7 +230,8 @@ export default function Relatorios() {
                     <XAxis dataKey="data" />
                     <YAxis />
                     <Tooltip />
-                    <Bar dataKey="total" fill="#3f51b5" />
+                    <Bar dataKey="peso" fill="#3f51b5" name="Peso Total (kg)" />
+                    <Bar dataKey="total" fill="#00b894" name="Total de Pessoas" />
                   </BarChart>
                 ) : (
                   <LineChart data={dadosOrdenados}>
@@ -214,9 +241,17 @@ export default function Relatorios() {
                     <Tooltip />
                     <Line
                       type="monotone"
-                      dataKey="total"
+                      dataKey="peso"
                       stroke="#3f51b5"
                       strokeWidth={2}
+                      name="Peso Total (kg)"
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="total"
+                      stroke="#00b894"
+                      strokeWidth={2}
+                      name="Total de Pessoas"
                     />
                   </LineChart>
                 )}

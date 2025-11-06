@@ -7,6 +7,8 @@ import { RiFileEditLine } from "react-icons/ri";
 import { GiBinoculars } from "react-icons/gi";
 import { FaUserPlus } from "react-icons/fa6";
 import { MdOutlineFoodBank } from "react-icons/md";
+import { FaBalanceScale } from "react-icons/fa";
+
 
 export default function Inicio() {
 
@@ -29,7 +31,7 @@ export default function Inicio() {
           Fazer contagem de alunos
         </Link> */}
         <Link to="/balanca-refeicao" className="opcao1">
-          
+          <FaBalanceScale />
           Balança
         </Link> 
         <Link to="/relatorios-refeicao" className="opcao1">

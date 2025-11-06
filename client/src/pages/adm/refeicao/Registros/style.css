@@ -1,65 +1,134 @@
-.registros-container {
-  text-align: center;
-  font-family: "Poppins", sans-serif;
-  color: #333;
-}
+
 
 .tabela-refeicoes {
   display: flex;
   justify-content: center;
   margin-top: 20px;
+  width: 100%;
+  color: #2e7d32;
 }
+
 
 .table-registros {
   border-collapse: collapse;
   width: 90%;
-  max-width: 900px;
+  max-width: 740px;
   background: #fff;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
-  overflow: hidden;
+  overflow-x: auto;
+  display: block;
+  white-space: nowrap;
 }
 
-.th-registros, .td-registros {
+.table-registros thead {
+  background: #3f51b5;
+  color: #fff;
+}
+
+.table-registros th,
+.table-registros td {
   border-bottom: 1px solid #eee;
-  padding: 12px;
+  padding: 12px 16px;
   text-align: center;
+  font-size: 15px;
 }
 
-.th-registros {
+.table-registros th {
+  font-weight: 600;
   background: #3f51b5;
   color: white;
 }
 
-.tr-registros:hover {
-  background-color: #f5f5f5;
+.table-registros tr:hover {
+  background-color: #f7f7ff;
 }
 
-.button-registros {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 18px;
-  margin: 0 5px;
+
+.linha-manual {
+  background-color: #e8f5e9;
 }
 
-.delete {
-  color: #e53935;
+.linha-automatica {
+  background-color: #e3f2fd; 
 }
 
-.input-registros {
-  padding: 6px;
+.tag-manual {
+  background: #4caf50;
+  color: white;
+  padding: 4px 10px;
   border-radius: 6px;
-  border: 1px solid #ccc;
-  background-color: #fff;
-  color: #000;
-  text-align: center;
-  font-size: 15px;
-  width: 95%;
+  font-size: 13px;
+  font-weight: 600;
 }
+
+.tag-auto {
+  background: #2196f3;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
 
 .mensagem {
-  margin: 10px 0;
+  margin: 15px auto;
   color: #2e7d32;
   font-weight: 600;
+  font-size: 15px;
+  background: #e7f8ec;
+  border: 1px solid #a5d6a7;
+  padding: 10px;
+  border-radius: 6px;
+  width: fit-content;
+}
+
+
+@media (max-width: 900px) {
+  .table-registros {
+   max-width: 650px;
+    font-size: 14px;
+  }
+
+  .table-registros th,
+  .table-registros td {
+    padding: 10px 8px;
+  }
+
+  .titulo-ref h2 {
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .table-registros {
+    font-size: 13px;
+    overflow-x: scroll;
+  }
+
+  .titulo-ref img {
+    height: 40px;
+  }
+
+  .titulo-ref h2 {
+    font-size: 1.2rem;
+  }
+
+  .tag-manual,
+  .tag-auto {
+    font-size: 12px;
+    padding: 3px 8px;
+  }
+}
+
+@media (max-width: 400px) {
+  .table-registros {
+    font-size: 12px;
+  }
+
+  .table-registros th,
+  .table-registros td {
+    padding: 8px 6px;
+  }
 }

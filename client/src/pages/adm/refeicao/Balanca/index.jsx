@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import "./style.css";
+import { IoArrowUndoSharp } from "react-icons/io5";
+import { Link } from "react-router-dom";
+import logo from "../../../../assets/logo2.png";
 
 export default function DashboardPesagem() {
   const [registros, setRegistros] = useState([]);
@@ -21,10 +24,13 @@ export default function DashboardPesagem() {
 
       
       if (dados.length > 0 && dados[0].pessoas === 0 && dados[0].pesoTotal === 0) {
+  
         setZerado(true);
-      } else {
+        setRegistros([]); 
+        } else {
         setZerado(false);
-      }
+        }
+
     } catch (erro) {
       console.error("❌ Erro ao buscar dados:", erro);
     }
@@ -38,8 +44,15 @@ export default function DashboardPesagem() {
 
   return (
     <div className="balanca-container">
+        <br />
+      <Link to="/inicio-refeicao" className="voltar-ref">
+        <IoArrowUndoSharp />
+      </Link>
       <div className="balanca-card">
-        <h1>🍽️ Contador de Refeições - Dom Bosco</h1>
+        <div className="titulo-ref">
+            <img src={logo} alt="Logo" />
+            <h2>Contador Refeições - Dom Bosco</h2>
+        </div>
 
         {zerado && (
           <div className="alert-reset">

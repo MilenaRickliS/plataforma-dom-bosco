@@ -1,8 +1,12 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import * as XLSX from "xlsx";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { getPrato, salvarPrato } from "../../../../services/pratos";
+import logo from "../../../../assets/logo2.png";
+import { IoArrowUndoSharp } from "react-icons/io5";
+import { Link } from "react-router-dom";
+import "./style.css";
 
 export default function CardapioNutricionalExcel() {
   const [lanches, setLanches] = useState([]);
@@ -10,7 +14,7 @@ export default function CardapioNutricionalExcel() {
   const [carregando, setCarregando] = useState(false);
   const API_KEY = "Y/uIQejo69/+NUV9E4tLPw==KL9DFeK7tLkqzFhE";
 
-  // 🔄 Carrega cache local
+
   useEffect(() => {
     const cache = localStorage.getItem("dados_nutricionais_cache");
     if (cache) setDadosNutricionais(JSON.parse(cache));
@@ -23,7 +27,7 @@ export default function CardapioNutricionalExcel() {
     );
   }, [dadosNutricionais]);
 
-  // 📘 Lê Excel
+
   function lerExcel(e) {
     const file = e.target.files[0];
     if (!file) return;
@@ -51,11 +55,11 @@ export default function CardapioNutricionalExcel() {
     reader.readAsArrayBuffer(file);
   }
 
-  // 🍽️ Busca API ou banco
+ 
   async function buscarNutrientes(lanche, ingredientes) {
     setCarregando(true);
 
-    // 1️⃣ Tenta pegar do banco
+   
     const pratoSalvo = await getPrato(lanche);
     if (pratoSalvo) {
       alert(`🔁 Carregando informações do Firestore para "${lanche}"`);
@@ -75,7 +79,7 @@ export default function CardapioNutricionalExcel() {
       return;
     }
 
-    // 2️⃣ Se não existir, tenta API
+ 
     const query = ingredientes || lanche;
     try {
       const res = await fetch(
@@ -119,7 +123,7 @@ export default function CardapioNutricionalExcel() {
         ],
       }));
 
-      // Salva automaticamente
+     
       await salvarPrato(lanche, {
         calorias: info.calories,
         proteina: info.protein_g,
@@ -134,7 +138,7 @@ export default function CardapioNutricionalExcel() {
     }
   }
 
-  // ✏️ Atualiza valor editado
+  
   function editarValor(lanche, campo, valor) {
     setDadosNutricionais((prev) => ({
       ...prev,
@@ -147,7 +151,7 @@ export default function CardapioNutricionalExcel() {
     }));
   }
 
-  // 💾 Salvar manualmente no Firestore
+  
   async function salvarManual(lanche) {
     const info = dadosNutricionais[lanche]?.[0];
     if (!info) return;
@@ -161,7 +165,7 @@ export default function CardapioNutricionalExcel() {
     alert(`✅ Prato "${lanche}" salvo manualmente no Firebase!`);
   }
 
-  // 🧮 Totais
+
   function calcularTotais() {
     let total = { calorias: 0, proteina: 0, carb: 0, gordura: 0 };
     Object.values(dadosNutricionais).forEach((info) => {
@@ -176,7 +180,7 @@ export default function CardapioNutricionalExcel() {
     return total;
   }
 
-  // 🧾 PDF
+  
   function gerarPDF() {
     const doc = new jsPDF();
     autoTable(doc);
@@ -224,7 +228,14 @@ export default function CardapioNutricionalExcel() {
 
   return (
     <div style={{ padding: 20 }}>
-      <h2>📊 Analisador Nutricional com Firebase</h2>
+      <br />
+      <Link to="/inicio-refeicao" className="voltar-ref" aria-label="Voltar">
+        <IoArrowUndoSharp />
+      </Link>
+      <div className="titulo-ref">
+          <img src={logo} alt="Logo" />
+          <h2>Analisador Nutricional</h2>
+        </div>
       <input type="file" accept=".xlsx, .xls" onChange={lerExcel} />
 
       {lanches.map((lanche, i) => {

@@ -1,7 +1,7 @@
 
 .balanca-container {
   min-height: 100vh;
-  background: linear-gradient(180deg, #e6f0ff 0%, #f9fbff 100%);
+ 
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -20,7 +20,7 @@
 }
 
 .balanca-card h1 {
-  color: #004aad;
+  color: #000;
   margin-bottom: 20px;
   font-size: 1.8rem;
 }
@@ -48,6 +48,7 @@
 
 .table-wrapper-pesagem {
   overflow-x: auto;
+  color: #004aad;
 }
 
 .tabela-pesagem {
