@@ -137,11 +137,11 @@ export function usePenalidadeSaida(condicao, user, API, regra) {
 export const regrasPontuacao = {
   //aluno e professor - agenda
   criarTarefa: 5,
-  concluirTarefaAntes: 10,
-  tarefaPendente: -10,
-  concluir5AtivDia: 15,
-  concluir10AtivDia: 30,
-  concluirTarefaImportante: 15,
+  concluirTarefaAntes: 5,
+  tarefaPendente: -5,
+  concluir5AtivDia: 10,
+  concluir10AtivDia: 20,
+  concluirTarefaImportante: 10,
 
   //aluno e professor - videos
   assistirVideo: 10,

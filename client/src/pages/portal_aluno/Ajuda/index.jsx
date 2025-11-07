@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { FaPhoneAlt } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import "./style.css";
@@ -16,6 +16,7 @@ import MenuTopoAluno from "../../../components/portais/MenuTopoAluno";
 export default function Ajuda() {
   const { user } = useContext(AuthContext);
   const [ativo, setAtivo] = useState(null);
+  const jaPremiou = useRef(false); 
 
   const perguntas = [
     {
@@ -47,10 +48,11 @@ export default function Ajuda() {
     },
   ];
 
- 
   useEffect(() => {
     async function premiarAjuda() {
-      if (!user) return;
+     
+      if (!user || jaPremiou.current) return;
+      jaPremiou.current = true;
 
       const sessionFlag = `premiou-ajuda-${user.uid}`;
       if (sessionStorage.getItem(sessionFlag)) return;
@@ -61,19 +63,20 @@ export default function Ajuda() {
       const hojeStr = hoje.toISOString().split("T")[0];
 
       const diasDesdeUltima =
-        ultimaAbertura ? (new Date(hojeStr) - new Date(ultimaAbertura)) / (1000 * 60 * 60 * 24) : Infinity;
+        ultimaAbertura
+          ? (new Date(hojeStr) - new Date(ultimaAbertura)) / (1000 * 60 * 60 * 24)
+          : Infinity;
 
       if (diasDesdeUltima >= 7) {
         try {
           await adicionarPontos(user.uid, regrasPontuacao.abriuAjuda, "Acessou a aba de Ajuda 🧭");
           mostrarToastPontosAdicionar(regrasPontuacao.abriuAjuda, "Acessou a aba de Ajuda 🧭");
           localStorage.setItem(chave, hojeStr);
-          sessionStorage.setItem(sessionFlag, "true"); 
+          sessionStorage.setItem(sessionFlag, "true");
         } catch (err) {
           console.error("Erro ao adicionar pontos da ajuda:", err);
         }
-        } else {
-   
+      } else {
         import("react-toastify").then(({ toast }) => {
           toast.info("✅ Você já ganhou pontos essa semana por acessar a Ajuda!", {
             position: "bottom-right",
@@ -86,12 +89,11 @@ export default function Ajuda() {
             icon: "💬",
           });
         });
-        }
+      }
     }
 
     premiarAjuda();
   }, [user]);
-
 
   const togglePergunta = (index) => {
     setAtivo(ativo === index ? null : index);
@@ -99,7 +101,6 @@ export default function Ajuda() {
 
   return (
     <div className="layout">
-    
       <MenuLateralAluno />
       <div className="page2">
         <main>
@@ -114,7 +115,9 @@ export default function Ajuda() {
                 className={`card-pergunta ${ativo === index ? "ativo" : ""}`}
                 onClick={() => togglePergunta(index)}
               >
-                <p className="texto-card">{ativo === index ? item.resposta : item.pergunta}</p>
+                <p className="texto-card">
+                  {ativo === index ? item.resposta : item.pergunta}
+                </p>
               </div>
             ))}
           </div>

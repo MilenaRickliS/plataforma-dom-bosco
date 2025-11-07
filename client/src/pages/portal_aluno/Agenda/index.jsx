@@ -161,6 +161,7 @@ export default function Agenda() {
       await axios.put(`${API_URL}/api/tarefas?id=${id}`, {
         concluida: !tarefas[chaveDia].find((t) => t.id === id).concluida,
       });
+
       const tarefa = tarefas[chaveDia].find((t) => t.id === id);
       const concluindo = !tarefa.concluida; 
 
@@ -168,41 +169,58 @@ export default function Agenda() {
         const hoje = new Date();
         const dataTarefa = new Date(tarefa.data);
         const tarefaImportante = tarefa.prioridade === "alta";
-        const totalConcluidasHoje = Object.values(tarefas)
-          .flat()
-          .filter((t) => t.concluida && new Date(t.data).toDateString() === hoje.toDateString())
-          .length;
 
        
+        const totalConcluidasHoje = Object.values(novas)
+          .flat()
+          .filter(
+            (t) =>
+              t.concluida &&
+              new Date(t.data).toDateString() === hoje.toDateString()
+          ).length;
+
+        
         await adicionarPontos(user.uid, regrasPontuacao.concluirAtividade, "Tarefa concluída ✅");
         mostrarToastPontosAdicionar(regrasPontuacao.concluirAtividade, "Tarefa concluída ✅");
 
+      
         if (dataTarefa > hoje) {
           await adicionarPontos(user.uid, regrasPontuacao.concluirTarefaAntes, "Concluiu antes do prazo 🎯");
           mostrarToastPontosAdicionar(regrasPontuacao.concluirTarefaAntes, "Concluiu antes do prazo 🎯");
         }
 
+        
         if (tarefaImportante) {
           await adicionarPontos(user.uid, regrasPontuacao.concluirTarefaImportante, "Tarefa importante finalizada 🏅");
           mostrarToastPontosAdicionar(regrasPontuacao.concluirTarefaImportante, "Tarefa importante finalizada 🏅");
         }
 
-        if (totalConcluidasHoje >= 5) {
+       
+        const chaveBonus5 = `${user.uid}-bonus5-${hoje.toDateString()}`;
+        if (totalConcluidasHoje === 5 && !localStorage.getItem(chaveBonus5)) {
           await adicionarPontos(user.uid, regrasPontuacao.concluir5AtivDia, "Bônus do dia: 5 tarefas concluídas! 🔥");
           mostrarToastPontosAdicionar(regrasPontuacao.concluir5AtivDia, "Bônus do dia: 5 tarefas concluídas! 🔥");
+          localStorage.setItem(chaveBonus5, "true");
         }
 
-        } else {
+       
+        const chaveBonus10 = `${user.uid}-bonus10-${hoje.toDateString()}`;
+        if (totalConcluidasHoje === 10 && !localStorage.getItem(chaveBonus10)) {
+          await adicionarPontos(user.uid, regrasPontuacao.concluir10AtivDia, "Bônus do dia: 10 tarefas concluídas! 🎉");
+          mostrarToastPontosAdicionar(regrasPontuacao.concluir10AtivDia, "Bônus do dia: 10 tarefas concluídas! 🎉");
+          localStorage.setItem(chaveBonus10, "true");
+        }
+
+      } else {
         
         await removerPontos(user.uid, Math.abs(regrasPontuacao.tarefaPendente), "Tarefa desmarcada 😞");
         mostrarToastPontosRemover(-regrasPontuacao.tarefaPendente, "Tarefa desmarcada 😞");
-
       }
-  
-  } catch (err) {
+    } catch (err) {
       console.error("Erro ao atualizar tarefa:", err);
     }
   };
+
 
   const handleEditarTarefa = async () => {
   if (!novaTarefa.id) return alert("Nenhuma tarefa selecionada para edição.");

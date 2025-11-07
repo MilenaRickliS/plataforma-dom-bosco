@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useEffect, useRef, useContext, useState } from "react";
 import { FaPhoneAlt } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import "./style.css";
@@ -10,13 +10,13 @@ import {
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AuthContext } from "../../../contexts/auth";
-
 import MenuLateralProfessor from "../../../components/portais/MenuLateralProfessor";
 import MenuTopoProfessor from "../../../components/portais/MenuTopoProfessor";
 
 export default function Ajuda() {
   const { user } = useContext(AuthContext);
   const [ativo, setAtivo] = useState(null);
+  const jaPremiou = useRef(false); 
 
   const perguntas = [
     {
@@ -31,7 +31,8 @@ export default function Ajuda() {
     },
     {
       pergunta: "Como vejo minhas notas e o boletim completo?",
-      resposta: "Acesse o menu lateral e clique em 'Notas' para visualizar todas as avaliações e médias.",
+      resposta:
+        "Acesse o menu lateral e clique em 'Notas' para visualizar todas as avaliações e médias.",
     },
     {
       pergunta: "O que fazer se um material não abrir ou aparecer como indisponível?",
@@ -40,20 +41,21 @@ export default function Ajuda() {
     },
     {
       pergunta: "Como visualizar o calendário acadêmico (provas, trabalhos, eventos)?",
-      resposta: "No menu principal, vá em 'Agenda' para ver todas as atividades e prazos importantes.",
+      resposta:
+        "No menu principal, vá em 'Agenda' para ver todas as atividades e prazos importantes.",
     },
     {
       pergunta: "Onde verifico minha situação de matrícula?",
-      resposta: "Acesse a aba 'Perfil' e consulte as informações de matrícula e status de cada disciplina.",
+      resposta:
+        "Acesse a aba 'Perfil' e consulte as informações de matrícula e status de cada disciplina.",
     },
   ];
 
- 
   useEffect(() => {
     async function premiarAjuda() {
-      if (!user) return;
+      if (!user || jaPremiou.current) return;
+      jaPremiou.current = true; 
 
-     
       const sessionFlag = `premiou-ajuda-${user.uid}`;
       if (sessionStorage.getItem(sessionFlag)) return;
 
@@ -63,37 +65,37 @@ export default function Ajuda() {
       const hojeStr = hoje.toISOString().split("T")[0];
 
       const diasDesdeUltima =
-        ultimaAbertura ? (new Date(hojeStr) - new Date(ultimaAbertura)) / (1000 * 60 * 60 * 24) : Infinity;
+        ultimaAbertura
+          ? (new Date(hojeStr) - new Date(ultimaAbertura)) / (1000 * 60 * 60 * 24)
+          : Infinity;
 
       if (diasDesdeUltima >= 7) {
         try {
           await adicionarPontos(user.uid, regrasPontuacao.abriuAjuda, "Acessou a aba de Ajuda 🧭");
           mostrarToastPontosAdicionar(regrasPontuacao.abriuAjuda, "Acessou a aba de Ajuda 🧭");
           localStorage.setItem(chave, hojeStr);
-          sessionStorage.setItem(sessionFlag, "true"); 
+          sessionStorage.setItem(sessionFlag, "true");
         } catch (err) {
           console.error("Erro ao adicionar pontos da ajuda:", err);
         }
-        } else {
-      
-      import("react-toastify").then(({ toast }) => {
-        toast.info("✅ Você já ganhou pontos essa semana por acessar a Ajuda!", {
-          position: "bottom-right",
-          theme: "colored",
-          autoClose: 2500,
-          style: {
-            background: "linear-gradient(135deg, #0284c7, #38bdf8)",
-            color: "#fff",
-          },
-          icon: "💬",
+      } else {
+        import("react-toastify").then(({ toast }) => {
+          toast.info("✅ Você já ganhou pontos essa semana por acessar a Ajuda!", {
+            position: "bottom-right",
+            theme: "colored",
+            autoClose: 2500,
+            style: {
+              background: "linear-gradient(135deg, #0284c7, #38bdf8)",
+              color: "#fff",
+            },
+            icon: "💬",
+          });
         });
-      });
       }
     }
 
     premiarAjuda();
   }, [user]);
-
 
   const togglePergunta = (index) => {
     setAtivo(ativo === index ? null : index);
@@ -101,7 +103,6 @@ export default function Ajuda() {
 
   return (
     <div className="layout">
-      
       <MenuLateralProfessor />
       <div className="page2">
         <main>
@@ -116,7 +117,9 @@ export default function Ajuda() {
                 className={`card-pergunta ${ativo === index ? "ativo" : ""}`}
                 onClick={() => togglePergunta(index)}
               >
-                <p className="texto-card">{ativo === index ? item.resposta : item.pergunta}</p>
+                <p className="texto-card">
+                  {ativo === index ? item.resposta : item.pergunta}
+                </p>
               </div>
             ))}
           </div>

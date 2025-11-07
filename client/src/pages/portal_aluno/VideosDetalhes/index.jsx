@@ -95,7 +95,7 @@ export default function DetalhesVideo() {
                     await adicionarPontos(user.uid, regrasPontuacao.assistirVideo, "Parabéns! Você assistiu 80% do vídeo 🎥");
                     mostrarToastPontosAdicionar(
                       regrasPontuacao.assistirVideo,
-                      "Parabéns! Você assistiu 80% do vídeo 🎥"
+                      "Parabéns! Você assistiu 100% do vídeo 🎥"
                     );
                     localStorage.setItem(chaveAssistido, "assistido");
                     localStorage.setItem(`${user.uid}-video-assistido-hoje`, "true");
