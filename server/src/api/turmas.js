@@ -318,25 +318,27 @@ export default async function handler(req, res) {
 
     
     if (method === "POST" && url.includes("/ingressar")) {
-      const { codigo, alunoId } = body;
-      if (!codigo || !alunoId) {
-        return res.status(400).json({ error: "Código e alunoId são obrigatórios" });
-      }
+    const { codigo, alunoId } = body;
+    if (!codigo || !alunoId)
+      return res.status(400).json({ error: "Código e alunoId são obrigatórios" });
 
-      const turmaSnap = await db.collection("turmas").where("codigo", "==", codigo).get();
-      if (turmaSnap.empty) {
-        return res.status(404).json({ error: "Turma não encontrada" });
-      }
+    const turmaSnap = await db.collection("turmas").where("codigo", "==", codigo).limit(1).get();
+    if (turmaSnap.empty)
+      return res.status(404).json({ error: "Turma não encontrada" });
 
-      const turmaDoc = turmaSnap.docs[0];
-      const turmaRef = db.collection("turmas").doc(turmaDoc.id);
+    const turmaDoc = turmaSnap.docs[0];
+    const turmaData = turmaDoc.data();
 
-      await turmaRef.update({
-        alunos: admin.firestore.FieldValue.arrayUnion(alunoId),
-      });
+    if (turmaData.professorId === alunoId)
+      return res.status(400).json({ error: "Professores não podem entrar em suas próprias turmas." });
 
-      return res.json({ message: "Aluno adicionado com sucesso", turmaId: turmaDoc.id });
-    }
+    await db.collection("turmas").doc(turmaDoc.id).update({
+      alunos: admin.firestore.FieldValue.arrayUnion(alunoId),
+    });
+
+    return res.json({ message: "Aluno adicionado com sucesso", turmaId: turmaDoc.id });
+  }
+
 
     return res.status(405).json({ error: "Método não permitido" });
   } catch (error) {

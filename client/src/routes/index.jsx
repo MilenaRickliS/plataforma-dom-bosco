@@ -15,6 +15,8 @@ import Contato from '../pages/site/Contato';
 
 import Private from './private';
 
+import ConviteTurma from "../pages/portal_aluno/ConviteTurma";
+
 import InicioAluno from '../pages/portal_aluno/Inicio';
 import AgendaAluno from '../pages/portal_aluno/Agenda';
 import VideosAluno from '../pages/portal_aluno/Videos';
@@ -123,6 +125,8 @@ function RoutesApp(){
       <Route path="/criar-curso" element={ <Private rota="admin"><CriarCurso/></Private> } />
       <Route path="/editar-curso/:id" element={<EditarCurso />} />
       <Route path="/detalhes-curso-gestao/:id" element={<DetalhesCurso />} />
+
+      <Route path="/convite/:codigo" element={<ConviteTurma />} />
 
       <Route path="/aluno/inicio" element={ <Private rota="aluno"><InicioAluno/></Private> } />
       <Route path="/aluno/agenda" element={ <Private rota="aluno"><AgendaAluno/></Private> } />

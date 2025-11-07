@@ -1,0 +1,66 @@
+.convite-fundo {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
+  background-position: center;
+  color: white;
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+}
+
+.convite-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 2rem;
+  width: 90%;
+  max-width: 420px;
+  color: white;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+}
+
+.convite-logo {
+  width: 90px;
+  margin-bottom: 1rem;
+}
+
+.convite-titulo {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+}
+
+.convite-info h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.convite-info p {
+  margin: 0.4rem 0;
+  font-size: 1rem;
+}
+
+.codigo {
+  margin-top: 1rem;
+  font-weight: bold;
+  color: #facc15;
+}
+
+.btn-entrar, .btn-login {
+  background: #2563eb;
+  border: none;
+  color: white;
+  padding: 0.8rem 1.2rem;
+  border-radius: 8px;
+  margin-top: 1.5rem;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.btn-entrar:hover, .btn-login:hover {
+  background: #1d4ed8;
+}

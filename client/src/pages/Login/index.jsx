@@ -16,11 +16,21 @@ export default function Login() {
   useEffect(() => {
     if (signed) {
       const rota = getRota();
-      if (rota === "aluno") navigate("/aluno/inicio");
-      if (rota === "professor") navigate("/professor/inicio");
-      if (rota === "admin") navigate("/inicio-adm");
+      const codigoConvite = localStorage.getItem("codigoConvitePendente");
+
+    if (rota === "aluno") {
+      if (codigoConvite) {
+        localStorage.removeItem("codigoConvitePendente");
+        navigate(`/convite/${codigoConvite}`);
+      } else {
+        navigate("/aluno/inicio");
+      }
     }
-  }, [signed, getRota, navigate]);
+
+    if (rota === "professor") navigate("/professor/inicio");
+    if (rota === "admin") navigate("/inicio-adm");
+  }
+}, [signed, getRota, navigate]);
 
   async function handleLogin(e) {
     e.preventDefault();

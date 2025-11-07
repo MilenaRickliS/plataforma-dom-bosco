@@ -274,8 +274,21 @@
   letter-spacing: 3px;
   margin-bottom: 2rem;
 }
+.btn-copiar-link {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
 
-.modal-codigo button {
+.btn-copiar-link:hover {
+  background-color: #1e40af;
+}
+
+.modal-codigo .button-fechar {
   background-color: #b72a4d;
   color: #fff;
   border: none;
@@ -291,7 +304,8 @@
 .modal-codigo .salvar:hover{
   background-color: #002ab3;
 }
-.modal-codigo button:hover {
+
+.modal-codigo .button-fechar:hover {
   background-color: #8f1f3a;
 }
 .upload-section-editarTurma {
