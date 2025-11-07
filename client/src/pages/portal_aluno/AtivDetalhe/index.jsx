@@ -427,14 +427,34 @@ useEffect(() => {
                  {(publicacao.entrega || publicacao.valor) && (
                   <div className="card-prazo">
                     {publicacao.entrega && (
-                      <>
-      
-                        <p style={{ fontWeight: "600", margin: 0, color: "#b6a50cff"}}>
-                          Prazo: {formatarData(publicacao.entrega)} -  {new Date(publicacao.entrega._seconds * 1000).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}
-                          
-                        </p>
-                      </>
+                      (() => {
+                        let prazoData;
+                        let prazoHora = "—";
+
+                       
+                        if (publicacao.entrega?._seconds) {
+                          prazoData = new Date(publicacao.entrega._seconds * 1000);
+                        } else if (typeof publicacao.entrega === "string" && !isNaN(Date.parse(publicacao.entrega))) {
+                          prazoData = new Date(publicacao.entrega);
+                        } else if (publicacao.entrega instanceof Date) {
+                          prazoData = publicacao.entrega;
+                        }
+
+                        if (prazoData instanceof Date && !isNaN(prazoData)) {
+                          prazoHora = prazoData.toLocaleTimeString("pt-BR", {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          });
+                        }
+
+                        return (
+                          <p style={{ fontWeight: "600", margin: 0, color: "#b6a50c" }}>
+                            Prazo: {formatarData(prazoData)} – {prazoHora}
+                          </p>
+                        );
+                      })()
                     )}
+
                     {publicacao.valor ? (
                       <p style={{ marginTop: "5px", fontWeight: "600", color: "#25643cff" }}>
                         Valor Atividade: {publicacao.valor} 
@@ -453,7 +473,8 @@ useEffect(() => {
                           marginTop: "8px",
                         }}
                       >
-                        <FaCheckCircle color="#25643c" /> Sua nota: {entrega?.notaTotal ?? "—"} / {publicacao.valor ?? 10}
+                        <FaCheckCircle color="#25643c" /> Sua nota: {entrega?.nota ?? entrega?.notaTotal ?? "—"} / {publicacao.valor ?? 10}
+
                       </div>
                     ) : (
                       <div
@@ -538,66 +559,121 @@ useEffect(() => {
 
                 
                   if (!entrega?.avaliacaoIniciada) {
-                    const tentativasFeitas = entrega?.tentativas || 0;
-                    const limite = publicacao.configuracoes?.tentativasMax || 1;
-                    const aindaPodeTentar = tentativasFeitas < limite;
+                  const tentativasFeitas = entrega?.tentativas || 0;
+                  const limite = publicacao.configuracoes?.tentativasMax || 1;
+                  const aindaPodeTentar = tentativasFeitas < limite;
 
-                    
-                    
-                    return (
-                      <div className="iniciar-avaliacao">
-                        <p>
-                          Quando estiver pronto, clique abaixo para começar. O cronômetro (se houver) iniciará automaticamente.
-                        </p>
-                        <button
-                          className="btn-iniciar-avaliacao"
-                          disabled={!aindaPodeTentar}
-                          style={{
-                            backgroundColor: aindaPodeTentar ? "#2563eb" : "#ccc",
-                            cursor: aindaPodeTentar ? "pointer" : "not-allowed",
-                          }}
-                          onClick={async () => {
-                            
-                            if (!aindaPodeTentar) {
-                              toast.error("Você já atingiu o número máximo de tentativas.");
-                              return;
-                            }
+                 
+                  let prazoData = null;
+                  if (publicacao.entrega?._seconds)
+                    prazoData = new Date(publicacao.entrega._seconds * 1000);
+                  else if (typeof publicacao.entrega === "string" && !isNaN(Date.parse(publicacao.entrega)))
+                    prazoData = new Date(publicacao.entrega);
 
-                            
-                            let listaQuestoes = [...questoes];
-                            if (publicacao.configuracoes?.embaralharQuestoes)
-                              listaQuestoes = listaQuestoes.sort(() => Math.random() - 0.5);
+                  const prazoStr = prazoData
+                    ? `${prazoData.toLocaleDateString("pt-BR")} às ${prazoData.toLocaleTimeString("pt-BR", {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}`
+                    : "Sem prazo definido";
 
-                            listaQuestoes = listaQuestoes.map((q) => {
-                              if (publicacao.configuracoes?.embaralharRespostas && q.alternativas) {
-                                return {
-                                  ...q,
-                                  alternativas: [...q.alternativas].sort(() => Math.random() - 0.5),
-                                };
-                              }
-                              return q;
-                            });
-
-                            setQuestoes(listaQuestoes);
-                            await axios.post(`${API}/api/respostas`, {
-                              avaliacaoId: id,
-                              alunoId: user.uid,
-                              iniciouEm: new Date().toISOString(),
-                              avaliacaoIniciada: true,
-                            });
-
-                            setEntrega({
-                              ...entrega,
-                              avaliacaoIniciada: true,
-                              questoesRespondidas: [],
-                            });
-                          }}
-                        >
-                          Iniciar Avaliação
-                        </button>
+                  return (
+                    <div className="iniciar-avaliacao">
+                      <div
+                        className="regras-avaliacao"
+                        style={{
+                          background: "#f9fafb",
+                          border: "2px solid #2563eb22",
+                          borderRadius: "10px",
+                          padding: "1.2rem",
+                          marginBottom: "1.2rem",
+                        }}
+                      >
+                        <h4 style={{ color: "#1e3a8a", marginBottom: "0.5rem" }}>Regras da Avaliação</h4>
+                        <ul style={{ marginLeft: "1.2rem", color: "#333", lineHeight: "1.6" }}>
+                          <li>
+                            <strong>Valor total:</strong> {publicacao.valor || 10} pontos.
+                          </li>
+                          <li>
+                            <strong>Prazo:</strong> {prazoStr}.
+                          </li>
+                          <li>
+                            <strong>Tentativas:</strong>{" "}
+                            {publicacao.configuracoes?.permitirRepeticoes
+                              ? `${publicacao.configuracoes?.tentativasMax} tentativas permitidas`
+                              : "Apenas 1 tentativa permitida"}
+                            .
+                          </li>
+                          <li>
+                            <strong>Ordem das questões:</strong>{" "}
+                            {publicacao.configuracoes?.embaralharQuestoes
+                              ? "As questões aparecerão em ordem aleatória"
+                              : "A ordem das questões será fixa"}.
+                          </li>
+                          <li>
+                            <strong>Ordem das respostas:</strong>{" "}
+                            {publicacao.configuracoes?.embaralharRespostas
+                              ? "As alternativas serão embaralhadas"
+                              : "As alternativas seguem a ordem definida pelo professor"}.
+                          </li>
+                          <li>
+                            ⚠️ Após enviar suas respostas, não será possível editá-las.
+                          </li>
+                        </ul>
                       </div>
-                    );
-                  }
+
+                      <p style={{ color: "#444", marginBottom: "1rem" }}>
+                        Quando estiver pronto, clique no botão abaixo para começar.
+                      </p>
+
+                      <button
+                        className="btn-iniciar-avaliacao"
+                        disabled={!aindaPodeTentar}
+                        style={{
+                          backgroundColor: aindaPodeTentar ? "#2563eb" : "#ccc",
+                          cursor: aindaPodeTentar ? "pointer" : "not-allowed",
+                        }}
+                        onClick={async () => {
+                          if (!aindaPodeTentar) {
+                            toast.error("Você já atingiu o número máximo de tentativas.");
+                            return;
+                          }
+
+                          let listaQuestoes = [...questoes];
+                          if (publicacao.configuracoes?.embaralharQuestoes)
+                            listaQuestoes = listaQuestoes.sort(() => Math.random() - 0.5);
+
+                          listaQuestoes = listaQuestoes.map((q) => {
+                            if (publicacao.configuracoes?.embaralharRespostas && q.alternativas) {
+                              return {
+                                ...q,
+                                alternativas: [...q.alternativas].sort(() => Math.random() - 0.5),
+                              };
+                            }
+                            return q;
+                          });
+
+                          setQuestoes(listaQuestoes);
+                          await axios.post(`${API}/api/respostas`, {
+                            avaliacaoId: id,
+                            alunoId: user.uid,
+                            iniciouEm: new Date().toISOString(),
+                            avaliacaoIniciada: true,
+                          });
+
+                          setEntrega({
+                            ...entrega,
+                            avaliacaoIniciada: true,
+                            questoesRespondidas: [],
+                          });
+                        }}
+                      >
+                        Iniciar Avaliação
+                      </button>
+                    </div>
+                  );
+                }
+
 
 
                  
@@ -910,19 +986,35 @@ useEffect(() => {
 
                    
                     {typeof entrega.nota === "number" ? (
-                      <span
-                        className="nota-entrega"
-                        style={{
-                          background: "#25643c",
-                          color: "white",
-                          padding: "6px 12px",
-                          borderRadius: "8px",
-                          fontWeight: "bold",
-                          fontSize: "0.95rem",
-                        }}
-                      >
-                        Nota: {entrega.nota} / {publicacao?.valor || 10}
-                      </span>
+                      publicacao.notasLiberadas ? (
+                        <span
+                          className="nota-entrega"
+                          style={{
+                            background: "#25643c",
+                            color: "white",
+                            padding: "6px 12px",
+                            borderRadius: "8px",
+                            fontWeight: "bold",
+                            fontSize: "0.95rem",
+                          }}
+                        >
+                          Nota: {entrega.nota} / {publicacao?.valor || 10}
+                        </span>
+                      ) : (
+                        <span
+                          className="nota-pendente"
+                          style={{
+                            background: "#b6a50c",
+                            color: "#fff",
+                            padding: "6px 12px",
+                            borderRadius: "8px",
+                            fontWeight: "600",
+                            fontSize: "0.9rem",
+                          }}
+                        >
+                          Notas lançadas, mas ainda não liberadas pelo professor
+                        </span>
+                      )
                     ) : (
                       <span
                         className="nota-pendente"
@@ -938,6 +1030,7 @@ useEffect(() => {
                         Aguardando correção
                       </span>
                     )}
+
                   </div>
                 </div>
               ) : (

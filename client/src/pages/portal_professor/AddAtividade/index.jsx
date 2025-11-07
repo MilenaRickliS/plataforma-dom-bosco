@@ -91,6 +91,36 @@ export default function AddPublicacao() {
     setNomeAnexo(file.name);
     toast.success("Arquivo anexado!");
   };
+  async function uploadArquivo(file) {
+  try {
+    const reader = new FileReader();
+    const base64 = await new Promise((resolve, reject) => {
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+
+    
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/uploads`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        fileBase64: base64,
+        folder: "publicacoes_professor",
+      }),
+    });
+
+    const data = await res.json();
+    if (!data?.url) throw new Error("Falha ao enviar arquivo.");
+    return data;
+
+  } catch (err) {
+    console.error("Erro no uploadArquivo:", err);
+    toast.error("Erro ao enviar o arquivo.");
+    throw err;
+  }
+}
+
 
 
   const addAnexoLink = () => {

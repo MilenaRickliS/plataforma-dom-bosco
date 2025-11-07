@@ -94,15 +94,18 @@ export default async function handler(req, res) {
       const snap = await respostaRef.get();
       const atual = snap.exists ? snap.data() : {};
       await respostaRef.set(
-        {
-          corrigido: true,
-          notaTotal,
-          ultimaCorrecao: admin.firestore.Timestamp.now(),
-          melhorNota: Math.max(atual.melhorNota || 0, notaTotal),
-          ultimaNota: notaTotal,
-        },
-        { merge: true }
-      );
+      {
+        corrigido: true,
+        notaTotal,
+        ultimaCorrecao: admin.firestore.Timestamp.now(),
+        melhorNota:
+          notaTotal > (atual.melhorNota || 0)
+            ? notaTotal
+            : (atual.melhorNota || 0),
+        ultimaNota: notaTotal,
+      },
+      { merge: true }
+    );
 
       for (const q of questoes) {
         await respostaRef.collection("questoes").doc(q.id).set(
@@ -142,10 +145,14 @@ export default async function handler(req, res) {
           ...q.data(),
         }));
 
-        const melhorNota =
-          tentativas.length > 0
-            ? Math.max(...tentativas.map((t) => t.notaTotal || 0))
-            : data.melhorNota || data.notaTotal || 0;
+        const melhorNotaCalc = [
+          ...tentativas.map((t) => t.notaTotal || 0),
+          data.notaTotal || 0,
+          data.melhorNota || 0,
+        ].filter((v) => !isNaN(v));
+
+        const melhorNota = melhorNotaCalc.length > 0 ? Math.max(...melhorNotaCalc) : 0;
+
 
         alunos.push({
           alunoId: doc.id,

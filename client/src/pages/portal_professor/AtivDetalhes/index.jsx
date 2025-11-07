@@ -576,6 +576,22 @@ const [chatAlunoSelecionado, setChatAlunoSelecionado] = useState(null);
                 })}
               </tbody>
             </table>
+            <br/>
+            <button
+              className="btn-liberar-notas"
+              onClick={async () => {
+                try {
+                  await axios.patch(`${API}/api/publicacoes?id=${id}`, { notasLiberadas: true });
+                  toast.success("Notas liberadas para os alunos!");
+                  setPublicacao((prev) => ({ ...prev, notasLiberadas: true }));
+                } catch (err) {
+                  toast.error("Erro ao liberar notas.");
+                }
+              }}
+            >
+              Liberar notas para os alunos
+            </button>
+
           </section>
           
             )}

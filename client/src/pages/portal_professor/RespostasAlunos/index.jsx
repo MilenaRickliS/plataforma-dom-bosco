@@ -45,38 +45,89 @@ export default function RespostasAluno() {
   }, [avaliacaoId, alunoId, user, API]);
 
  
-  const handleNotaChange = (questaoId, novaNota) => {
-    const novaLista = respostas.map((q) =>
-      q.id === questaoId ? { ...q, valorObtido: parseFloat(novaNota) || 0 } : q
-    );
-    setRespostas(novaLista);
+  const handleNotaChange = (questaoId, valorDigitado) => {
+  let novaNota = valorDigitado.trim();
 
-    const total = novaLista.reduce((acc, q) => acc + (parseFloat(q.valorObtido) || 0), 0);
-    setNotaTotal(total);
-  };
+  
+  if (novaNota === "") novaNota = "0";
+
+  
+  let numero = parseFloat(novaNota.replace(",", "."));
+  if (isNaN(numero)) numero = 0;
+
+  
+  if (numero < 0) numero = 0;
+
+  
+  numero = Math.round(numero * 100) / 100;
+
+ 
+  const novaLista = respostas.map((q) =>
+    q.id === questaoId ? { ...q, valorObtido: numero } : q
+  );
+  setRespostas(novaLista);
+
+  
+  const total = novaLista.reduce((acc, q) => acc + (q.valorObtido || 0), 0);
+  setNotaTotal(Math.round(total * 100) / 100);
+};
 
 
-  const handleSalvar = async () => {
-    try {
-      setSalvando(true);
-      await axios.patch(`${API}/api/respostas`, {
-        avaliacaoId,
-        alunoId,
-        questoes: respostas,
-        notaTotal,
-      });
-      toast.success("Correção salva com sucesso!");
-      window.dispatchEvent(new CustomEvent("notaAtualizada", {
-        detail: { avaliacaoId, alunoId, notaTotal, melhorNota: notaTotal }
-        }));
-
-    } catch (e) {
-      console.error(e);
-      toast.error("Erro ao salvar correção.");
-    } finally {
-      setSalvando(false);
+const handleSalvar = async () => {
+  try {
+   
+    for (const q of respostas) {
+      if (q.valorObtido === "" || q.valorObtido === undefined || isNaN(q.valorObtido)) {
+        toast.error(`A questão "${q.id}" está sem nota.`);
+        return;
+      }
+      if (q.valorObtido < 0) {
+        toast.error(`A questão "${q.id}" não pode ter nota negativa.`);
+        return;
+      }
+      const casasDecimais = q.valorObtido.toString().split(".")[1];
+      if (casasDecimais && casasDecimais.length > 2) {
+        toast.error(`A nota da questão "${q.id}" deve ter no máximo 2 casas decimais.`);
+        return;
+      }
     }
-  };
+
+    if (notaTotal < 0) {
+      toast.error("Nota total não pode ser negativa.");
+      return;
+    }
+
+    setSalvando(true);
+
+    
+    await axios.patch(`${API}/api/respostas`, {
+      avaliacaoId,
+      alunoId,
+      questoes: respostas,
+      notaTotal,
+    });
+
+    toast.success("Correção salva com sucesso!");
+
+    
+    window.dispatchEvent(
+      new CustomEvent("notaAtualizada", {
+        detail: { avaliacaoId, alunoId, notaTotal, melhorNota: notaTotal },
+      })
+    );
+
+    
+    setTimeout(() => {
+      window.location.href = `/professor/avaliacao/${avaliacaoId}/respostas`;
+    }, 1500);
+  } catch (e) {
+    console.error(e);
+    toast.error("Erro ao salvar correção.");
+  } finally {
+    setSalvando(false);
+  }
+};
+
 
   return (
     <div className="layout">
@@ -84,7 +135,7 @@ export default function RespostasAluno() {
       <div className="page2">
         <main id="sala">
           <MenuTopoProfessor />
-          <div className="menu-turma">
+          <div className="menu-turma-voltar">
             <NavLink to={`/professor/avaliacao/${avaliacaoId}/respostas`}>
               ← Voltar
             </NavLink>
@@ -115,9 +166,39 @@ export default function RespostasAluno() {
                     <h4>
                       Q{i + 1}: {q.enunciado}
                     </h4>
+                  
                     <p>
-                      <em>Resposta do aluno:</em> {respostaFormatada || "Sem resposta"}
+                      <em style={{ color: "#2563eb", fontWeight: "600" }}>Resposta do aluno:</em>{" "}
+                      <span style={{ color: "#333" }}>{respostaFormatada || "Sem resposta"}</span>
                     </p>
+
+                    
+                    {q.alternativas && q.alternativas.length > 0 && (
+                      <p>
+                        <em style={{ color: "#16a34a", fontWeight: "600" }}>Gabarito:</em>{" "}
+                        {q.alternativas
+                          .filter((a) => a.correta)
+                          .map((a) => a.texto)
+                          .join(", ") || "Sem gabarito definido"}
+                      </p>
+                    )}
+
+                    {q.tipo === "dissertativa" && q.gabarito && (
+                      <p>
+                        <em style={{ color: "#16a34a", fontWeight: "600" }}>Gabarito:</em>{" "}
+                        {q.gabarito}
+                      </p>
+                    )}
+
+                    {q.tipo === "correspondencia" && q.colA && q.colB && q.gabarito && (
+                      <p>
+                        <em style={{ color: "#16a34a", fontWeight: "600" }}>Gabarito:</em>{" "}
+                        {Object.entries(q.gabarito)
+                          .map(([k, v]) => `${k} → ${v}`)
+                          .join(", ")}
+                      </p>
+                    )}
+
 
                     <div className="nota-input">
                       <input
