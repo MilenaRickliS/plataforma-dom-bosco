@@ -25,6 +25,18 @@ export default function RespostasAvaliacao() {
   const [resp, setResp] = useState({ alunos: [] });
   const API = import.meta.env.VITE_API_URL;
 
+ // 🧮 Cálculo de progresso baseado em respostas efetivas
+const totalAlunos = alunos?.length || 0;
+
+// Conta quantos alunos realmente enviaram pelo menos uma resposta
+const respondidos = (resp?.alunos || []).filter(
+  (a) => a.questoes?.length > 0 || a.entregue || a.corrigido
+).length;
+
+const porcentagem = totalAlunos > 0 ? Math.round((respondidos / totalAlunos) * 100) : 0;
+
+
+
 
   useEffect(() => {
     if (!id || !user?.uid) return;
@@ -49,8 +61,17 @@ export default function RespostasAvaliacao() {
         const qs = await axios.get(`${API}/api/questoes`, { params: { avaliacaoId: id } });
         setQuestoes(qs.data || []);
 
-        const r = await axios.get(`${API}/api/respostas`, { params: { avaliacaoId: id } });
-        setResp(r.data || { alunos: [] });
+       const r = await axios.get(`${API}/api/respostas`, { params: { avaliacaoId: id } });
+
+      
+        if (r?.data?.alunos && Array.isArray(r.data.alunos)) {
+          setResp({ alunos: r.data.alunos });
+        } else {
+          console.warn("⚠️ API retornou respostas vazias ou inválidas:", r.data);
+          setResp((prev) => ({ ...prev, alunos: prev.alunos || [] }));
+        }
+
+
       } catch (e) {
         console.error(e);
       }
@@ -150,33 +171,29 @@ export default function RespostasAvaliacao() {
                 const gabaritouTodos = notas.every(n => n >= (publicacao?.valor || 10));
 
                 
-                for (const aluno of resp.alunos || []) {
-                  const notaAluno = aluno.total ?? aluno.notaTotal ?? 0;
-                  const porcentagem = (notaAluno / (publicacao?.valor || 10)) * 100;
+               for (const aluno of resp.alunos || []) {
+                    const notaAluno = aluno.total ?? aluno.notaTotal ?? 0;
+                    const notaMaxima = publicacao?.valor || 10;
+                    const porcentagem = (notaAluno / notaMaxima) * 100;
 
-                 
-                  await adicionarPontos(
-                    aluno.alunoId,
-                    regrasPontuacao.concluirAtividade,
-                    "Concluiu a avaliação"
-                  );
+                   
+                    const totalQuestoes = questoes.length || 1;
+                    const pontosPorQuestao = regrasPontuacao.acertarQuestao;
+                    const acertosEstimados = Math.round((notaAluno / notaMaxima) * totalQuestoes);
+                    const pontosAcertos = acertosEstimados * pontosPorQuestao;
 
-                 
-                  if (notaAluno > 0)
-                    await adicionarPontos(
-                      aluno.alunoId,
-                      regrasPontuacao.acertarQuestao,
-                      "Acertou questões da avaliação"
-                    );
+                   
+                    await adicionarPontos(aluno.alunoId, pontosAcertos, `${acertosEstimados} questões corrigidas com sucesso`);
+                    
+                   
+                    await adicionarPontos(aluno.alunoId, regrasPontuacao.concluirAtividade, "Concluiu a avaliação corrigida");
 
-                  
-                  if (porcentagem >= 100)
-                    await adicionarPontos(
-                      aluno.alunoId,
-                      regrasPontuacao.gabaritarAtividade,
-                      "Gabaritou a avaliação!"
-                    );
-                }
+                    
+                    if (notaAluno >= notaMaxima) {
+                      await adicionarPontos(aluno.alunoId, regrasPontuacao.gabaritarAtividade, "Gabaritou após correção!");
+                    }
+                  }
+
 
                 
                 await adicionarPontos(user.uid, regrasPontuacao.PostarNota, "Publicou notas da avaliação");
@@ -196,6 +213,7 @@ export default function RespostasAvaliacao() {
                 console.error(e);
                 toast.error("Erro ao liberar notas.");
               }
+              
             }}
           >
             Liberar notas para alunos
@@ -205,14 +223,28 @@ export default function RespostasAvaliacao() {
 
           <div className="tabela-respostas">
             <div className="progresso-geral">
-              <p>
-                <strong>Progresso:</strong>{" "}
-                {(resp.alunos?.length || 0)}/{alunos.length || 0} alunos responderam (
-                {Math.round(
-                  ((resp.alunos?.length || 0) / ((alunos.length || 1))) * 100
-                )}
-                %)
-              </p>
+             <div className="barra-progresso">
+              <span className="percent-label">0%</span>
+              <div className="barra-container">
+                <div
+                  className="preenchimento"
+                  style={{
+                    width: `${porcentagem}%`,
+                    backgroundColor:
+                      porcentagem >= 100
+                        ? "#16a34a" 
+                        : porcentagem >= 70
+                        ? "#facc15" 
+                        : "#3b82f6", 
+                  }}
+                ></div>
+              </div>
+              <span className="percent-label">100%</span>
+            </div>
+
+
+
+
             </div>
 
             <table>

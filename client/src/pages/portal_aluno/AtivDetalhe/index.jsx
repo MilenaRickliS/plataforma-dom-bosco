@@ -20,6 +20,12 @@ import {
   regrasPontuacao
 } from "../../../services/gamificacao.jsx";
 
+function salvarPontuacaoPendente(userId, pontos, motivo) {
+  const pendentes = JSON.parse(localStorage.getItem("pontuacoes_pendentes") || "[]");
+  pendentes.push({ userId, pontos, motivo });
+  localStorage.setItem("pontuacoes_pendentes", JSON.stringify(pendentes));
+}
+
 
 
 export default function AtivDetalhesAluno() {
@@ -156,7 +162,36 @@ useEffect(() => {
   }
 }, [publicacao, user]);
 
+useEffect(() => {
+  if (publicacao?.notasLiberadas && user?.uid) {
+    const pendentes = JSON.parse(localStorage.getItem("pontuacoes_pendentes") || "[]");
+    const doUsuario = pendentes.filter(p => p.userId === user.uid);
 
+    if (doUsuario.length > 0) {
+      doUsuario.forEach(async (p) => {
+        await adicionarPontos(p.userId, p.pontos, p.motivo);
+        mostrarToastPontosAdicionar(p.pontos, p.motivo);
+      });
+
+      localStorage.setItem(
+        "pontuacoes_pendentes",
+        JSON.stringify(pendentes.filter(p => p.userId !== user.uid))
+      );
+
+     
+      setTimeout(async () => {
+        try {
+          const { data } = await axios.get(`${API}/api/gamificacao/${user.uid}`);
+          console.log("🔄 Pontos atualizados após liberação:", data.pontos);
+          localStorage.setItem("pontos_cache", data.pontos);
+          toast.success("🎉 Seus pontos foram liberados junto com as notas!");
+        } catch (e) {
+          console.warn("Falha ao atualizar pontos após liberação:", e);
+        }
+      }, 1000);
+    }
+  }
+}, [publicacao?.notasLiberadas, user]);
 
   const formatarData = (valor) => {
     if (!valor) return "—";
@@ -337,6 +372,8 @@ useEffect(() => {
     return enviada > prazo;
   })();
 
+
+
  
   const devolucaoBloqueada = typeof entrega?.nota === "number";
 
@@ -462,34 +499,35 @@ useEffect(() => {
                     ) : (
                       ""
                     )}
-                    {publicacao.notasLiberadas ? (
-                      <div
-                        style={{
-                          background: "#e0f7ea",
-                          color: "#25643c",
-                          padding: "10px",
-                          borderRadius: "8px",
-                          fontWeight: "600",
-                          marginTop: "8px",
-                        }}
-                      >
-                        <FaCheckCircle color="#25643c" /> Sua nota: {entrega?.nota ?? entrega?.notaTotal ?? "—"} / {publicacao.valor ?? 10}
+                  {publicacao.notasLiberadas ? (
+                    <div
+                      style={{
+                        background: "#e0f7ea",
+                        color: "#25643c",
+                        padding: "10px",
+                        borderRadius: "8px",
+                        fontWeight: "600",
+                        marginTop: "8px",
+                      }}
+                    >
+                      <FaCheckCircle color="#25643c" /> Sua nota:{" "}
+                      {entrega?.nota ?? entrega?.notaTotal ?? "—"} / {publicacao.valor ?? 10}
+                    </div>
+                  ) : (
+                    <div
+                      style={{
+                        background: "#fff8e1",
+                        color: "#b6a50c",
+                        padding: "10px",
+                        borderRadius: "8px",
+                        fontWeight: "600",
+                        marginTop: "8px",
+                      }}
+                    >
+                      <FaClock color="#b6a50c" /> As notas ainda não foram liberadas.
+                    </div>
+                  )}
 
-                      </div>
-                    ) : (
-                      <div
-                        style={{
-                          background: "#fff8e1",
-                          color: "#b6a50c",
-                          padding: "10px",
-                          borderRadius: "8px",
-                          fontWeight: "600",
-                          marginTop: "8px",
-                        }}
-                      >
-                        <FaClock color="#b6a50c" /> As notas ainda não foram liberadas.
-                      </div>
-                    )}
 
                   </div>
                 )}
@@ -720,21 +758,37 @@ useEffect(() => {
                         const notaObtida = total; 
 
                         
+                       if (publicacao.notasLiberadas) {
+                        
                         const pontosAcertos = totalAcertos * regrasPontuacao.acertarQuestao;
                         await adicionarPontos(user.uid, pontosAcertos, `${totalAcertos} questões corretas`);
                         mostrarToastPontosAdicionar(pontosAcertos, `${totalAcertos} questões corretas`);
 
-                       
                         if (respondidas.length === totalQuestoes) {
                           await adicionarPontos(user.uid, regrasPontuacao.concluirAtividade, "Concluiu toda a avaliação");
                           mostrarToastPontosAdicionar(regrasPontuacao.concluirAtividade, "Concluiu toda a avaliação");
                         }
 
-                        
                         if (notaObtida >= notaMaxima) {
                           await adicionarPontos(user.uid, regrasPontuacao.gabaritarAtividade, "Gabaritou a avaliação!");
                           mostrarToastPontosAdicionar(regrasPontuacao.gabaritarAtividade, "Gabaritou a avaliação!");
                         }
+                      } else {
+                        
+                        const pontosAcertos = totalAcertos * regrasPontuacao.acertarQuestao;
+                        salvarPontuacaoPendente(user.uid, totalAcertos * regrasPontuacao.acertarQuestao, "Questões aguardando correção");
+
+                        if (respondidas.length === totalQuestoes) {
+                          salvarPontuacaoPendente(user.uid, regrasPontuacao.concluirAtividade, "Conclusão aguardando correção");
+                        }
+
+                        if (notaObtida >= notaMaxima) {
+                          salvarPontuacaoPendente(user.uid, regrasPontuacao.gabaritarAtividade, "Gabarito aguardando correção");
+                        }
+
+                        toast.info("⏳ Seus pontos serão liberados quando o professor publicar as notas.");
+                      }
+
 
 
                       }}
