@@ -98,6 +98,18 @@ export default function RespostasAvaliacao() {
     return m;
   }, [alunos]);
 
+  useEffect(() => {
+  if (!publicacao?.entrega || publicacao.notasLiberadas) return;
+  const prazo = new Date(publicacao.entrega._seconds * 1000);
+  const agora = new Date();
+
+  if (agora > prazo && !publicacao.notasLiberadas) {
+    removerPontos(user.uid, regrasPontuacao.naoCorrigirAtividade, "Não corrigiu dentro do prazo");
+    mostrarToastPontosRemover(regrasPontuacao.naoCorrigirAtividade, "Atraso na correção");
+  }
+}, [publicacao, user]);
+
+
   return (
     <div className="layout">
        

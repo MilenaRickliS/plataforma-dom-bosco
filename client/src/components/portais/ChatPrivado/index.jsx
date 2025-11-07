@@ -4,6 +4,11 @@ import { AuthContext } from "../../../contexts/auth";
 import "./style.css";
 import { LuSendHorizontal } from "react-icons/lu";
 import { IoChatbubblesOutline } from "react-icons/io5";
+import {
+  adicionarPontos,
+  mostrarToastPontosAdicionar,
+  regrasPontuacao,
+} from "../../../services/gamificacao.jsx";
 
 export default function ChatPrivado({ atividadeId, aluno, nomeAtividade }) {
   const { user } = useContext(AuthContext);
@@ -32,9 +37,10 @@ export default function ChatPrivado({ atividadeId, aluno, nomeAtividade }) {
   }, [atividadeId, alunoId]);
 
   const enviarMensagem = async (e) => {
-    e.preventDefault();
-    if (!texto.trim()) return;
+  e.preventDefault();
+  if (!texto.trim()) return;
 
+  try {
     await axios.post(`${API}/api/chatPrivado`, {
       atividadeId,
       alunoId,
@@ -42,12 +48,29 @@ export default function ChatPrivado({ atividadeId, aluno, nomeAtividade }) {
       autorNome: user.nome || "Usuário",
       texto,
     });
-    await adicionarPontos(user.uid, regrasPontuacao.enviarDuvida, "Enviou dúvida ao professor");
-    mostrarToastPontosAdicionar(regrasPontuacao.enviarDuvida, "Enviou dúvida ao professor");
 
+    const key = `chat-privado-${user.uid}`;
+      const agora = Date.now();
+      const ultima = localStorage.getItem(key);
+
+      if (!ultima || agora - ultima > 60000) {
+        if (user?.role === "aluno") {
+          await adicionarPontos(user.uid, regrasPontuacao.enviarDuvida, "Enviou dúvida ao professor");
+          mostrarToastPontosAdicionar(regrasPontuacao.enviarDuvida, "Enviou dúvida ao professor");
+        } else if (user?.role === "professor") {
+          await adicionarPontos(user.uid, regrasPontuacao.responderDuvida, "Respondeu dúvida do aluno");
+          mostrarToastPontosAdicionar(regrasPontuacao.responderDuvida, "Respondeu dúvida do aluno");
+        }
+
+        localStorage.setItem(key, agora.toString());
+      }
 
     setTexto("");
-  };
+  } catch (err) {
+    console.error("Erro ao enviar mensagem no chat privado:", err);
+  }
+};
+
 
   return (
     <div className="chat-privado">

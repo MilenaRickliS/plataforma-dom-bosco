@@ -712,8 +712,30 @@ useEffect(() => {
                           avaliacaoIniciada: false,
                         });
                         toast.success("Avaliação enviada!");
-                        await adicionarPontos(user.uid, regrasPontuacao.concluirAtividade, "Concluiu avaliação");
-                        mostrarToastPontosAdicionar(regrasPontuacao.concluirAtividade, "Concluiu avaliação");
+
+                        
+                        const totalQuestoes = questoes.length;
+                        const totalAcertos = respondidas.filter(r => (r.valorObtido || 0) > 0).length;
+                        const notaMaxima = publicacao.valor || 10;
+                        const notaObtida = total; 
+
+                        
+                        const pontosAcertos = totalAcertos * regrasPontuacao.acertarQuestao;
+                        await adicionarPontos(user.uid, pontosAcertos, `${totalAcertos} questões corretas`);
+                        mostrarToastPontosAdicionar(pontosAcertos, `${totalAcertos} questões corretas`);
+
+                       
+                        if (respondidas.length === totalQuestoes) {
+                          await adicionarPontos(user.uid, regrasPontuacao.concluirAtividade, "Concluiu toda a avaliação");
+                          mostrarToastPontosAdicionar(regrasPontuacao.concluirAtividade, "Concluiu toda a avaliação");
+                        }
+
+                        
+                        if (notaObtida >= notaMaxima) {
+                          await adicionarPontos(user.uid, regrasPontuacao.gabaritarAtividade, "Gabaritou a avaliação!");
+                          mostrarToastPontosAdicionar(regrasPontuacao.gabaritarAtividade, "Gabaritou a avaliação!");
+                        }
+
 
                       }}
                     >

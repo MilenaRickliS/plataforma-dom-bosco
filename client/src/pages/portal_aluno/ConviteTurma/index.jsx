@@ -6,6 +6,10 @@ import { FaBook, FaUser } from "react-icons/fa";
 import logo from "../../../assets/logo2.png";
 import "./style.css";
 
+
+import { adicionarPontos, mostrarToastPontosAdicionar, regrasPontuacao } 
+  from "../../../services/gamificacao.jsx";
+
 export default function ConviteTurma() {
   const { codigo } = useParams();
   const { user } = useContext(AuthContext);
@@ -14,7 +18,6 @@ export default function ConviteTurma() {
   const navigate = useNavigate();
   const API = import.meta.env.VITE_API_URL;
 
-  
   useEffect(() => {
     async function buscarTurma() {
       try {
@@ -36,7 +39,6 @@ export default function ConviteTurma() {
     if (codigo) buscarTurma();
   }, [codigo, API]);
 
-  
   useEffect(() => {
     if (!user && codigo) {
       localStorage.setItem("codigoConvitePendente", codigo);
@@ -45,7 +47,6 @@ export default function ConviteTurma() {
     }
   }, [user, codigo, navigate]);
 
- 
   async function entrarNaTurma() {
     try {
       const res = await fetch(`${API}/api/turmas/ingressar`, {
@@ -59,8 +60,14 @@ export default function ConviteTurma() {
         }),
       });
       const data = await res.json();
+
       if (res.ok) {
         toast.success("Você entrou na turma com sucesso!");
+        
+       
+        await adicionarPontos(user.uid, regrasPontuacao.participarTurma, "Ingressou em uma turma");
+        mostrarToastPontosAdicionar(regrasPontuacao.participarTurma, "Ingressou na turma");
+
         navigate("/aluno/inicio");
       } else {
         toast.error(data.error || "Erro ao entrar na turma.");

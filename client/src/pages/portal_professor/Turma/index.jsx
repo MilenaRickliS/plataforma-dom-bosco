@@ -13,6 +13,13 @@ import { FaBox } from "react-icons/fa";
 import { FaTrashAlt } from "react-icons/fa";
 import { ToastContainer, toast} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import {
+  adicionarPontos,
+  removerPontos,
+  mostrarToastPontosAdicionar,
+  mostrarToastPontosRemover,
+  regrasPontuacao
+} from "../../../services/gamificacao.jsx";
 
 export default function Turma() {
   const { id } = useParams(); 
@@ -160,6 +167,8 @@ const subtitulo = turma?.materia ?? "";
                     try {
                       await axios.delete(`${API}/api/turmas?id=${id}`);
                       toast.success("Turma excluída com sucesso!");
+                      await removerPontos(user.uid, Math.abs(regrasPontuacao.excluirTurma), "Excluiu uma turma");
+                      mostrarToastPontosRemover(Math.abs(regrasPontuacao.excluirTurma), "Excluiu uma turma");
                       window.location.href = "/professor/inicio";
                     } catch (err) {
                       const msg = err.response?.data?.error || "Erro ao excluir turma.";

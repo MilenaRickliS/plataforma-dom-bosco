@@ -5,6 +5,11 @@ import { FaComments } from "react-icons/fa6";
 import "./style.css";
 import { IoClose } from "react-icons/io5";
 import { IoSendSharp } from "react-icons/io5";
+import {
+  adicionarPontos,
+  mostrarToastPontosAdicionar,
+  regrasPontuacao,
+} from "../../../services/gamificacao.jsx";
 
 export default function ChatTurma({ codigoTurma }) {
   const { user } = useContext(AuthContext);
@@ -31,16 +36,38 @@ export default function ChatTurma({ codigoTurma }) {
     return () => clearInterval(interval);
   }, [codigoTurma]);
 
-  const enviarMensagem = async () => {
-    if (!texto.trim()) return;
+ const enviarMensagem = async () => {
+  if (!texto.trim()) return;
+
+  try {
     await axios.post(`${API}/api/chat`, {
-        codigoTurma,
-        autorId: user.uid,
-        autorNome: user.nome,
-        texto,
-        });
+      codigoTurma,
+      autorId: user.uid,
+      autorNome: user.nome || "Usuário",
+      texto,
+    });
+
+    const key = `chat-turma-${user.uid}`;
+      const agora = Date.now();
+      const ultima = localStorage.getItem(key);
+    
+      if (!ultima || agora - ultima > 60000) {
+        if (user?.role === "aluno") {
+          await adicionarPontos(user.uid, regrasPontuacao.enviarDuvida, "Participou do chat da turma");
+          mostrarToastPontosAdicionar(regrasPontuacao.enviarDuvida, "Participou do chat da turma");
+        } else if (user?.role === "professor") {
+          await adicionarPontos(user.uid, regrasPontuacao.responderDuvida, "Interagiu no chat da turma");
+          mostrarToastPontosAdicionar(regrasPontuacao.responderDuvida, "Interagiu no chat da turma");
+        }
+
+        localStorage.setItem(key, agora.toString());
+      }
     setTexto("");
-  };
+  } catch (err) {
+    console.error("Erro ao enviar mensagem:", err);
+  }
+};
+
 
   return (
     <>
