@@ -86,7 +86,7 @@ const subtitulo = turma?.materia ?? "";
 
   return (
     <div className="layout">
-      <ToastContainer position="bottom-right" theme="colored" />
+      
       <MenuLateralProfessor />
       <div className="page2">
         <main id="sala">

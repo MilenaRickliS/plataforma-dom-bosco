@@ -6,7 +6,7 @@ import MenuLateralAluno from "../../../components/portais/MenuLateralAluno";
 import MenuTopoAluno from "../../../components/portais/MenuTopoAluno";
 import { useContext } from "react";
 import { AuthContext } from "../../../contexts/auth";
-import { adicionarPontos, removerPontos, mostrarToastPontosAdicionar, mostrarToastPontosRemover, regrasPontuacao } from "../../../services/gamificacao";
+import { adicionarPontos, removerPontos, mostrarToastPontosAdicionar, mostrarToastPontosRemover, regrasPontuacao } from "../../../services/gamificacao.jsx";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { usePenalidadeSaida } from "../../../hooks/usePenalidadeSaida";
@@ -60,7 +60,7 @@ export default function DetalhesVideo() {
 
   return (
     <div className="layout">
-      <ToastContainer position="bottom-right" theme="colored" />
+     
 
       <MenuLateralAluno />  
       <div className="page2">

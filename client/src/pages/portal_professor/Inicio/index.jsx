@@ -18,7 +18,7 @@ import {
   adicionarPontos,
   mostrarToastPontosAdicionar,
   regrasPontuacao
-} from "../../../services/gamificacao";
+} from "../../../services/gamificacao.jsx";
 import GlobalSearch from "../../../components/portais/GlobalSearch";
 
 export default function Inicio() {
@@ -227,7 +227,7 @@ const toEmbed = (url) => {
 
   return (
     <div className="layout">
-      <ToastContainer position="bottom-right" theme="colored" />
+     
       <MenuLateralProfessor />
       <div className="page2">
         <main>

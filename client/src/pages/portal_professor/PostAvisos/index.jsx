@@ -12,7 +12,7 @@ import {
   adicionarPontos,
   mostrarToastPontosAdicionar,
   regrasPontuacao,
-} from "../../../services/gamificacao";
+} from "../../../services/gamificacao.jsx";
 
 
 export default function PostAvisos() {
@@ -255,12 +255,7 @@ export default function PostAvisos() {
             </button>
           </form>
 
-          <ToastContainer
-            position="bottom-right"
-            autoClose={3000}
-            hideProgressBar={false}
-            theme="colored"
-          />
+          
         </main>
       </div>
     </div>

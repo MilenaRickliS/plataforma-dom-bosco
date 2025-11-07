@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { MdModeEditOutline } from "react-icons/md";
 import { FaRegTrashAlt } from "react-icons/fa";
-import { adicionarPontos, removerPontos, mostrarToastPontosAdicionar, mostrarToastPontosRemover, regrasPontuacao } from "../../../services/gamificacao";
+import { adicionarPontos, removerPontos, mostrarToastPontosAdicionar, mostrarToastPontosRemover, regrasPontuacao } from "../../../services/gamificacao.jsx";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { usePenalidadeSaida } from "../../../hooks/usePenalidadeSaida";
@@ -67,7 +67,7 @@ export default function DetalhesVideo() {
 
   return (
     <div className="layout">
-      <ToastContainer position="bottom-right" theme="colored" />
+      
 
       <MenuLateralProfessor />  
       <div className="page2">

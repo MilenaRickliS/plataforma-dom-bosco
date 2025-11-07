@@ -22,7 +22,7 @@ import {
   adicionarPontos,
   mostrarToastPontosAdicionar,
   regrasPontuacao,
-} from "../../../services/gamificacao";
+} from "../../../services/gamificacao.jsx";
 
 export default function Perfil() {
   const { user } = useContext(AuthContext);
@@ -180,7 +180,7 @@ export default function Perfil() {
   return (
     <div className="layout">
       <MenuLateralAluno />
-      <ToastContainer position="bottom-right" theme="colored" />
+      
       <div className="page2">
         <main>
           <MenuTopoAluno />

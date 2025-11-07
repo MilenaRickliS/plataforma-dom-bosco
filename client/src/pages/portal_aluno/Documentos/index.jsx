@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../contexts/auth";
 import { TbPointFilled } from "react-icons/tb";
 import { ToastContainer } from "react-toastify";
-import { adicionarPontos, mostrarToastPontosAdicionar, mostrarToastPontosRemover, regrasPontuacao } from "../../../services/gamificacao";
+import { adicionarPontos, mostrarToastPontosAdicionar, mostrarToastPontosRemover, regrasPontuacao } from "../../../services/gamificacao.jsx";
 import MenuLateralAluno from "../../../components/portais/MenuLateralAluno";
 import MenuTopoAluno from "../../../components/portais/MenuTopoAluno";
 import "react-toastify/dist/ReactToastify.css";
@@ -81,7 +81,7 @@ export default function Documentos() {
       <MenuLateralAluno />
       <div className="page2">
         <main>
-          <ToastContainer position="bottom-right" theme="colored" />
+          
           <MenuTopoAluno />
 
           <section className="sessao-documentos">

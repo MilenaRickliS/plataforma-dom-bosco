@@ -20,7 +20,7 @@ import {
   removerPontos,
   mostrarToastPontosRemover,
   regrasPontuacao
-} from "../../../services/gamificacao";
+} from "../../../services/gamificacao.jsx";
 
 
 export default function AtivDetalhes() {
@@ -179,7 +179,7 @@ const [chatAlunoSelecionado, setChatAlunoSelecionado] = useState(null);
   
   return (
     <div className="layout">
-       <ToastContainer position="bottom-right" theme="colored" />
+      
       <MenuLateralProfessor />
       <div className="page2">
         <main id="sala">

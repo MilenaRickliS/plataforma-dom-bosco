@@ -9,7 +9,7 @@ import { FaRegFaceGrinBeamSweat } from "react-icons/fa6";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./style.css";
-import { getPontos } from "../../../services/gamificacao";
+import { getPontos } from "../../../services/gamificacao.jsx";
 import { db } from "../../../services/firebaseConnection";
 import { collection, query, where, getDocs } from "firebase/firestore";
 
@@ -158,7 +158,7 @@ export default function NotasAluno() {
 
   return (
     <div className="layout">
-      <ToastContainer position="bottom-right" theme="colored" />
+     
       <MenuLateralAluno />
       <div className="page2">
         <main className="notas-aluno">

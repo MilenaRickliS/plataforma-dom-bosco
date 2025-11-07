@@ -11,7 +11,7 @@ import {
   adicionarPontos,
   mostrarToastPontosAdicionar,
   regrasPontuacao,
-} from "../../../services/gamificacao";
+} from "../../../services/gamificacao.jsx";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -197,7 +197,7 @@ export default function AddVideos() {
 
   return (
     <div className="layout">
-      <ToastContainer position="bottom-right" theme="colored" />
+      
       <MenuLateralProfessor />
       <div className="page2">
         <main className="add-videos">

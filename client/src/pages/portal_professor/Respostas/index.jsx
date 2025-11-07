@@ -11,7 +11,7 @@ import {
   mostrarToastPontosAdicionar,
   mostrarToastPontosRemover,
   regrasPontuacao
-} from "../../../services/gamificacao";
+} from "../../../services/gamificacao.jsx";
 import { ToastContainer, toast} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -100,7 +100,7 @@ export default function RespostasAvaliacao() {
 
   return (
     <div className="layout">
-       <ToastContainer position="bottom-right" theme="colored" />
+       
       <MenuLateralProfessor />
       <div className="page2">
         <main id="sala">

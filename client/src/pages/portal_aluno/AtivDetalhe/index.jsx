@@ -18,7 +18,7 @@ import {
   mostrarToastPontosAdicionar,
   mostrarToastPontosRemover,
   regrasPontuacao
-} from "../../../services/gamificacao";
+} from "../../../services/gamificacao.jsx";
 
 
 
@@ -343,7 +343,7 @@ useEffect(() => {
 
   return (
     <div className="layout">
-      <ToastContainer position="bottom-right" theme="colored" />
+     
       <MenuLateralAluno />
       <div className="page2">
         <main id="sala">

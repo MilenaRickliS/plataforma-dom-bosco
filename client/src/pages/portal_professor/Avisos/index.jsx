@@ -15,7 +15,7 @@ import {
   removerPontos,
   mostrarToastPontosRemover,
   regrasPontuacao,
-} from "../../../services/gamificacao";
+} from "../../../services/gamificacao.jsx";
 
 
 export default function Avisos() {
@@ -143,13 +143,7 @@ export default function Avisos() {
             </div>
           )}
 
-          <ToastContainer
-            position="bottom-right"
-            autoClose={2500}
-            hideProgressBar={false}
-            pauseOnHover
-            theme="colored"
-          />
+          
         </main>
       </div>
     </div>

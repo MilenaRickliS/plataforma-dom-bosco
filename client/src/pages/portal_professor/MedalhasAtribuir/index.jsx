@@ -9,7 +9,7 @@ import "./style.css";
 import { FaMedal } from "react-icons/fa6";
 import { MdModeEdit } from "react-icons/md";
 import { FaTrashAlt } from "react-icons/fa";
-import { adicionarPontos, removerPontos, mostrarToastPontosAdicionar, mostrarToastPontosRemover, regrasPontuacao } from "../../../services/gamificacao";
+import { adicionarPontos, removerPontos, mostrarToastPontosAdicionar, mostrarToastPontosRemover, regrasPontuacao } from "../../../services/gamificacao.jsx";
 import { ToastContainer, toast} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -256,7 +256,7 @@ export default function MedalhasAtribuir() {
 
   return (
     <div className="layout">
-      <ToastContainer position="bottom-right" theme="colored" />
+      
       <MenuLateralProfessor />
       <div className="page2">
         <main>

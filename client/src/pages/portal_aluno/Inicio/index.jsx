@@ -9,7 +9,7 @@ import axios from "axios";
 import "./style.css";
 import { FaSearch, FaQuoteLeft, FaBell } from "react-icons/fa";
 import frases from "../../../data/frases.json";
-import { adicionarPontos, removerPontos, mostrarToastPontosAdicionar, mostrarToastPontosRemover, regrasPontuacao } from "../../../services/gamificacao";
+import { adicionarPontos, removerPontos, mostrarToastPontosAdicionar, mostrarToastPontosRemover, regrasPontuacao } from "../../../services/gamificacao.jsx";
 import { ToastContainer, toast} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import GlobalSearch from "../../../components/portais/GlobalSearch";
@@ -154,7 +154,7 @@ export default function Inicio() {
 
   return (
     <div className="layout">
-      <ToastContainer position="bottom-right" theme="colored" />
+      
       <MenuLateralAluno />
       <div className="page2">
         <main>

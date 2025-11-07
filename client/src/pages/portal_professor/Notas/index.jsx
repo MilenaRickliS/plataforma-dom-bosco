@@ -7,7 +7,7 @@ import { getTurmasDoProfessor, getAlunosDaTurma } from "../../../services/turma"
 import { getTemplates } from "../../../services/medalhas";
 import { FaMedal } from "react-icons/fa6";
 import "./style.css";
-import { removerPontos, mostrarToastPontosRemover, regrasPontuacao, getPontos } from "../../../services/gamificacao";
+import { removerPontos, mostrarToastPontosRemover, regrasPontuacao, getPontos } from "../../../services/gamificacao.jsx";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { BiHappyHeartEyes } from "react-icons/bi";
@@ -263,7 +263,7 @@ export default function Notas() {
 
   return (
     <div className="layout">
-      <ToastContainer position="bottom-right" theme="colored" />
+     
       <MenuLateralProfessor />
       <div className="page2">
         <main className="notas">

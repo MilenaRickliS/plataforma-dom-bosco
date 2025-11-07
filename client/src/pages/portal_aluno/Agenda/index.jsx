@@ -10,7 +10,7 @@ import axios from "axios";
 import { FaSearch } from "react-icons/fa";
 import { FiEdit3 } from "react-icons/fi";
 import { FaTrashCan } from "react-icons/fa6";
-import { adicionarPontos, removerPontos, mostrarToastPontosAdicionar, mostrarToastPontosRemover, regrasPontuacao } from "../../../services/gamificacao";
+import { adicionarPontos, removerPontos, mostrarToastPontosAdicionar, mostrarToastPontosRemover, regrasPontuacao } from "../../../services/gamificacao.jsx";
 import { ToastContainer, toast} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -340,7 +340,7 @@ export default function Agenda() {
       <MenuLateralAluno />
       <div className="page2">
         <main>
-          <ToastContainer position="bottom-right" theme="colored" />
+          
 
           <MenuTopoAluno />
           <div className="sigar">

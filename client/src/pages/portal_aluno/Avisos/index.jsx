@@ -11,7 +11,7 @@ import {
   mostrarToastPontosAdicionar,
   mostrarToastPontosRemover,
   regrasPontuacao,
-} from "../../../services/gamificacao";
+} from "../../../services/gamificacao.jsx";
 import { usePenalidadeSaida } from "../../../hooks/usePenalidadeSaida";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -132,7 +132,7 @@ export default function Avisos() {
       <div className="page2">
         <main className="avisos-aluno">
           <MenuTopoAluno />
-          <ToastContainer position="bottom-right" theme="colored" />
+         
 
           <h2 className="titulo-avisos">
             <AiTwotoneNotification /> Avisos recebidos
