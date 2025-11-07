@@ -6,6 +6,7 @@ import { AuthContext } from "../../../contexts/auth";
 import { getTurmasDoProfessor, getAlunosDaTurma } from "../../../services/turma";
 import { getTemplates } from "../../../services/medalhas";
 import { FaMedal } from "react-icons/fa6";
+import { FaAward } from "react-icons/fa";
 import "./style.css";
 import { removerPontos, mostrarToastPontosRemover, regrasPontuacao, getPontos } from "../../../services/gamificacao.jsx";
 import { ToastContainer, toast } from "react-toastify";
@@ -16,6 +17,7 @@ import { FaRegFaceGrinBeamSweat } from "react-icons/fa6";
 import { FaBook } from "react-icons/fa6";
 import { db } from "../../../services/firebaseConnection";
 import { collection, query, where, getDocs } from "firebase/firestore";
+import { Link } from "react-router-dom";
 
 export default function Notas() {
   const { user } = useContext(AuthContext);
@@ -39,7 +41,7 @@ export default function Notas() {
     if (!user?.uid) return;
     getTurmasDoProfessor(user.uid).then(setTurmas).catch(console.error);
     getTemplates(user.uid).then(setMedalhasProfessor).catch(console.error);
-    getPontos(user.uid).then(setPontos).catch(console.error);
+  
   }, [user]);
 
  
@@ -261,6 +263,29 @@ export default function Notas() {
     pontos < 25 ? "red" :
     pontos < 50 ? "orange" : "green";
 
+
+useEffect(() => {
+  if (!user || !user.uid) {
+    console.log("⏳ Aguardando user carregar...");
+    return;
+  }
+
+  console.log("🚀 Buscando pontos do professor:", user.uid);
+  async function carregarPontos() {
+    try {
+      const pts = await getPontos(user.uid);
+      console.log("🎯 Pontos recebidos do backend:", pts);
+      setPontos(pts);
+    } catch (err) {
+      console.error("❌ Erro ao buscar pontos:", err);
+      toast.error("Erro ao carregar pontos.");
+    }
+  }
+
+  carregarPontos();
+}, [user?.uid]);
+
+
   return (
     <div className="layout">
      
@@ -282,9 +307,11 @@ export default function Notas() {
               />
             )}
 
-            <div className="status-pontuacao">
+             <div key={user?.uid} className="status-pontuacao">
               <p className="meus-pontos">Meus pontos</p>
-              <p className="pontos">{pontos} pontos</p>
+              <p className="pontos">
+                {pontos === 0 ? "Carregando..." : `${pontos} pontos`}
+              </p>
               <p style={{ color: corHumor }}>{humorLabel}</p>
             </div>
           </div>
@@ -434,6 +461,8 @@ export default function Notas() {
           {turmaId && (
             <section className="lista-alunos-medalhas-view">
               <h3>🏅 Medalhas dos Alunos</h3>
+              <Link to="/professor/medalhas/atribuir" className="btn-atribuir"><FaAward /> Atribuir medalhas</Link>
+              <br/>
               {alunos.length === 0 ? (
                 <p>Nenhum aluno nesta turma.</p>
               ) : (

@@ -1,23 +1,34 @@
 import admin from "../firebaseAdmin.js";
 const db = admin.firestore();
 
+/**
+ * Atualiza pontos do usuário e registra log
+ */
 async function atualizarPontos(userId, delta, motivo = "") {
+  console.log("⚙️  atualizarPontos chamado:", { userId, delta, motivo });
+
   const ref = db.collection("usuarios").doc(userId);
   const logRef = db.collection("gamificacao_logs").doc();
 
   return await db.runTransaction(async (t) => {
     const doc = await t.get(ref);
     const dados = doc.exists ? doc.data() : {};
+
+    console.log("📄 Dados atuais do usuário:", dados);
+
     const pontosAtuais = dados.pontos || 0;
     const nome = dados.nome || "Sem nome";
     const email = dados.email || "Sem email";
     const role = dados.role || "desconhecido";
-    const novosPontos = Math.max(0, pontosAtuais + delta);
 
-    
+    const novosPontos = Math.max(0, pontosAtuais + Number(delta));
+
+    console.log("💾 Novo total de pontos calculado:", novosPontos);
+
+    // Atualiza os pontos
     t.set(ref, { pontos: novosPontos }, { merge: true });
 
-    
+    // Cria log da operação
     t.set(logRef, {
       userId,
       nome,
@@ -34,6 +45,9 @@ async function atualizarPontos(userId, delta, motivo = "") {
   });
 }
 
+/**
+ * Handler principal das rotas /api/gamificacao
+ */
 export default async function handler(req, res) {
   const { method } = req;
 
@@ -47,81 +61,91 @@ export default async function handler(req, res) {
       }
     }
 
+    // 📈 Adicionar pontos
     if (method === "POST" && req.url.includes("/add")) {
+      console.log("📥 Recebido POST /add:", body);
       const { userId, valor, motivo } = body || {};
       if (!userId || valor === undefined)
         return res.status(400).json({ error: "userId e valor são obrigatórios" });
 
-      const total = await atualizarPontos(userId, valor, motivo || "Adição de pontos");
+      const total = await atualizarPontos(userId, Number(valor), motivo || "Adição de pontos");
+      console.log("✅ Pontos adicionados com sucesso:", { userId, total });
       return res.status(200).json({ success: true, total });
     }
 
+    // 📉 Remover pontos
     if (method === "POST" && req.url.includes("/remove")) {
+      console.log("📥 Recebido POST /remove:", body);
       const { userId, valor, motivo } = body || {};
       if (!userId || valor === undefined)
         return res.status(400).json({ error: "userId e valor são obrigatórios" });
 
-      const total = await atualizarPontos(userId, -Math.abs(valor), motivo || "Remoção de pontos");
+      const total = await atualizarPontos(userId, -Math.abs(Number(valor)), motivo || "Remoção de pontos");
+      console.log("✅ Pontos removidos com sucesso:", { userId, total });
       return res.status(200).json({ success: true, total });
     }
 
+    // 🔍 Consultar pontos
     if (method === "GET") {
       const userId = req.query.userId || req.url.split("/").pop();
       if (!userId) return res.status(400).json({ error: "userId obrigatório" });
 
+      console.log("🔎 Consultando pontos do usuário:", userId);
       const doc = await db.collection("usuarios").doc(userId).get();
       const pontos = doc.exists ? doc.data().pontos || 0 : 0;
+      console.log("📊 Pontos retornados:", pontos);
 
       return res.status(200).json({ pontos });
     }
 
-    
-  if (method === "POST" && req.url.includes("/salvar")) {
-    const { userId, pontos } = body || {};
-    if (!userId || pontos === undefined)
-      return res.status(400).json({ error: "userId e pontos são obrigatórios" });
+    // 📝 Salvar manualmente
+    if (method === "POST" && req.url.includes("/salvar")) {
+      const { userId, pontos } = body || {};
+      if (!userId || pontos === undefined)
+        return res.status(400).json({ error: "userId e pontos são obrigatórios" });
 
-    const ref = db.collection("usuarios").doc(userId);
-    const doc = await ref.get();
-    const dados = doc.exists ? doc.data() : {};
+      console.log("🛠️ Salvando pontos manualmente:", { userId, pontos });
 
-    await ref.set({ pontos }, { merge: true });
+      const ref = db.collection("usuarios").doc(userId);
+      const doc = await ref.get();
+      const dados = doc.exists ? doc.data() : {};
 
-    await db.collection("gamificacao_logs").add({
-      userId,
-      nome: dados.nome || "Desconhecido",
-      email: dados.email || "Sem email",
-      role: dados.role || "desconhecido",
-      tipo: "ajuste",
-      valor: pontos,
-      motivo: "Ajuste manual no painel",
-      pontosTotais: pontos,
-      data: admin.firestore.FieldValue.serverTimestamp(),
-    });
+      await ref.set({ pontos }, { merge: true });
 
-    return res.status(200).json({ success: true });
-  }
+      await db.collection("gamificacao_logs").add({
+        userId,
+        nome: dados.nome || "Desconhecido",
+        email: dados.email || "Sem email",
+        role: dados.role || "desconhecido",
+        tipo: "ajuste",
+        valor: pontos,
+        motivo: "Ajuste manual no painel",
+        pontosTotais: pontos,
+        data: admin.firestore.FieldValue.serverTimestamp(),
+      });
 
-  
-  if (method === "POST" && req.url.includes("/zerar")) {
-    const usuariosSnap = await db.collection("usuarios").get();
-    const batch = db.batch();
+      return res.status(200).json({ success: true });
+    }
 
-    usuariosSnap.forEach((doc) => {
-      batch.update(doc.ref, { pontos: 0 });
-    });
+    // 🧹 Zerar gamificação
+    if (method === "POST" && req.url.includes("/zerar")) {
+      console.log("🧹 Zerando gamificação...");
+      const usuariosSnap = await db.collection("usuarios").get();
+      const batch = db.batch();
 
-    await batch.commit();
+      usuariosSnap.forEach((doc) => {
+        batch.update(doc.ref, { pontos: 0 });
+      });
+      await batch.commit();
 
-    
-    const logsSnap = await db.collection("gamificacao_logs").get();
-    const batch2 = db.batch();
-    logsSnap.forEach((doc) => batch2.delete(doc.ref));
-    await batch2.commit();
+      const logsSnap = await db.collection("gamificacao_logs").get();
+      const batch2 = db.batch();
+      logsSnap.forEach((doc) => batch2.delete(doc.ref));
+      await batch2.commit();
 
-    return res.status(200).json({ success: true, message: "Gamificação zerada" });
-  }
-
+      console.log("✅ Gamificação zerada com sucesso");
+      return res.status(200).json({ success: true, message: "Gamificação zerada" });
+    }
 
     return res.status(405).json({ error: "Método não permitido" });
   } catch (err) {

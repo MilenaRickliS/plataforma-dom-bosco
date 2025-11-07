@@ -122,19 +122,30 @@ export default function NotasAluno() {
 
  
   useEffect(() => {
-    if (!user?.uid) return;
-    const carregarMedalhas = async () => {
-      try {
-        const res = await fetch(`${API}/api/medalhas/aluno/${user.uid}`);
-        const data = await res.json();
-        setMedalhas(data || []);
-      } catch (err) {
-        console.error("Erro ao carregar medalhas:", err);
-      }
-    };
-    carregarMedalhas();
-    getPontos(user.uid).then(setPontos);
-  }, [user, API]);
+  if (!user || !user.uid) {
+    console.log("⏳ Aguardando user carregar...");
+    return;
+  }
+
+  async function carregarMedalhasEPontos() {
+    try {
+      console.log("🚀 Buscando medalhas e pontos do aluno:", user.uid);
+      const [medalhasRes, pontosRes] = await Promise.all([
+        fetch(`${API}/api/medalhas/aluno/${user.uid}`).then(r => r.json()),
+        getPontos(user.uid),
+      ]);
+      setMedalhas(medalhasRes || []);
+      setPontos(pontosRes);
+      console.log("🎯 Pontos recebidos:", pontosRes);
+    } catch (err) {
+      console.error("❌ Erro ao carregar dados:", err);
+      toast.error("Erro ao carregar dados do aluno.");
+    }
+  }
+
+  carregarMedalhasEPontos();
+}, [user?.uid, API]);
+
 
  
   const humorIcone =
@@ -172,11 +183,14 @@ export default function NotasAluno() {
               className="foto-circulo-ranking"
               onError={(e) => (e.target.src = "/src/assets/user-placeholder.png")}
             />
-            <div className="status-pontuacao">
+            <div key={user?.uid} className="status-pontuacao">
               <p className="meus-pontos">Meus pontos</p>
-              <p className="pontos">{pontos} pontos</p>
+              <p className="pontos">
+                {pontos === 0 ? "Carregando..." : `${pontos} pontos`}
+              </p>
               <p style={{ color: corHumor }}>{humorLabel}</p>
             </div>
+
           </div>
 
           

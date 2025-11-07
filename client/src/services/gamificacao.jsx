@@ -13,8 +13,10 @@ export async function removerPontos(userId, valor, motivo = "Ação negativa") {
 
 export async function getPontos(userId) {
   const res = await axios.get(`${API}/api/gamificacao/${userId}`);
+  console.log("📦 getPontos retornou:", res.data);
   return res.data.pontos;
 }
+
 
 export function mostrarToastPontosAdicionar(valor, motivo) {
   
@@ -151,6 +153,7 @@ export const regrasPontuacao = {
 
   //professor - turmas
   criarTurma: 5,
+  excluirTurma: -5,
   postarAtividade: 2,
   responderDuvida: 5,
   mediaAlunosBoa: 5,
@@ -195,7 +198,7 @@ export const regrasPontuacao = {
   receberMedalha: 20,
   perderMedalha: -20,
   //professor - medalhas
-  criarMedalha: 10,
+  criarMedalha: 5,
   atribuirMedalha: 5,  
   excluirMedalha: -5,
   removerMedalhaAluno: -5,

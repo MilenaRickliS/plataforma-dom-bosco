@@ -111,9 +111,11 @@
     align-items: center;
     gap: 8px;
     transition: all 0.2s;
+    max-width: 220px;
+    text-decoration: none;
 }
 .btn-atribuir:hover{
-    background-color: #c49405;
+    background-color: #ffee00;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 .container-medalhas {

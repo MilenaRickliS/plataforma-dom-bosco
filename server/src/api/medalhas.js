@@ -1,6 +1,8 @@
 import admin from "../firebaseAdmin.js";
 import { v2 as cloudinary } from "cloudinary";
 import multer from "multer";
+import { regrasPontuacao } from "../../config/regrasPontuacao.js";
+
 
 const db = admin.firestore();
 
@@ -201,13 +203,33 @@ export default async function handler(req, res) {
         });
       }
 
-      await batch.commit();
+     await batch.commit();
+
+      
+      try {
+        const awardedStudents = alunos.filter(a => !skipped.includes(a));
+        for (const studentId of awardedStudents) {
+          await fetch(`${process.env.API_URL || "http://localhost:5000"}/api/gamificacao/add`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              userId: studentId,
+              valor: regrasPontuacao.receberMedalha,
+              motivo: `Recebeu a medalha "${template.title}" 🏅`,
+            }),
+          });
+        }
+      } catch (e) {
+        console.error("⚠️ Erro ao adicionar pontos por medalha:", e);
+      }
+
       return res.status(200).json({
         ok: true,
         awarded: alunos.length - skipped.length,
         skippedCount: skipped.length,
         skipped,
       });
+
     }
 
    
@@ -215,10 +237,35 @@ export default async function handler(req, res) {
     if (deleteAwardMatch) {
       const awardId = deleteAwardMatch[1];
 
-      if (method === "DELETE") {
-        await db.collection("medal_awards").doc(awardId).delete();
-        return res.status(200).json({ ok: true, msg: "Medalha removida." });
+     if (method === "DELETE") {
+        const awardRef = db.collection("medal_awards").doc(awardId);
+        const awardDoc = await awardRef.get();
+
+        if (!awardDoc.exists) {
+          return res.status(404).json({ error: "Medalha não encontrada." });
+        }
+
+        const award = awardDoc.data();
+        await awardRef.delete();
+
+        
+        try {
+          await fetch(`${process.env.API_URL || "http://localhost:5000"}/api/gamificacao/remove`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              userId: award.studentId,
+              valor: Math.abs(regrasPontuacao.perderMedalha),
+              motivo: `Perdeu a medalha "${award.templateId}" 😢`,
+            }),
+          });
+        } catch (e) {
+          console.error("⚠️ Erro ao remover pontos por perda de medalha:", e);
+        }
+
+        return res.status(200).json({ ok: true, msg: "Medalha removida e pontos ajustados." });
       }
+
 
       if (method === "PUT") {
         const { newTemplateId } = body || {};
