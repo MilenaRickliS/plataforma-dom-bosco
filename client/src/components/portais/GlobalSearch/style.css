@@ -1,0 +1,79 @@
+.global-search-container {
+  position: relative;
+  width: 100%;
+ 
+}
+
+.global-search-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border-radius: 20px;
+  padding: 6px 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  width: 100%;
+  color: #333;
+}
+
+.global-search-box input {
+  border: none;
+  outline: none;
+  flex: 1;
+  margin-left: 8px;
+  font-size: 14px;
+  color: #333;
+  background-color: #fff;
+  width: 100%;
+  padding: 10px;
+}
+
+.global-search-results {
+  position: absolute;
+  top: 42px;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+  max-height: 350px;
+  overflow-y: auto;
+  z-index: 999;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.search-item {
+  display: block;
+  padding: 10px 15px;
+  color: #333;
+  text-decoration: none;
+  border-bottom: 1px solid #f2f2f2;
+}
+
+.search-item:hover {
+  background: #f9f9f9;
+}
+
+.search-item .tipo {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #888;
+}
+
+.search-item .titulo {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.no-results {
+  padding: 10px;
+  text-align: center;
+  color: #999;
+  font-size: 13px;
+}
+.tipo-videos { color: #2196f3; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}

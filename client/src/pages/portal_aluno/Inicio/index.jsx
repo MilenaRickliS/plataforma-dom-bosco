@@ -12,6 +12,7 @@ import frases from "../../../data/frases.json";
 import { adicionarPontos, removerPontos, mostrarToastPontosAdicionar, mostrarToastPontosRemover, regrasPontuacao } from "../../../services/gamificacao";
 import { ToastContainer, toast} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import GlobalSearch from "../../../components/portais/GlobalSearch";
 
 export default function Inicio() {
   const { user } = useContext(AuthContext);
@@ -158,10 +159,7 @@ export default function Inicio() {
       <div className="page2">
         <main>
           <MenuTopoAluno />
-          <div className="barra-pesquisa-dashboard">
-            <p>Pesquisar...</p>
-            <FaSearch />
-          </div>
+           <GlobalSearch /> <br/>
 
           <div className="inicio-dashboard">
             <div className="frase">

@@ -19,7 +19,7 @@ import {
   mostrarToastPontosAdicionar,
   regrasPontuacao
 } from "../../../services/gamificacao";
-
+import GlobalSearch from "../../../components/portais/GlobalSearch";
 
 export default function Inicio() {
   const { user } = useContext(AuthContext);
@@ -232,10 +232,7 @@ const toEmbed = (url) => {
       <div className="page2">
         <main>
           <MenuTopoProfessor />
-          <div className="barra-pesquisa-dashboard">
-              <p>Pesquisar...</p>
-              <FaSearch />
-          </div>
+          <GlobalSearch /><br/>
           <div className="inicio-dashboard">
             <div className="frase">
               <FaQuoteLeft />
