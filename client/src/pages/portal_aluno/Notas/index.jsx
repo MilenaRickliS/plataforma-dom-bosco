@@ -58,52 +58,67 @@ export default function NotasAluno() {
 
   
   useEffect(() => {
-    if (!turmaSelecionada || !user?.uid) return;
-    const carregarBoletim = async () => {
-      try {
-        setLoading(true);
-        const [atividadesRes, avaliacoesRes, notasRes] = await Promise.all([
-          fetch(`${API}/api/atividade?turmaId=${turmaSelecionada}`).then(r => r.json()),
-          fetch(`${API}/api/avaliacoes`).then(r => r.json()),
-          fetch(`${API}/api/notas?turmaId=${turmaSelecionada}&alunoId=${user.uid}`).then(r => r.json())
-        ]);
+  if (!turmaSelecionada || !user?.uid) return;
+  const carregarBoletim = async () => {
+    try {
+      setLoading(true);
 
-        const avaliacoesFiltradas = avaliacoesRes.filter(av => av.turmaCodigo === turmaSelecionada);
-        const notas = notasRes || [];
 
-        const todas = [
-          ...atividadesRes.map(a => ({
-            tipo: "Atividade",
-            titulo: a.titulo,
-            valor: a.valor || 10,
-            nota: notas.find(n => n.itemId === a.id)?.valor ?? null,
-          })),
-          ...avaliacoesFiltradas.map(av => ({
-            tipo: "Avaliação",
-            titulo: av.titulo,
-            valor: av.valor || 10,
-            nota: notas.find(n => n.itemId === av.id)?.valor ?? null,
-          })),
-        ];
+      const [atividadesRes, notasRes] = await Promise.all([
+        fetch(`${API}/api/atividade?turmaId=${turmaSelecionada}`).then(r => r.json()),
+        fetch(`${API}/api/notas?turmaId=${turmaSelecionada}`).then(r => r.json())
+      ]);
 
-       
-        const notasValidas = todas.map(t => Number(t.nota) || 0);
-        const soma = notasValidas.reduce((acc, n) => acc + n, 0);
-        const mediaParcial = todas.length > 0 ? soma / todas.length : 0;
+      console.log("📘 Notas retornadas:", notasRes);
 
-        const notaExtra = notas.find(n => n.tipo === "extra")?.valor || 0;
-        const mediaFinal = Math.min(mediaParcial + notaExtra, 10);
+     
+      const notasAluno = (notasRes || []).filter(n => n.alunoId === user.uid);
 
-        setBoletim({ linhas: todas, mediaParcial, notaExtra, mediaFinal });
-      } catch (err) {
-        console.error("Erro ao carregar boletim:", err);
-        toast.error("Erro ao carregar notas.");
-      } finally {
-        setLoading(false);
-      }
-    };
-    carregarBoletim();
-  }, [turmaSelecionada, user, API]);
+      const avaliacoesEncontradas = [];
+      notasAluno.forEach(n => {
+        if (n.tipo === "avaliacao" && !avaliacoesEncontradas.some(a => a.id === n.itemId)) {
+          avaliacoesEncontradas.push({
+            id: n.itemId,
+            titulo: n.titulo || "Avaliação",
+            valor: n.valorPadrao || 10,
+            nota: n.valor ?? null,
+          });
+        }
+      });
+
+      const todas = [
+        ...atividadesRes.map(a => ({
+          tipo: "Atividade",
+          titulo: a.titulo,
+          valor: a.valor || 10,
+          nota: notasAluno.find(n => n.itemId === a.id && n.tipo === "atividade")?.valor ?? null,
+        })),
+        ...avaliacoesEncontradas.map(av => ({
+          tipo: "Avaliação",
+          titulo: av.titulo,
+          valor: av.valor,
+          nota: av.nota ?? null,
+        })),
+      ];
+
+      const notasValidas = todas.map(t => Number(t.nota) || 0);
+      const soma = notasValidas.reduce((acc, n) => acc + n, 0);
+      const mediaParcial = todas.length > 0 ? soma / todas.length : 0;
+
+      const notaExtra = notasAluno.find(n => n.tipo === "extra")?.valor || 0;
+      const mediaFinal = Math.min(mediaParcial + notaExtra, 10);
+
+      setBoletim({ linhas: todas, mediaParcial, notaExtra, mediaFinal });
+    } catch (err) {
+      console.error("Erro ao carregar boletim:", err);
+      toast.error("Erro ao carregar notas.");
+    } finally {
+      setLoading(false);
+    }
+  };
+  carregarBoletim();
+}, [turmaSelecionada, user, API]);
+
 
  
   useEffect(() => {

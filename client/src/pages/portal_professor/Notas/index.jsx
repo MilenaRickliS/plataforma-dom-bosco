@@ -94,10 +94,23 @@ export default function Notas() {
     
         ]);
 
-        const avaliacoesTurma = avaliacoesRes.filter(a => a.turmaCodigo === turmaId);
+       
+        const avaliacoesEncontradas = [];
+        notasRes.forEach(n => {
+          if (n.tipo === "avaliacao" && !avaliacoesEncontradas.some(a => a.id === n.itemId)) {
+            avaliacoesEncontradas.push({
+              id: n.itemId,
+              titulo: n.titulo || "Avaliação",
+              criadaEm: n.criadaEm || new Date().toISOString(),
+            });
+          }
+        });
+
         const ordenar = (a, b) => new Date(a.criadaEm) - new Date(b.criadaEm);
+
         setAtividades(atividadesRes.sort(ordenar));
-        setAvaliacoes(avaliacoesTurma.sort(ordenar));
+        setAvaliacoes(avaliacoesEncontradas.sort(ordenar));
+
 
        
         const boletimInicial = {};
@@ -174,6 +187,26 @@ export default function Notas() {
       toast.error("Erro ao salvar nota.");
     }
   }
+  async function salvarNotaExtra(alunoId, valor) {
+  try {
+    await fetch(`${import.meta.env.VITE_API_URL}/api/notas`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        turmaId,
+        alunoId,
+        tipo: "extra",      
+        itemId: "nota_extra", 
+        valor: Number(valor),
+      }),
+    });
+    toast.success("Nota extra salva!");
+  } catch (err) {
+    console.error("Erro ao salvar nota extra:", err);
+    toast.error("Erro ao salvar nota extra.");
+  }
+}
+
 
   
   async function handleExcluirMedalha(awardId, alunoId) {
@@ -362,15 +395,20 @@ export default function Notas() {
                             ))}
 
                             <td>{calcularMediaParcial(aluno.id)}</td>
-                            <td>
-                              <input
+                            <td style={{ backgroundColor: "#e6f7e6", fontWeight: "bold" }}>
+                             <input
                                 type="number"
                                 min="0"
                                 max="10"
                                 step="0.1"
                                 value={boletim[aluno.id]?.notaExtra || ""}
-                                onChange={(e) => atualizarNotaExtra(aluno.id, e.target.value)}
+                                onChange={(e) => {
+                                  const valor = e.target.value;
+                                  atualizarNotaExtra(aluno.id, valor);
+                                  salvarNotaExtra(aluno.id, valor); 
+                                }}
                               />
+
                             </td>
                             <td>{calcularMediaFinal(aluno.id)}</td>
 
