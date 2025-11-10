@@ -133,7 +133,6 @@ const toEmbed = (url) => {
         materia,
         imagem: imgUrl,
         professorId: user.uid,
-        professorNome: user.nome,
         
       });
       toast.success(`Turma criada com sucesso!\nCódigo: ${data.codigo}`);

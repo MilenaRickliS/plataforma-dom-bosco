@@ -6,6 +6,7 @@ import { Link, NavLink, useParams } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../../../contexts/auth";
 import ChatTurma from "../../../components/portais/ChatTurma";
+import { BsFillPersonFill } from "react-icons/bs";
 
 export default function Turma() {
   const { id } = useParams(); 
@@ -100,8 +101,30 @@ export default function Turma() {
             <div>
               <h3 style={{ marginBottom: "0.5rem" }}>{titulo}</h3>
               {subtitulo && <p>{subtitulo}</p>}
+
+              {turma?.professorNome && (
+                <p style={{ marginTop: "0.8rem", fontSize: "0.95rem", opacity: 0.9 }}>
+                  <BsFillPersonFill /> <strong>Professor:</strong> {turma.professorNome}
+                </p>
+              )}
             </div>
+
+            {turma?.professorFoto && (
+              <img
+                src={turma.professorFoto}
+                alt="Foto do professor"
+                style={{
+                  width: "70px",
+                  height: "70px",
+                  borderRadius: "50%",
+                  objectFit: "cover",
+                  border: "3px solid #fff",
+                  boxShadow: "0 0 10px rgba(0,0,0,0.3)",
+                }}
+              />
+            )}
           </div>
+
 
           <div className="menu-ativ">
             <div className="div-cor">

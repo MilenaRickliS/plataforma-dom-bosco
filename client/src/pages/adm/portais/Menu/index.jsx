@@ -15,7 +15,7 @@ export default function MenuPortais() {
                 </div>
                 <div className="menu-portais">
                     <Link to="/usuarios" className="link-usuarios">Usuários</Link>
-                    <Link to="/turmas" className="link-turmas">Turmas</Link>
+                    <Link to="/gerenciar-turmas" className="link-turmas">Turmas</Link>
                     <Link to="/gamificacao" className="link-gamificacao">Gamificação</Link>
                 </div>
                 

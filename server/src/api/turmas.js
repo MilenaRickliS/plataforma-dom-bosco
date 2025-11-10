@@ -211,18 +211,30 @@ export default async function handler(req, res) {
 
    
     if (method === "POST" && url.includes("/criar")) {
-      const { nomeTurma, materia, imagem, professorId, professorNome} = body;
+      const { nomeTurma, materia, imagem, professorId } = body;
 
       if (!nomeTurma || !materia || !professorId) {
         return res.status(400).json({ error: "Campos obrigatórios faltando" });
       }
 
-      let professorFoto = "";
-      const profSnap = await db.collection("usuarios").doc(professorId).get();
-      if (profSnap.exists) {
-        const dados = profSnap.data();
-        professorFoto = dados.foto || ""; 
+      let profSnap = await db.collection("usuarios").doc(professorId).get();
+
+  
+      if (!profSnap.exists) {
+        const snap = await db.collection("usuarios").where("uid", "==", professorId).limit(1).get();
+        if (!snap.empty) {
+          profSnap = snap.docs[0];
+        }
       }
+
+      if (!profSnap.exists) {
+        return res.status(404).json({ error: "Professor não encontrado" });
+      }
+
+
+      const profData = profSnap.data();
+      const professorNome = profData.nome || "Professor não identificado";
+      const professorFoto = profData.foto || "";
 
       const codigo = uuidv4().slice(0, 6).toUpperCase();
 
@@ -232,15 +244,16 @@ export default async function handler(req, res) {
         imagem: imagem || "",
         codigo,
         professorId,
-        professorNome: professorNome || "",
-        professorFoto: professorFoto || "",
+        professorNome,  
+        professorFoto,
         alunos: [],
-         arquivada: false,
+        arquivada: false,
         criadoEm: new Date(),
       });
 
       return res.status(201).json({ id: turmaRef.id, codigo });
     }
+
 
    
     if (method === "PATCH" && (url.includes("/arquivar") || query?.action === "arquivar")) {

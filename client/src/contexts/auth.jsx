@@ -16,6 +16,8 @@ import {
   mostrarToastPontosRemover,
   regrasPontuacao,
 } from "../services/gamificacao";
+import {toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const AuthContext = createContext({});
 
@@ -126,10 +128,61 @@ export default function AuthProvider({ children }) {
 
       setUser(userData);
       await verificarLoginDiario(userData.uid);
-    } catch (err) {
-      alert("Erro ao entrar: " + err.message);
-      console.error(err);
-    }
+      } catch (err) {
+        console.error("❌ Erro no login:", err);
+        console.log("Código de erro Firebase:", err.code);
+        console.log("Mensagem de erro:", err.message);
+
+        let mensagemErro = "Ocorreu um erro ao tentar entrar.";
+
+        const errorMessage = err.message?.toLowerCase() || "";
+
+        
+        if (err.code === "auth/invalid-email") {
+          mensagemErro = "O e-mail informado é inválido.";
+        } else if (err.code === "auth/user-disabled") {
+          mensagemErro = "Esta conta foi desativada. Contate o administrador.";
+        } else if (err.code === "auth/user-not-found") {
+          mensagemErro = "Usuário não encontrado. Verifique o e-mail digitado.";
+        } else if (
+          err.code === "auth/wrong-password" ||
+          err.code === "auth/invalid-credential"
+        ) {
+          mensagemErro = "E-mail ou senha incorretos. Tente novamente.";
+        } else if (err.code === "auth/missing-password") {
+          mensagemErro = "Digite sua senha para continuar.";
+        } else if (err.code === "auth/too-many-requests") {
+          mensagemErro = "Muitas tentativas de login. Tente novamente mais tarde.";
+        }
+
+
+        else if (errorMessage.includes("failed to fetch")) {
+          mensagemErro = "Erro de conexão com o servidor. Verifique sua internet.";
+        } else if (errorMessage.includes("network")) {
+          mensagemErro = "Erro de rede. Verifique sua conexão.";
+        } else if (errorMessage.includes("internal server error")) {
+          mensagemErro = "Erro interno no servidor. Tente novamente mais tarde.";
+        } else if (errorMessage.includes("unauthorized")) {
+          mensagemErro = "Credenciais inválidas. Verifique e tente novamente.";
+        } else if (errorMessage.includes("timeout")) {
+          mensagemErro = "A conexão expirou. Tente novamente em alguns instantes.";
+        }
+
+        
+        else if (err.response?.data?.error) {
+          mensagemErro = err.response.data.error;
+        } else if (err.response?.data?.message) {
+          mensagemErro = err.response.data.message;
+        }
+
+        
+        toast.error(mensagemErro, {
+          position: "top-center",
+          autoClose: 4000,
+        });
+      }
+
+
   }
 
   async function resetPassword(email) {

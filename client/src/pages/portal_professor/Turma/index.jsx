@@ -20,6 +20,7 @@ import {
   mostrarToastPontosRemover,
   regrasPontuacao
 } from "../../../services/gamificacao.jsx";
+import { BsFillPersonFill } from "react-icons/bs";
 
 export default function Turma() {
   const { id } = useParams(); 
@@ -125,23 +126,71 @@ const subtitulo = turma?.materia ?? "";
           >
             <div>
               {carregando ? (
-                  <h3>Carregando turma...</h3>
-                ) : (
-                  <>
-                    <h3>{turma?.nomeTurma || "Turma sem nome"}</h3>
-                    {turma?.materia && <p>{turma.materia}</p>}
-                  </>
-                )}
+                <h3>Carregando turma...</h3>
+              ) : (
+                <>
+                  <h3 style={{ marginBottom: "0.3rem" }}>
+                    {turma?.nomeTurma || "Turma sem nome"}
+                  </h3>
+                  {turma?.materia && <p>{turma.materia}</p>}
 
+                  
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "10px",
+                      marginTop: "10px",
+                    }}
+                  >
+                    {turma?.professorFoto ? (
+                      <img
+                        src={turma.professorFoto}
+                        alt="Foto do professor"
+                        style={{
+                          width: "55px",
+                          height: "55px",
+                          borderRadius: "50%",
+                          objectFit: "cover",
+                          border: "2px solid #fff",
+                          boxShadow: "0 0 8px rgba(0,0,0,0.4)",
+                        }}
+                      />
+                    ) : (
+                      <img
+                        src="/src/assets/professor-padrao.png"
+                        alt="Professor padrão"
+                        style={{
+                          width: "55px",
+                          height: "55px",
+                          borderRadius: "50%",
+                          objectFit: "cover",
+                          opacity: 0.9,
+                        }}
+                      />
+                    )}
+                    <div>
+                      <p style={{ margin: 0, fontSize: "0.9rem", opacity: 0.9 }}>
+                        <BsFillPersonFill /> <strong>Professor:</strong>
+                      </p>
+                      <p style={{ margin: 0, fontWeight: "bold" }}>
+                        {turma?.professorNome || "Não identificado"}
+                      </p>
+                    </div>
+                  </div>
+                </>
+              )}
 
               <button className="btn-codigo" onClick={() => setMostrarCodigo(true)}>
-                <FaEye />  Mostrar Código da Turma
+                <FaEye /> Mostrar Código da Turma
               </button>
             </div>
+
             <div className="acoes-turma">
               <button onClick={() => setEditando(true)} className="btn-acao-turma editar">
-                <MdEdit />  Editar
+                <MdEdit /> Editar
               </button>
+
               <button
                 onClick={async () => {
                   if (confirm("Tem certeza que deseja arquivar esta turma?")) {
@@ -151,7 +200,9 @@ const subtitulo = turma?.materia ?? "";
                       window.location.href = "/professor/turmas-arquivadas";
                     } catch (err) {
                       console.error("Erro ao arquivar turma:", err);
-                      const msg = err.response?.data?.error || "Erro ao arquivar turma. Tente novamente.";
+                      const msg =
+                        err.response?.data?.error ||
+                        "Erro ao arquivar turma. Tente novamente.";
                       toast.error(msg);
                     }
                   }
@@ -163,26 +214,36 @@ const subtitulo = turma?.materia ?? "";
 
               <button
                 onClick={async () => {
-                  if (confirm("Tem certeza que deseja excluir esta turma permanentemente?")) {
+                  if (
+                    confirm(
+                      "Tem certeza que deseja excluir esta turma permanentemente?"
+                    )
+                  ) {
                     try {
                       await axios.delete(`${API}/api/turmas?id=${id}`);
                       toast.success("Turma excluída com sucesso!");
-                      await removerPontos(user.uid, Math.abs(regrasPontuacao.excluirTurma), "Excluiu uma turma");
-                      mostrarToastPontosRemover(Math.abs(regrasPontuacao.excluirTurma), "Excluiu uma turma");
+                      await removerPontos(
+                        user.uid,
+                        Math.abs(regrasPontuacao.excluirTurma),
+                        "Excluiu uma turma"
+                      );
+                      mostrarToastPontosRemover(
+                        Math.abs(regrasPontuacao.excluirTurma),
+                        "Excluiu uma turma"
+                      );
                       window.location.href = "/professor/inicio";
                     } catch (err) {
-                      const msg = err.response?.data?.error || "Erro ao excluir turma.";
+                      const msg =
+                        err.response?.data?.error || "Erro ao excluir turma.";
                       toast.error(msg);
                     }
                   }
                 }}
-
                 className="btn-acao-turma excluir"
               >
-                <FaTrashAlt />  Excluir
+                <FaTrashAlt /> Excluir
               </button>
             </div>
-
           </div>
 
          

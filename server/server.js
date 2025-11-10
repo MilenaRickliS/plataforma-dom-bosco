@@ -35,6 +35,7 @@ import uploadsRoutes from "./src/api/uploads.js";
 import notasRoutes from "./src/api/notas.js";
 import balancaRoutes from "./src/api/balanca.js";
 import searchRoutes from "./src/api/search.js";
+import gestaoTurmas from "./src/api/gestaoTurmas.js";
 
 dotenv.config();
 
@@ -91,6 +92,7 @@ app.use("/api/uploads", uploadsRoutes);
 app.use("/api/notas", notasRoutes);
 app.use("/api/pesagem", balancaRoutes);
 app.use("/api/search", searchRoutes);
+app.use("/api/gestao-turmas", gestaoTurmas);
 
 
 const PORT = process.env.PORT || 5000;

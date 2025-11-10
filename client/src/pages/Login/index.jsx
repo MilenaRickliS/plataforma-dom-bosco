@@ -5,6 +5,8 @@ import { IoIosArrowBack } from "react-icons/io";
 import { IoEye, IoEyeOff } from "react-icons/io5"; 
 import logo from "../../assets/logo2.png";
 import "./style.css";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Login() {
   const { signInEmail, resetPassword, signed, getRota } = useContext(AuthContext);

@@ -123,7 +123,26 @@ export default async function handler(req, res) {
         criadoEm: new Date(),
       };
 
-      await db.collection("usuarios").doc(userRecord.uid).set(novoUsuario);
+      const userId = userRecord.uid;
+
+      const duplicados = await db.collection("usuarios").where("email", "==", email).get();
+      for (const doc of duplicados.docs) {
+        if (doc.id !== userId) {
+          console.log("🧹 Removendo duplicado:", doc.id);
+          await db.collection("usuarios").doc(doc.id).delete();
+        }
+      }
+
+      await db.collection("usuarios").doc(userId).set({
+        uid: userId,
+        nome,
+        email,
+        role,
+        foto: fotoUrl,
+        criadoEm: new Date(),
+      });
+      console.log("✅ Usuário salvo no Firestore com ID igual ao UID:", userId);
+
       console.log("✅ Usuário salvo no Firestore com ID igual ao UID:", userRecord.uid);
 
 

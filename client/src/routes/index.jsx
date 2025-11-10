@@ -102,7 +102,7 @@ function RoutesApp(){
       <Route path="/inicio-adm" element={ <Private rota="admin"><InicioAdm/></Private> } />
       <Route path="/gestao-portais" element={ <Private rota="admin"><MenuPortais/></Private> } />
       <Route path="/usuarios" element={ <Private rota="admin"><Usuarios/></Private> } />
-      <Route path="/turmas" element={ <Private rota="admin"><TurmasAdm/></Private> } />
+      <Route path="/gerenciar-turmas" element={ <Private rota="admin"><TurmasAdm/></Private> } />
       <Route path="/gamificacao" element={ <Private rota="admin"><Gamificacao/></Private>} />
       
       <Route path="/inicio-refeicao" element={ <Private rota="admin"><InicioRefeicao/></Private> } />
