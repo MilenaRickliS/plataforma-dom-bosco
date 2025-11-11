@@ -37,7 +37,9 @@ plataforma-dom-bosco/
 │   │   ├── assets/             # Imagens e vídeos
 │   │   ├── components/         # Componentes reutilizáveis
 │   │   ├── contexts/           # Contextos (ex: autenticação)
+│   │   ├── data/               # Json frases salensianas
 │   │   ├── fonts/              # Fontes personalizadas
+│   │   ├── hooks/              # Penalidade gamificação
 │   │   ├── pages/              # Páginas principais
 │   │   ├── routes/             # Rotas da aplicação
 │   │   ├── services/           # Conexão com Firebase e API
@@ -48,17 +50,38 @@ plataforma-dom-bosco/
 │
 └── server/                     # Backend Node.js + Express
     ├── src/
-    │   ├── api/                # Principais Rotas
+    │   ├── api/     
+    │   │   ├── atividades.js   # Principais Rotas
     │   │   ├── auth.js
+    │   │   ├── avaliacoes.js
+    │   │   ├── avisos.js
+    │   │   ├── balanca.js
+    │   │   ├── chat.js
+    │   │   ├── chatPrivado.js
+    │   │   ├── contarEsp32.js
+    │   │   ├── conteudo.js
     │   │   ├── cursos.js
     │   │   ├── depoimentos.js
     │   │   ├── email.js
+    │   │   ├── entregas.js
     │   │   ├── equipe.js
     │   │   ├── eventos.js
     │   │   ├── galeria.js
+    │   │   ├── gamificacao.js
+    │   │   ├── gestaoTurmas.js
+    │   │   ├── medalhas.js
+    │   │   ├── notas.js
     │   │   ├── oficinas.js
     │   │   ├── projetos.js
+    │   │   ├── publicacoes.js
+    │   │   ├── questoes.js
+    │   │   ├── refeicoes.js
+    │   │   ├── relatorios.js
+    │   │   ├── respostas.js
+    │   │   ├── search.js
+    │   │   ├── tarefas.js
     │   │   ├── turmas.js
+    │   │   ├── uploads.js
     │   │   ├── usuarios.js
     │   │   └── videos.js
     │   ├── cloudinary.js        # Banco de dados (Fotos e Vídeos)
@@ -123,6 +146,13 @@ plataforma-dom-bosco/
 ```bash
    VITE_API_URL=https://plataforma-dom-bosco-backend.vercel.app
    # VITE_API_URL=http://localhost:5000 - quando localmente
+   VITE_API_URL=https://plataforma-dom-bosco-backend.vercel.app
+
+   # Cloudinary
+   VITE_CLOUDINARY_NAME=xxxx
+   CLOUDINARY_KEY="----- PRIVATE KEY-----"
+   CLOUDINARY_SECRET=xxxx
+   VITE_CLOUDINARY_PRESET=name
 ```
 
 📁 .env (server)
@@ -133,8 +163,11 @@ plataforma-dom-bosco/
    CLOUDINARY_NAME=xxxx
    CLOUDINARY_KEY=xxxx
    CLOUDINARY_SECRET=xxxx
+   CLOUDINARY_PRESET=xxxx
    EMAIL_USER=xxxx@gmail.com
    EMAIL_PASS=xxxx
+   DEVICE_TOKEN=xxxx
+   API_URL=http://localhost:5000
 
 ```
 
