@@ -61,14 +61,15 @@ import RespostasAlunos from "../pages/portal_professor/RespostasAlunos";
 import AlunosProfessor from '../pages/portal_professor/Alunos';
 import MedalhasAtribuir from '../pages/portal_professor/MedalhasAtribuir';
 
-import InicioRefeicao from '../pages/adm/refeicao/Inicio';
+import Dashboard from '../pages/adm/refeicao/Inicio';
 import AdicionarRefeicao from '../pages/adm/refeicao/Adicionar';
 import ContarRefeicao from '../pages/adm/refeicao/Contar';
-import RelatoriosRefeicao from '../pages/adm/refeicao/Relatorios';
+import RelatoriosRefeicoes from '../pages/adm/refeicao/Relatorios/index_new';
 import RegistrosRefeicao from '../pages/adm/refeicao/Registros';
 import ContadorESP32 from '../pages/adm/refeicao/ContarEsp32';
 import Balanca from '../pages/adm/refeicao/Balanca';
 import CardapioNutricional from '../pages/adm/refeicao/CardapioNutricional';
+import ConfiguracoesRefeicoes from '../pages/adm/refeicao/Configuracoes';
 
 import MenuGestao from '../pages/adm/site/Menu';
 import GaleriaGestao from '../pages/adm/site/Galeria';
@@ -105,15 +106,16 @@ function RoutesApp(){
       <Route path="/gerenciar-turmas" element={ <Private rota="admin"><TurmasAdm/></Private> } />
       <Route path="/gamificacao" element={ <Private rota="admin"><Gamificacao/></Private>} />
       
-      <Route path="/inicio-refeicao" element={ <Private rota="admin"><InicioRefeicao/></Private> } />
+      <Route path="/inicio-refeicao" element={ <Private rota="admin"><Dashboard/></Private> } />
+      <Route path="/refeicoes-dashboard" element={ <Private rota="admin"><Dashboard/></Private> } />
       <Route path="/adicionar-refeicao" element={ <Private rota="admin"><AdicionarRefeicao/></Private> } />
       <Route path="/contar-refeicao" element={ <Private rota="admin"><ContarRefeicao/></Private> } />
-      <Route path="/relatorios-refeicao" element={ <Private rota="admin"><RelatoriosRefeicao/></Private> } />
+      <Route path="/relatorios-refeicao" element={ <Private rota="admin"><RelatoriosRefeicoes/></Private> } />
       <Route path="/registros-refeicao" element={ <Private rota="admin"><RegistrosRefeicao/></Private> } />
       <Route path="/contar-alunos" element={ <Private rota="admin"><ContadorESP32/></Private> } />
       <Route path="/balanca-refeicao" element={ <Private rota="admin"><Balanca/></Private>} />
       <Route path="/cardapio-nutricional" element={ <Private rota="admin"><CardapioNutricional/></Private> } />
-      
+      <Route path="/configuracoes-refeicao" element={ <Private rota="admin"><ConfiguracoesRefeicoes/></Private> } />
 
       <Route path="/menu-gestao" element={ <Private rota="admin"><MenuGestao/></Private> } />
       <Route path="/galeria-gestao" element={ <Private rota="admin"><GaleriaGestao/></Private> } />
