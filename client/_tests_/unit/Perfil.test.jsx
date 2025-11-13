@@ -1,9 +1,35 @@
+jest.mock("../../src/contexts/auth.jsx", () => {
+  const React = require("react");
+  return {
+    AuthContext: React.createContext({
+      user: { uid: "u123", email: "aluno@teste.com" },
+    }),
+    useContext: () => ({ user: { uid: "u123", email: "aluno@teste.com" } }),
+  };
+});
+jest.mock("firebase/auth", () => ({
+  getAuth: jest.fn(() => ({ currentUser: { email: "teste@user.com" } })),
+  updatePassword: jest.fn(),
+  EmailAuthProvider: { credential: jest.fn() },
+  reauthenticateWithCredential: jest.fn(),
+  GoogleAuthProvider: jest.fn(() => ({})), 
+}));
+
+jest.mock("../../src/services/firebaseConnection.jsx", () => ({
+  db: {},
+  auth: { currentUser: { email: "teste@user.com" } },
+  storage: {},
+}));
+
+
 import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import Perfil from "../../src/pages/portal_aluno/Perfil/index.jsx";
 import axios from "axios";
 import { getDocs, updateDoc } from "firebase/firestore";
 import { updatePassword, reauthenticateWithCredential } from "firebase/auth";
+process.env.VITE_API_URL = "http://localhost:5000";
+global.import = { meta: { env: { VITE_API_URL: "http://localhost:5000" } } };
 
 
 jest.mock("axios");
@@ -15,16 +41,19 @@ jest.mock("firebase/firestore", () => ({
   updateDoc: jest.fn(),
   doc: jest.fn(),
 }));
-jest.mock("firebase/auth", () => ({
-  getAuth: jest.fn(() => ({ currentUser: { email: "teste@user.com" } })),
-  updatePassword: jest.fn(),
-  EmailAuthProvider: { credential: jest.fn() },
-  reauthenticateWithCredential: jest.fn(),
+jest.mock("../../src/services/gamificacao.jsx", () => ({
+  adicionarPontos: jest.fn(),
+  removerPontos: jest.fn(),
+  mostrarToastPontosAdicionar: jest.fn(),
+  mostrarToastPontosRemover: jest.fn(),
+  regrasPontuacao: { atualizarFoto: 10, loginDiario: 5 },
 }));
+
 jest.mock("../../src/components/portais/MenuLateralAluno", () => () => <div data-testid="menu-lateral">Menu Lateral</div>);
 jest.mock("../../src/components/portais/MenuTopoAluno", () => () => <div data-testid="menu-topo">Menu Topo</div>);
+global.URL.createObjectURL = jest.fn(() => "mocked-url");
 
-describe("👤 Componente Perfil", () => {
+describe("Componente Perfil", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     getDocs.mockResolvedValue({
@@ -45,8 +74,9 @@ describe("👤 Componente Perfil", () => {
     await waitFor(() => screen.getByText(/Aluno Teste/i));
 
     const file = new File(["dummy"], "foto.png", { type: "image/png" });
-    const upload = screen.getByLabelText(/Foto do usuário/i, { selector: "input[type='file']" });
+    const upload = screen.getByTestId("upload-foto");
     fireEvent.change(upload, { target: { files: [file] } });
+
 
     const btnSalvar = await screen.findByText(/Salvar nova foto/i);
     fireEvent.click(btnSalvar);

@@ -200,6 +200,7 @@ export default function Perfil() {
                   <input
                     type="file"
                     accept="image/*"
+                    data-testid="upload-foto"
                     onChange={(e) => {
                       const file = e.target.files[0];
                       if (file) {
