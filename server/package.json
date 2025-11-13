@@ -1,11 +1,12 @@
 {
   "name": "server",
   "version": "1.0.0",
+  "type": "module",
   "main": "server.js",
   "scripts": {
     "dev": "vercel dev",
     "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest"
   },
   "keywords": [],
   "author": "",
@@ -34,12 +35,25 @@
     "streamifier": "^0.1.1"
   },
   "jest": {
-    "testEnvironment": "jsdom",
-    "transform": {
-      "^.+\\.jsx?$": "babel-jest"
-    },
-    "moduleFileExtensions": ["js", "jsx"]
+    "testEnvironment": "node",
+    
+    "transform": {},
+    "testMatch": [
+      "**/_tests_/**/*.test.mjs",
+      "**/_tests_/**/*.test.js"
+    ],
+    "moduleFileExtensions": [
+      "js", "mjs"],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   },
-
-  "type": "module"
+  "jest-environment-node": "^30.2.0",
+  "devDependencies": {
+    "@babel/preset-env": "^7.28.5",
+    "@jest/globals": "^30.2.0",
+    "cross-env": "^10.1.0",
+    "jest": "^30.2.0",
+    "node-mocks-http": "^1.17.2"
+  }
 }
