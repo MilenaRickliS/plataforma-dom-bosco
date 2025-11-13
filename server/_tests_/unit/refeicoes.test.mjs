@@ -45,7 +45,7 @@ jest.unstable_mockModule("../../src/firebaseAdmin.js", () => {
 });
 
 const admin = (await import("../../src/firebaseAdmin.js")).default;
-const { default: handler } = await import("../../src/api/refeicoes.js");
+const { default: handler } = await import("../../src/api/balanca.js");
 
 
 
