@@ -30,7 +30,8 @@ export default function Agenda() {
   const [tarefaAberta, setTarefaAberta] = useState(null);
   const scrollRef = useRef(null);
 
-  const API_URL = import.meta.env.VITE_API_URL || "";
+  const API_URL = (import.meta?.env?.VITE_API_URL ?? process.env.VITE_API_URL) || "https://plataforma-dom-bosco-backend-krq4dua7f-milenaricklis-projects.vercel.app";
+
   const mesAtual = dataAtual.getMonth();
   const anoAtual = dataAtual.getFullYear();
   const diaAtual = dataAtual.getDate();

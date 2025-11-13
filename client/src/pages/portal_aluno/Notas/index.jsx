@@ -22,7 +22,7 @@ export default function NotasAluno() {
   const [medalhas, setMedalhas] = useState([]);
   const [pontos, setPontos] = useState(0);
   const [loading, setLoading] = useState(true);
-  const API = import.meta.env.VITE_API_URL;
+  const API = (import.meta?.env?.VITE_API_URL ?? process.env.VITE_API_URL) || "https://plataforma-dom-bosco-backend-krq4dua7f-milenaricklis-projects.vercel.app";
 
  
   useEffect(() => {

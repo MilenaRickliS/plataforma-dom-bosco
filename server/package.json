@@ -33,5 +33,13 @@
     "remove-accents": "^0.5.0",
     "streamifier": "^0.1.1"
   },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "moduleFileExtensions": ["js", "jsx"]
+  },
+
   "type": "module"
 }
