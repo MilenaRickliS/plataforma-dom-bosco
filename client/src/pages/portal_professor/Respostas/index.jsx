@@ -23,12 +23,11 @@ export default function RespostasAvaliacao() {
   const [questoes, setQuestoes] = useState([]);
   const [alunos, setAlunos] = useState([]);
   const [resp, setResp] = useState({ alunos: [] });
-  const API = import.meta.env.VITE_API_URL;
+  const API = (import.meta?.env?.VITE_API_URL ?? process.env.VITE_API_URL) || "https://plataforma-dom-bosco-backend-krq4dua7f-milenaricklis-projects.vercel.app";
 
- // 🧮 Cálculo de progresso baseado em respostas efetivas
+ 
 const totalAlunos = alunos?.length || 0;
 
-// Conta quantos alunos realmente enviaram pelo menos uma resposta
 const respondidos = (resp?.alunos || []).filter(
   (a) => a.questoes?.length > 0 || a.entregue || a.corrigido
 ).length;
