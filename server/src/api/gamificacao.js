@@ -1,9 +1,7 @@
 import admin from "../firebaseAdmin.js";
 const db = admin.firestore();
 
-/**
- * Atualiza pontos do usuário e registra log
- */
+
 async function atualizarPontos(userId, delta, motivo = "") {
   console.log("⚙️  atualizarPontos chamado:", { userId, delta, motivo });
 
@@ -25,10 +23,8 @@ async function atualizarPontos(userId, delta, motivo = "") {
 
     console.log("💾 Novo total de pontos calculado:", novosPontos);
 
-    // Atualiza os pontos
     t.set(ref, { pontos: novosPontos }, { merge: true });
 
-    // Cria log da operação
     t.set(logRef, {
       userId,
       nome,
@@ -45,9 +41,7 @@ async function atualizarPontos(userId, delta, motivo = "") {
   });
 }
 
-/**
- * Handler principal das rotas /api/gamificacao
- */
+
 export default async function handler(req, res) {
   const { method } = req;
 
@@ -61,7 +55,7 @@ export default async function handler(req, res) {
       }
     }
 
-    // 📈 Adicionar pontos
+   
     if (method === "POST" && req.url.includes("/add")) {
       console.log("📥 Recebido POST /add:", body);
       const { userId, valor, motivo } = body || {};
@@ -73,7 +67,6 @@ export default async function handler(req, res) {
       return res.status(200).json({ success: true, total });
     }
 
-    // 📉 Remover pontos
     if (method === "POST" && req.url.includes("/remove")) {
       console.log("📥 Recebido POST /remove:", body);
       const { userId, valor, motivo } = body || {};
@@ -85,7 +78,7 @@ export default async function handler(req, res) {
       return res.status(200).json({ success: true, total });
     }
 
-    // 🔍 Consultar pontos
+  
     if (method === "GET") {
       const userId = req.query.userId || req.url.split("/").pop();
       if (!userId) return res.status(400).json({ error: "userId obrigatório" });
@@ -98,7 +91,6 @@ export default async function handler(req, res) {
       return res.status(200).json({ pontos });
     }
 
-    // 📝 Salvar manualmente
     if (method === "POST" && req.url.includes("/salvar")) {
       const { userId, pontos } = body || {};
       if (!userId || pontos === undefined)
@@ -127,7 +119,7 @@ export default async function handler(req, res) {
       return res.status(200).json({ success: true });
     }
 
-    // 🧹 Zerar gamificação
+   
     if (method === "POST" && req.url.includes("/zerar")) {
       console.log("🧹 Zerando gamificação...");
       const usuariosSnap = await db.collection("usuarios").get();
