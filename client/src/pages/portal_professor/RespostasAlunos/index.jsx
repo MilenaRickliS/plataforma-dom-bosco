@@ -15,7 +15,8 @@ export default function RespostasAluno() {
   const [respostas, setRespostas] = useState([]);
   const [notaTotal, setNotaTotal] = useState(0);
   const [salvando, setSalvando] = useState(false);
-  const API = (import.meta?.env?.VITE_API_URL ?? process.env.VITE_API_URL) || "https://plataforma-dom-bosco-backend-krq4dua7f-milenaricklis-projects.vercel.app";
+ const API = import.meta.env.VITE_API_URL || "https://plataforma-dom-bosco-backend-krq4dua7f-milenaricklis-projects.vercel.app";
+
 
   useEffect(() => {
     if (!avaliacaoId || !alunoId || !user?.uid) return;

@@ -20,11 +20,11 @@ export default function ProjetosCursos() {
   const [categoriaSelecionada, setCategoriaSelecionada] = useState(categoriaInicial);
 
   const categorias = [
-    { nome: "Música", icone: "/src/assets/site/violao.png" },
-    { nome: "Esportes", icone: "/src/assets/site/bolaicone.png" },
-    { nome: "Informática", icone: "/src/assets/site/computadoricone.png" },
-    { nome: "Pré-aprendizagem", icone: "/src/assets/site/livroicone.png" },
-    { nome: "Jovem Aprendiz", icone: "/src/assets/site/mochilaicone.png" },
+    { nome: "Música", icone: "/assets/site/violao.png" },
+    { nome: "Esportes", icone: "/assets/site/bolaicone.png" },
+    { nome: "Informática", icone: "/assets/site/computadoricone.png" },
+    { nome: "Pré-aprendizagem", icone: "/assets/site/livroicone.png" },
+    { nome: "Jovem Aprendiz", icone: "/assets/site/mochilaicone.png" },
   ];
 
   useEffect(() => {
@@ -87,8 +87,8 @@ export default function ProjetosCursos() {
           </div>
 
           <div className="projetos-imagens">
-            <img src="/src/assets/site/Cafe-com-goasto-de-parceria_18.03-7-scaled.webp" alt="Alunos em grupo" />
-            <img src="/src/assets/site/WhatsApp-Image-2024-08-27-at-10.50.37.webp" alt="Entrevista Conversas Pátio" />
+            <img src="/assets/site/Cafe-com-goasto-de-parceria_18.03-7-scaled.webp" alt="Alunos em grupo" />
+            <img src="/assets/site/WhatsApp-Image-2024-08-27-at-10.50.37.webp" alt="Entrevista Conversas Pátio" />
           </div>
         </div>
         <section className="projetos-curso-section">

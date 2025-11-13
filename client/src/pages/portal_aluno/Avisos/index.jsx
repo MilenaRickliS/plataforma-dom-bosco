@@ -22,7 +22,8 @@ export default function Avisos() {
   const [naoLidos, setNaoLidos] = useState(0);
   const [avisosCarregados, setAvisosCarregados] = useState(false);
   const [penalizadoHoje, setPenalizadoHoje] = useState(false);
-  const API = (import.meta?.env?.VITE_API_URL ?? process.env.VITE_API_URL) || "https://plataforma-dom-bosco-backend-krq4dua7f-milenaricklis-projects.vercel.app";
+  const API = import.meta.env.VITE_API_URL || "https://plataforma-dom-bosco-backend-krq4dua7f-milenaricklis-projects.vercel.app";
+
 
 
   const carregarAvisos = async () => {

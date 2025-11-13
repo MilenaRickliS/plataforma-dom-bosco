@@ -218,7 +218,7 @@ export default function CursosDetalhes() {
                 </Link>
                 </div>
                 <img
-                  src="/src/assets/site/Beautiful My Photos.jpg"
+                  src="/assets/site/Beautiful My Photos.jpg"
                   alt="Contato"
                   className="contato-img"
                 />

@@ -33,7 +33,8 @@ export default function AtivDetalhes() {
   const [alunos, setAlunos] = useState([]);
   const [resumoRespostas, setResumoRespostas] = useState({ alunos: [] });
   const [carregando, setCarregando] = useState(true);
-  const API = (import.meta?.env?.VITE_API_URL ?? process.env.VITE_API_URL) || "https://plataforma-dom-bosco-backend-krq4dua7f-milenaricklis-projects.vercel.app";
+  const API = import.meta.env.VITE_API_URL || "https://plataforma-dom-bosco-backend-krq4dua7f-milenaricklis-projects.vercel.app";
+
   const [entregas, setEntregas] = useState([]);
 const [salvandoNota, setSalvandoNota] = useState(false);
 const [chatAlunoSelecionado, setChatAlunoSelecionado] = useState(null);
