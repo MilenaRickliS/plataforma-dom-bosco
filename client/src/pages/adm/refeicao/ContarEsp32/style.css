@@ -3,7 +3,7 @@
     
 }
 .contagem{
-    font-family: "Poppins", sans-serif;
+    font-family: "Montserrat", sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -23,7 +23,7 @@
   outline: none;
 }
 .contagem button{
-    font-family: "Poppins", sans-serif;
+    font-family: "Montserrat", sans-serif;
     border: none;
     color: #fff;
     border-radius: 20px;

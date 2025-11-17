@@ -1,6 +1,6 @@
 .container-cursos{
     padding-top: 40px;
-  font-family: "Poppins", sans-serif;
+  font-family: "Montserrat", sans-serif;
 
 }
 .voltar-para-menu{
@@ -11,7 +11,7 @@
     padding: 10px 30px;
     color: black;
     font-weight: bold;
-    font-family: "BM HANNA", sans-serif;
+    font-family: "Montserrat", sans-serif;
    margin: 10px;
    transition: all 0.3s ease;
 }

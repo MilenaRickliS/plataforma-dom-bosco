@@ -23,7 +23,7 @@
 }
 
 .status-pontuacao p {
-  font-family: "Poppins", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: bold;
   margin: 5px 0;
   
@@ -98,7 +98,7 @@
     padding: 20px;
 }
 .btn-atribuir{
-    font-family: "Poppins", sans-serif;
+    font-family: "Montserrat", sans-serif;
     background-color: #FBBC05;
     color: black;
     font-weight: bold;

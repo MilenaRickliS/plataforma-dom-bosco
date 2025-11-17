@@ -29,7 +29,7 @@ body {
 .galeria-title {
   text-align: center;
   color: white;
-  font-family: "BM HANNA", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 2.5rem;
   margin-bottom: 40px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
@@ -111,7 +111,7 @@ body {
   border: 2px solid #1E3B7D;
   border-radius: 25px;
   padding: 12px 24px;
-  font-family: "BM HANNA", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: bold;
   color: #1E3B7D;
   cursor: pointer;
@@ -138,7 +138,7 @@ body {
   background-color: rgba(255, 255, 255, 0.9);
   padding: 10px 20px;
   border-radius: 20px;
-  font-family: "BM HANNA", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: bold;
   color: #1E3B7D;
   border: 2px solid #1E3B7D;

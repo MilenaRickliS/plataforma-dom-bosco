@@ -18,7 +18,7 @@
 }
 .inicio-comunidade p{
     color: #000;
-    font-family: "BM HANNA", sans-serif;
+    font-family: "Montserrat", sans-serif;
 
 }
 .subtitulo-comunidade{
@@ -88,14 +88,14 @@
 
 .card-projeto h3 {
   color: #000;
-  font-family: "BM HANNA", sans-serif;
+  font-family: "Montserrat", sans-serif;
   margin-top: 10px;
   font-size: 1.3rem;
 }
 
 .card-projeto p {
   color: #000;
-  font-family: "Poppins", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 0.9rem;
   margin-top: 8px;
   min-height: 50px;
@@ -176,7 +176,7 @@
     background-color: #ffd900;
     color: #000;
     border: 1px solid black;
-    font-family: "BM HANNA", sans-serif;
+    font-family: "Montserrat", sans-serif;
     text-decoration: none;
     padding: 30px 40px;
     transition: transform 0.3s ease;
@@ -217,7 +217,7 @@
   padding: 10px 14px 10px 38px; 
   border: 1px solid #ccc;
   border-radius: 8px;
-  font-family: "Poppins", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 0.95rem;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
   color: #000;
@@ -246,7 +246,7 @@
 }
 .sem-resultados {
   text-align: center;
-  font-family: "Poppins", sans-serif;
+  font-family: "Montserrat", sans-serif;
   color: #555;
   font-size: 1rem;
   margin-top: 30px;

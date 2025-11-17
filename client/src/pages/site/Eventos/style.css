@@ -91,7 +91,7 @@
 }
 
 .titulo-prox-evento {
-  font-family: "BM HANNA", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 1.1rem;
   margin-bottom: 5px;
 }
@@ -102,7 +102,7 @@
 }
 
 .link-prox {
-  font-family: "Poppins", sans-serif; 
+  font-family: "Montserrat", sans-serif; 
   font-size: .9rem; 
   font-weight: 600; 
   background: linear-gradient(135deg,#1F4396,#0b245e); 
@@ -129,7 +129,7 @@
 }
 .mostrar-eventos h1{
     color: #1F4396;
-    font-family: "BM HANNA", sans-serif;
+    font-family: "Montserrat", sans-serif;
     font-size:40px;
     padding: 40px 20px;
 }
@@ -172,7 +172,7 @@
   transform: scale(1.03); 
 }
 .card-evento-show p {
-  font-family: "Poppins", sans-serif; 
+  font-family: "Montserrat", sans-serif; 
   font-size: 1.05rem; 
   font-weight: 600; 
   color: #1a1a1a; 
@@ -189,7 +189,7 @@
 }
 
 .card-evento-show a {
-  font-family: "Poppins", sans-serif; 
+  font-family: "Montserrat", sans-serif; 
   font-size: .9rem; 
   font-weight: 600; 
   background: linear-gradient(135deg,#1F4396,#0b245e); 
@@ -224,7 +224,7 @@
   font-size: 1rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-family: "BM HANNA", sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 
 .paginacao-eventos button:hover:not(:disabled) {
@@ -294,7 +294,7 @@
 .blog a{
     background-color: #fff;
     color: #000;
-    font-family: "BM HANNA", sans-serif;
+    font-family: "Montserrat", sans-serif;
     text-decoration: none;
     padding: 10px 50px;
     border-radius: 30px;

@@ -11,7 +11,7 @@
     padding: 10px 30px;
     color: black;
     font-weight: bold;
-    font-family: "BM HANNA", sans-serif;
+    font-family: "Montserrat", sans-serif;
    margin: 10px;
    transition: all 0.3s ease;
 }
@@ -33,7 +33,7 @@
     gap: 10px;
     width: 100%;
     margin-bottom: 30px;
-    font-family: "Poppins", sans-serif;
+    font-family: "Montserrat", sans-serif;
     justify-content: center;
     align-items: center;
     margin: 0 auto;
@@ -44,7 +44,7 @@
 }
 .form-projeto input[type="text"] {
 
-    font-family: "Poppins", sans-serif;
+    font-family: "Montserrat", sans-serif;
     background-color: #ffffff;
     flex: 1;
     width: 100%;
@@ -61,7 +61,7 @@
   border-color: #00c3ff;
 }
 .form-projeto textarea {
-  font-family: "Poppins", sans-serif;
+  font-family: "Montserrat", sans-serif;
   background-color: #ffffff;
   width: 100%;
   min-height: 150px;
@@ -87,7 +87,7 @@
   border: 1px solid #ddd;
   outline: none;
   font-weight: bold;
-  font-family: "Poppins", sans-serif;
+  font-family: "Montserrat", sans-serif;
   cursor: pointer;
   width: 100%;
     appearance: auto;             
@@ -127,7 +127,7 @@
   border: 1px solid #ddd;
   outline: none;
   font-weight: bold;
-  font-family: "Poppins", sans-serif;
+  font-family: "Montserrat", sans-serif;
   width: 100%;
   cursor: pointer;
   transition: border 0.3s, box-shadow 0.3s;
@@ -191,7 +191,7 @@
 }
 
 .button-salvar {
-    font-family: "Poppins", sans-serif;
+    font-family: "Montserrat", sans-serif;
     background: #e9d527;
     border: 1px solid #000000;
     color: black;
@@ -277,13 +277,13 @@
 
 .card-projeto-gestao h3 {
   color: #000;
-  font-family: "BM HANNA", sans-serif;
+  font-family: "Montserrat", sans-serif;
   margin: 10px 0;
 }
 
 .card-projeto-gestao p {
   color: #000;
-  font-family: "Poppins", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 0.9rem;
   min-height: 60px;
   text-align: justify;
@@ -294,7 +294,7 @@
   font-size: 0.8rem;
   margin-top: 4px;
   margin-bottom: 8px;
-  font-family: "Poppins", sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 
 
@@ -368,7 +368,7 @@
   padding: 10px 14px 10px 38px;
   border: 1px solid #ccc;
   border-radius: 8px;
-  font-family: "Poppins", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 0.95rem;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
@@ -393,7 +393,7 @@
 .descricao-projeto {
   white-space: pre-wrap; 
   color: #000;
-  font-family: "Poppins", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 0.95rem;
   text-align: justify;
 }

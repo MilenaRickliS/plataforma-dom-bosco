@@ -45,7 +45,7 @@
 }
 .inicio-title {
   flex: 1;
-  font-family: "Poppins", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 800;
   font-size: 3rem;
   line-height: 1.1;
@@ -94,7 +94,7 @@
   flex-direction: column;
   text-align: center;
   justify-content: center;
-  font-family: "BM HANNA", sans-serif;
+  font-family: "Montserrat", sans-serif;
   color: #000;
 }
 .div-sobre{
@@ -117,7 +117,7 @@
   font-size: 35px;
 }
 .sobre1 p{
-  font-family: "Poppins", sans-serif;
+  font-family: "Montserrat", sans-serif;
   margin-left: 15px;
   font-size: 20px;
 }
@@ -157,7 +157,7 @@
   flex: 1;
 }
 .div-eventos h3{
-  font-family: "BM HANNA", sans-serif;
+  font-family: "Montserrat", sans-serif;
   color: #000;
   font-size: 45px;
   text-align: center;
@@ -277,7 +277,7 @@
 }
 
 .evento-titulo { 
-  font-family: "Poppins", sans-serif; 
+  font-family: "Montserrat", sans-serif; 
   font-size: 1.05rem; 
   font-weight: 600; 
   color: #1a1a1a; 
@@ -290,7 +290,7 @@
 }
 
 .evento-botao { 
-  font-family: "Poppins", sans-serif; 
+  font-family: "Montserrat", sans-serif; 
   font-size: .9rem; 
   font-weight: 600; 
   background: linear-gradient(135deg,#1F4396,#0b245e); 
@@ -352,7 +352,7 @@
 }
 .convite{
     flex: 1;
-    font-family: "BM HANNA", sans-serif;
+    font-family: "Montserrat", sans-serif;
     font-size: 30px;
     padding: 15px;
 }
@@ -391,7 +391,7 @@
 }
 .sessao-depoimentos h2{
   color: #000;
-  font-family: "BM HANNA", sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 .titulo-depoimento{
   display: flex;
@@ -399,7 +399,7 @@
   align-items: center;
 }
 .enviar-depoimento{
-  font-family: "Poppins", sans-serif;
+  font-family: "Montserrat", sans-serif;
   background-color: #D8BB18;
   color: #000;
   padding: 15px;
@@ -483,7 +483,7 @@
   background-color: #fff;
   border-radius: 15px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-  font-family: "Poppins", sans-serif;
+  font-family: "Montserrat", sans-serif;
   position: relative;
 }
 

@@ -54,7 +54,7 @@
   gap: 10px;
   cursor: pointer;
   user-select: none;
-  font-family: "Poppins", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 500;
   color: #333;
 }
@@ -145,7 +145,7 @@ textarea {
   width: 100%;
   padding: 12px 16px 12px 40px; 
   border: 1px solid #ccc;
-  font-family: "Poppins", sans-serif;
+  font-family: "Montserrat", sans-serif;
   transition: all 0.3s ease;
   color: #333;
 }
@@ -160,7 +160,7 @@ textarea {
   padding: 12px 16px 12px 40px;
   border-radius: 10px;
   border: 1px solid #ccc;
-  font-family: "Poppins", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 1rem;
   color: #333;
   transition: all 0.3s ease;
@@ -184,7 +184,7 @@ textarea {
   padding: 12px 16px 12px 40px;
   border-radius: 10px;
   border: 1px solid #ccc;
-  font-family: "Poppins", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 1rem;
   color: #333;
   transition: all 0.3s ease;
@@ -201,7 +201,7 @@ textarea {
 
 .react-datepicker {
   
-  font-family: "Poppins", sans-serif;
+  font-family: "Montserrat", sans-serif;
   border: none;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }

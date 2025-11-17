@@ -17,7 +17,7 @@
     height: 70px;
 }
 .titulo-login p{
-    font-family: "BM HANNA", sans-serif;
+    font-family: "Montserrat", sans-serif;
     color: #3E6EAD;
 }
 .bemvindo-login{
@@ -80,7 +80,7 @@
   padding: 8px 18px;
   color: black;
   font-weight: bold;
-  font-family: "BM HANNA", sans-serif;
+  font-family: "Montserrat", sans-serif;
   margin: 14px;
   transition: all 0.3s ease;
 }
@@ -95,7 +95,7 @@
 
 .senha-container input {
   width: 100%;
-  padding-right: 40px; /* espaço pro ícone */
+  padding-right: 40px; 
 }
 
 .mostrar-senha-btn {

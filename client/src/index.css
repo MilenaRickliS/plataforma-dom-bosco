@@ -1,26 +1,6 @@
 @font-face {
-  font-family: "Poppins";
-  src: url('./fonts/Poppins/Poppins-Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-}
-@font-face {
-  font-family: "Poppins";
-  src: url('./fonts/Poppins/Poppins-Bold.ttf') format('truetype');
-  font-weight: 700;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "BM HANNA";
-  src: url('./fonts/bm-hanna-pro.regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Bonheur Royale";
-  src: url('./fonts/Bonheur_Royale,Poppins/Bonheur_Royale/BonheurRoyale-Regular.ttf') format('truetype');
+  font-family: "Montserrat";
+  src: url('./fonts/Montserrat/static/Montserrat-Regular.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
 }
@@ -40,7 +20,7 @@ html, body {
 
 
 :root {
-  font-family: "Poppins", "BM HANNA", sans-serif;
+  font-family: "Montserrat", sans-serif;
   line-height: 1.5;
   font-weight: 400;
 

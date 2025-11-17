@@ -35,7 +35,7 @@
   color: #1E3B7D;
   background-color: #FFDA0A;
   text-decoration: none;
-  font-family: "BM HANNA", sans-serif;
+  font-family: "Montserrat", sans-serif;
   padding: 20px;
   transition: all 0.3s ease;
 }
@@ -117,7 +117,7 @@
 }
 
 .mvv-item h3 {
-  font-family: "BM HANNA", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 32px;
   margin-bottom: 20px;
 }
@@ -165,7 +165,7 @@
   flex-direction: column;
 }
 .filosofia h2{
-  font-family: "Bonheur Royale", sans-serif;
+  font-family: "Montserrat", sans-serif;
   color: #FFDA0A;
   font-size: 50px;
 }
@@ -184,7 +184,7 @@
   text-align: center;
   padding: 60px 20px;
   position: relative;
-  font-family: "BM HANNA", sans-serif;
+  font-family: "Montserrat", sans-serif;
   background-color: #dddfdf;
 }
 
@@ -287,7 +287,7 @@
 }
 
 .link-galeria{
-    font-family: "BM HANNA", sans-serif;
+    font-family: "Montserrat", sans-serif;
     color: #fff;
     font-size: 30px;
     text-decoration: none;

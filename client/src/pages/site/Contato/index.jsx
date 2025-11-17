@@ -77,7 +77,7 @@ export default function Contato() {
     }
 
     try {
-      await axios.post(`${API}/api/enviar-email`, formData);
+      await axios.post(`${API}/api/email`, formData);
       mostrarToast("Mensagem enviada com sucesso!", "sucesso");
       setFormData({
         nome: "",

@@ -6,7 +6,7 @@
     padding: 10px 30px;
     color: black;
     font-weight: bold;
-    font-family: "BM HANNA", sans-serif;
+    font-family: "Montserrat", sans-serif;
    margin: 10px;
    transition: all 0.3s ease;
 }
@@ -32,7 +32,7 @@
     flex-direction: column;
     gap: 10px;
     width: 100%;
-    font-family: "Poppins", sans-serif;
+    font-family: "Montserrat", sans-serif;
     justify-content: center;
     align-items: center;
     margin: 0 auto;
@@ -43,7 +43,7 @@
 }
 .form-projeto-curso input[type="text"] {
 
-    font-family: "Poppins", sans-serif;
+    font-family: "Montserrat", sans-serif;
     background-color: #ffffff;
     flex: 1;
     width: 100%;
@@ -61,7 +61,7 @@
   box-shadow: 0 0 5px rgba(233, 213, 39, 0.6);
 }
 .form-projeto-curso textarea {
-  font-family: "Poppins", sans-serif;
+  font-family: "Montserrat", sans-serif;
   background-color: #ffffff;
   width: 100%;
   min-height: 150px;
@@ -88,7 +88,7 @@
   border: 1px solid #ddd;
   outline: none;
   font-weight: bold;
-  font-family: "Poppins", sans-serif;
+  font-family: "Montserrat", sans-serif;
   cursor: pointer;
   width: 100%;
     appearance: auto;             
@@ -113,7 +113,7 @@
 }
 
 .form-projeto-curso select {
-  font-family: "Poppins", sans-serif;
+  font-family: "Montserrat", sans-serif;
   width: 100%;
   padding: 10px 14px;
   border-radius: 8px;
@@ -165,7 +165,7 @@
   border: 1px solid #ddd;
   outline: none;
   font-weight: bold;
-  font-family: "Poppins", sans-serif;
+  font-family: "Montserrat", sans-serif;
   width: 100%;
   cursor: pointer;
   transition: border 0.3s, box-shadow 0.3s;
@@ -228,7 +228,7 @@
 }
 
 .button-salvar {
-    font-family: "Poppins", sans-serif;
+    font-family: "Montserrat", sans-serif;
     background: #e9d527;
     border: 1px solid #000000;
     color: black;
@@ -314,13 +314,13 @@
 
 .card-projeto-curso-gestao h3 {
   color: #000;
-  font-family: "BM HANNA", sans-serif;
+  font-family: "Montserrat", sans-serif;
   margin: 10px 0;
 }
 
 .card-projeto-curso-gestao p{
   color: #8E3838;
-  font-family: "Poppins", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 0.9rem;
   font-weight: bold;
 }
@@ -331,7 +331,7 @@
   font-size: 0.8rem;
   margin-top: 4px;
   margin-bottom: 8px;
-  font-family: "Poppins", sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 
 
@@ -387,7 +387,7 @@
 .descricao-projeto-curso {
   white-space: pre-wrap; 
   color: #000;
-  font-family: "Poppins", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 0.95rem;
   text-align: justify;
 }
@@ -426,7 +426,7 @@
   padding: 10px 14px 10px 38px; 
   border: 1px solid #ccc;
   border-radius: 8px;
-  font-family: "Poppins", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 0.95rem;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
   color: #000;
@@ -460,7 +460,7 @@
   display: inline-block;
 }
 .select-filtro-curso {
-  font-family: "Poppins", sans-serif;
+  font-family: "Montserrat", sans-serif;
   margin-left: 10px;
   padding: 10px 14px;
   border-radius: 8px;

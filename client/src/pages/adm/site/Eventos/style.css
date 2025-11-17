@@ -1,6 +1,6 @@
 .eventos-gestao-container {
   padding: 40px;
-  font-family: "Poppins", sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 .voltar-para-menu{
     border-radius: 20px;
@@ -10,7 +10,7 @@
     padding: 10px 30px;
     color: black;
     font-weight: bold;
-    font-family: "BM HANNA", sans-serif;
+    font-family: "Montserrat", sans-serif;
    margin: 10px;
    transition: all 0.3s ease;
 }
@@ -27,7 +27,7 @@
 }
 .h1-eventos{
     padding-top: 30px;
-    font-family: "BM HANNA", sans-serif;
+    font-family: "Montserrat", sans-serif;
     color: #7B4C96;
     font-size: 2rem;
     font-weight: 700;
@@ -110,7 +110,7 @@
 
 .editar-evento, .excluir-evento {
     border: none;
-    font-family: "Poppins", sans-serif;
+    font-family: "Montserrat", sans-serif;
     background: #ddfdff;
     color: #14326e;
     text-decoration: none;
@@ -167,7 +167,7 @@
     padding: 10px 10px 10px 38px;
     border-radius: 10px;
     border: 1px solid #ccc;
-    font-family: "Poppins", sans-serif;
+    font-family: "Montserrat", sans-serif;
     transition: all 0.3s ease;
 }
 
@@ -183,7 +183,7 @@
     border: 1px solid #ccc;
     background-color: white;
     color: #000;
-    font-family: "Poppins", sans-serif;
+    font-family: "Montserrat", sans-serif;
     cursor: pointer;
     transition: all 0.3s ease;
 }

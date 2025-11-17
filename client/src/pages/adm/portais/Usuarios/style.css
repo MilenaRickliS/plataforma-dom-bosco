@@ -5,7 +5,7 @@
   gap: 40px;
 }
 .titulo-usuarios{
-  font-family: "Poppins", sans-serif;
+  font-family: "Montserrat", sans-serif;
 
 }
 .form-usuarios {
@@ -19,7 +19,7 @@
 }
 .adicionar-usuario{
   text-align: center;
-  font-family: "Poppins", sans-serif;
+  font-family: "Montserrat", sans-serif;
   color: #1a4dc9;
 }
 .form-usuarios form {
@@ -49,7 +49,7 @@
   border: 1px solid #ccc;
   border-radius: 10px;
   padding: 10px;
-  font-family: "Poppins", sans-serif;
+  font-family: "Montserrat", sans-serif;
   color: #000;
   cursor: pointer;
   transition: 0.3s;
@@ -119,7 +119,7 @@
 
 .usuarios-lista h2 {
   text-align: center;
-  font-family: "Poppins", sans-serif;
+  font-family: "Montserrat", sans-serif;
   color: #1a4dc9;
   margin-bottom: 20px;
 }
@@ -142,7 +142,7 @@
 
 .usuarios-lista th {
   padding: 14px 10px;
-  font-family: "Poppins", sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 
 .usuarios-lista tbody tr {
@@ -163,7 +163,7 @@
   padding: 12px 8px;
   text-align: center;
   color: #333;
-  font-family: "Poppins", sans-serif;
+  font-family: "Montserrat", sans-serif;
   vertical-align: middle;
 }
 
@@ -185,7 +185,7 @@
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-family: "Poppins", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 500;
   width: 100%;
 }
@@ -202,7 +202,7 @@
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-family: "Poppins", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 500;
   width: 100%;
 }
@@ -252,7 +252,7 @@
   border: 1px solid #ccc;
   background-color: #fff;
   border-radius: 10px;
-  font-family: "Poppins", sans-serif;
+  font-family: "Montserrat", sans-serif;
   color: #000;
   cursor: pointer;
   transition: 0.3s;

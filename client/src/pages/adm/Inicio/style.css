@@ -17,7 +17,7 @@
     height: 70px;
 }
 .titulo-admin p{
-    font-family: "BM HANNA", sans-serif;
+    font-family: "Montserrat", sans-serif;
     color: #354E36;
 }
 .bemvindo-admin{
@@ -34,7 +34,7 @@
 .link-refeicao{
     border: 2px solid black;
     background-color: #FBBC05;
-    font-family: "Poppins", sans-serif;
+    font-family: "Montserrat", sans-serif;
     color: #000;
     text-decoration: none;
     border-radius: 20px;
@@ -51,7 +51,7 @@
 .link-gestao{
     border: 2px solid black;
     background-color: #A8C7FA;
-    font-family: "Poppins", sans-serif;
+    font-family: "Montserrat", sans-serif;
     color: #000;
     text-decoration: none;
     border-radius: 20px;
@@ -67,7 +67,7 @@
 .link-portais{
     border: 2px solid black;
     background-color: #3ead3e;
-    font-family: "Poppins", sans-serif;
+    font-family: "Montserrat", sans-serif;
     color: #000;
     text-decoration: none;
     border-radius: 20px;
@@ -82,7 +82,7 @@
 }
 .logout{
     border: 2px solid black;
-    font-family: "Poppins", sans-serif;
+    font-family: "Montserrat", sans-serif;
     color: #000000;
     background-color: #853126;
     font-size: 20px;

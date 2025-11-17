@@ -11,7 +11,7 @@
     padding: 10px 30px;
     color: black;
     font-weight: bold;
-    font-family: "BM HANNA", sans-serif;
+    font-family: "Montserrat", sans-serif;
    margin: 10px;
    transition: all 0.3s ease;
 }
@@ -34,7 +34,7 @@
 
 
 .upload-form {
-    font-family: "Poppins", sans-serif;
+    font-family: "Montserrat", sans-serif;
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
@@ -48,7 +48,7 @@
 }
 
 .upload-form input[type="text"] {
-    font-family: "Poppins", sans-serif;
+    font-family: "Montserrat", sans-serif;
     background-color: #ffffff;
     flex: 1;
     min-width: 200px;
@@ -94,7 +94,7 @@
 }
 
 .upload-form button {
-    font-family: "Poppins", sans-serif;
+    font-family: "Montserrat", sans-serif;
     background: #e9d527;
     border: 1px solid #000000;
     color: black;
@@ -161,7 +161,7 @@
   margin: 12px 0;
   font-weight: 600;
   color: #222;
-  font-family: "Poppins", sans-serif;
+  font-family: "Montserrat", sans-serif;
   padding: 0 10px;
 }
 
