@@ -13,6 +13,7 @@ import { getPontos } from "../../../services/gamificacao.jsx";
 import { db } from "../../../services/firebaseConnection";
 import { collection, query, where, getDocs } from "firebase/firestore";
 
+
 export default function NotasAluno() {
   const { user } = useContext(AuthContext);
   const [perfil, setPerfil] = useState(null);
@@ -159,8 +160,8 @@ export default function NotasAluno() {
     pontos < 50 ? "Feliz 😊" : "Motivado 😍";
 
   const corHumor =
-    pontos < 25 ? "red" :
-    pontos < 50 ? "orange" : "green";
+    pontos < 25 ? "#CC3F43" :
+    pontos < 50 ? "#0A2E52" : "#ffd900ff";
 
   const formatarData = (valor) => {
     if (!valor) return "—";
@@ -282,11 +283,6 @@ export default function NotasAluno() {
                     <div className="info-medalha-aluno">
                       <h4>{m.template?.title || "Medalha"}</h4>
                       <p>{m.template?.category || "Sem categoria"}</p>
-                      {m.comment && (
-                        <p className="comentario">
-                          <FaRegComment /> <em>{m.comment}</em>
-                        </p>
-                      )}
                       <p className="data">
                         <FaRegCalendarAlt /> {formatarData(m.awardedAt)}
                       </p>

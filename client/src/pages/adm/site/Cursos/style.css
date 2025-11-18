@@ -49,7 +49,7 @@
   border-radius: 12px;
   overflow: hidden;
   background: #fff;
-  color: #15408b;
+  color: #2D408E;
 }
 .curso-card .thumb {
   width: 100%;
@@ -83,12 +83,12 @@
     transition: all 0.3s ease; 
 }
 .acoes-curso .danger { 
-    background: #dc3545; 
+    background: #CC3F43; 
     color: #fff;
     
 }
 .acoes-curso button:hover{
-    background-color: #7b9c02;
+    background-color: #0DB39E;
     cursor: pointer;
 }
 .acoes-curso .danger:hover { 

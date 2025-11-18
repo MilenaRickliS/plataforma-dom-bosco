@@ -5,7 +5,7 @@
   gap: 40px;
 }
 .titulo-usuarios{
-  font-family: "Montserrat", sans-serif;
+  font-family: "Montserrat bold", sans-serif;
 
 }
 .form-usuarios {
@@ -19,8 +19,8 @@
 }
 .adicionar-usuario{
   text-align: center;
-  font-family: "Montserrat", sans-serif;
-  color: #1a4dc9;
+  font-family: "Montserrat bold", sans-serif;
+  color: #46A1D1;
 }
 .form-usuarios form {
   display: flex;
@@ -37,7 +37,7 @@
   color: #000;
 }
 .form-usuarios input:focus{
-  border-color: #2c71f6;
+  border-color: #46A1D1;
   box-shadow: 0 0 10px rgba(34, 36, 173, 0.3);
   outline: none;
 }
@@ -60,7 +60,7 @@
 }
 
 .select-usuarios:focus {
-  border-color: #2c71f6;
+  border-color: #46A1D1;
   box-shadow: 0 0 10px rgba(44, 113, 246, 0.3);
   outline: none;
 }
@@ -84,9 +84,9 @@
 }
 
 .upload-label-usuarios:hover {
-  background: #081127;
+  background: #46A1D1;
   color: #fff;
-  border-color: #0047cc;
+  border-color: #46A1D1;
 }
 .foto-usuario-preview {
   width: 90px;
@@ -96,7 +96,7 @@
   margin-top: 10px;
 }
 .btn-salvar-usuario { 
-  background: #2c71f6; 
+  background: #46A1D1; 
   color: white; 
   border: none; 
   padding: 10px; 
@@ -119,8 +119,8 @@
 
 .usuarios-lista h2 {
   text-align: center;
-  font-family: "Montserrat", sans-serif;
-  color: #1a4dc9;
+  font-family: "Montserrat bold", sans-serif;
+  color: #46A1D1;
   margin-bottom: 20px;
 }
 
@@ -178,7 +178,7 @@
 
 
 .btn-excluir-usuario {
-  background: #e74c3c;
+  background: #CC3F43;
   color: #fff;
   border: none;
   padding: 8px 14px;
@@ -195,7 +195,7 @@
   transform: translateY(-2px);
 }
 .btn-editar-usuario {
-  background: #27ae60;
+  background: #0DB39E;
   color: #fff;
   border: none;
   padding: 8px 14px;
@@ -207,7 +207,7 @@
   width: 100%;
 }
 .btn-editar-usuario:hover {
-  background: #1e8449;
+  background: #0a8877;
   transform: translateY(-2px);
 }
 .btn-cancelar {
@@ -239,7 +239,7 @@
   color: #000;
 }
 .input-busca:focus {
-  border-color: #2c71f6;
+  border-color: #46A1D1;
   box-shadow: 0 0 10px rgba(44, 113, 246, 0.3);
   outline: none;
 }
@@ -264,7 +264,7 @@
 }
 
 .select-filtro-usuarios:focus {
-  border-color: #2c71f6;
+  border-color: #46A1D1;
   box-shadow: 0 0 10px rgba(44, 113, 246, 0.3);
   outline: none;
 }
@@ -306,7 +306,7 @@
   .usuarios-lista td::before {
     content: attr(data-label);
     font-weight: 600;
-    color: #1a4dc9;
+    color: #46A1D1;
     display: block;
     margin-bottom: 4px;
   }

@@ -4,22 +4,21 @@
   align-items: center;
   gap: 10px;
   text-align: center;
-  color: #1e3b7d;
+  color: #2D408E;
   font-weight: bold;
   background-color: #15b9cc;
   border-radius: 100px;
 }
 .sigar a{
-  border: 1px solid #1e3b7d;
   padding: 10px;
   border-radius: 100px;
-  color: #1e3b7d;
+  color: #2D408E;
   text-decoration: none;
-  background-color: #e6a400;
+  background-color: #fff;
   transition: all 0.2s;
 }
 .sigar a:hover{
-  background-color: #ffc107;
+  color: #15b9cc;
   text-decoration: underline;
 }
 .calendario {
@@ -48,7 +47,7 @@
   transition: 0.2s;
 }
 .seta:hover {
-  color: #1e3b7d;
+  color: #2D408E;
   transform: scale(1.2);
 }
 .selects {
@@ -65,7 +64,7 @@
   appearance: none; 
   background: linear-gradient(135deg, #f0f0f0, #ffffff);
   border: 2px solid #15b9cc;
-  color: #1e3b7d;
+  color: #2D408E;
   font-family: "Montserrat", sans-serif;
   font-size: 16px;
   font-weight: 600;
@@ -85,7 +84,7 @@
   content: "▼";
   position: absolute;
   right: 10px;
-  color: #1e3b7d;
+  color: #2D408E;
 }
 
 
@@ -97,7 +96,7 @@
 
 
 .selects select:focus {
-  border-color: #1e3b7d;
+  border-color: #2D408E;
   background: #ffffff;
   box-shadow: 0 0 8px rgba(21, 185, 204, 0.5);
 }
@@ -188,14 +187,14 @@
 .tarefas-card form input:focus,
 .tarefas-card form textarea:focus,
 .tarefas-card form select:focus {
-  border-color: #1e3b7d;
+  border-color: #2D408E;
   box-shadow: 0 0 6px rgba(21, 185, 204, 0.4);
   outline: none;
 }
 .btn-add-tarefa {
   margin-top: 10px;
   width: 100%;
-  background: linear-gradient(135deg, #15b9cc, #1e3b7d);
+  background: linear-gradient(135deg, #15b9cc, #2D408E);
   color: white;
   border: none;
   padding: 8px 10px;
@@ -205,7 +204,7 @@
   transition: all 0.2s;
 }
 .btn-add-tarefa:hover {
-  background: linear-gradient(135deg, #1e3b7d, #15b9cc);
+  background: linear-gradient(135deg, #2D408E, #15b9cc);
   transform: scale(1.03);
 }
 
@@ -319,7 +318,7 @@
   gap: 6px;
   font-size: 14px;
   margin-top: 4px;
-  color: #1e3b7d;
+  color: #2D408E;
 }
 .campo-descricao-tarefa {
   position: relative;
@@ -329,13 +328,13 @@
 .contador-palavras-tarefa {
   text-align: right;
   font-size: 13px;
-  color: #1e3b7d;
+  color: #2D408E;
   margin-top: 4px;
   font-weight: 500;
 }
 
 .contador-palavras-tarefa.excedido {
-  color: #d9534f;
+  color: #CC3F43;
   font-weight: bold;
 }
 
@@ -355,22 +354,22 @@
   color: #fff;
 }
 .acoes-tarefa button:nth-child(2) {
-  background: #ffc107; 
+  background: #0DB39E; 
   color: #fff;
   font-weight: bold;
   transition: all 0.2s ease;
 }
 
 .acoes-tarefa button:nth-child(2):hover {
-  background: #e0a800;
+  background: #0DB39E;
   color: #fff;
 }
 
 .acoes-tarefa button:last-child {
-  background: #d9534f;
+  background: #CC3F43;
 }
 .btn-excluir-tarefa {
-  background: #d9534f !important;
+  background: #CC3F43 !important;
   color: #fff;
 }
 .btn-cancelar-tarefa {
@@ -410,12 +409,12 @@
 }
 
 .campo-busca:focus-within {
-  border-color: #1e3b7d;
+  border-color: #2D408E;
   box-shadow: 0 0 8px rgba(21, 185, 204, 0.3);
 }
 
 .icone-busca {
-  color: #1e3b7d;
+  color: #2D408E;
   font-size: 18px;
 }
 
@@ -428,12 +427,12 @@
   border: 2px solid #15b9cc;
   font-family: "Montserrat", sans-serif;
   font-size: 15px;
-  color: #1e3b7d;
+  color: #2D408E;
   transition: all 0.3s ease;
 }
 
 .input-busca:focus {
-  border-color: #1e3b7d;
+  border-color: #2D408E;
   box-shadow: 0 0 8px rgba(21, 185, 204, 0.3);
   outline: none;
 }
@@ -444,7 +443,7 @@
   border-radius: 8px;
   padding: 8px 10px;
   font-size: 14px;
-  color: #1e3b7d;
+  color: #2D408E;
   cursor: pointer;
   transition: all 0.3s;
 }

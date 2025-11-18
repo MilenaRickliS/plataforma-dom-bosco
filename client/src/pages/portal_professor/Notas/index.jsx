@@ -257,11 +257,11 @@ export default function Notas() {
 
   const humorLabel =
     pontos < 25 ? "Triste 😢" :
-    pontos < 50 ? "Feliz 😊" : "Apaixonado 😍";
+    pontos < 50 ? "Feliz 😊" : "Motivado 😍";
 
   const corHumor =
-    pontos < 25 ? "red" :
-    pontos < 50 ? "orange" : "green";
+    pontos < 25 ? "#CC3F43" :
+    pontos < 50 ? "#0A2E52" : "#ffd900ff";
 
 
 useEffect(() => {

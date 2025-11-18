@@ -315,7 +315,7 @@ const toEmbed = (url) => {
 
           <div className="dashboard">
             <div className="section-avisos">
-                <strong>Avisos e Comunicados</strong>
+                <h4>Avisos e Comunicados</h4>
 
                 {avisos.length > 0 ? (
                   <div className="aviso">

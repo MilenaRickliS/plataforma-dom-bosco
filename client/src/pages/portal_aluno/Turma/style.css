@@ -15,16 +15,16 @@
   font-weight: bold;
 }
 .cor1{
-  background-color: #4059AD;
-  color: #4059AD;
+  background-color: #2D408E;
+  color: #2D408E;
 }
 .cor2{
-  color: #FFC857;
-  background-color: #FFC857;
+  color: #0DB39E;
+  background-color: #0DB39E;
 }
 .cor3{
-  color: #B72A4D;
-  background-color: #B72A4D;
+  color: #CC3F43;
+  background-color: #CC3F43;
 }
 .titulo-sala-alunos {
   position: relative;
@@ -110,7 +110,7 @@
 
 }
 .atividade{
-  border-left: 10px solid #4059AD;
+  border-left: 10px solid #2D408E;
   background-color: #fff;
   color: #000;
   text-decoration: none;
@@ -128,7 +128,7 @@
   align-items: center;
   justify-content: center; 
   gap: 6px;
-  background: #1e88e5;
+  background: #46A1D1;
   color: white;
   padding: 10px 14px;
   border-radius: 8px;
@@ -138,7 +138,7 @@
 }
 
 .botao-postar-ativ:hover{
-  background-color: #00155a;
+  background-color: #0A2E52;
 }
 .sem-atividade{
   text-align: center;

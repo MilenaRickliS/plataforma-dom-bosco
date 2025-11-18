@@ -4,7 +4,7 @@
   margin: 10px;
   border-radius: 10px;
   padding: 15px;
-  background: #fafafa;
+  background: #0A2E52;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
   cursor: pointer;
 }
@@ -15,24 +15,25 @@
 
 .aviso-card-alunos h3 {
   margin: 0;
-  color: #1e88e5;
+  color: #46A1D1;
 }
 
 .aviso-card-alunos p {
   margin: 6px 0;
   font-size: 15px;
+  color: #fff;
 }
 
 
 .aviso-card-alunos .responsavel
 {
   font-size: 14px;
-  color: #000;
+  color: #fff;
 }
 .aviso-card-alunos .data
 {
   font-size: 10px;
-  color: #696969;
+  color: #eee;
 }
 .aviso-card-alunos.lido {
   opacity: 0.6;
@@ -40,20 +41,20 @@
 }
 
 .aviso-card-alunos.nao-lido {
-  border-left: 4px solid #f44336;
+  border-left: 4px solid #CC3F43;
 }
 
 
 .checkbox-lido {
   font-size: 13px;
-  color: #000;
+  color: #fff;
   display: flex;
   align-items: center;
   gap: 4px;
 }
 
 .checkbox-lido input {
-  accent-color: #1e88e5;
+  accent-color: #46A1D1;
   transform: scale(1.1);
   cursor: pointer;
 }

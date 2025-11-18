@@ -27,7 +27,7 @@ export default function Header() {
     if (rota === "aluno") navigate("/aluno/inicio");
     else if (rota === "professor") navigate("/professor/inicio");
     else if (rota === "admin") navigate("/inicio-adm");
-    else navigate("/"); // fallback caso algo falhe
+    else navigate("/"); 
   }
 
   return (

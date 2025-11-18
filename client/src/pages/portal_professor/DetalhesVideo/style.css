@@ -24,7 +24,7 @@
 
 .btn-editar,
 .btn-excluir {
-  background: #a556d3;
+  background: #0DB39E;
   color: #fff;
   border: none;
   padding: 10px 16px;
@@ -36,11 +36,11 @@
 }
 
 .btn-editar:hover {
-  background: #8d3cb8;
+  background: #0DB39E;
 }
 
 .btn-excluir {
-  background: #e74c3c;
+  background: #CC3F43;
 }
 
 .btn-excluir:hover {

@@ -1,5 +1,5 @@
 .galeria-gestao-page{
-    background-color: #354E36;
+    background-color: #0DB39E;
     min-height: 100vh;
   padding: 20px;
 }
@@ -16,7 +16,7 @@
    transition: all 0.3s ease;
 }
 .voltar-para-menu:hover{
-    background-color: #1E3B7D;
+    background-color: #2D408E;
     color: #fff;
 }
 .container-gestao{
@@ -40,7 +40,7 @@
     gap: 15px;
     justify-content: center;
     align-items: center;
-    background: #465847;
+    background: #fff;
     padding: 15px 20px;
     border-radius: 12px;
     border: 1px solid #eee;
@@ -54,7 +54,7 @@
     min-width: 200px;
     padding: 10px 14px;
     border-radius: 8px;
-    border: 1px solid #ddd;
+    border: 1px solid #000;
     outline: none;
     transition: border 0.3s;
     color: #000000;
@@ -62,7 +62,7 @@
 }
 
 .upload-form input[type="text"]:focus {
-  border-color: #00cc1b;
+  border-color: #0DB39E;
 }
 
 .upload-form input[type="file"] {
@@ -88,16 +88,16 @@
 }
 
 .upload-label:hover {
-  background: #218838;
+  background: #0DB39E;
   transform: scale(1.03);
-  border-color: #00cc1b;
+  border-color: #0DB39E;
 }
 
 .upload-form button {
     font-family: "Montserrat", sans-serif;
-    background: #e9d527;
+    background: #2D408E;
     border: 1px solid #000000;
-    color: black;
+    color: #fff;
     padding: 10px 20px;
     border-radius: 8px;
     cursor: pointer;
@@ -106,7 +106,7 @@
 }
 
 .upload-form button:hover {
-  background: #ffee00;
+  background: #46A1D1;
   transform: scale(1.03);
 }
 .preview-container {
@@ -186,22 +186,22 @@
 }
 
 .botoes button:first-child {
-  background: #c7c7c7;
-  color: #333;
+  background: #0DB39E;
+  color: #ffff;
 }
 
 .botoes button:first-child:hover {
-  background: #d6d6d6;
+  background: #068f7d;
 }
 
 
 .botoes button:last-child {
-  background: #e74c3c;
+  background: #CC3F43;
   color: white;
 }
 
 .botoes button:last-child:hover {
-  background: #c0392b;
+  background: #8a282b;
 }
 
 .edit-form {
@@ -220,7 +220,7 @@
 }
 
 .edit-form button {
-  background: #28a745;
+  background: #2D408E;
   color: white;
   border: none;
   border-radius: 8px;
@@ -230,7 +230,7 @@
 }
 
 .edit-form button:hover {
-  background: #218838;
+  background: #46A1D1;
 }
 .toast {
   position: fixed;

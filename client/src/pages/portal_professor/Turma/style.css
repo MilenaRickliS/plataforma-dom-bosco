@@ -15,18 +15,18 @@
   font-weight: bold;
 }
 .cor1{
-  background-color: #4059AD;
-  color: #4059AD;
+  background-color: #2D408E;
+  color: #2D408E;
   border-radius: 5px;
 }
 .cor2{
-  color: #FFC857;
-  background-color: #FFC857;
+  color: #0DB39E;
+  background-color: #0DB39E;
   border-radius: 5px;
 }
 .cor3{
-  color: #B72A4D;
-  background-color: #B72A4D;
+  color: #CC3F43;
+  background-color: #CC3F43;
   border-radius: 5px;
 }
 .titulo-sala-alunos {
@@ -133,7 +133,7 @@
 
 .prox-ativ p {
   font-weight: 600;
-  color: #1e3b7d;
+  color: #2D408E;
   margin-bottom: 0.8rem;
 }
 
@@ -169,7 +169,7 @@
 
 }
 .atividade{
-  border-left: 10px solid #4059AD;
+  border-left: 10px solid #2D408E;
   background-color: #fff;
   color: #000;
   text-decoration: none;
@@ -200,7 +200,7 @@
   align-items: center;
   justify-content: center; 
   gap: 6px;
-  background: #1e88e5;
+  background: #00155a;
   color: white;
   padding: 10px 14px;
   border-radius: 8px;
@@ -210,7 +210,7 @@
 }
 
 .botao-postar-ativ:hover{
-  background-color: #00155a;
+  background-color: #0040ff;
 }
 /* codigo turma */
 .btn-codigo {
@@ -253,7 +253,7 @@
 }
 
 .modal-codigo h2 {
-  color: #4059ad;
+  color: #2D408E;
   margin-bottom: 1rem;
 }
 .modal-codigo input{
@@ -262,10 +262,10 @@
 }
 .modal-codigo input:focus{
   outline: none;
-  border-color: #5856d3;
+  border-color: #2D408E;
 }
 .modal-codigo .labels {
-  color: #5856d3;
+  color: #2D408E;
 }
 .codigo-grande {
   font-size: 3rem;
@@ -294,7 +294,7 @@
   border: none;
   border-radius: 8px;
   padding: 10px 20px;
-  font-size: 16px;
+
   cursor: pointer;
   transition: 0.2s;
 }
@@ -316,7 +316,7 @@
 }
 
 .label-upload-editarTurma {
-  background-color: #a556d3;
+  background-color: #2D408E;
   color: white;
   padding: 8px 14px;
   border-radius: 8px;
@@ -326,9 +326,11 @@
 }
 
 .label-upload-editarTurma:hover {
-  background-color: #42165c;
+  background-color: #0A2E52;
 }
-
+.link-convite-container{
+  color: #00155a;
+}
 
 @keyframes aparecer {
   from {

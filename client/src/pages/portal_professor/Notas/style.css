@@ -3,10 +3,10 @@
   align-items: center;          
   justify-content: flex-start;  
   gap: 40px;                    
-  background: linear-gradient(90deg, rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 50%, rgba(237, 221, 83, 1) 100%);
+  background: linear-gradient(90deg, #2D408E 0%, #46A1D1 50%, #0DB39E 100%);
   padding: 20px 40px;
   border-radius: 100px;
-  color: white;
+
 }
 
 .foto-circulo-ranking {
@@ -23,20 +23,21 @@
 }
 
 .status-pontuacao p {
-  font-family: "Montserrat", sans-serif;
+  font-family: "Montserrat bold", sans-serif;
   font-weight: bold;
   margin: 5px 0;
   
 }
 .meus-pontos{
-  color: #45835c;
+  color: #fff;
   font-size: 25px;
 }
 .pontos{
-  color: #1e293b;
+   font-family: "Montserrat bold", sans-serif;
+  color: #2D408E;
 }
 .titulo-boletim{
-  color: #1e293b;
+  color: #2D408E;
 }
 .boletim-section {
   margin-top: 40px;
@@ -59,12 +60,12 @@
   padding: 8px;
   border: 1px solid #ddd;
   text-align: center;
-  color: #1e3a8a;
+  color: #2D408E;
 }
 
 .boletim-tabela th {
   background: #f5f5f5;
-  color: #1e293b;
+  color: #0A2E52;
 }
 
 .boletim-tabela input {
@@ -78,7 +79,7 @@
 }
 .mensagem-vazia {
   text-align: center;
-  color: #a94442;
+  color: #CC3F43;
   background-color: #fdecea;
   border: 1px solid #f5c6cb;
   border-radius: 8px;
@@ -98,7 +99,7 @@
     padding: 20px;
 }
 .btn-atribuir{
-    font-family: "Montserrat", sans-serif;
+    font-family: "Montserrat bold", sans-serif;
     background-color: #FBBC05;
     color: black;
     font-weight: bold;
@@ -115,7 +116,7 @@
     text-decoration: none;
 }
 .btn-atribuir:hover{
-    background-color: #ffee00;
+    background-color: #ffd900;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 .container-medalhas {
@@ -128,7 +129,7 @@
   margin: 10px;
 }
 .selecao-turma label{
-    color: #1e293b;
+    color: #2D408E;
     font-weight: bold;
 }
 
@@ -138,17 +139,17 @@
   border-radius: 8px;
   border: 1px solid #cbd5e1;
   background: #f8fafc;
-  color: #1e293b;
+  color: #2D408E;
   width: 100%;
 }
 .selecao-turma select:focus {
   outline: none;
-  border-color: #2563eb;
+  border-color: #2D408E;
 }
 
 .lista-alunos-medalhas-view {
   background: #fff;
-  color: #1e293b;
+  color: #2D408E;
   border-radius: 12px;
   padding: 1rem;
   margin-top: 1.5rem;
@@ -187,8 +188,8 @@
   margin-top: 3px;
   padding: 2px;
   border-radius: 6px;
-  background-color: #1e293b;
-  color: #fff;
+  background-color: #fff;
+  color: #000;
   cursor: pointer;
 }
 
@@ -196,7 +197,7 @@
   position: absolute;
   top: -10px;
   right: 10px;
-  background: #ef4444;
+  background: #CC3F43;
   color: #fff;
   border: none;
   border-radius: 50%;
@@ -210,7 +211,7 @@
 }
 
 .btn-excluir-mini:hover {
-  background: #b91c1c;
+  background: #CC3F43;
 }
 
 .sem-medalhas {
@@ -222,7 +223,7 @@
   margin-top: 2rem;
 }
 .grid-todas-medalhas h3, .grid-todas-medalhas p{
-    color: #1e293b;
+    color: #2D408E;
 }
 
 .grid-medalhas {
@@ -255,7 +256,7 @@
 
 .info-medalha h4 {
   margin-top: 0.5rem;
-  color: #1e3a8a;
+  color: #2D408E;
 }
 @media (max-width: 500px) {
     .container-medalhas{

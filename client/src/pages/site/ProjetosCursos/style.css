@@ -1,5 +1,5 @@
 .projetos-container {
-  background-color: #8c2f2f; 
+  background-color: #CC3F43; 
   color: #ffffff;
   padding: 60px 40px;
   font-family: "Montserrat", sans-serif;
@@ -117,8 +117,7 @@
   gap: 25px;
   margin-top: 50px;
   padding: 30px 20px;
-  background: #ffffff;
-  border: 2px solid #000;
+ 
   border-radius: 50px;
   width: 80%;
   max-width: 1200px;
@@ -132,8 +131,8 @@
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  background: #ffffff; 
-  color: #8c2f2f;
+ 
+  color: #CC3F43;
   padding: 20px 15px;
   border-radius: 20px;
   cursor: pointer;
@@ -164,13 +163,13 @@
 
 .categoria:active {
   background: white;
-  color: #8c2f2f;
+  color: #f94144;
   transform: scale(1.05);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
 .categoria.selected {
-  border-color: #000;
+  border-color: #f94144;
 }
 
 /* projetos */
@@ -216,7 +215,7 @@
 .card-projeto-curso.ativo h3 {
   font-size: 1.6rem;
   margin-top: 15px;
-  color: #8c2f2f;
+  color: #CC3F43;
 }
 
 .card-projeto-curso.ativo p {
@@ -229,7 +228,7 @@
   font-size: 1rem;
   line-height: 1.6;
   margin-top: 10px;
-  color: #8c2f2f;
+  color: #CC3F43;
 } 
 .card-projeto-curso:hover {
   transform: scale(1.02);
@@ -250,7 +249,7 @@
 }
 
 .curso {
-  color: #8c2f2f;
+  color: #CC3F43;
   font-weight: bold;
   font-family: "Montserrat", sans-serif;
   font-size: 0.9rem;
@@ -268,7 +267,7 @@
 }
 
 .btn-lermais-curso:hover {
-  color: #3463d1;
+  color: #CC3F43;
 }
 .paginacao-projetos-curso {
   display: flex;
@@ -279,7 +278,7 @@
 
 .paginacao-projetos-curso button {
   border: none;
-  background-color: #8c2f2f;
+  background-color: #CC3F43;
   color: #fff;
   padding: 8px 12px;
   border-radius: 6px;
@@ -289,11 +288,11 @@
 }
 
 .paginacao-projetos-curso button:hover {
-  background-color: #3b1212;
+  background-color: #913538;
 }
 
 .paginacao-projetos-curso .ativo {
-  background-color: #3b1212;
+  background-color: #913538;
   color: #fff;
 }
 /* Barra de pesquisa */
@@ -334,7 +333,7 @@
 }
 
 .input-filtro-projetos:focus {
-  border-color: #8c2f2f;
+  border-color: #CC3F43;
   box-shadow: 0 0 5px rgba(255, 38, 0, 0.3);
   outline: none;
 }

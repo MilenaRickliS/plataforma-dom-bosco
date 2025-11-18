@@ -14,7 +14,7 @@
   margin-top: 2rem;
   padding: 1rem 2rem;
   color: #222;
-  font-family: "Montserrat", sans-serif;
+  font-family: "Montserrat bold", sans-serif;
 }
 
 .ranking-lista-alunos {
@@ -50,12 +50,12 @@
 .posicao {
   font-weight: bold;
   font-size: 1.1rem;
-  color: #2563eb;
+  color: #2D408E;
 }
 
 .pontos-alunos {
   font-weight: bold;
-  color: #2563eb;
+  color: #2D408E;
 }
 
 .medalhas-miniaturas {

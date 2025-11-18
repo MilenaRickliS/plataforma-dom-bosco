@@ -25,16 +25,16 @@ export default function Educacao() {
   }, []);
 
   const getCursoGradient = (nome) => {
-    if (!nome) return "linear-gradient(135deg, #606c88 0%, #3f4c6b 100%)";
+    if (!nome) return "linear-gradient(135deg, #2D408E 0%, #46A1D1 100%)";
 
     const n = nome.toLowerCase();
-    if (n.includes("jovem aprendiz")) return "linear-gradient(135deg, #6a11cb 0%, #2575fc 100%)";
-    if (n.includes("música")) return "linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%)";
-    if (n.includes("informática")) return "linear-gradient(135deg, #43cea2 0%, #185a9d 100%)";
-    if (n.includes("esporte")) return "linear-gradient(135deg, #f7971e 0%, #ffd200 100%)";
-    if (n.includes("pré")) return "linear-gradient(135deg, #ff512f 0%, #dd2476 100%)";
+    if (n.includes("jovem aprendiz")) return "linear-gradient(135deg, #2D408E 0%, #46A1D1 100%)";
+    if (n.includes("música")) return "linear-gradient(135deg, #2D408E 0%, #46A1D1 100%)";
+    if (n.includes("informática")) return "linear-gradient(135deg, #2D408E 0%, #46A1D1 100%)";
+    if (n.includes("esporte")) return "linear-gradient(135deg, #2D408E 0%, #46A1D1 100%)";
+    if (n.includes("pré")) return "linear-gradient(135deg, #2D408E 0%, #46A1D1 100%)";
 
-    return "linear-gradient(135deg, #606c88 0%, #3f4c6b 100%)";
+    return "linear-gradient(135deg, #2D408E 0%, #46A1D1 100%)";
   };
 
   const perguntas = [
@@ -165,12 +165,12 @@ function ProjetosCarrossel({ sliderRef }) {
   const [projetos, setProjetos] = useState([]);
     const getCursoCor = (curso) => {
       switch (curso) {
-        case "Música": return "#df7d80";
-        case "Esportes": return "#f7971e";
-        case "Informática": return "#43cea2";
-        case "Pré-aprendizagem": return "#ff512f";
-        case "Jovem Aprendiz": return "#6a11cb";
-        default: return "#555";
+        case "Música": return "#2D408E";
+        case "Esportes": return "#2D408E";
+        case "Informática": return "#2D408E";
+        case "Pré-aprendizagem": return "#2D408E";
+        case "Jovem Aprendiz": return "#2D408E";
+        default: return "#2D408E";
       }
     };
 

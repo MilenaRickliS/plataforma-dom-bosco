@@ -11,7 +11,7 @@
    transition: all 0.3s ease;
 }
 .voltar-para-menu:hover{
-    background-color: #1E3B7D;
+    background-color: #2D408E;
     color: #fff;
 }
 .container-gestao{
@@ -25,7 +25,7 @@
 
 }
 .h1-proj{
-    color: #8E3838;
+    color: #CC3F43;
 }
 .form-projeto-curso {
     display: flex;
@@ -36,7 +36,7 @@
     justify-content: center;
     align-items: center;
     margin: 0 auto;
-    background: #8E3838;
+    background: #CC3F43;
     padding: 15px 20px;
     border-radius: 12px;
     margin-bottom: 30px;
@@ -57,8 +57,8 @@
 }
 
 .form-projeto-curso input[type="text"]:focus {
-  border-color: #e9d527;
-  box-shadow: 0 0 5px rgba(233, 213, 39, 0.6);
+  border-color: #2D408E;
+  box-shadow: 0 0 5px rgba(58, 39, 233, 0.6);
 }
 .form-projeto-curso textarea {
   font-family: "Montserrat", sans-serif;
@@ -76,8 +76,8 @@
 }
 
 .form-projeto-curso textarea:focus {
-  border-color: #e9d527;
-  box-shadow: 0 0 5px rgba(233, 213, 39, 0.6);
+  border-color: #2D408E;
+  box-shadow: 0 0 5px rgba(58, 39, 233, 0.6);
 }
 
 .form-projeto-curso input[type="date"] {
@@ -135,8 +135,8 @@
 }
 
 .form-projeto-curso select:focus {
-  border-color: #e9d527;
-  box-shadow: 0 0 5px rgba(233, 213, 39, 0.6);
+ border-color: #2D408E;
+  box-shadow: 0 0 5px rgba(58, 39, 233, 0.6);
 }
 
 
@@ -222,16 +222,16 @@
 }
 
 .projeto-curso-label:hover {
-  box-shadow: 0 0 5px rgba(233, 213, 39, 0.6);
-  border-color: #e9d527;
+border-color: #2D408E;
+  box-shadow: 0 0 5px rgba(58, 39, 233, 0.6);
   
 }
 
 .button-salvar {
     font-family: "Montserrat", sans-serif;
-    background: #e9d527;
+    background: #2D408E;
     border: 1px solid #000000;
-    color: black;
+    color: #fff;
     padding: 10px 20px;
     border-radius: 8px;
     cursor: pointer;
@@ -242,7 +242,7 @@
 }
 
 .button-salvar:hover {
-  background: #ffee00;
+  background: #243472;
   transform: scale(1.03);
 }
 .preview-img {
@@ -294,7 +294,7 @@
 .card-projeto-curso-gestao.ativo h3 {
   font-size: 1.6rem;
   margin-top: 10px;
-  color: #8E3838;
+  color: #CC3F43;
 }
 .card-projeto-curso-gestao.ativo p {
   font-size: 1rem;
@@ -319,7 +319,7 @@
 }
 
 .card-projeto-curso-gestao p{
-  color: #8E3838;
+  color: #CC3F43;
   font-family: "Montserrat", sans-serif;
   font-size: 0.9rem;
   font-weight: bold;
@@ -338,7 +338,7 @@
 .btn-lermais-curso {
   background: transparent;
   border: none;
-  color: #8E3838;
+  color: #CC3F43;
   cursor: pointer;
   font-weight: 600;
   margin-top: 5px;
@@ -371,15 +371,19 @@
 }
 
 .btn-editar {
-  background: #2b8a3e;
+  background: #0DB39E;
   color: white;
 }
 
 .btn-excluir {
-  background: #d32f2f;
+  background: #CC3F43;
   color: white;
 }
+.acoes-curso .btn-excluir:hover { 
+    background: #7a1620; 
 
+    
+}
 .btn-editar:hover,
 .btn-excluir:hover {
   transform: scale(1.05);
@@ -435,7 +439,7 @@
 }
 
 .input-filtro-projetos:focus {
-  border-color: #8c2f2f;
+  border-color: #CC3F43;
   box-shadow: 0 0 5px rgba(255, 38, 0, 0.3);
   outline: none;
 }
@@ -481,13 +485,13 @@
 }
 
 .select-filtro-curso:hover {
- border-color: #8c2f2f;
+ border-color: #CC3F43;
   box-shadow: 0 0 5px rgba(255, 38, 0, 0.3);
 }
 
 .select-filtro-curso:focus {
-  border-color: #e9d527;
-  box-shadow: 0 0 5px rgba(233, 213, 39, 0.6);
+  border-color: #2D408E;
+  box-shadow: 0 0 5px rgba(39, 58, 233, 0.6);
 }
 .icone-select {
   position: absolute;

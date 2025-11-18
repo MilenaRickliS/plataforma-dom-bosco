@@ -53,51 +53,13 @@
     text-align: center;
     padding: 10px;
     margin: 10px 0;
-    background-color: #1E3B7D;
+    background-color: #0A2E52;
     color: #fff;
     transition: all 0.3s ease;
 }
-
-
-.opcoes-menug a:nth-child(1) {
-    background-color: #354E36; 
+.opcoes-menug a:hover{
+  background-color: #0DB39E;
 }
-.opcoes-menug a:nth-child(1):hover {
-    background-color: #008d00;
-}
-
-
-.opcoes-menug a:nth-child(2) {
-    background-color: #7B4C96; 
-}
-.opcoes-menug a:nth-child(2):hover {
-    background-color: #7702bb;
-}
-
-
-.opcoes-menug a:nth-child(3) {
-    background-color: #8E3838; 
-}
-.opcoes-menug a:nth-child(3):hover {
-    background-color: #af0000;
-}
-
-
-.opcoes-menug a:nth-child(4) {
-    background-color: #395D9A; 
-}
-.opcoes-menug a:nth-child(4):hover {
-    background-color: #004bce;
-}
-
-
-.opcoes-menug a:nth-child(5) {
-    background-color: #948012; 
-}
-.opcoes-menug a:nth-child(5):hover {
-    background-color: #e9c914;
-}
-
 /* gerenciar equipe */
 .gestao-equipe{
     background-color: #333;
@@ -122,7 +84,7 @@
 .form-equipe input[type="text"],
 .form-equipe input[type="file"] {
   padding: 10px 14px;
-  border: 2px solid #1E3B7D;
+  border: 2px solid #2D408E;
   border-radius: 10px;
   font-size: 1rem;
   outline: none;
@@ -136,7 +98,7 @@
 }
 
 .form-equipe button {
-  background-color: #1E3B7D;
+  background-color: #2D408E;
   color: #fff;
   border: none;
   border-radius: 30px;
@@ -157,7 +119,7 @@
 .label-foto {
     display: inline-block;
     background-color: #fff;
-    border: 2px solid #1E3B7D;
+    border: 2px solid #2D408E;
     color: #4b4b4b;
     border-radius: 25px;
     padding: 10px 20px;
@@ -205,13 +167,13 @@
   border-radius: 50%;
   object-fit: cover;
   margin-bottom: 15px;
-  border: 3px solid #1E3B7D;
+  border: 3px solid #2D408E;
 }
 
 .card-equipe-admin p {
   margin: 5px 0;
   font-family: "Montserrat", sans-serif;
-  color: #1E3B7D;
+  color: #2D408E;
 }
 
 .card-equipe-admin p strong {
@@ -233,14 +195,14 @@
   transition: all 0.3s ease;
 }
 .acoes button:first-child {
-  background-color: #7B4C96;
+  background-color: #0DB39E;
   color: #fff;
 }
 .acoes button:first-child:hover {
-  background-color: #7702bb;
+  background-color: #0a8373;
 }
 .acoes button:last-child {
-  background-color: #8E3838;
+  background-color: #CC3F43;
   color: #fff;
 }
 .acoes button:last-child:hover {

@@ -343,8 +343,8 @@ export default function RelatoriosCiclos() {
                     <XAxis dataKey="data" tickFormatter={(d) => d.split(",")[0]} />
                     <YAxis />
                     <Tooltip />
-                    <Bar dataKey="peso" fill="#3f51b5" name="Peso Total (kg)" />
-                    <Bar dataKey="total" fill="#00b894" name="Total de Pessoas" />
+                    <Bar dataKey="peso" fill="#2D408E" name="Peso Total (kg)" />
+                    <Bar dataKey="total" fill="#0DB39E" name="Total de Pessoas" />
                   </BarChart>
                 ) : (
                   <LineChart data={dadosOrdenados}>
@@ -355,14 +355,14 @@ export default function RelatoriosCiclos() {
                     <Line
                       type="monotone"
                       dataKey="peso"
-                      stroke="#3f51b5"
+                      stroke="#2D408E"
                       strokeWidth={2}
                       name="Peso Total (kg)"
                     />
                     <Line
                       type="monotone"
                       dataKey="total"
-                      stroke="#00b894"
+                      stroke="#0DB39E"
                       strokeWidth={2}
                       name="Total de Pessoas"
                     />

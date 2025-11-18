@@ -5,7 +5,7 @@
   justify-content: center;
   margin-top: 20px;
   width: 100%;
-  color: #2e7d32;
+  color: #2D408E;
 }
 
 
@@ -22,7 +22,7 @@
 }
 
 .table-registros thead {
-  background: #3f51b5;
+  background: #2D408E;
   color: #fff;
 }
 
@@ -36,7 +36,7 @@
 
 .table-registros th {
   font-weight: 600;
-  background: #3f51b5;
+  background: #2D408E;
   color: white;
 }
 
@@ -54,7 +54,7 @@
 }
 
 .tag-manual {
-  background: #4caf50;
+  background: #0DB39E;
   color: white;
   padding: 4px 10px;
   border-radius: 6px;

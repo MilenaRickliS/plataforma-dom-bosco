@@ -15,8 +15,8 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  background: #1e88e5;
-  color: white;
+  background: #0A2E52;
+  color: #fff;
   padding: 10px 14px;
   border-radius: 8px;
   text-decoration: none;
@@ -32,20 +32,20 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
-  color: #000;
+  color: #fff;
 }
 
 .aviso-card {
   border: 1px solid #ddd;
   border-radius: 10px;
   padding: 15px;
-  background: #fafafa;
+  background: #0A2E52;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
 }
 
 .aviso-card h3 {
   margin: 0;
-  color: #1e88e5;
+  color: #46A1D1;
 }
 
 .aviso-card p {
@@ -59,7 +59,7 @@
 .aviso-card .data,
 .leitores{
   font-size: 14px;
-  color: #555;
+  color: #46A1D1;
 }
 .sem-avisos{
     color: #000;
@@ -72,19 +72,19 @@
 .btn-editar-aviso{
     color: #fff;
     text-decoration: none;
-    background-color: #0d8f29;
+    background-color: #0DB39E;
     padding: 10px;
     border-radius: 10px;
     transition: all 0.2s;
     cursor: pointer;
 }
 .btn-editar-aviso:hover{
-    background-color: #1b4724;
+    background-color: #066e1b;
 }
 .btn-excluir-aviso{
     color: #fff;
     text-decoration: none;
-    background-color: #9c2d1e;
+    background-color: #CC3F43;
     padding: 10px;
     border-radius: 10px;
     transition: all 0.2s;
@@ -92,7 +92,7 @@
     cursor: pointer;
 }
 .btn-excluir-aviso:hover{
-    background-color: #572822;
+    background-color: #7c1508;
 }
 /* responsividade */
 @media (max-width: 500px) {

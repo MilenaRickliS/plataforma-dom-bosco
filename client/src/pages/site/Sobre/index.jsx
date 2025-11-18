@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Footer from "../../../components/site/Footer";
-import local from '../../../assets/site/salao.png';
+import local from '../../../../public/assets/banco de imagens/DSC_9817.png';
 import './style.css';
 import jovens from "../../../assets/site/grupojovens.png";
 import equipefoto from "../../../assets/site/Desperta-ai_10.08-7-768x512.webp";

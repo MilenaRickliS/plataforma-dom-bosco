@@ -16,7 +16,7 @@
    transition: all 0.3s ease;
 }
 .voltar-para-menu:hover{
-    background-color: #1E3B7D;
+    background-color: #2D408E;
     color: #fff;
 }
 .container-gestao-projetos{
@@ -37,7 +37,7 @@
     justify-content: center;
     align-items: center;
     margin: 0 auto;
-    background: #33438a;
+    background: #46A1D1;
     padding: 15px 20px;
     border-radius: 12px;
     margin-bottom: 30px;
@@ -157,7 +157,7 @@
   right: 14px;
   top: 50%;
   transform: translateY(-50%);
-  color: #33438a;
+  color: #2D408E;
   font-size: 18px;
   pointer-events: none; 
   transition: color 0.3s ease;
@@ -185,16 +185,13 @@
   transition: all 0.3s ease;
 }
 
-.projeto-label:hover {
-  background: #3463d1;
-  border-color: #00c3ff;
-}
+
 
 .button-salvar {
-    font-family: "Montserrat", sans-serif;
-    background: #e9d527;
+    font-family: "Montserrat bold", sans-serif;
+    background: #2D408E;
     border: 1px solid #000000;
-    color: black;
+    color: #fff;
     padding: 10px 20px;
     border-radius: 8px;
     cursor: pointer;
@@ -205,7 +202,7 @@
 }
 
 .button-salvar:hover {
-  background: #ffee00;
+  background: #23316b;
   transform: scale(1.03);
 }
 .preview-img {
@@ -257,7 +254,7 @@
 .card-projeto-gestao.ativo h3 {
   font-size: 1.6rem;
   margin-top: 10px;
-  color: #1E3B7D;
+  color: #2D408E;
 }
 .card-projeto-gestao.ativo p {
   font-size: 1rem;
@@ -301,7 +298,7 @@
 .btn-lermais {
   background: transparent;
   border: none;
-  color: #1E3B7D;
+  color: #2D408E;
   cursor: pointer;
   font-weight: 600;
   margin-top: 5px;
@@ -334,12 +331,12 @@
 }
 
 .btn-editar {
-  background: #2b8a3e;
+  background: #0DB39E;
   color: white;
 }
 
 .btn-excluir {
-  background: #d32f2f;
+  background: #CC3F43;
   color: white;
 }
 

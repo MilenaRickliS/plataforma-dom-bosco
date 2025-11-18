@@ -17,8 +17,8 @@
     height: 70px;
 }
 .titulo-admin p{
-    font-family: "Montserrat", sans-serif;
-    color: #354E36;
+    font-family: "Montserrat bold", sans-serif;
+    color: #2D408E;
 }
 .bemvindo-admin{
     flex: 1; 
@@ -28,31 +28,12 @@
     align-items: center;     
     text-align: center;
 }
-.bemvindo-admin h1 {
-    color: #3E6EAD;
-}
-.link-refeicao{
-    border: 2px solid black;
-    background-color: #FBBC05;
-    font-family: "Montserrat", sans-serif;
-    color: #000;
-    text-decoration: none;
-    border-radius: 20px;
-    padding: 30px;
-    margin: 20px;
-    transition: all 0.3s ease;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-}
-.link-refeicao:hover{
-    background-color: #094943;
-    color: #ffffff;
-}
 
 .link-gestao{
     border: 2px solid black;
-    background-color: #A8C7FA;
-    font-family: "Montserrat", sans-serif;
-    color: #000;
+    background-color: #0A2E52;
+    font-family: "Montserrat bold", sans-serif;
+    color: #fff;
     text-decoration: none;
     border-radius: 20px;
     padding: 30px;
@@ -61,30 +42,15 @@
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 .link-gestao:hover{
-    background-color: #094943;
+    background-color: #2D408E;
     color: #ffffff;
 }
-.link-portais{
-    border: 2px solid black;
-    background-color: #3ead3e;
-    font-family: "Montserrat", sans-serif;
-    color: #000;
-    text-decoration: none;
-    border-radius: 20px;
-    padding: 30px;
-    margin: 20px;
-    transition: all 0.3s ease;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-}
-.link-portais:hover{
-    background-color: #094943;
-    color: #ffffff;
-}
+
 .logout{
     border: 2px solid black;
     font-family: "Montserrat", sans-serif;
-    color: #000000;
-    background-color: #853126;
+    color: #fff;
+    background-color: #CC3F43;
     font-size: 20px;
     padding: 10px;
     border-radius: 10px;

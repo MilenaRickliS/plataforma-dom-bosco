@@ -1,7 +1,7 @@
 h1{
     margin: 0 auto;
     text-align: center;
-    font-family: "Montserrat", sans-serif;
+    font-family: "Montserrat bold", sans-serif;
     color: black;
     font-size: 50px;
 
@@ -102,9 +102,9 @@ h1{
 }
 
 .div-projetos h1 {
-  font-family: "Montserrat", sans-serif;
+  font-family: "Montserrat bold", sans-serif;
   color: #000;
-  font-size: 75px;
+  font-size: 40px;
   text-align: center;
   line-height: 1.2;
   margin: 0;
@@ -119,7 +119,7 @@ h1{
 .projetos-arrow-custom {
   background: transparent;
   border: none;
-  color: #8E3838;
+  color: #CC3F43;
   cursor: pointer;
   transition: all 0.3s ease;
   padding: 5px;
@@ -130,18 +130,18 @@ h1{
 }
 
 .projetos-arrow-custom:hover {
-  color: #4b1212;
+  color: #CC3F43;
   transform: scale(1.1);
 }
 
 .projetos-arrow-custom:focus {
-  outline: 2px solid #8E3838;
+  outline: 2px solid #f94144;
   outline-offset: 2px;
 }
 
 .link-proj {
   border-radius: 30px;
-  background-color: #8E3838;
+  background-color: #CC3F43;
   color: #fff;
   font-family: "Montserrat", sans-serif;
   text-decoration: none;
@@ -152,7 +152,7 @@ h1{
 }
 
 .link-proj:hover {
-  background-color: #4b1212;
+  background-color: #f94144;
 }
 
 /* Carrossel de Projetos */
@@ -221,7 +221,7 @@ h1{
   font-family: "Montserrat", sans-serif; 
   font-size: 1rem; 
   font-weight: 600; 
-  background: linear-gradient(135deg, #8E3838, #4b1212); 
+  background: linear-gradient(135deg, #CC3F43, #f94144); 
   color: #fff; 
   padding: 12px 32px; 
   border-radius: 30px; 
@@ -233,7 +233,7 @@ h1{
 }
 
 .projeto-botao:hover { 
-  background: linear-gradient(135deg, #a84040, #5a1616); 
+  background: linear-gradient(135deg, #CC3F43, #f94144); 
   transform: translateY(-3px); 
 }
 
@@ -243,19 +243,19 @@ h1{
 
 .projetos-slider .slick-dots li button:before { 
   font-size: 10px; 
-  color: #8E3838; 
+  color: #CC3F43; 
   opacity: .4; 
   transition: all .3s ease; 
 }
 
 .projetos-slider .slick-dots li.slick-active button:before { 
   opacity: 1; 
-  color: #8E3838; 
+  color: #CC3F43; 
 }
 
 /* proposta */
 .proposta{
-  background-color: #003A91;
+  background-color: #2D408E;
   color: #fff;
   padding: 20px;
   margin-top: 25px;
@@ -266,7 +266,7 @@ h1{
   font-size: 30px;
 }
 .proposta strong{
-  color: #0AB8F8;
+  color: #46A1D1;
 }
 
 /* perguntas */
@@ -287,7 +287,7 @@ h1{
   position: relative;
 }
 .perguntas li:hover{
-  color: #003A91;
+  color: #2D408E;
 }
 .perguntas li .resposta {
   font-family: "Montserrat", sans-serif;
@@ -304,7 +304,7 @@ h1{
   to { opacity: 1; transform: translateY(0); }
 }
 .perguntas li.aberta {
-  color: #003a91;
+  color: #2D408E;
   font-weight: bold;
 }
 

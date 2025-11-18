@@ -24,7 +24,7 @@ export default function TurmasArquivadas() {
       <div className="page2">
         <main>
           <MenuTopoAluno/>
-          <h2>Turmas Arquivadas</h2>
+          <h2 className="titulo-arquivadas">Turmas Arquivadas</h2>
           <div className="turmas-grid">
             {turmas.length ? (
               turmas.map((turma) => (

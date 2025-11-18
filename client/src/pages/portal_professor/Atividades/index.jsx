@@ -69,9 +69,9 @@ export default function Atividades() {
   const getCorTipo = (tipo) => {
     switch (tipo) {
       case "atividade":
-        return "#FFC857";
+        return "#0DB39E";
       case "avaliacao":
-        return "#B72A4D";
+        return "#CC3F43";
       default:
         return "#999";
     }
@@ -194,15 +194,41 @@ export default function Atividades() {
             </div>
           )}
 
-          {mostrarCodigo && (
-            <div className="overlay-codigo" onClick={() => setMostrarCodigo(false)}>
-              <div className="modal-codigo" onClick={(e) => e.stopPropagation()}>
-                <h2>Código da Turma</h2>
-                <p className="codigo-grande">{turma?.codigo || "—"}</p>
-                <button onClick={() => setMostrarCodigo(false)}>Fechar</button>
-              </div>
-            </div>
-          )}
+           {mostrarCodigo && (
+                      <div className="overlay-codigo" onClick={() => setMostrarCodigo(false)}>
+                        <div className="modal-codigo" onClick={(e) => e.stopPropagation()}>
+                          <h2>Código da Turma</h2>
+          
+                          <p className="codigo-grande">{turma?.codigo || "—"}</p>
+          
+                          <div className="link-convite-container">
+                            <p><strong>Link para os alunos entrarem:</strong></p>
+          
+                            <div className="link-convite-box">
+                              <input
+                                type="text"
+                                readOnly
+                                value={`${window.location.origin}/convite/${turma?.codigo || ""}`}
+                              />
+                              <button
+                                className="btn-copiar-link"
+                                onClick={() => {
+                                  const link = `${window.location.origin}/convite/${turma?.codigo || ""}`;
+                                  navigator.clipboard.writeText(link);
+                                  toast.success("Link da turma copiado!");
+                                }}
+                              >
+                                Copiar Link
+                              </button>
+                            </div>
+                          </div>
+          <br/>
+                          <button onClick={() => setMostrarCodigo(false)} className="button-fechar">
+                            Fechar
+                          </button>
+                        </div>
+                      </div>
+                    )}
         </main>
         
       </div>

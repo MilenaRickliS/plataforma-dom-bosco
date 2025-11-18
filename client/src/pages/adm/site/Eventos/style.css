@@ -15,7 +15,7 @@
    transition: all 0.3s ease;
 }
 .voltar-para-menu:hover{
-    background-color: #1E3B7D;
+    background-color: #2D408E;
     color: #fff;
 }
 .container-gestao-evento{
@@ -27,8 +27,8 @@
 }
 .h1-eventos{
     padding-top: 30px;
-    font-family: "Montserrat", sans-serif;
-    color: #7B4C96;
+    font-family: "Montserrat bold", sans-serif;
+    color: #2D408E;
     font-size: 2rem;
     font-weight: 700;
 }
@@ -89,7 +89,7 @@
 
 
 .btn-inscricao-evento {
-    background-color: #1E3B7D;
+    background-color: #2D408E;
     color: #fff;
     padding: 8px 12px;
     border-radius: 30px;
@@ -99,7 +99,7 @@
     transition: all 0.3s ease;
 }
 .btn-inscricao-evento:hover {
-    background: #15b9cc;
+    background: #0DB39E;
 }
 
 .botoes-evento {    
@@ -111,7 +111,7 @@
 .editar-evento, .excluir-evento {
     border: none;
     font-family: "Montserrat", sans-serif;
-    background: #ddfdff;
+    background: #46A1D1;
     color: #14326e;
     text-decoration: none;
     font-size: 15px;
@@ -126,7 +126,7 @@
 }
 
 .excluir-evento {
-    background: #ffcccc;
+    background: #CC3F43;
 }
 .excluir-evento:hover{
     background: #fd8686;

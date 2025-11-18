@@ -19,10 +19,10 @@ nav{
     
 }
 .link{
-    color: #1E3B7D;
+    color: #2D408E;
     font-weight: bold;
     text-decoration: none;
-    font-family: "Montserrat", sans-serif;
+    font-family: "Montserrat Bold", sans-serif;
     display: flex;
     align-items: center;
     gap: 5px;
@@ -52,7 +52,7 @@ nav{
 
 
 .login{
-    background-color: #1E3B7D;
+    background-color: #2D408E;
     color: #fff;
     border-radius: 60px;    
     padding: 15px 25px;
@@ -65,14 +65,14 @@ nav{
     transition: 0.3s;
 }
 .login:hover {
-  background-color: #063dbe;
+  background-color: #0A2E52;
 }
 
 .menu-toggle, .close-menu {
   display: none;
   background: none;
   border: none;
-  color: #1E3B7D;
+  color: #2D408E;
   cursor: pointer;
   z-index: 1100;
   margin-right: 20px; 
@@ -93,7 +93,7 @@ nav{
     left: 0;
     width: 100%;
     height: 100vh;
-    background: #1E3B7D;
+    background: #2D408E;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -123,11 +123,11 @@ nav{
 
   .login {
     background: #fff;
-    color: #1E3B7D;
+    color: #2D408E;
     font-size: 20px;
   }
   .login:hover {
-    background-color: #063dbe;
+    background-color: #0A2E52;
     color: #fff;
   }
 }
@@ -139,7 +139,7 @@ nav{
     left: 0;
     width: 100%;
     height: 100vh;
-    background: #1E3B7D;
+    background: #2D408E;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -169,11 +169,11 @@ nav{
 
   .login {
     background: #fff;
-    color: #1E3B7D;
+    color: #2D408E;
     font-size: 18px;
   }
   .login:hover {
-    background-color: #063dbe;
+    background-color: #0A2E52;
     color: #fff;
   }
 }

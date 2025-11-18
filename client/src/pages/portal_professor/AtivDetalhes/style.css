@@ -29,7 +29,7 @@
   background-color: #12285a;
 }
 .btn-excluir-ativ {
-  background: #b71c1c;
+  background: #CC3F43;
   color: #fff;
   border: none;
   padding: 8px 14px;
@@ -53,12 +53,12 @@
 }
 .detalhes-atividade h3 {
   font-size: 15px;
-  color: #0e0770;
+  color: #2D408E;
 }
 .descricao-ativ{
   text-align: justify;
   font-size: 14px;
-  color: #0e0770;
+  color: #2D408E;
 }
 
 .info-bloco p {
@@ -84,7 +84,7 @@
   border-radius: 14px;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 8px;
   text-decoration: none;
-  color: #2563eb;
+  color: #2D408E;
   font-weight: 500;
   font-size: 15px;
   overflow-wrap: anywhere;   
@@ -102,7 +102,7 @@
 .nome-anexo {
   display: block;
   font-weight: 600;
-  color: #12285a;
+  color: #2D408E;
   margin-bottom: 4px;
 }
 
@@ -129,7 +129,7 @@
 }
 
 .bloco-questoes h3 {
-  color: #12285a;
+  color: #2D408E;
   margin-bottom: 1rem;
   font-size: 1.4rem;
 }

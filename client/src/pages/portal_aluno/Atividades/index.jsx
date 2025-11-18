@@ -63,9 +63,9 @@ export default function Atividades() {
   const getCorTipo = (tipo) => {
     switch (tipo) {
       case "atividade":
-        return "#FFC857";
+        return "#0DB39E";
       case "avaliacao":
-        return "#B72A4D";
+        return "#CC3F43";
       default:
         return "#999";
     }

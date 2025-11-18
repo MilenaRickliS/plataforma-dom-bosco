@@ -35,12 +35,12 @@
 }
 
 .btn-mais {
-  background-color: #16a34a;
+  background-color: #0DB39E;
   color: white;
 }
 
 .btn-menos {
-  background-color: #dc2626;
+  background-color: #CC3F43;
   color: white;
 }
 
@@ -60,7 +60,7 @@
 }
 
 .botao-zerar {
-  background-color: #9333ea;
+  background-color: #0A2E52;
   color: white;
   padding: 8px 16px;
   border-radius: 8px;
@@ -127,8 +127,8 @@
   }
 }
 
-.ganho { color: #16a34a; font-weight: bold; }
-.perda { color: #dc2626; font-weight: bold; }
+.ganho { color: #0DB39E; font-weight: bold; }
+.perda { color: #CC3F43; font-weight: bold; }
 
 .graficos-game {
   display: flex;
@@ -161,8 +161,8 @@
 }
 .filtros-logs input:focus, .filtros-logs select:focus,
 .filtros-gamificacao input:focus, .filtros-gamificacao select:focus {
-    border-color: #16a34a;
-    box-shadow: 0 0 10px rgba(34, 173, 76, 0.3);
+    border-color: #46A1D1;
+    box-shadow: 0 0 10px rgba(34, 129, 173, 0.3);
     outline: none;
 }
 .filtros-logs select {

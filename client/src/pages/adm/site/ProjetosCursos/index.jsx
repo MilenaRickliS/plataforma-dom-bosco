@@ -155,17 +155,17 @@ export default function ProjetosCursosGestao() {
     const getCursoCor = (curso) => {
     switch (curso) {
       case "Música":
-        return "#df7d80ff"; 
+        return "#2D408E"; 
       case "Esportes":
-        return "#f7971e"; 
+        return "#2D408E"; 
       case "Informática":
-        return "#43cea2"; 
+        return "#2D408E"; 
       case "Pré-aprendizagem":
-        return "#ff512f"; 
+        return "#2D408E"; 
       case "Jovem Aprendiz":
-        return " #6a11cb"; 
+        return " #2D408E"; 
       default:
-        return "#555"; 
+        return "#2D408E"; 
     }
   };
 

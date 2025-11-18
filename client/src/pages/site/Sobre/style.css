@@ -29,21 +29,22 @@
 
 }
 .fazer-parte h2{
-  color: #FFDA0A;
+  color: #f94144;
+  font-family: "Montserrat Bold", sans-serif;
 }
 .fazer-parte a{
-  color: #1E3B7D;
-  background-color: #FFDA0A;
+  color: #f94144;
+  background-color: #fff;
   text-decoration: none;
-  font-family: "Montserrat", sans-serif;
+  font-family: "Montserrat Bold", sans-serif;
   padding: 20px;
   transition: all 0.3s ease;
 }
 .fazer-parte a:hover{
   transform: translateY(-2px);
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  color: #FFDA0A;
-  background-color: #1E3B7D;
+  color: #fff;
+  background-color: #0DB39E;
 }
 /* história */
 
@@ -91,8 +92,9 @@
 
 .texto-historia h2 {
   font-size: 32px;
-  color: #1E3B7D;
+  color: #2D408E;
   margin-bottom: 20px;
+   font-family: "Montserrat Bold", sans-serif;
 }
 
 .texto-historia p {
@@ -129,24 +131,27 @@
 }
 
 .mvv-item.missao h3 {
-  color: #C21717;
+   font-family: "Montserrat bold", sans-serif;
+  color: #f94144;
 }
 .mvv-item.missao p {
-  color: #C21717;
+  color: #f94144;
 }
 
 .mvv-item.visao h3 {
-  color: #1E3B7D;
+  font-family: "Montserrat bold", sans-serif;
+  color: #2D408E;
 }
 .mvv-item.visao p {
-  color: #1E3B7D;
+  color: #2D408E;
 }
 
 .mvv-item.valores h3 {
-  color: #27882A;
+  font-family: "Montserrat bold", sans-serif;
+  color: #0DB39E;
 }
 .mvv-item.valores p {
-  color: #27882A;
+  color: #0DB39E;
 }
 
 @media (max-width: 968px) {
@@ -157,7 +162,7 @@
 
 /* filosofia salensiana */
 .filosofia{
-  background-color: #8e3838;
+  background-color: #CC3F43;
   color: #fff;
   display: flex;
   justify-content: center;
@@ -165,9 +170,9 @@
   flex-direction: column;
 }
 .filosofia h2{
-  font-family: "Montserrat", sans-serif;
-  color: #FFDA0A;
-  font-size: 50px;
+  font-family: "Montserrat bold", sans-serif;
+  color: #fff;
+  font-size: 30px;
 }
 .pilares{
   display: flex;
@@ -184,11 +189,12 @@
   text-align: center;
   padding: 60px 20px;
   position: relative;
-  font-family: "Montserrat", sans-serif;
-  background-color: #dddfdf;
+  font-family: "Montserrat bold", sans-serif;
+  background-color: #eee;
 }
 
 .equipe-section h2 {
+  font-family: "Montserrat bold", sans-serif;
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 30px;
@@ -229,7 +235,7 @@
 
 .card-equipe .cargo {
   font-size: 0.9rem;
-  color: #8e3838;
+  color: #CC3F43;
 }
 .arrow-equipe {
   position: absolute;
@@ -245,7 +251,7 @@
 }
 
 .arrow-equipe:hover {
-  color: #8e3838;
+  color: #CC3F43;
   transform: translateY(-50%) scale(1.1);
 }
 
@@ -262,7 +268,7 @@
 
 .ver-galeria{
     position: relative;
-    background-color: #354E36;
+    background-color: #0DB39E;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -287,15 +293,16 @@
 }
 
 .link-galeria{
-    font-family: "Montserrat", sans-serif;
+    font-family: "Montserrat bold", sans-serif;
     color: #fff;
     font-size: 30px;
     text-decoration: none;
     transition: all 0.3s ease;
+    color: #2D408E;
 }
 .link-galeria:hover{
-    font-size: 35px;
-    color:aquamarine;
+    
+    color: #0A2E52;
     text-decoration: underline;
 }
 

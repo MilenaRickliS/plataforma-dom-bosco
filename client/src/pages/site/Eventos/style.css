@@ -11,16 +11,16 @@
 
 }
 .titulo-prox h1{
-    color: #7B4C96;
+    color: #CC3F43;
     font-size:40px;
 
 }
 .titulo-prox a{
-    color: #7B4C96;;
+    color: #CC3F43;;
     text-decoration-line: underline;
     text-decoration-thickness: 2px;
     text-decoration-style: solid;
-    text-decoration-color: #7B4C96;;
+    text-decoration-color: #CC3F43;;
     transition: all 0.3s ease;
 }
 .titulo-prox a:hover{
@@ -35,7 +35,7 @@
   padding: 10px 0px;
   scroll-behavior: smooth;
   scrollbar-width: thin; 
-  scrollbar-color: #7B4C96 transparent;
+  scrollbar-color: #CC3F43 transparent;
 
 }
 .menu-eventos::-webkit-scrollbar {
@@ -49,13 +49,13 @@
 }
 
 .menu-eventos::-webkit-scrollbar-thumb {
-  background: linear-gradient(90deg, #a556d3, #15b9cc); 
+  background: linear-gradient(90deg, #CC3F43, #15b9cc); 
   border-radius: 999px;
   border: 2px solid rgba(255,255,255,0.6);             
 }
 
 .menu-eventos::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(90deg, #7B4C96, #119cab);
+  background: linear-gradient(90deg, #CC3F43, #119cab);
 }
 .card-evento-prox {
   flex: 0 0 200px;
@@ -91,7 +91,7 @@
 }
 
 .titulo-prox-evento {
-  font-family: "Montserrat", sans-serif;
+  font-family: "Montserrat bold", sans-serif;
   font-size: 1.1rem;
   margin-bottom: 5px;
 }
@@ -105,7 +105,7 @@
   font-family: "Montserrat", sans-serif; 
   font-size: .9rem; 
   font-weight: 600; 
-  background: linear-gradient(135deg,#1F4396,#0b245e); 
+  background: linear-gradient(135deg,#2D408E,#0A2E52); 
   color: #fff; 
   padding: 10px 28px; 
   border-radius: 30px; 
@@ -117,7 +117,7 @@
 }
 
 .link-prox:hover {
-  background: linear-gradient(135deg,#2659c5,#14326e); 
+  background: linear-gradient(135deg,#2D408E,#0A2E52); 
   transform: translateY(-3px); 
 }
 
@@ -128,8 +128,8 @@
     padding: 40px;
 }
 .mostrar-eventos h1{
-    color: #1F4396;
-    font-family: "Montserrat", sans-serif;
+    color: #2D408E;
+    font-family: "Montserrat bold", sans-serif;
     font-size:40px;
     padding: 40px 20px;
 }
@@ -172,17 +172,17 @@
   transform: scale(1.03); 
 }
 .card-evento-show p {
-  font-family: "Montserrat", sans-serif; 
+  font-family: "Montserrat bold", sans-serif; 
   font-size: 1.05rem; 
   font-weight: 600; 
-  color: #1a1a1a; 
+  color: #000; 
   text-align: center; 
   margin: 10px 6px 8px; 
   line-height: 1.25; 
 }
 
 .detalhes-evento-info {
-  color: #161616;
+  color: #000;
   font-size: 0.9rem;
   text-align: center;
   margin-bottom: 12px;
@@ -192,7 +192,7 @@
   font-family: "Montserrat", sans-serif; 
   font-size: .9rem; 
   font-weight: 600; 
-  background: linear-gradient(135deg,#1F4396,#0b245e); 
+  background: linear-gradient(135deg,#2D408E,#0A2E52); 
   color: #fff; 
   padding: 10px 28px; 
   border-radius: 30px; 
@@ -204,7 +204,7 @@
 }
 
 .card-evento-show a:hover { 
-  background: linear-gradient(135deg,#2659c5,#14326e); 
+  background: linear-gradient(135deg,#2D408E,#0A2E52); 
   transform: translateY(-3px); 
 }
 .paginacao-eventos {
@@ -217,7 +217,7 @@
 
 .paginacao-eventos button {
   background-color: #fff;
-  color: #1F4396;
+  color: #2D408E;
   border: none;
   border-radius: 8px;
   padding: 6px 12px;
@@ -228,7 +228,7 @@
 }
 
 .paginacao-eventos button:hover:not(:disabled) {
-  background: #1F4396;
+  background: #2D408E;
   color: #fff;
   transform: scale(1.05);
 }
@@ -239,7 +239,7 @@
 }
 
 .paginacao-eventos button.ativo {
-  background: #1F4396;
+  background: #2D408E;
   color: #fff;
   transform: scale(1.1);
 }
@@ -267,17 +267,17 @@
 
 .icon-curtidas:hover {
   transform: scale(1.2);
-  color: #d11a2a;
+  color: #f94144;
 }
 
 .icon-curtidas.ativo {
-  color: #d11a2a;
+  color: #f94144;
 }
 
 
 /* blog */
 .blog{
-    background-color: #7B4C96;
+    background-color: #CC3F43;
     color: #fff;
     display: flex;
     flex-direction: column;
@@ -301,7 +301,8 @@
     transition: all 0.3s ease;
 }
 .blog a:hover{
-    background-color: #15b9cc;
+    background-color: #0db39e;
+    color: #fff;
     transform: scale(1.03);
 }
 /* responsividade */

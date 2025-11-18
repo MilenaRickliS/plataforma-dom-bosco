@@ -49,7 +49,7 @@
   right: 12px;
   top: 50%;
   transform: translateY(-50%);
-  color: #3f51b5; 
+  color: #2D408E; 
   pointer-events: none;
   font-size: 18px;
   cursor: pointer;
@@ -70,7 +70,7 @@
 
 .input-refeicao:focus
  {
-  border-color: #3f51b5;
+  border-color: #2D408E;
   box-shadow: 0 0 0 3px rgba(63, 81, 181, 0.2);
 }
 

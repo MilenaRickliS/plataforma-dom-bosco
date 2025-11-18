@@ -54,7 +54,7 @@
 }
 
 .side-item.active {
-    background-color: #4f46e5;
+    background-color: #2D408E;
 }
 
 .side-item:hover:not(.active),
@@ -105,14 +105,14 @@
   position: absolute;
   top: 30px;
   right: -15px;
-  background-color: #4f46e5;
+  background-color: #2D408E;
   color: #fff;
   border-radius: 50%;
   width: 40px;
   height: 40px;
   border: none;
   cursor: pointer;
-  z-index: 3000; /* garante que fique acima de qualquer link */
+  z-index: 3000; 
   display: flex;
   align-items: center;
   justify-content: center;

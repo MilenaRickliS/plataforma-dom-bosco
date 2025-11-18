@@ -11,7 +11,7 @@
 }
 
 .boletim-section h3 {
-  color: #1e3a8a;
+  color: #2D408E;
   font-size: 1.6rem;
   margin-bottom: 1.2rem;
   display: flex;
@@ -57,7 +57,7 @@
 
 
 .boletim-tabela td strong {
-  color: #1e3a8a;
+  color: #2D408E;
   font-weight: 700;
 }
 
@@ -87,11 +87,11 @@
 .boletim-resumo p {
   margin: 0.5rem 1rem;
   font-size: 1rem;
-  color: #1e293b;
+  color: #2D408E;
 }
 
 .boletim-resumo strong {
-  color: #1e3a8a;
+  color: #2D408E;
   font-weight: 600;
 }
 
@@ -124,7 +124,7 @@
 .titulo-medalhas-aluno {
   font-size: 1.6rem;
   font-weight: 600;
-  color: #1e3a8a;
+  color: #2D408E;
   margin-bottom: 1.5rem;
 }
 
@@ -180,19 +180,13 @@
 
 .info-medalha-aluno h4 {
   font-size: 1rem;
-  color: #1e3a8a;
+  color: #2D408E;
   margin-bottom: 0.3rem;
 }
 
-.info-medalha-aluno .categoria-aluno {
+.info-medalha-aluno p {
   font-size: 0.85rem;
   color: #475569;
-}
-
-.info-medalha-aluno .comentario {
-  font-size: 0.8rem;
-  color: #0f172a;
-  margin-top: 4px;
 }
 
 .info-medalha-aluno .data {

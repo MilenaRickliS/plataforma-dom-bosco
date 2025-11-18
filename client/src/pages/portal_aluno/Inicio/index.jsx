@@ -241,7 +241,7 @@ export default function Inicio() {
 
           <div className="dashboard">
             <div className="section-avisos">
-              <strong>Avisos e Comunicados</strong>
+              <h4>Avisos e Comunicados</h4>
               {avisos.length > 0 ? (
                 <div className="aviso">
                   {avisos.slice(0, 3).map((aviso) => (

@@ -27,12 +27,12 @@
     text-decoration: none;
 }
 .nav-menutopo a:hover{
-    background-color: #4f46e5;
+    background-color: #2D408E;
     color: white;
     border: 3px solid white;
 }
 .nav-menutopo a.active{
-    background-color: #4f46e5;
+    background-color: #2D408E;
     color: white;
     border: 3px solid white;
 } 

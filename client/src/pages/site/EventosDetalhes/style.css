@@ -29,6 +29,7 @@
 .titulo-evento h2{
     color: #fff;
     font-size: 40px;
+     font-family: "Montserrat bold", sans-serif;
 }
 .titulo-evento p{
     font-family: "Montserrat", sans-serif;
@@ -60,7 +61,7 @@
 }
 
 .icon-curtir.ativo {
-  color: #e63946;
+  color: #f94144;
   transform: scale(1.2);
 }
 
@@ -70,7 +71,7 @@
 }
 
 .link-inscricao{
-    background-color: #1E3B7D;
+    background-color: #2D408E;
     color: #fff;
     text-decoration: none;
     padding: 10px;
@@ -79,7 +80,7 @@
     transition: all 0.3s ease;
 }
 .link-inscricao:hover{
-    background-color: #15b9cc;
+    background-color: #0DB39E;
 
 
 }
@@ -91,7 +92,7 @@
 }
 
 .compartilhar-container button {
-  background-color: #7B4C96;
+  background-color: #CC3F43;
   color: #fff;
   border: none;
   border-radius: 50%;
@@ -106,7 +107,7 @@
 }
 
 .compartilhar-container button:hover {
-  background-color: #15b9cc;
+  background-color: #0DB39E;
   transform: scale(1.1);
 }
 
@@ -136,7 +137,7 @@
     padding: 30px;
 }
 .informacoes1-1 h4{
-    font-family: "Montserrat", sans-serif;
+    font-family: "Montserrat bold", sans-serif;
     font-weight: bold;
     font-size: 20px;
 }
@@ -147,7 +148,7 @@
 }
 
 .informacoes1-2 h4{
-    font-family: "Montserrat", sans-serif;
+    font-family: "Montserrat bold", sans-serif;
     font-weight: bold;
     font-size: 20px;
 }
@@ -208,12 +209,12 @@
     padding: 30px;
 }
 .informacoes2-1 h4{
-    font-family: "Montserrat", sans-serif;
+    font-family: "Montserrat bold", sans-serif;
     font-weight: bold;
     font-size: 20px;
 }
 .informacoes2-1 a{
-    background-color: #49C54D;
+    background-color: green;
     color: #fff;
     padding: 10px 20px;
     text-decoration: none;
@@ -234,7 +235,7 @@
     height: 200px;
 }
 .informacoes2-2 a{
-    background-color: #1E3B7D;
+    background-color: #2D408E;
     color: #fff;
     text-decoration: none;
     padding: 10px 20px;

@@ -6,6 +6,7 @@
   margin-top: 10px;
 }
 .titulo-atribuir{
+  font-family: "Montserrat bold", sans-serif;
     text-align: center;
 }
 .filtros-atribuir {
@@ -19,12 +20,12 @@
 .filtros-atribuir label {
   display: block;
   font-weight: 500;
-  color: #334155;
+  color: #000;
   margin-bottom: 1rem;
 }
 
 .filtros-atribuir select {
-    color: #1e293b;
+    color: #2D408E;
   margin-top: 0.3rem;
   width: 100%;
   padding: 0.6rem;
@@ -63,7 +64,7 @@
 }
 
 .alunos-header button {
-  background: #1e293b;
+  background: #2D408E;
   color: #fff;
   border: none;
   padding: 0.5rem 0.9rem;

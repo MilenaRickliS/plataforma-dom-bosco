@@ -45,7 +45,7 @@
 }
 .inicio-title {
   flex: 1;
-  font-family: "Montserrat", sans-serif;
+  font-family: "Montserrat Bold", sans-serif;
   font-weight: 800;
   font-size: 3rem;
   line-height: 1.1;
@@ -60,9 +60,9 @@
   display: inline-block;
 }
 
-.inicio-title .sonha { color: #ac0000; -webkit-text-stroke: 0.8px #000; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; }
-.inicio-title .aprende { color: #0043b8; -webkit-text-stroke: 0.8px #000; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; }
-.inicio-title .conquista { color: #008b1a; -webkit-text-stroke: 0.8px #000; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; }
+.inicio-title .sonha { color: #CC3F43; -webkit-text-stroke: 0.8px #000; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; }
+.inicio-title .aprende { color: #2D408E; -webkit-text-stroke: 0.8px #000; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; }
+.inicio-title .conquista { color: #0DB39E; -webkit-text-stroke: 0.8px #000; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; }
 
 .inicio-title .cta {
   position: relative;
@@ -77,16 +77,16 @@
   width: 100%;
   bottom: -6px;
   height: 6px;
-  background: #b49000; 
+  background: #46A1D1; 
   border-radius: 3px;
 }
 .inicio-title .cta:hover {
-  color: #b49000;
+  color: #46A1D1;
 }
 /* sobre */
 
 .sessao-sobre{
-  background-color: #D8BB18;
+  background-color: #46A1D1;
   width: 100%;
   margin: 0;
   padding: 15px;
@@ -100,10 +100,10 @@
 .div-sobre{
   position: relative;
   padding-bottom: 40px;
-  background-color: #E4DEBD;
 }
 .div-sobre h3{
   font-size: 35px;
+  font-family: "Montserrat Bold", sans-serif; 
 }
 .sobre1 div{
   display: flex;
@@ -113,7 +113,7 @@
   
 }
 .sobre1 span{
-  font-weight: bold;
+  font-family: "Montserrat Bold", sans-serif; 
   font-size: 35px;
 }
 .sobre1 p{
@@ -125,8 +125,8 @@
   position: absolute;
   bottom: 10px;
   right: 10px;
-  font-weight: bold;
-  background-color: #A66131;
+  font-family: "Montserrat Bold", sans-serif; 
+  background-color: #2D408E;
   color: #fff;
   padding: 10px 15px;
   border-radius: 30px;
@@ -134,7 +134,7 @@
   transition: all 0.3s ease;
 }
 .link-sobre:hover{
-  background-color: #b14a00;
+  background-color: #0DB39E;
 
 }
 
@@ -157,7 +157,7 @@
   flex: 1;
 }
 .div-eventos h3{
-  font-family: "Montserrat", sans-serif;
+ font-family: "Montserrat Bold", sans-serif; 
   color: #000;
   font-size: 45px;
   text-align: center;
@@ -165,7 +165,7 @@
   margin: 0;
 }
 .div-eventos a{
-  background-color: #1F4396;
+  background-color: #2D408E;
   color: #fff;
   border-radius: 30px;
   padding: 15px 30px;
@@ -175,7 +175,7 @@
   font-weight: 500;
 }
 .div-eventos a:hover{
-  background-color: #0b245e;
+  background-color: #0DB39E;
 }
 
 .eventos-navigation {
@@ -187,7 +187,7 @@
 .eventos-arrow-custom {
   background: transparent;
   border: none;
-  color: #1F4396;
+  color: #2D408E;
   cursor: pointer;
   transition: all 0.3s ease;
   padding: 5px;
@@ -198,12 +198,12 @@
 }
 
 .eventos-arrow-custom:hover {
-  color: #0b245e;
+  color: #0A2E52;
   transform: scale(1.1);
 }
 
 .eventos-arrow-custom:focus {
-  outline: 2px solid #1F4396;
+  outline: 2px solid #2D408E;
   outline-offset: 2px;
 }
 
@@ -290,10 +290,10 @@
 }
 
 .evento-botao { 
-  font-family: "Montserrat", sans-serif; 
+  font-family: "Montserrat Bold", sans-serif; 
   font-size: .9rem; 
   font-weight: 600; 
-  background: linear-gradient(135deg,#1F4396,#0b245e); 
+  background: linear-gradient(135deg,#2D408E,#0A2E52); 
   color: #fff; 
   padding: 10px 28px; 
   border-radius: 30px; 
@@ -315,13 +315,13 @@
 .eventos-slider .slick-dots { bottom: -38px; }
 .eventos-slider .slick-dots li button:before { 
   font-size: 10px; 
-  color: #1F4396; 
+  color: #2D408E; 
   opacity: .4; 
   transition: all .3s ease; 
 }
 .eventos-slider .slick-dots li.slick-active button:before { 
   opacity: 1; 
-  color: #1F4396; 
+  color: #2D408E; 
 }
 
 @media (max-width: 900px) {
@@ -341,7 +341,7 @@
 
 .sessao-site{
     width: 100%;
-    background-color: #8E3838;
+    background-color: #0A2E52;
     display: flex;
     justify-content: space-between; 
     align-items: center;
@@ -352,18 +352,18 @@
 }
 .convite{
     flex: 1;
-    font-family: "Montserrat", sans-serif;
+    font-family: "Montserrat Bold", sans-serif;
     font-size: 30px;
     padding: 15px;
 }
 .convite p{
-    color: #FEF9DF;
+    color: #0DB39E;
 }
 .convite span{
-    color: #0AB8F8;
+    color: #fff;
 }
 .convite a{
-    color: #3E6EAD;
+    color: #0DB39E;
     background-color: #fff;
     border-radius: 20px;
     padding: 12px 18px;
@@ -374,7 +374,7 @@
 }
 
 .convite a:hover {
-    background-color: #3E6EAD;
+    background-color: #0DB39E;
     color: #fff;
 }
 .sessao-site img{    
@@ -391,7 +391,7 @@
 }
 .sessao-depoimentos h2{
   color: #000;
-  font-family: "Montserrat", sans-serif;
+  font-family: "Montserrat Bold", sans-serif;
 }
 .titulo-depoimento{
   display: flex;
@@ -400,8 +400,8 @@
 }
 .enviar-depoimento{
   font-family: "Montserrat", sans-serif;
-  background-color: #D8BB18;
-  color: #000;
+  background-color: #2D408E;
+  color: #fff;
   padding: 15px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   font-weight: bold;
@@ -491,7 +491,7 @@
 .form-depoimento textarea {
   width: 100%;
   padding: 12px 15px;
-  background-color: #f8f4dc;
+  background-color: #eee;
   border: 1px solid #ccc;
     color: #000;
   border-radius: 10px;
@@ -500,20 +500,14 @@
   outline: none;
 }
 
-.form-depoimento input:focus,
-.form-depoimento textarea:focus {
-  border-color: #D8BB18;
-  box-shadow: 0 0 8px rgba(216, 187, 24, 0.4);
-}
-
 .form-depoimento textarea {
   min-height: 120px;
   resize: vertical;
 }
 
 .form-depoimento button {
-  background-color: #D8BB18;
-  color: #000;
+  background-color: #2D408E;
+  color: #fff;
   padding: 12px 25px;
   border: none;
   font-weight: bold;

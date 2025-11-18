@@ -24,7 +24,7 @@
 }
 
 .filtros-relatorios button {
-  background-color: #3f51b5;
+  background-color: #2D408E;
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -38,13 +38,13 @@
 }
 
 .relatorios-container .mensagem {
-  color: #e53935;
+  color: #CC3F43;
   font-weight: 600;
 }
 
 .resumo-relatorio {
   margin: 20px auto;
-  background: #f0f3ff;
+  background: #ffff;
   border-radius: 12px;
   padding: 15px;
   width: 80%;
@@ -66,8 +66,8 @@
 
 .tipo-grafico button {
   background: none;
-  border: 2px solid #3f51b5;
-  color: #3f51b5;
+  border: 2px solid #2D408E;
+  color: #2D408E;
   padding: 8px 14px;
   border-radius: 10px;
   margin: 0 5px;
@@ -76,7 +76,7 @@
 }
 
 .tipo-grafico button.ativo {
-  background-color: #3f51b5;
+  background-color: #2D408E;
   color: white;
 }
 

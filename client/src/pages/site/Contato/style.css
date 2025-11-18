@@ -4,7 +4,7 @@
     text-align: center;
 }
 .container-contato{
-    background-color: #98BEBA;
+    background-color: #2d408e;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -51,7 +51,7 @@
 
 .form-contato input:focus,
 .form-contato textarea:focus {
-  border-color: #4A7772;
+  border-color: #0DB39E;
   box-shadow: 0 0 8px rgba(85, 105, 95, 0.4);
 }
 
@@ -61,7 +61,7 @@
 }
 
 .form-contato button {
-  background-color: #4A7772;
+  background-color: #2d408e;
   color: #fff;
   padding: 12px 25px;
   border: none;
@@ -75,9 +75,10 @@
 .form-contato button:hover {
 
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  background-color: #243836;
+  background-color: #0DB39E;
 }
 .div-mapa{
+  
     display: flex;
     flex-direction: column;
     justify-content: center;
