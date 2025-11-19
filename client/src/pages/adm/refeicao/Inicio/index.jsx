@@ -39,6 +39,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     buscarDadosDashboard();
+    // Atualizar dados a cada 30 segundos
     const interval = setInterval(buscarDadosDashboard, 30000);
     return () => clearInterval(interval);
   }, []);
@@ -46,6 +47,7 @@ export default function Dashboard() {
   const buscarDadosDashboard = async () => {
     try {
       setLoading(true);
+      // Integração com API/IoT
       const response = await fetch('/api/refeicoes/dashboard/hoje');
       const data = await response.json();
       
@@ -56,6 +58,7 @@ export default function Dashboard() {
       setDadosHorarios(data.evolucaoHoraria || []);
     } catch (error) {
       console.error('Erro ao buscar dados do dashboard:', error);
+      // Dados para teste
       setTotalRefeicoes(145);
       setTotalKg(87.3);
       setPesoMedio(0.602);
@@ -134,7 +137,9 @@ export default function Dashboard() {
         <div className="loading-dashboard">Carregando dados...</div>
       ) : (
         <>
+          
           <div className="widgets-grid">
+            {/* Widget 1: Total de Refeições */}
             <div className="widget widget-primary">
               <div className="widget-icon">
                 <MdOutlineRestaurantMenu />
@@ -146,6 +151,7 @@ export default function Dashboard() {
               </div>
             </div>
 
+            {/* Widget 2: Total de KG */}
             <div className="widget widget-success">
               <div className="widget-icon">
                 <MdOutlineScale />
@@ -157,6 +163,7 @@ export default function Dashboard() {
               </div>
             </div>
 
+            {/* Widget 3: Peso Médio */}
             <div className="widget widget-info">
               <div className="widget-icon">
                 <TbWeight />
@@ -168,6 +175,7 @@ export default function Dashboard() {
               </div>
             </div>
 
+            {/* Widget 4: Status da Estação */}
             <div className={`widget widget-status ${statusEstacao === 'online' ? 'widget-online' : 'widget-offline'}`}>
               <div className="widget-icon">
                 <FiActivity />
@@ -180,6 +188,7 @@ export default function Dashboard() {
             </div>
           </div>
 
+          {/* Widget 5: Gráfico de Evolução */}
           <div className="grafico-container">
             <div className="grafico-header">
               <h2>Evolução Horária de Refeições</h2>

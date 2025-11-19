@@ -47,6 +47,7 @@ export default function RelatoriosRefeicoes() {
       setDadosDetalhados(data.detalhes);
     } catch (error) {
       console.error('Erro ao buscar relatório:', error);
+      
       const inicio = new Date(dataInicio);
       const fim = new Date(dataFim);
       const diasDiferenca = Math.ceil((fim - inicio) / (1000 * 60 * 60 * 24)) + 1;
@@ -59,7 +60,8 @@ export default function RelatoriosRefeicoes() {
         const dataAtual = new Date(inicio);
         dataAtual.setDate(inicio.getDate() + i);
         
-        const refeicoes = Math.floor(Math.random() * (200 - 120) + 120);
+        // Gerar valores aleatórios realistas
+        const refeicoes = Math.floor(Math.random() * (200 - 120) + 120); 
         const pesoTotal = refeicoes * (0.550 + Math.random() * 0.100); 
         const pesoMedio = pesoTotal / refeicoes;
         
@@ -80,7 +82,7 @@ export default function RelatoriosRefeicoes() {
       }
       
       const pesoMedioGeral = totalKgMock / totalRefeicoesMock;
-      const custoEstimadoMock = totalRefeicoesMock * 8.50;
+      const custoEstimadoMock = totalRefeicoesMock * 8.50; // R$ 8,50 por refeição
       
       setDadosPeriodo({
         totalRefeicoes: totalRefeicoesMock,
@@ -217,6 +219,7 @@ export default function RelatoriosRefeicoes() {
             </button>
           </div>
 
+          
           <div className="grafico-tendencia">
             <h2>Tendência Diária</h2>
             <div className="grafico-content">
@@ -224,6 +227,7 @@ export default function RelatoriosRefeicoes() {
             </div>
           </div>
 
+          
           <div className="tabela-detalhada">
             <h2>Dados Detalhados</h2>
             <div className="tabela-wrapper">
