@@ -14,7 +14,6 @@ export default function CardapioNutricionalExcel() {
   const [carregando, setCarregando] = useState(false);
   const API_KEY = "Y/uIQejo69/+NUV9E4tLPw==KL9DFeK7tLkqzFhE";
 
-
   useEffect(() => {
     const cache = localStorage.getItem("dados_nutricionais_cache");
     if (cache) setDadosNutricionais(JSON.parse(cache));
@@ -26,7 +25,6 @@ export default function CardapioNutricionalExcel() {
       JSON.stringify(dadosNutricionais)
     );
   }, [dadosNutricionais]);
-
 
   function lerExcel(e) {
     const file = e.target.files[0];
@@ -55,11 +53,9 @@ export default function CardapioNutricionalExcel() {
     reader.readAsArrayBuffer(file);
   }
 
- 
   async function buscarNutrientes(lanche, ingredientes) {
     setCarregando(true);
 
-   
     const pratoSalvo = await getPrato(lanche);
     if (pratoSalvo) {
       alert(`🔁 Carregando informações do Firestore para "${lanche}"`);
@@ -79,7 +75,6 @@ export default function CardapioNutricionalExcel() {
       return;
     }
 
- 
     const query = ingredientes || lanche;
     try {
       const res = await fetch(
@@ -123,7 +118,6 @@ export default function CardapioNutricionalExcel() {
         ],
       }));
 
-     
       await salvarPrato(lanche, {
         calorias: info.calories,
         proteina: info.protein_g,
@@ -138,7 +132,6 @@ export default function CardapioNutricionalExcel() {
     }
   }
 
-  
   function editarValor(lanche, campo, valor) {
     setDadosNutricionais((prev) => ({
       ...prev,
@@ -151,7 +144,6 @@ export default function CardapioNutricionalExcel() {
     }));
   }
 
-  
   async function salvarManual(lanche) {
     const info = dadosNutricionais[lanche]?.[0];
     if (!info) return;
@@ -164,7 +156,6 @@ export default function CardapioNutricionalExcel() {
     });
     alert(`✅ Prato "${lanche}" salvo manualmente no Firebase!`);
   }
-
 
   function calcularTotais() {
     let total = { calorias: 0, proteina: 0, carb: 0, gordura: 0 };
@@ -180,7 +171,6 @@ export default function CardapioNutricionalExcel() {
     return total;
   }
 
-  
   function gerarPDF() {
     const doc = new jsPDF();
     autoTable(doc);
