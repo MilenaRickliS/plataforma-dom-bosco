@@ -16,7 +16,6 @@ export default function Contar() {
   const pressTimer = useRef(null);
   const intervalTimer = useRef(null);
 
-  
   const API_URL =
     import.meta.env.VITE_API_URL ||
     "https://plataforma-dom-bosco-backend.vercel.app";
@@ -83,7 +82,6 @@ export default function Contar() {
     };
   }, [finalizado]);
 
- 
   const salvarRegistro = async () => {
     if (!titulo) {
       alert("Digite um título antes de salvar (ex: Almoço, Jantar, etc.)");
@@ -91,7 +89,6 @@ export default function Contar() {
     }
     setSalvando(true);
     try {
-      
       const dataAtual = new Date();
       const dataString = dataAtual.toLocaleString("pt-BR", {
         timeZone: "America/Sao_Paulo",
@@ -103,10 +100,9 @@ export default function Contar() {
         body: JSON.stringify({
           titulo,
           total: contador,
-          data: dataString, 
+          data: dataString,
         }),
       });
-
 
       if (response.ok) {
         setMensagem("💾 Registro salvo com sucesso!");

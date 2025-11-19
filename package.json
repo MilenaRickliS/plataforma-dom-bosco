@@ -10,10 +10,12 @@
     "build": "cd client && npm run build"
   },
   "dependencies": {
+    "chart.js": "^4.5.1",
     "framer-motion": "^12.23.24",
     "jspdf": "^3.0.3",
     "jspdf-autotable": "^5.0.2",
-    "pdfjs-dist": "^5.4.394"
+    "pdfjs-dist": "^5.4.394",
+    "react-chartjs-2": "^5.3.1"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.9.1",

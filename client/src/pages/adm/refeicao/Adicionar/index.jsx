@@ -23,9 +23,8 @@ export default function AdicionarCicloManual() {
   function handleChange(e) {
     const { name, value } = e.target;
 
-    
     if ((name === "totalPessoas" || name === "pesoTotal") && value !== "") {
-      if (!/^\d*\.?\d*$/.test(value)) return; 
+      if (!/^\d*\.?\d*$/.test(value)) return;
     }
 
     setForm((prev) => ({ ...prev, [name]: value }));
@@ -34,25 +33,21 @@ export default function AdicionarCicloManual() {
   async function handleSubmit(e) {
     e.preventDefault();
 
-  
     if (!form.dataInicio || !form.dataFim || !form.totalPessoas || !form.pesoTotal) {
       toast.error("⚠️ Todos os campos são obrigatórios!");
       return;
     }
 
-    
     if (isNaN(form.totalPessoas) || isNaN(form.pesoTotal)) {
       toast.error("❌ Total de pessoas e peso total devem ser números válidos.");
       return;
     }
 
-    
     if (Number(form.totalPessoas) < 0 || Number(form.pesoTotal) < 0) {
       toast.error("⚠️ Os valores não podem ser negativos.");
       return;
     }
 
-    
     const inicio = new Date(form.dataInicio);
     const fim = new Date(form.dataFim);
     if (fim <= inicio) {
@@ -60,7 +55,6 @@ export default function AdicionarCicloManual() {
       return;
     }
 
-   
     const ciclo = {
       dataInicio: inicio.toLocaleString("pt-BR", {
         timeZone: "America/Sao_Paulo",

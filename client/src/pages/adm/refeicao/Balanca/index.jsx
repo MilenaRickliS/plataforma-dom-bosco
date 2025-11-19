@@ -22,14 +22,12 @@ export default function DashboardPesagem() {
       setRegistros(dados);
       setUltimaAtualizacao(new Date().toLocaleTimeString());
 
-      
       if (dados.length > 0 && dados[0].pessoas === 0 && dados[0].pesoTotal === 0) {
-  
         setZerado(true);
-        setRegistros([]); 
-        } else {
+        setRegistros([]);
+      } else {
         setZerado(false);
-        }
+      }
 
     } catch (erro) {
       console.error("❌ Erro ao buscar dados:", erro);

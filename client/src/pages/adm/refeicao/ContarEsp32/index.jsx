@@ -13,7 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 const API_URL = import.meta.env.VITE_API_URL || "https://plataforma-dom-bosco-backend.vercel.app";
 const CONTADOR_ID = "porta-refeitorio";
 
- const getEstadoTipo = (tipo) => {
+const getEstadoTipo = (tipo) => {
     switch (tipo) {
       case "CONTANDO":
         return { icon: <BsCameraVideo style={{ color: "#ad4045ff" }} />, color: "#ad4045ff" };
@@ -29,7 +29,7 @@ export default function ContadorESP32() {
   const [titulo, setTitulo] = useState("");
   const contando = estado.status === "contando";
   const estadoAtual = contando ? "CONTANDO" : "PARADO";
- const { icon, color } = getEstadoTipo(estadoAtual);
+  const { icon, color } = getEstadoTipo(estadoAtual);
 
 
   useEffect(() => {
@@ -48,12 +48,11 @@ export default function ContadorESP32() {
   }, []);
 
   function validarTitulo(t) {
-   
     const regex = /^[A-Za-zÀ-ÖØ-öø-ÿ0-9\s]+$/;
     return regex.test(t.trim());
   }
 
-   async function start() {
+  async function start() {
     if (!titulo.trim()) {
       toast.warn("Digite um título antes de iniciar a contagem!");
       return;
@@ -100,9 +99,6 @@ export default function ContadorESP32() {
       toast.error("Falha de conexão com o servidor!");
     }
   }
-
-  
-
 
   return (
     <div className="esp32-container">
