@@ -60,7 +60,7 @@ export default function RelatoriosRefeicoes() {
         const dataAtual = new Date(inicio);
         dataAtual.setDate(inicio.getDate() + i);
         
-        // Gerar valores aleatórios realistas
+        
         const refeicoes = Math.floor(Math.random() * (200 - 120) + 120); 
         const pesoTotal = refeicoes * (0.550 + Math.random() * 0.100); 
         const pesoMedio = pesoTotal / refeicoes;
