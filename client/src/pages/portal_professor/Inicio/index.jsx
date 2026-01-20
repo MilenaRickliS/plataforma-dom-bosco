@@ -165,6 +165,18 @@ const toEmbed = (url) => {
                 </div>          
             </div>
 
+            <div className="sessao-estudo">
+            <div className="sessao-texto">
+              <span className="badge">🎯 Estudo ativo</span>
+              <h2>Bora estudar e subir de nível?</h2>
+              <p>Responda os cards e avance no seu caminho de aprendizado!</p>
+            </div>
+
+            <Link to="" className="btn-estudo">
+              Acessar →
+            </Link>
+          </div>
+
             
 
           <div className="dashboard">

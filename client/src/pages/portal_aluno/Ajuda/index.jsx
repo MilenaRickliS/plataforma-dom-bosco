@@ -14,18 +14,18 @@ export default function Ajuda() {
 
   const perguntas = [
     {
-      pergunta: "Onde encontro meus materiais de estudo (apostilas, apresentações, PDFs)?",
+      pergunta: "Onde encontro os vídeos dos professores?",
       resposta:
-        "Você pode acessar os materiais de estudo na aba 'Turmas' > selecione sua turma > 'Materiais'.",
+        "Vá em Vídeos Professores. Ao abrir um vídeo, você verá detalhes e poderá assistir na página do vídeo.",
     },
     {
-      pergunta: "Como entro em contato com o professor/coordenador?",
+      pergunta: "Esqueci minha senha. O que faço?",
       resposta:
-        "Use a área de mensagens da turma ou o e-mail institucional do professor, disponível no perfil da disciplina.",
+        "Na tela de login, clique em “Esqueci minha senha” e siga o passo a passo. Se não receber e-mail, contate o suporte.",
     },
     {
-      pergunta: "Como vejo minhas notas e o boletim completo?",
-      resposta: "Acesse o menu lateral e clique em 'Notas' para visualizar todas as avaliações e médias.",
+      pergunta: "Onde vejo os meus pontos adquiridos com os flash cards?",
+      resposta: "Na Dashboard, na área de estudo clique em 'Acessar' e você terá acesso a página dos flashcards, seus pontos estão no topo da página.",
     },
     {
       pergunta: "O que fazer se um material não abrir ou aparecer como indisponível?",
@@ -33,12 +33,12 @@ export default function Ajuda() {
         "Tente atualizar a página ou limpar o cache. Se o problema persistir, entre em contato com o suporte.",
     },
     {
-      pergunta: "Como visualizar o calendário acadêmico (provas, trabalhos, eventos)?",
+      pergunta: "Como visualizar minha agenda?",
       resposta: "No menu principal, vá em 'Agenda' para ver todas as atividades e prazos importantes.",
     },
     {
-      pergunta: "Onde verifico minha situação de matrícula?",
-      resposta: "Acesse a aba 'Perfil' e consulte as informações de matrícula e status de cada disciplina.",
+      pergunta: "Como posso acessar o Sigar?",
+      resposta: "Acesse a 'Agenda' e no topo da página clique em 'Acesse o Sigar' ",
     },
   ];
 

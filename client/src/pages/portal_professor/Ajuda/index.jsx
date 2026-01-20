@@ -13,20 +13,23 @@ export default function Ajuda() {
   const jaPremiou = useRef(false); 
 
   const perguntas = [
-    {
-      pergunta: "Onde encontro meus materiais de estudo (apostilas, apresentações, PDFs)?",
+     {
+      pergunta: "Onde encontro os vídeos dos professores?",
       resposta:
-        "Você pode acessar os materiais de estudo na aba 'Turmas' > selecione sua turma > 'Materiais'.",
+        "Vá em Vídeos Professores. Ao abrir um vídeo, você verá detalhes e poderá assistir na página do vídeo.",
     },
     {
-      pergunta: "Como entro em contato com o professor/coordenador?",
-      resposta:
-        "Use a área de mensagens da turma ou o e-mail institucional do professor, disponível no perfil da disciplina.",
+      pergunta: "Como postar vídeos?",
+      resposta: "Vá em Vídeos Professores. Clique em 'Postar Vídeo', escolha o tipo 'Upload' ou 'Link', preencha as informações e clique em 'Salvar vídeo'",
     },
     {
-      pergunta: "Como vejo minhas notas e o boletim completo?",
+      pergunta: "Esqueci minha senha. O que faço?",
       resposta:
-        "Acesse o menu lateral e clique em 'Notas' para visualizar todas as avaliações e médias.",
+        "Na tela de login, clique em “Esqueci minha senha” e siga o passo a passo. Se não receber e-mail, contate o suporte.",
+    },
+    {
+      pergunta: "Como criar flashcards para meus alunos?",
+      resposta: "Na Dashboard, na área de estudo clique em 'Acessar' e você terá acesso a página dos flashcards, clique em 'criar flashcards'.",
     },
     {
       pergunta: "O que fazer se um material não abrir ou aparecer como indisponível?",
@@ -34,15 +37,10 @@ export default function Ajuda() {
         "Tente atualizar a página ou limpar o cache. Se o problema persistir, entre em contato com o suporte.",
     },
     {
-      pergunta: "Como visualizar o calendário acadêmico (provas, trabalhos, eventos)?",
-      resposta:
-        "No menu principal, vá em 'Agenda' para ver todas as atividades e prazos importantes.",
+      pergunta: "Como visualizar minha agenda?",
+      resposta: "No menu principal, vá em 'Agenda' para ver todas as atividades e prazos importantes.",
     },
-    {
-      pergunta: "Onde verifico minha situação de matrícula?",
-      resposta:
-        "Acesse a aba 'Perfil' e consulte as informações de matrícula e status de cada disciplina.",
-    },
+    
   ];
 
 
