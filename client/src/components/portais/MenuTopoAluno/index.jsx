@@ -34,15 +34,6 @@ function MenuTopoAluno() {
           </NavLink>
         </li>
 
-        <li className="icone-avisos">
-          <NavLink to="/aluno/avisos">
-            <FaRegBell />
-            {qtdAvisos > 0 && (
-              <span className="badge-notificacao">{qtdAvisos}</span>
-            )}
-          </NavLink>
-        </li>
-
         <li>
           <NavLink to="/aluno/perfil">
             <IoPersonOutline />

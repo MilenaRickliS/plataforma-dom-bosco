@@ -6,17 +6,13 @@ import MenuLateralAluno from "../../../components/portais/MenuLateralAluno";
 import MenuTopoAluno from "../../../components/portais/MenuTopoAluno";
 import { useContext } from "react";
 import { AuthContext } from "../../../contexts/auth";
-import { adicionarPontos, removerPontos, mostrarToastPontosAdicionar, mostrarToastPontosRemover, regrasPontuacao } from "../../../services/gamificacao.jsx";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { usePenalidadeSaida } from "../../../hooks/usePenalidadeSaida";
 
 
 export default function DetalhesVideo() {
   const { user } = useContext(AuthContext);
  const API = import.meta.env.VITE_API_URL || "https://plataforma-dom-bosco-backend-krq4dua7f-milenaricklis-projects.vercel.app";
 
-  
   const { id } = useParams();
   const [video, setVideo] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -92,29 +88,14 @@ export default function DetalhesVideo() {
                 if (progresso >= 80) {
                   setAssistiuVideo(true); 
                   const chaveAssistido = `${user.uid}-video-${video.id}`;
-                  if (!localStorage.getItem(chaveAssistido)) {
-                    await adicionarPontos(user.uid, regrasPontuacao.assistirVideo, "Parabéns! Você assistiu 80% do vídeo 🎥");
-                    mostrarToastPontosAdicionar(
-                      regrasPontuacao.assistirVideo,
-                      "Parabéns! Você assistiu 100% do vídeo 🎥"
-                    );
-                    localStorage.setItem(chaveAssistido, "assistido");
-                    localStorage.setItem(`${user.uid}-video-assistido-hoje`, "true");
-                  }
+                  
                 }
               }}
               onPause={async (e) => {
                 const vid = e.target;
                 const progresso = parseFloat(vid.dataset.progresso || 0);
 
-                if (progresso < 80 && !vid.dataset.penalizado) {
-                  vid.dataset.penalizado = true;
-                  await removerPontos(user.uid, Math.abs(regrasPontuacao.sairVideo), `Saiu antes de 80% (${Math.round(progresso)}%) 😞`);
-                  mostrarToastPontosRemover(
-                    regrasPontuacao.sairVideo,
-                    `Saiu antes de 80% (${Math.round(progresso)}%) 😞`
-                  );
-                }
+               
               }}
             >
 

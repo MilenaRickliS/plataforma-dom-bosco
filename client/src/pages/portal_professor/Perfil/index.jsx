@@ -18,11 +18,7 @@ import { IoEye, IoEyeOff } from "react-icons/io5";
 import "./style.css";
 import MenuTopoProfessor from "../../../components/portais/MenuTopoProfessor";
 import MenuLateralProfessor from "../../../components/portais/MenuLateralProfessor";
-import {
-  adicionarPontos,
-  mostrarToastPontosAdicionar,
-  regrasPontuacao,
-} from "../../../services/gamificacao.jsx";
+
 
 export default function Perfil() {
   const { user } = useContext(AuthContext);
@@ -94,16 +90,7 @@ export default function Perfil() {
         const hoje = new Date().toDateString();
         const chaveDiaria = `${user.uid}-foto-${hoje}`;
 
-        if (!localStorage.getItem(chaveDiaria)) {
-          await adicionarPontos(user.uid, regrasPontuacao.atualizarFoto, "Foto atualizada com sucesso 🖼️");
-          mostrarToastPontosAdicionar(
-            regrasPontuacao.atualizarFoto,
-            "Foto atualizada com sucesso 🖼️"
-          );
-          localStorage.setItem(chaveDiaria, "true");
-        } else {
-          toast.info("✅ Você já ganhou pontos por atualizar a foto hoje!");
-        }
+        
 
         toast.success("Foto atualizada com sucesso!");
       } else {

@@ -15,9 +15,6 @@ function MenuTopoProfessor() {
                     <NavLink to="/professor/ajuda"><MdOutlineQuestionMark /></NavLink>
                 </li> 
                 <li>
-                    <NavLink to="/professor/avisos"><FaRegBell /></NavLink>
-                </li>  
-                <li>
                     <NavLink to="/professor/perfil"><IoPersonOutline /></NavLink>
                 </li>         
             </ul>          

@@ -6,16 +6,6 @@ import {
   signOut,
   onAuthStateChanged,
 } from "firebase/auth";
-import { db } from "../services/firebaseConnection";
-import { doc, getDoc, setDoc } from "firebase/firestore";
-
-import {
-  adicionarPontos,
-  removerPontos,
-  mostrarToastPontosAdicionar,
-  mostrarToastPontosRemover,
-  regrasPontuacao,
-} from "../services/gamificacao";
 import {toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -52,7 +42,7 @@ export default function AuthProvider({ children }) {
           setUser(userData);
 
           
-          await verificarLoginDiario(userData.uid);
+        
         } catch (err) {
           console.error("Erro no onAuthStateChanged:", err);
           setUser(null);
@@ -67,38 +57,7 @@ export default function AuthProvider({ children }) {
   }, []);
 
  
-  async function verificarLoginDiario(uid) {
-    const ref = doc(db, "usuarios", uid);
-    const snap = await getDoc(ref);
-    const data = snap.exists() ? snap.data() : {};
-
-    const hoje = new Date();
-    const hojeStr = hoje.toISOString().split("T")[0];
-    const ultimaData = data.ultimoLogin || null;
-
-    if (ultimaData !== hojeStr) {
-      if (ultimaData) {
-        const diffDias = Math.floor(
-          (hoje - new Date(ultimaData)) / (1000 * 60 * 60 * 24)
-        );
-        if (diffDias >= 3) {
-          await removerPontos(uid, Math.abs(regrasPontuacao.diasSemLogar));
-          mostrarToastPontosRemover(
-            regrasPontuacao.diasSemLogar,
-            `Ficou ${diffDias} dias sem logar 😞`
-          );
-        }
-      }
-
-      await adicionarPontos(uid, regrasPontuacao.loginDiario);
-      mostrarToastPontosAdicionar(
-        regrasPontuacao.loginDiario,
-        "Login diário realizado ✅"
-      );
-
-      await setDoc(ref, { ultimoLogin: hojeStr }, { merge: true });
-    }
-  }
+  
 
  
   async function signInEmail(email, password) {
@@ -113,8 +72,12 @@ export default function AuthProvider({ children }) {
         body: JSON.stringify({ idToken }),
       });
 
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message);
+      const data = await res.json().catch(() => ({}));
+       if (!res.ok) {
+        
+        const msg = data?.message || "Erro ao validar login no servidor.";
+        throw new Error(msg);
+      }
 
       const userData = {
         uid: firebaseUser.uid,
@@ -125,7 +88,7 @@ export default function AuthProvider({ children }) {
       };
 
       setUser(userData);
-      await verificarLoginDiario(userData.uid);
+      
       } catch (err) {
         console.error("❌ Erro no login:", err);
         console.log("Código de erro Firebase:", err.code);

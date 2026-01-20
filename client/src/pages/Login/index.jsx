@@ -49,6 +49,7 @@ export default function Login() {
 
   return (
     <div className="fundo-login">
+      <ToastContainer />
       <div className="voltar-home-wrapper">
         <Link to="/" className="voltar-home">
           <IoIosArrowBack /> Voltar para Home

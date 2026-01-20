@@ -1,17 +1,4 @@
-.dashboard{
-    display: flex;   
-}
 
-.barra-pesquisa-dashboard{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: #555;
-    background-color: #fff;
-    border-radius: 30px;
-    padding: 0px 20px;
-    margin: 15px;
-}
 
 .frase{
     background: #46A1D1;
@@ -24,8 +11,9 @@
     margin: 15px;
 }
 .inicio-dashboard{
-    display: flex;
-}
+        flex-direction: column; 
+        padding-bottom: 30px;
+    }
 
 /* agenda */
 
@@ -33,7 +21,8 @@
   background: linear-gradient(135deg, #15b9cc, #2D408E);
   border-radius: 20px;
   color: #fff;
-  width: 100%;
+
+  margin: 15px;
   padding: 20px;
   font-family: "Montserrat", sans-serif;
   display: flex;
@@ -132,129 +121,6 @@
   }
 }
 
-/* turmas */
-.titulo-turmas{
-    color: #000;
-    padding: 10px 30px;
-}
-.turmas-grid{
-    display: grid; 
-    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); 
-    gap: 20px; 
-    padding: 10px; 
-    justify-items: center;
-}
-.container-turma{
-    background-color: white;
-    border-radius: 20px;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 15px 30px -10px,
-                rgba(0, 0, 0, 0.3) 0px 10px 20px -10px;
-
-    width: 220px;      
-    height: 250px;     
-    padding: 0px;
-    margin: 15px;
-    text-decoration: none;
-    color: black;
-    transition: transform 0.2s ease-in-out;
-    overflow: hidden;
-    cursor: pointer;
-}
-.container-turma:hover {
-    transform: scale(1.05);
-}
-.turma-inicio{
-    border-radius: 20px 20px 0 0;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    color: rgb(0, 0, 0);
-    position: relative;
-}
-.img-turma{
-    height: 150px;
-}
-.turma-inicio p{
-    margin-top: 8px;
-    font-family: "Montserrat", sans-serif;
-    font-weight: bold;
-    font-size: 16px;
-    text-align: center;
-}
-
-/* avisos */
-.section-avisos{
-    background-color: #fff;
-    color: #2D408E;
-    border-radius: 16px;
-    padding: 25px;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.08);
-    margin: 0 30px 40px;
-    width: 50%;
-}
-.section-avisos h4{
-  font-family: "Montserrat bold", sans-serif;
-    color: #0A2E52;
-    font-size: 1rem;
-    margin-bottom: 10px;
-    display: block;
-}
-.section-avisos strong {
-    color: #fff;
-    font-size: 1rem;
-    margin-bottom: 10px;
-    display: block;
-}
-.aviso div{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 15px;
-    align-items: center;
-    background-color: #0A2E52;
-    border-radius: 16px;
-    padding: 20px;
-    margin-top: 10px;
-}
-.section-avisos .aviso-cards {
-  background: #0A2E52;
-  border-radius: 10px;
-  padding: 10px 15px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-}
-
-.section-avisos .aviso-cards h4 {
-  color: #46A1D1;
-  margin-bottom: 4px;
-}
-
-.section-avisos .aviso-cards p {
-  margin: 4px 0;
-  font-size: 14px;
-  color: #fff;
-  text-align: justify;
-}
-.aviso div strong {
-  display: block;
-  margin-top: 10px;
-}
-.todos-avisos {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  margin-top: 15px;
-  text-decoration: none;
-  background-color: #46A1D1;
-  color: #fff;
-  padding: 10px;
-  border-radius: 8px;
-  font-weight: 500;
-}
-.todos-avisos:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-}
 
 /* video */
 .video-destaque-wrapper {
@@ -265,8 +131,8 @@
   border-radius: 16px;
   box-shadow: 0 4px 14px rgba(0,0,0,0.08);
   padding: 20px;
-  width: 50%;
-  margin: 0 30px 40px;
+  width: 97%;
+  margin: 15px;
 }
 .video-destaque-wrapper > p {
   font-size: 1.2rem;
@@ -311,32 +177,18 @@
 
 /* responsividade */
 @media (max-width: 800px) {
-    .inicio-dashboard{
-        flex-direction: column; 
-        padding-bottom: 30px;
-    }
     .dashboard{
         flex-direction: column;
     }
     .video-destaque-wrapper{
         width: 90%;
     }
-    .section-avisos{
-        width: 90%;
-    }
+    
 }
 @media (max-width: 370px) {
-    .container-turma{
-        width: 190px;
-    }
     .video-destaque-wrapper{
         width: 80%;
     }
-    .section-avisos{
-        width: 80%;
-    }
-    .todos-avisos{
-        font-size: 10px;
-    }
+
     
 }

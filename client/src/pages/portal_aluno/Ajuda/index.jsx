@@ -2,12 +2,6 @@ import { useState, useEffect, useRef, useContext } from "react";
 import { FaPhoneAlt } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import "./style.css";
-import {
-  adicionarPontos,
-  mostrarToastPontosAdicionar,
-  regrasPontuacao,
-} from "../../../services/gamificacao.jsx";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AuthContext } from "../../../contexts/auth";
 import MenuLateralAluno from "../../../components/portais/MenuLateralAluno";
@@ -48,52 +42,6 @@ export default function Ajuda() {
     },
   ];
 
-  useEffect(() => {
-    async function premiarAjuda() {
-     
-      if (!user || jaPremiou.current) return;
-      jaPremiou.current = true;
-
-      const sessionFlag = `premiou-ajuda-${user.uid}`;
-      if (sessionStorage.getItem(sessionFlag)) return;
-
-      const chave = `${user.uid}-ajuda-aberta`;
-      const ultimaAbertura = localStorage.getItem(chave);
-      const hoje = new Date();
-      const hojeStr = hoje.toISOString().split("T")[0];
-
-      const diasDesdeUltima =
-        ultimaAbertura
-          ? (new Date(hojeStr) - new Date(ultimaAbertura)) / (1000 * 60 * 60 * 24)
-          : Infinity;
-
-      if (diasDesdeUltima >= 7) {
-        try {
-          await adicionarPontos(user.uid, regrasPontuacao.abriuAjuda, "Acessou a aba de Ajuda 🧭");
-          mostrarToastPontosAdicionar(regrasPontuacao.abriuAjuda, "Acessou a aba de Ajuda 🧭");
-          localStorage.setItem(chave, hojeStr);
-          sessionStorage.setItem(sessionFlag, "true");
-        } catch (err) {
-          console.error("Erro ao adicionar pontos da ajuda:", err);
-        }
-      } else {
-        import("react-toastify").then(({ toast }) => {
-          toast.info("✅ Você já ganhou pontos essa semana por acessar a Ajuda!", {
-            position: "bottom-right",
-            theme: "colored",
-            autoClose: 2500,
-            style: {
-              background: "linear-gradient(135deg, #0284c7, #38bdf8)",
-              color: "#fff",
-            },
-            icon: "💬",
-          });
-        });
-      }
-    }
-
-    premiarAjuda();
-  }, [user]);
 
   const togglePergunta = (index) => {
     setAtivo(ativo === index ? null : index);

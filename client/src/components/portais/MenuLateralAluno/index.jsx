@@ -27,9 +27,6 @@ function MenuLateralAluno() {
     { to: "/aluno/agenda", icon: <FaRegCalendar />, label: "Agenda" },
     { to: "/aluno/videos", icon: <IoPlayForward />, label: "Vídeos Professores" },
     { to: "/aluno/inicio", icon: <LuLayoutDashboard />, label: "Turmas" },
-    { to: "/aluno/notas", icon: <CgNotes />, label: "Notas" },
-    { to: "/aluno/documentos", icon: <FaBoxArchive />, label: "Documentos" },
-    { to: "/aluno/turmas-arquivadas", icon: <TbFolderSearch />, label: "Turmas arquivadas" },
   ];
 
   return (

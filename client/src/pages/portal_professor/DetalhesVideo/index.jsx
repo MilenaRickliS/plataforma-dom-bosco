@@ -9,11 +9,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { MdModeEditOutline } from "react-icons/md";
 import { FaRegTrashAlt } from "react-icons/fa";
-import { adicionarPontos, removerPontos, mostrarToastPontosAdicionar, mostrarToastPontosRemover, regrasPontuacao } from "../../../services/gamificacao.jsx";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { usePenalidadeSaida } from "../../../hooks/usePenalidadeSaida";
-
 
 export default function DetalhesVideo() {
   const API = import.meta.env.VITE_API_URL || "https://plataforma-dom-bosco-backend-krq4dua7f-milenaricklis-projects.vercel.app";
@@ -22,10 +18,6 @@ export default function DetalhesVideo() {
   const [loading, setLoading] = useState(true);
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
-  const [assistirVideo, setAssistiuVideo] = useState(false);
-
- 
-  usePenalidadeSaida(assistirVideo, user, API, regrasPontuacao.sairVideo, "Saiu sem ver vídeo 📄");
 
   useEffect(() => {
     const carregar = async () => {
@@ -92,8 +84,7 @@ export default function DetalhesVideo() {
                       try {
                         await axios.delete(`${API}/api/videos?id=${video.id}`);
                         toast.success("Vídeo excluído com sucesso!");
-                        await removerPontos(user.uid, Math.abs(regrasPontuacao.postarVideo), "Vídeo removido 😢 -10 pontos");
-                        mostrarToastPontosRemover(regrasPontuacao.postarVideo, "Vídeo removido 😢 -10 pontos");
+                      
 
                         navigate("/professor/videos");
 
@@ -126,18 +117,7 @@ export default function DetalhesVideo() {
                 const vid = e.target;
                 const progresso = parseFloat(vid.dataset.progresso || 0);
 
-                if (progresso >= 80) {
-                  setAssistiuVideo(true); 
-                  const chaveAssistido = `${user.uid}-video-${video.id}`;
-                  if (!localStorage.getItem(chaveAssistido)) {
-                    await adicionarPontos(user.uid, regrasPontuacao.assistirVideo, "Parabéns! Você assistiu 100% do vídeo 🎥");
-                    mostrarToastPontosAdicionar(
-                      regrasPontuacao.assistirVideo,
-                      "Parabéns! Você assistiu 100% do vídeo 🎥"
-                    );
-                    localStorage.setItem(chaveAssistido, "assistido");
-                  }
-                }
+               
               }}
               onPause={async (e) => {
                 const vid = e.target;

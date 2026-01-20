@@ -27,9 +27,6 @@ function MenuLateralProfessor() {
     { to: "/professor/agenda", icon: <FaRegCalendar />, label: "Agenda" },
     { to: "/professor/videos", icon: <IoPlayForward />, label: "Vídeos Professores" },
     { to: "/professor/inicio", icon: <LuLayoutDashboard />, label: "Turmas" },
-    { to: "/professor/notas", icon: <CgNotes />, label: "Notas" },
-    { to: "/professor/documentos", icon: <FaBoxArchive />, label: "Documentos" },
-    { to: "/professor/turmas-arquivadas", icon: <TbFolderSearch />, label: "Turmas arquivadas" },
   ];
 
   return (
