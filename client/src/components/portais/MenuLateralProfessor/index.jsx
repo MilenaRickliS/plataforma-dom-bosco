@@ -26,7 +26,7 @@ function MenuLateralProfessor() {
   const menuItems = [
     { to: "/professor/agenda", icon: <FaRegCalendar />, label: "Agenda" },
     { to: "/professor/videos", icon: <IoPlayForward />, label: "Vídeos Professores" },
-    { to: "/professor/inicio", icon: <LuLayoutDashboard />, label: "Turmas" },
+    { to: "/professor/inicio", icon: <LuLayoutDashboard />, label: "Dashboard" },
   ];
 
   return (

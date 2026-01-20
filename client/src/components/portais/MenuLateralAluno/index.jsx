@@ -26,7 +26,7 @@ function MenuLateralAluno() {
   const menuItems = [
     { to: "/aluno/agenda", icon: <FaRegCalendar />, label: "Agenda" },
     { to: "/aluno/videos", icon: <IoPlayForward />, label: "Vídeos Professores" },
-    { to: "/aluno/inicio", icon: <LuLayoutDashboard />, label: "Turmas" },
+    { to: "/aluno/inicio", icon: <LuLayoutDashboard />, label: "Dashboard" },
   ];
 
   return (
