@@ -41,20 +41,10 @@ export default function Footer() {
                     <li><a href="/detalhes-curso">Jovem Aprendiz</a></li>
                     <li><a href="/projetos&oficinas">Projetos e oficina</a></li>
                 </ul>
-                <Link to = '/comunidade' className="link-footer">Comunidade</Link>
-                <ul>
-                    <li><a href="/comunidade">Projetos sociais e voluntariado</a></li>
-                    <li><a href="/comunidade">Parcerias</a></li>
-                    <li><a href="http://iadbguarapuava.com.br/seja-um-parceiro/">Seja um parceiro!</a></li>
-                </ul>
+               
             </div>
         
             <div>
-                <Link to = '/eventos' className="link-footer">Nóticias & Eventos</Link>
-                <ul>
-                    <li><a href="/eventos">Eventos/Inscrições</a></li>
-                    <li><a href="#">Blog</a></li>
-                </ul>
                 <Link to = '/contato' className="link-footer">Contato</Link>
             </div>
             <div>

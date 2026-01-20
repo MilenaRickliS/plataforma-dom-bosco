@@ -55,10 +55,10 @@ export default function Login() {
         </Link>
       </div>
 
-      <div className="titulo-login">
+      <a href="/" className="titulo-login">
         <img src={logo} alt="Logo" />
         <p>Instituto Assistencial Dom Bosco - Portal do Aluno</p>
-      </div>
+      </a>
 
       <div className="bemvindo-login">
         <h1>Bem-vindo!</h1>

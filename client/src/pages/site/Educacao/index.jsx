@@ -2,8 +2,6 @@ import { useRef, useEffect, useState } from "react";
 import Header from "../../../components/site/Header";
 import Footer from "../../../components/site/Footer";
 import { Link } from "react-router-dom";
-import { IoArrowBackCircleOutline, IoArrowForwardCircleOutline } from "react-icons/io5";
-import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import './style.css';
@@ -93,33 +91,6 @@ export default function Educacao() {
 
         <br/>
 
-        <section className="sessao-projetos">
-          <div className="div-projetos">
-            <h1>
-              Projetos e<br />Oficina
-            </h1>
-            <div className="projetos-navigation">
-              <button className="projetos-arrow-custom prev" onClick={() => sliderRef.current?.slickPrev()}>
-                <IoArrowBackCircleOutline size={50} />
-              </button>
-              <button className="projetos-arrow-custom next" onClick={() => sliderRef.current?.slickNext()}>
-                <IoArrowForwardCircleOutline size={50} />
-              </button>
-            </div>
-            <Link
-              to="/projetos&oficinas"
-              className="link-proj"
-              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            >
-              Ver todos
-            </Link>
-          </div>
-
-          <div className="projetos-carrossel-wrapper">
-            <ProjetosCarrossel sliderRef={sliderRef} />
-          </div>
-        </section>
-
         <section className="proposta">
           <h2>Proposta pedagógica</h2>
           <p>
@@ -159,68 +130,3 @@ export default function Educacao() {
   );
 }
 
-function ProjetosCarrossel({ sliderRef }) {
-  const API = import.meta.env.VITE_API_URL || "https://plataforma-dom-bosco-backend-krq4dua7f-milenaricklis-projects.vercel.app";
-
-  const [projetos, setProjetos] = useState([]);
-    const getCursoCor = (curso) => {
-      switch (curso) {
-        case "Música": return "#2D408E";
-        case "Esportes": return "#2D408E";
-        case "Informática": return "#2D408E";
-        case "Pré-aprendizagem": return "#2D408E";
-        case "Jovem Aprendiz": return "#2D408E";
-        default: return "#2D408E";
-      }
-    };
-
-
-  useEffect(() => {
-    axios.get(`${API}/api/oficinas`).then((res) => {
-      const dados = res.data;
-      const cursos = ["Música", "Esportes", "Informática", "Pré-aprendizagem", "Jovem Aprendiz"];
-
-      
-      const representativos = cursos
-        .map((curso) => dados.find((p) => p.curso === curso))
-        .filter(Boolean);
-
-      setProjetos(representativos);
-    });
-  }, []);
-
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    arrows: false,
-    responsive: [
-      { breakpoint: 1024, settings: { slidesToShow: 2 } },
-      { breakpoint: 640, settings: { slidesToShow: 1 } },
-    ],
-  };
-
-  return (
-    <Slider ref={sliderRef} {...settings} className="projetos-slider">
-      {projetos.map((proj) => (
-        <div key={proj.id} className="projeto-item">
-          <p className="curso" style={{ color: getCursoCor(proj.curso) }} >{proj.curso}</p>
-          <div className="projeto-imagem-wrapper">
-            <img src={proj.imagemUrl} alt={proj.titulo} className="projeto-imagem" />
-          </div>
-          <h4 className="projeto-titulo">{proj.titulo}</h4>
-          <Link
-            to="/projetos&oficinas"
-            state={{ categoria: proj.curso }}
-            className="projeto-botao"
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          >
-            Ver mais
-          </Link>
-        </div>
-      ))}
-    </Slider>
-  );
-}

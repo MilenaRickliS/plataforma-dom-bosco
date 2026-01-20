@@ -53,9 +53,6 @@ export default function CursosGestao() {
       <div className="lista-cursos">
         {cursos.map((curso) => (
           <div key={curso.id} className="curso-card">
-            {curso.imagens?.[0]?.url && (
-              <img className="thumb" src={curso.imagens[0].url} alt={curso.nome} />
-            )}
             <div className="curso-card-body">
               <h3>{curso.nome}</h3>
               <p>{curso.descricao?.slice(0, 180)}{(curso.descricao || "").length > 180 ? "..." : ""}</p>

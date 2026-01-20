@@ -6,11 +6,6 @@ import Sobre from '../pages/site/Sobre';
 import Galeria from '../pages/site/Galeria';
 import Educacao from '../pages/site/Educacao';
 import CursosDetalhes from '../pages/site/CursosDetalhes';
-import ProjetosCursos from '../pages/site/ProjetosCursos';
-import Comunidade from '../pages/site/Comunidade';
-import Eventos from '../pages/site/Eventos';
-import ProximosEventos from '../pages/site/ProximosEventos';
-import EventosDetalhes from '../pages/site/EventosDetalhes';
 import Contato from '../pages/site/Contato';
 
 import Private from './private';
@@ -73,10 +68,6 @@ import ConfiguracoesRefeicoes from '../pages/adm/refeicao/Configuracoes';
 
 import MenuGestao from '../pages/adm/site/Menu';
 import GaleriaGestao from '../pages/adm/site/Galeria';
-import EventosGestao from '../pages/adm/site/Eventos';
-import CriarEventos from '../pages/adm/site/CriarEventos';
-import ProjetosCursosGestao from '../pages/adm/site/ProjetosCursos';
-import ComunidadeGestao from '../pages/adm/site/Comunidade';
 import CursosGestao from '../pages/adm/site/Cursos';
 import CriarCurso from '../pages/adm/site/CriarCurso';
 import EditarCurso from '../pages/adm/site/EditarCurso';
@@ -93,11 +84,6 @@ function RoutesApp(){
       <Route path="/galeria" element={<Galeria/>}/>
       <Route path="/educacao" element={<Educacao/>}/>
       <Route path="/detalhes-curso/:id" element={<CursosDetalhes/>}/>
-      <Route path="/projetos&oficinas" element={<ProjetosCursos/>}/>
-      <Route path="/comunidade" element={<Comunidade/>}/>
-      <Route path="/eventos" element={<Eventos/>}/>
-      <Route path="/proximos-eventos" element={<ProximosEventos/>}/>
-      <Route path="/detalhes-evento/:id" element={<EventosDetalhes/>}/>
       <Route path="/contato" element={<Contato/>}/>  
 
       <Route path="/inicio-adm" element={ <Private rota="admin"><InicioAdm/></Private> } />
@@ -119,10 +105,6 @@ function RoutesApp(){
 
       <Route path="/menu-gestao" element={ <Private rota="admin"><MenuGestao/></Private> } />
       <Route path="/galeria-gestao" element={ <Private rota="admin"><GaleriaGestao/></Private> } />
-      <Route path="/eventos-gestao" element={ <Private rota="admin"><EventosGestao/></Private> } /> 
-      <Route path="/criar-evento" element={ <Private rota="admin"><CriarEventos/></Private> } />     
-      <Route path="/projetos-de-cursos-gestao" element={ <Private rota="admin"><ProjetosCursosGestao/></Private> } />
-      <Route path="/comunidade-gestao" element={ <Private rota="admin"><ComunidadeGestao/></Private> } />
       <Route path="/cursos-gestao" element={ <Private rota="admin"><CursosGestao/></Private> } />
       <Route path="/criar-curso" element={ <Private rota="admin"><CriarCurso/></Private> } />
       <Route path="/editar-curso/:id" element={<EditarCurso />} />

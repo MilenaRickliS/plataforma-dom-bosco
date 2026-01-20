@@ -5,13 +5,8 @@ import "./style.css";
 import { Link } from "react-router-dom";
 import { IoArrowBackCircleOutline, IoArrowForwardCircleOutline } from "react-icons/io5";
 import equipe from "../../../assets/site/equipe.jpg";
-import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { FaCalendarAlt } from "react-icons/fa";
-import { FaHeart } from "react-icons/fa";
-import { IoMdPin } from "react-icons/io";
-import axios from "axios";
 
 
 export default function Inicio() {
@@ -196,23 +191,6 @@ export default function Inicio() {
           </div>
         </section>
 
-        <section className="sessao-eventos">
-          <div className="div-eventos">
-            <h3>Eventos &<br/>Nóticias</h3>
-            <div className="eventos-navigation">
-              <button className="eventos-arrow-custom prev" onClick={() => sliderRef.current?.slickPrev()}>
-                <IoArrowBackCircleOutline size={35} />
-              </button>
-              <button className="eventos-arrow-custom next" onClick={() => sliderRef.current?.slickNext()}>
-                <IoArrowForwardCircleOutline size={35} />
-              </button>
-            </div>
-            <Link to="https://dombosco.net/category/obras-sociais-guarapuava-blog/" className="blog-link">Ir para o blog</Link>
-          </div>
-          <div className="eventos-carrossel-wrapper">
-            <EventosCarrossel sliderRef={sliderRef} />
-          </div>
-        </section>
 
         <section className="sessao-site">
           <div className="convite">
@@ -262,154 +240,3 @@ export default function Inicio() {
   );
 }
 
-function EventosCarrossel({ sliderRef }) {
-  const API = import.meta.env.VITE_API_URL || "https://plataforma-dom-bosco-backend.vercel.app";
-
-  const [eventos, setEventos] = useState([]);
-  const [carregando, setCarregando] = useState(true);
-  const [curtidos, setCurtidos] = useState({});
-  const [curtidasContagem, setCurtidasContagem] = useState({});
-
-  useEffect(() => {
-    const fetchEventos = async () => {
-      try {
-        const res = await fetch(`${API}/api/eventos`);
-        if (!res.ok) throw new Error("Erro ao buscar eventos");
-        const data = await res.json();
-
-        const agora = new Date();
-
-        
-        const futuros = data.filter((ev) => {
-          if (!ev.dataHora) return false;
-          const dataEvento = ev.dataHora._seconds
-            ? new Date(ev.dataHora._seconds * 1000)
-            : new Date(ev.dataHora);
-          return dataEvento >= agora;
-        });
-
-        
-        const ordenados = futuros.sort((a, b) => {
-          const dataA = a.dataHora._seconds
-            ? new Date(a.dataHora._seconds * 1000)
-            : new Date(a.dataHora);
-          const dataB = b.dataHora._seconds
-            ? new Date(b.dataHora._seconds * 1000)
-            : new Date(b.dataHora);
-          return dataA - dataB;
-        });
-
-        
-        setEventos(ordenados.slice(0, 5));
-      } catch (err) {
-        console.error("Erro ao carregar eventos:", err);
-        setEventos([]);
-      } finally {
-        setCarregando(false);
-      }
-    };
-
-    fetchEventos();
-  }, []);
-
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 600,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    arrows: false,
-    autoplay: true,
-    autoplaySpeed: 5000,
-    pauseOnHover: true,
-    responsive: [
-      { breakpoint: 1200, settings: { slidesToShow: 2 } },
-      { breakpoint: 900, settings: { slidesToShow: 2 } },
-      { breakpoint: 768, settings: { slidesToShow: 1, dots: true } },
-      { breakpoint: 480, settings: { slidesToShow: 1, dots: true, autoplaySpeed: 4000 } },
-    ],
-  };
-
-
-  if (carregando) {
-    return <p className="carregando">Carregando eventos...</p>;
-  }
-
-  if (eventos.length === 0) {
-    return <p className="sem-eventos">Nenhum evento futuro encontrado.</p>;
-  }
-
-  return (
-    <Slider ref={sliderRef} {...settings} className="eventos-slider">
-      {eventos.map((ev) => {
-        const data = ev.dataHora._seconds
-          ? new Date(ev.dataHora._seconds * 1000)
-          : new Date(ev.dataHora);
-        
-            const curtido =
-                  curtidos[ev.id] || !!localStorage.getItem(`curtido_${ev.id}`);
-
-                const curtidas =
-                  curtidasContagem[ev.id] !== undefined
-                    ? curtidasContagem[ev.id]
-                    : ev.curtidas || 0;
-
-                const handleCurtir = async () => {
-                  try {
-                    const rota = curtido
-                      ? `${API}/api/eventos/${ev.id}/descurtir`
-                      : `${API}/api/eventos/${ev.id}/curtir`;
-
-                    await axios.post(rota);
-
-                    
-                    setCurtidos((prev) => ({ ...prev, [ev.id]: !curtido }));
-                    setCurtidasContagem((prev) => ({
-                      ...prev,
-                      [ev.id]: curtido ? curtidas - 1 : curtidas + 1,
-                    }));
-
-                    
-                    if (!curtido)
-                      localStorage.setItem(`curtido_${ev.id}`, true);
-                    else localStorage.removeItem(`curtido_${ev.id}`);
-                  } catch (err) {
-                    console.error("Erro ao curtir:", err);
-                  }
-                };
-
-        return (
-          <div key={ev.id} className="evento-item">
-            <div className="evento-imagem-wrapper">
-              <img
-                src={ev.imagemUrl}
-                alt={ev.titulo}
-                className="evento-imagem"
-              />
-            </div>
-
-            <h4 className="evento-titulo">{ev.titulo}</h4>
-
-            
-            <div className="curtidas-evento" onClick={handleCurtir}>
-                      {curtido ? (
-                        <FaHeart className="icon-curtidas ativo" />
-                      ) : (
-                        <FaHeart className="icon-curtidas" />
-                      )}
-                      <span>{curtidas}</span>
-                    </div>
-                      <p className="evento-local">
-                        <FaCalendarAlt /> {data.toLocaleDateString("pt-BR", { dateStyle: "medium" })}{" "}
-                        às {data.toLocaleTimeString("pt-BR", { timeStyle: "short" })}<br />
-                        <IoMdPin /> {ev.cidade} - {ev.estado}
-                      </p>
-            <Link to={`/detalhes-evento/${ev.id}`} className="evento-botao">
-              Saiba mais
-            </Link>
-          </div>
-        );
-      })}
-    </Slider>
-  );
-}

@@ -17,8 +17,6 @@ export default function Header() {
     { path: "/", label: "HOME" },
     { path: "/sobre", label: "SOBRE NÓS" },
     { path: "/educacao", label: "EDUCAÇÃO" },
-    { path: "/comunidade", label: "COMUNIDADE" },
-    { path: "/eventos", label: <>NÓTICIAS &<br />EVENTOS</> },
     { path: "/contato", label: "CONTATO" },
   ];
 

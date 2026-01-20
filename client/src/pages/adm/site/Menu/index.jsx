@@ -123,10 +123,7 @@ export default function MenuGestao() {
             </div>
             <p className="p-opcoes">Bem-vindo! Escolha uma das opções abaixo a editar:</p>
             <div className="opcoes-menug">
-                <Link to="/galeria-gestao">GALERIA</Link>
-                <Link to="/eventos-gestao">EVENTOS</Link>
-                <Link to="/projetos-de-cursos-gestao">PROJETOS E OFICINAS</Link> 
-                <Link to="/comunidade-gestao">PROJETOS SOCIAIS E VOLUNTARIADO</Link>   
+                <Link to="/galeria-gestao">GALERIA</Link> 
                 <Link to="/cursos-gestao">CURSOS</Link>                  
             </div>
 
