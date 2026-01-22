@@ -1,321 +1,488 @@
-import { useState, useEffect } from "react";
-import * as XLSX from "xlsx";
-import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable";
-import { getPrato, salvarPrato } from "../../../../services/pratos";
 import logo from "../../../../assets/logo2.png";
 import { IoArrowUndoSharp } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import "./style.css";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
+import { Chart } from "chart.js/auto";
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
 
-export default function CardapioNutricionalExcel() {
-  const [lanches, setLanches] = useState([]);
-  const [dadosNutricionais, setDadosNutricionais] = useState({});
-  const [carregando, setCarregando] = useState(false);
-  const API_KEY = "Y/uIQejo69/+NUV9E4tLPw==KL9DFeK7tLkqzFhE";
+import { useContext, useEffect, useMemo, useState } from "react";
+import { AuthContext } from "../../../../contexts/auth"; 
 
-  useEffect(() => {
-    const cache = localStorage.getItem("dados_nutricionais_cache");
-    if (cache) setDadosNutricionais(JSON.parse(cache));
-  }, []);
+import FoodForm from "../../../../components/nutri/FoodForm";
+import FoodList from "../../../../components/nutri/FoodList";
+import MealModal from "../../../../components/nutri/MealModal";
+import PlateTester from "../../../../components/nutri/PlateTester";
 
-  useEffect(() => {
-    localStorage.setItem(
-      "dados_nutricionais_cache",
-      JSON.stringify(dadosNutricionais)
-    );
-  }, [dadosNutricionais]);
 
-  function lerExcel(e) {
-    const file = e.target.files[0];
-    if (!file) return;
+import { getWeekDays } from "../../../../utils/week";
+import { kcalFromItemSnapshot } from "../../../../utils/nutrition";
 
-    const reader = new FileReader();
-    reader.onload = (evt) => {
-      const data = new Uint8Array(evt.target.result);
-      const workbook = XLSX.read(data, { type: "array" });
-      const sheet = workbook.Sheets[workbook.SheetNames[0]];
-      const json = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+import { listenFoods } from "../../../../services/food";
+import {
+  addMeal, deleteMeal, renameMeal,
+  listenMeals, listenMealItems,
+  addMealItem, updateMealItemPortion, deleteMealItem
+} from "../../../../services/meals";
+import { addDays } from "date-fns";
 
-      const header = json[0].map((h) => h.toString().toLowerCase());
-      const idxLanche = header.indexOf("lanche");
 
-      if (idxLanche === -1) {
-        alert("A planilha deve conter uma coluna chamada 'lanche'.");
-        return;
-      }
+import { IoIosArrowBack } from "react-icons/io";
 
-      const listaLanches = [
-        ...new Set(json.slice(1).map((row) => row[idxLanche]).filter(Boolean)),
-      ];
-      setLanches(listaLanches);
-    };
-    reader.readAsArrayBuffer(file);
+export default function CardapioNutricional() {
+  const { user } = useContext(AuthContext); 
+  const uid = user?.uid;
+
+  const [weekBaseDate, setWeekBaseDate] = useState(() => new Date());
+  const week = useMemo(() => getWeekDays(weekBaseDate), [weekBaseDate]);
+
+  const [foods, setFoods] = useState([]);
+
+  const [mealsByDay, setMealsByDay] = useState({});     
+  const [itemsByMeal, setItemsByMeal] = useState({});   
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalTarget, setModalTarget] = useState({ dateId: null, mealId: null });
+
+  function prevWeek() {
+    setWeekBaseDate((d) => addDays(d, -7));
   }
 
-  async function buscarNutrientes(lanche, ingredientes) {
-    setCarregando(true);
+  function nextWeek() {
+    setWeekBaseDate((d) => addDays(d, 7));
+  }
 
-    const pratoSalvo = await getPrato(lanche);
-    if (pratoSalvo) {
-      alert(`🔁 Carregando informações do Firestore para "${lanche}"`);
-      setDadosNutricionais((prev) => ({
-        ...prev,
-        [lanche]: [
-          {
-            calories: pratoSalvo.calorias,
-            protein_g: pratoSalvo.proteina,
-            carbohydrates_total_g: pratoSalvo.carboidratos,
-            fat_total_g: pratoSalvo.gordura,
-            manual: true,
-          },
-        ],
-      }));
-      setCarregando(false);
-      return;
-    }
+  function goToday() {
+    setWeekBaseDate(new Date());
+  }
 
-    const query = ingredientes || lanche;
+  useEffect(() => {
+    if (!uid) return;
+    const unsub = listenFoods(uid, setFoods);
+    return () => unsub();
+  }, [uid]);
+
+  
+  useEffect(() => {
+    if (!uid) return;
+
+    const unsubs = week.map(({ dateId }) =>
+      listenMeals(uid, dateId, (meals) => {
+        setMealsByDay((prev) => ({ ...prev, [dateId]: meals }));
+      })
+    );
+
+    return () => unsubs.forEach((fn) => fn && fn());
+  }, [uid, week]);
+
+  
+  useEffect(() => {
+    if (!uid) return;
+
+    const unsubs = [];
+
+    week.forEach(({ dateId }) => {
+      const meals = mealsByDay[dateId] || [];
+      meals.forEach((m) => {
+        const key = `${dateId}|${m.id}`;
+
+       
+        if (itemsByMeal[key] !== undefined) return;
+
+        const unsubItems = listenMealItems(uid, dateId, m.id, (items) => {
+          setItemsByMeal((prev) => ({ ...prev, [key]: items }));
+        });
+
+        unsubs.push(unsubItems);
+      });
+    });
+
+    return () => unsubs.forEach((fn) => fn && fn());
+   
+  }, [uid, mealsByDay, week]);
+
+  async function handleAddMeal(dateId) {
+    const name = prompt("Nome da refeição (ex: Café da manhã, Almoço)");
+    if (!name?.trim()) return;
+    await addMeal(uid, dateId, name.trim());
+  }
+
+  async function handleRenameMeal(dateId, meal) {
+    const name = prompt("Novo nome da refeição:", meal.name || "");
+    if (!name?.trim()) return;
+    await renameMeal(uid, dateId, meal.id, name.trim());
+  }
+
+  async function handleDeleteMeal(dateId, meal) {
+    if (!window.confirm(`Excluir a refeição "${meal.name}"?`)) return;
+    await deleteMeal(uid, dateId, meal.id);
+  }
+
+  function openAddFoodModal(dateId, mealId) {
+    setModalTarget({ dateId, mealId });
+    setModalOpen(true);
+  }
+
+  async function handleAddFoodToMeal(food, portionUsed_g) {
+    const { dateId, mealId } = modalTarget;
+    if (!dateId || !mealId) return;
+
+    await addMealItem(uid, dateId, mealId, {
+      foodId: food.id,
+      foodNameSnapshot: food.name,
+      portionBase_g: Number(food.portion_g),
+      carbsBase_g: Number(food.carbs_g),
+      proteinBase_g: Number(food.protein_g),
+      fatBase_g: Number(food.fat_g),
+      portionUsed_g: Number(portionUsed_g),
+    });
+  }
+
+  function mealTotalKcal(dateId, mealId) {
+    const key = `${dateId}|${mealId}`;
+    const items = itemsByMeal[key] || [];
+    return items.reduce((sum, it) => sum + kcalFromItemSnapshot(it), 0);
+  }
+
+  function dayTotalKcal(dateId) {
+    const meals = mealsByDay[dateId] || [];
+    return meals.reduce((sum, m) => sum + mealTotalKcal(dateId, m.id), 0);
+  }
+
+  async function handleChangeItemPortion(dateId, mealId, item) {
+    const g = prompt("Nova porção (g) para este item:", String(item.portionUsed_g ?? ""));
+    if (!g) return;
+    const n = Number(g);
+    if (!n || n <= 0) return;
+    await updateMealItemPortion(uid, dateId, mealId, item.id, n);
+  }
+
+  async function handleDeleteItem(dateId, mealId, item) {
+    if (!window.confirm(`Remover "${item.foodNameSnapshot}" desta refeição?`)) return;
+    await deleteMealItem(uid, dateId, mealId, item.id);
+  }
+
+  async function exportWeekPdf() {
     try {
-      const res = await fetch(
-        `https://api.api-ninjas.com/v1/nutrition?query=${encodeURIComponent(
-          query
-        )}`,
-        { headers: { "X-Api-Key": API_KEY } }
-      );
-      const data = await res.json();
+      
+      const getItems = (dateId, mealId) => itemsByMeal[`${dateId}|${mealId}`] || [];
+      const mealKcal = (dateId, mealId) => getItems(dateId, mealId).reduce((s, it) => s + kcalFromItemSnapshot(it), 0);
+      const dayKcal = (dateId) => (mealsByDay[dateId] || []).reduce((s, m) => s + mealKcal(dateId, m.id), 0);
 
-      if (!data || data.length === 0) {
-        alert(
-          `⚠️ Não encontrei informações para "${lanche}". Preencha manualmente abaixo.`
-        );
-        setDadosNutricionais((prev) => ({
-          ...prev,
-          [lanche]: [
-            {
-              calories: "",
-              protein_g: "",
-              carbohydrates_total_g: "",
-              fat_total_g: "",
-              manual: true,
-            },
-          ],
-        }));
-        return;
+      
+      const days = week.map(d => ({
+        ...d,
+        totalKcal: dayKcal(d.dateId),
+        meals: (mealsByDay[d.dateId] || []).map(m => ({
+          ...m,
+          totalKcal: mealKcal(d.dateId, m.id),
+          items: getItems(d.dateId, m.id),
+        })),
+      }));
+
+      const totalWeek = days.reduce((s, d) => s + d.totalKcal, 0);
+      const avgDay = days.length ? totalWeek / days.length : 0;
+      const maxDay = days.reduce((best, d) => (!best || d.totalKcal > best.totalKcal ? d : best), null);
+
+    
+      const canvas = document.createElement("canvas");
+      canvas.width = 900;
+      canvas.height = 360;
+      const ctx = canvas.getContext("2d");
+
+      new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: days.map(d => `${d.label} (${d.short})`),
+          datasets: [{
+            label: "kcal por dia",
+            data: days.map(d => Math.round(d.totalKcal)),
+          }],
+        },
+        options: {
+          responsive: false,
+          plugins: {
+            legend: { display: true },
+          },
+          scales: {
+            y: { beginAtZero: true },
+          },
+        },
+      });
+
+      
+      await new Promise(r => setTimeout(r, 60));
+      const chartImg = canvas.toDataURL("image/png", 1.0);
+
+      
+      const doc = new jsPDF("p", "pt", "a4");
+      const pageW = doc.internal.pageSize.getWidth();
+
+      
+      doc.setFontSize(18);
+      doc.text("Relatório Nutricional - Semana", 40, 50);
+
+      const weekStart = week[0]?.dateObj ? format(week[0].dateObj, "dd/MM/yyyy", { locale: ptBR }) : "";
+      const weekEnd = week[6]?.dateObj ? format(week[6].dateObj, "dd/MM/yyyy", { locale: ptBR }) : "";
+      doc.setFontSize(11);
+      doc.text(`Período: ${weekStart} a ${weekEnd}`, 40, 72);
+
+      doc.setFontSize(12);
+      doc.text(`Total da semana: ${Math.round(totalWeek)} kcal`, 40, 96);
+      doc.text(`Média por dia: ${Math.round(avgDay)} kcal`, 40, 114);
+      if (maxDay) doc.text(`Maior dia: ${maxDay.label} (${maxDay.short}) - ${Math.round(maxDay.totalKcal)} kcal`, 40, 132);
+
+      doc.setFontSize(13);
+      doc.text("Gráfico: kcal por dia", 40, 165);
+      doc.addImage(chartImg, "PNG", 40, 180, pageW - 80, 160);
+
+      autoTable(doc, {
+        startY: 360,
+        head: [["Dia", "Data", "Total (kcal)", "Refeições"]],
+        body: days.map(d => [
+          d.label,
+          d.short,
+          Math.round(d.totalKcal),
+          String(d.meals.length),
+        ]),
+        styles: { fontSize: 10 },
+        headStyles: { fillColor: [45, 64, 142] },
+        margin: { left: 40, right: 40 },
+      });
+
+     
+      let y = doc.lastAutoTable.finalY + 20;
+
+      for (const d of days) {
+        
+        if (y > 720) { doc.addPage(); y = 50; }
+
+        doc.setFontSize(14);
+        doc.text(`${d.label} (${d.short}) - ${Math.round(d.totalKcal)} kcal`, 40, y);
+        y += 12;
+
+        if (d.meals.length === 0) {
+          doc.setFontSize(11);
+          doc.text("Sem refeições.", 40, y + 16);
+          y += 28;
+          continue;
+        }
+
+        for (const m of d.meals) {
+          if (y > 700) { doc.addPage(); y = 50; }
+
+          doc.setFontSize(12);
+          doc.text(`• ${m.name} - ${Math.round(m.totalKcal)} kcal`, 50, y + 18);
+          y += 24;
+
+          const rows = (m.items || []).map(it => [
+            it.foodNameSnapshot,
+            `${it.portionUsed_g}g`,
+            `${Math.round(kcalFromItemSnapshot(it))} kcal`,
+          ]);
+
+          if (rows.length === 0) {
+            doc.setFontSize(10);
+            doc.text("  (sem itens)", 60, y + 10);
+            y += 22;
+            continue;
+          }
+
+          autoTable(doc, {
+            startY: y,
+            head: [["Alimento", "Porção", "kcal"]],
+            body: rows,
+            styles: { fontSize: 10 },
+            headStyles: { fillColor: [220, 220, 220], textColor: 20 },
+            margin: { left: 50, right: 40 },
+            theme: "grid",
+          });
+
+          y = doc.lastAutoTable.finalY + 10;
+        }
+
+        y += 8;
       }
 
-      const info = data[0];
-      setDadosNutricionais((prev) => ({
-        ...prev,
-        [lanche]: [
-          {
-            calories: info.calories,
-            protein_g: info.protein_g,
-            carbohydrates_total_g: info.carbohydrates_total_g,
-            fat_total_g: info.fat_total_g,
-            manual: false,
-          },
-        ],
-      }));
-
-      await salvarPrato(lanche, {
-        calorias: info.calories,
-        proteina: info.protein_g,
-        carboidratos: info.carbohydrates_total_g,
-        gordura: info.fat_total_g,
-      });
+     
+      const safePeriod = `${weekStart.replaceAll("/", "-")}_a_${weekEnd.replaceAll("/", "-")}`;
+      doc.save(`relatorio_semana_${safePeriod}.pdf`);
     } catch (err) {
       console.error(err);
-      alert("Erro ao buscar informações nutricionais.");
-    } finally {
-      setCarregando(false);
+      alert("Erro ao gerar PDF. Veja o console.");
     }
   }
 
-  function editarValor(lanche, campo, valor) {
-    setDadosNutricionais((prev) => ({
-      ...prev,
-      [lanche]: [
-        {
-          ...prev[lanche][0],
-          [campo]: valor,
-        },
-      ],
-    }));
-  }
 
-  async function salvarManual(lanche) {
-    const info = dadosNutricionais[lanche]?.[0];
-    if (!info) return;
+  if (!uid) {
+    return (
+      <div style={{ padding: 20 }}>
+        <div className="inicio-menug">
+            <Link to="/inicio-refeicao" className="voltar-adm"><IoIosArrowBack />Voltar</Link>
+            <div className="titulo-menug">
+                <img src={logo} alt="Logo" />
+                <p>Analisador Nutricional</p>
+            </div>
+            
+        </div>
 
-    await salvarPrato(lanche, {
-      calorias: info.calories,
-      proteina: info.protein_g,
-      carboidratos: info.carbohydrates_total_g,
-      gordura: info.fat_total_g,
-    });
-    alert(`✅ Prato "${lanche}" salvo manualmente no Firebase!`);
-  }
-
-  function calcularTotais() {
-    let total = { calorias: 0, proteina: 0, carb: 0, gordura: 0 };
-    Object.values(dadosNutricionais).forEach((info) => {
-      if (info && info[0]) {
-        const i = info[0];
-        total.calorias += Number(i.calories) || 0;
-        total.proteina += Number(i.protein_g) || 0;
-        total.carb += Number(i.carbohydrates_total_g) || 0;
-        total.gordura += Number(i.fat_total_g) || 0;
-      }
-    });
-    return total;
-  }
-
-  function gerarPDF() {
-    const doc = new jsPDF();
-    autoTable(doc);
-    const dataAtual = new Date().toLocaleDateString("pt-BR");
-    const total = calcularTotais();
-
-    doc.setFillColor(33, 150, 243);
-    doc.rect(0, 0, 210, 40, "F");
-    doc.setTextColor(255, 255, 255);
-    doc.setFontSize(18);
-    doc.text("Relatório Nutricional do Cardápio", 20, 25);
-    doc.setFontSize(10);
-    doc.text(`Gerado em: ${dataAtual}`, 160, 25);
-
-    doc.setTextColor(0, 0, 0);
-    doc.setFontSize(12);
-    doc.text("Resumo Nutricional Total", 14, 55);
-    doc.text(`Calorias: ${total.calorias.toFixed(2)} kcal`, 14, 65);
-    doc.text(`Proteínas: ${total.proteina.toFixed(2)} g`, 14, 73);
-    doc.text(`Carboidratos: ${total.carb.toFixed(2)} g`, 14, 81);
-    doc.text(`Gorduras Totais: ${total.gordura.toFixed(2)} g`, 14, 89);
-
-    const linhas = Object.entries(dadosNutricionais).map(([lanche, info]) => {
-      const i = info[0] || {};
-      return [
-        lanche,
-        i.calories || "-",
-        i.protein_g || "-",
-        i.carbohydrates_total_g || "-",
-        i.fat_total_g || "-",
-      ];
-    });
-
-    autoTable(doc, {
-      startY: 100,
-      head: [["Lanche", "Calorias", "Proteínas", "Carboidratos", "Gorduras Totais"]],
-      body: linhas,
-      headStyles: { fillColor: [33, 150, 243], textColor: 255 },
-      theme: "grid",
-      margin: { left: 10, right: 10 },
-    });
-
-    doc.save("Relatorio_Cardapio_Nutricional.pdf");
+        <div className="nutri-card">Faça login para usar o analisador.</div>
+      </div>
+    );
   }
 
   return (
     <div style={{ padding: 20 }}>
       <br />
-      <Link to="/inicio-refeicao" className="voltar-ref" aria-label="Voltar">
-        <IoArrowUndoSharp />
-      </Link>
-      <div className="titulo-ref">
-          <img src={logo} alt="Logo" />
-          <h2>Analisador Nutricional</h2>
+       <div className="inicio-menug">
+            <Link to="/inicio-refeicao" className="voltar-adm"><IoIosArrowBack />Voltar</Link>
+            <div className="titulo-menug">
+                <img src={logo} alt="Logo" />
+                <p>Analisador Nutricional</p>
+            </div>
+            
         </div>
-      <input type="file" accept=".xlsx, .xls" onChange={lerExcel} />
 
-      {lanches.map((lanche, i) => {
-        const info = dadosNutricionais[lanche]?.[0] || {};
-        return (
-          <div
-            key={i}
-            style={{
-              marginTop: 20,
-              borderBottom: "1px solid #ccc",
-              paddingBottom: 10,
-            }}
-          >
-            <h3>{lanche}</h3>
+      <div className="nutri-layout">
+        <div className="nutri-left">
+          <FoodForm uid={uid} />
+          <FoodList uid={uid} foods={foods} onPickFood={(food) => {
+            
+            console.log("selecionado", food);
+          }} />
 
-            <button onClick={() => buscarNutrientes(lanche)}>
-              🔍 Buscar informações nutricionais
+          <PlateTester foods={foods} />
+        </div>
+
+        <div className="nutri-right">
+          <div className="nutri-week">
+            {week.map((d) => {
+              const meals = mealsByDay[d.dateId] || [];
+              const totalDay = dayTotalKcal(d.dateId);
+
+              return (
+                <div key={d.dateId} className="nutri-day">
+                  <div className="nutri-day-header">
+                    <div>
+                      <div className="nutri-day-title">{d.label}</div>
+                      <div className="nutri-day-sub">{d.short}</div>
+                    </div>
+
+                    <button className="nutri-btn" onClick={() => handleAddMeal(d.dateId)}>
+                      + Refeição
+                    </button>
+                  </div>
+
+                  <div className="nutri-meals">
+                    {meals.map((meal) => {
+                      const key = `${d.dateId}|${meal.id}`;
+                      const items = itemsByMeal[key] || [];
+                      const totalMeal = mealTotalKcal(d.dateId, meal.id);
+
+                      return (
+                        <div key={meal.id} className="nutri-meal">
+                          <div className="nutri-row-between">
+                            <div className="nutri-meal-title">{meal.name}</div>
+                            <div className="nutri-actions">
+                              <button className="nutri-btn-outline" onClick={() => openAddFoodModal(d.dateId, meal.id)}>
+                                + alimento
+                              </button>
+                              <button className="nutri-btn-outline" onClick={() => handleRenameMeal(d.dateId, meal)}>
+                                Renomear
+                              </button>
+                              <button className="nutri-btn-danger" onClick={() => handleDeleteMeal(d.dateId, meal)}>
+                                Excluir
+                              </button>
+                            </div>
+                          </div>
+
+                          <div className="nutri-items">
+                            {items.map((it) => {
+                              const kcal = kcalFromItemSnapshot(it);
+
+                              return (
+                                <div key={it.id} className="nutri-item">
+                                  <div>
+                                    <div className="nutri-item-title">{it.foodNameSnapshot}</div>
+                                    <div className="nutri-item-sub">
+                                      Porção: <strong>{it.portionUsed_g}g</strong>
+                                    </div>
+                                  </div>
+
+                                  <div className="nutri-item-right">
+                                    <strong>{kcal.toFixed(0)} kcal</strong>
+                                    <div className="nutri-item-actions">
+                                      <button className="nutri-btn-outline" onClick={() => handleChangeItemPortion(d.dateId, meal.id, it)}>
+                                        Alterar porção
+                                      </button>
+                                      <button className="nutri-btn-danger" onClick={() => handleDeleteItem(d.dateId, meal.id, it)}>
+                                        Remover
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              );
+                            })}
+
+                            {items.length === 0 && (
+                              <div className="nutri-empty">Nenhum alimento nesta refeição.</div>
+                            )}
+                          </div>
+
+                          <div className="nutri-total">
+                            <span>Total da refeição</span>
+                            <strong>{totalMeal.toFixed(0)} kcal</strong>
+                          </div>
+                        </div>
+                      );
+                    })}
+
+                    {meals.length === 0 && (
+                      <div className="nutri-empty">Crie uma refeição para este dia.</div>
+                    )}
+                  </div>
+
+                  <div className="nutri-total-day">
+                    <span>Total do dia</span>
+                    <strong>{totalDay.toFixed(0)} kcal</strong>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="nutri-week-nav">
+            <button className="nutri-nav-btn" onClick={prevWeek} aria-label="Semana anterior">
+              ◀ Semana anterior
             </button>
 
-            <div style={{ marginTop: 10 }}>
-              <label>Calorias (kcal): </label>
-              <input
-                type="number"
-                value={info.calories || ""}
-                onChange={(e) => editarValor(lanche, "calories", e.target.value)}
-              />
-              <br />
+            <button className="nutri-nav-btn-outline" onClick={goToday}>
+              Hoje
+            </button>
 
-              <label>Proteínas (g): </label>
-              <input
-                type="number"
-                value={info.protein_g || ""}
-                onChange={(e) => editarValor(lanche, "protein_g", e.target.value)}
-              />
-              <br />
+            <button className="nutri-nav-btn-export" onClick={exportWeekPdf}>
+              Exportar PDF
+            </button>
 
-              <label>Carboidratos (g): </label>
-              <input
-                type="number"
-                value={info.carbohydrates_total_g || ""}
-                onChange={(e) =>
-                  editarValor(lanche, "carbohydrates_total_g", e.target.value)
-                }
-              />
-              <br />
 
-              <label>Gorduras Totais (g): </label>
-              <input
-                type="number"
-                value={info.fat_total_g || ""}
-                onChange={(e) => editarValor(lanche, "fat_total_g", e.target.value)}
-              />
-            </div>
-
-            <button
-              onClick={() => salvarManual(lanche)}
-              style={{
-                marginTop: 8,
-                background: "#4caf50",
-                color: "white",
-                padding: "6px 14px",
-                border: "none",
-                borderRadius: 6,
-                cursor: "pointer",
-              }}
-            >
-              💾 Salvar prato manualmente
+            <button className="nutri-nav-btn" onClick={nextWeek} aria-label="Próxima semana">
+              Próxima semana ▶
             </button>
           </div>
-        );
-      })}
 
-      {carregando && <p>⏳ Consultando dados nutricionais...</p>}
+        </div>
+      </div>
 
-      {Object.keys(dadosNutricionais).length > 0 && (
-        <button
-          onClick={gerarPDF}
-          style={{
-            marginTop: 20,
-            background: "#2196f3",
-            color: "white",
-            padding: "10px 20px",
-            border: "none",
-            borderRadius: 8,
-            cursor: "pointer",
-          }}
-        >
-          📄 Gerar PDF Completo
-        </button>
-      )}
+      <MealModal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        foods={foods}
+        onAdd={handleAddFoodToMeal}
+      />
+
+      
     </div>
   );
 }

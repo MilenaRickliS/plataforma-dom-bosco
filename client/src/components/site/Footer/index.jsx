@@ -38,8 +38,8 @@ export default function Footer() {
                 <Link to = '/educacao' className="link-footer">Educação</Link>
                 <ul>
                     <li><a href="/educacao">Cursos</a></li>
-                    <li><a href="/detalhes-curso">Jovem Aprendiz</a></li>
-                    <li><a href="/projetos&oficinas">Projetos e oficina</a></li>
+                    <li><a href="/detalhes-curso/nCp6oklY07xCKFeQ0ASM">Jovem Aprendiz</a></li>
+                   
                 </ul>
                
             </div>

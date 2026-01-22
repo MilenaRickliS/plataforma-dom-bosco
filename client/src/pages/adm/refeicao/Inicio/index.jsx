@@ -4,7 +4,7 @@ import logo from '../../../../assets/logo2.png';
 import './style.css';
 import { IoIosArrowBack } from "react-icons/io";
 import { MdOutlineRestaurantMenu, MdOutlineScale } from "react-icons/md";
-import { TbWeight } from "react-icons/tb";
+import { TbWeight, TbChartPie4 } from "react-icons/tb";
 import { FiSettings, FiActivity } from "react-icons/fi";
 import { BiLineChart } from "react-icons/bi";
 import { Line } from 'react-chartjs-2';
@@ -39,7 +39,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     buscarDadosDashboard();
-    // Atualizar dados a cada 30 segundos
+    
     const interval = setInterval(buscarDadosDashboard, 30000);
     return () => clearInterval(interval);
   }, []);
@@ -47,7 +47,7 @@ export default function Dashboard() {
   const buscarDadosDashboard = async () => {
     try {
       setLoading(true);
-      // Integração com API/IoT
+      
       const response = await fetch('/api/refeicoes/dashboard/hoje');
       const data = await response.json();
       
@@ -58,7 +58,7 @@ export default function Dashboard() {
       setDadosHorarios(data.evolucaoHoraria || []);
     } catch (error) {
       console.error('Erro ao buscar dados do dashboard:', error);
-      // Dados para teste
+    
       setTotalRefeicoes(145);
       setTotalKg(87.3);
       setPesoMedio(0.602);
@@ -130,6 +130,9 @@ export default function Dashboard() {
           <Link to="/configuracoes-refeicao" className="nav-link">
             <FiSettings /> Configurações
           </Link>
+          <Link to="/cardapio-nutricional" className="nav-link">
+            <TbChartPie4 /> Cardápio Nutricional
+          </Link>
         </div>
       </div>
 
@@ -139,7 +142,7 @@ export default function Dashboard() {
         <>
           
           <div className="widgets-grid">
-            {/* Widget 1: Total de Refeições */}
+           
             <div className="widget widget-primary">
               <div className="widget-icon">
                 <MdOutlineRestaurantMenu />
@@ -151,7 +154,7 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Widget 2: Total de KG */}
+         
             <div className="widget widget-success">
               <div className="widget-icon">
                 <MdOutlineScale />
@@ -163,7 +166,7 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Widget 3: Peso Médio */}
+            
             <div className="widget widget-info">
               <div className="widget-icon">
                 <TbWeight />
@@ -175,7 +178,7 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Widget 4: Status da Estação */}
+            
             <div className={`widget widget-status ${statusEstacao === 'online' ? 'widget-online' : 'widget-offline'}`}>
               <div className="widget-icon">
                 <FiActivity />
@@ -188,7 +191,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Widget 5: Gráfico de Evolução */}
+        
           <div className="grafico-container">
             <div className="grafico-header">
               <h2>Evolução Horária de Refeições</h2>

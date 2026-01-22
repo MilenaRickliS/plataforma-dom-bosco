@@ -86,6 +86,9 @@
     text-align: center;
     padding: 20px;
 }
+.div-mapa h2{
+  color: #000;
+}
 .mapa-container {
   position: relative;
   width: 100%;
