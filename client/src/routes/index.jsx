@@ -31,13 +31,11 @@ import EditarVideo from '../pages/portal_professor/EditarVideo';
 import AjudaProfessor from '../pages/portal_professor/Ajuda';
 import PerfilProfessor from '../pages/portal_professor/Perfil';
 
-import Dashboard from '../pages/adm/refeicao/Inicio';
-import AdicionarRefeicao from '../pages/adm/refeicao/Adicionar';
+
+import Dashboard2 from '../pages/adm/refeicao/Inicio2';
 import RelatoriosRefeicoes from '../pages/adm/refeicao/Relatorios';
-import RegistrosRefeicao from '../pages/adm/refeicao/Registros';
-import Balanca from '../pages/adm/refeicao/Balanca';
 import CardapioNutricional from '../pages/adm/refeicao/CardapioNutricional';
-import ConfiguracoesRefeicoes from '../pages/adm/refeicao/Configuracoes';
+
 
 import MenuGestao from '../pages/adm/site/Menu';
 import GaleriaGestao from '../pages/adm/site/Galeria';
@@ -63,14 +61,11 @@ function RoutesApp(){
       <Route path="/gestao-portais" element={ <Private rota="admin"><MenuPortais/></Private> } />
       <Route path="/usuarios" element={ <Private rota="admin"><Usuarios/></Private> } />
       
-      <Route path="/inicio-refeicao" element={ <Private rota="admin"><Dashboard/></Private> } />
-      <Route path="/refeicoes-dashboard" element={ <Private rota="admin"><Dashboard/></Private> } />
-      <Route path="/adicionar-refeicao" element={ <Private rota="admin"><AdicionarRefeicao/></Private> } />
-      <Route path="/relatorios-refeicao" element={ <Private rota="admin"><RelatoriosRefeicoes/></Private> } />
-      <Route path="/registros-refeicao" element={ <Private rota="admin"><RegistrosRefeicao/></Private> } />
-      <Route path="/balanca-refeicao" element={ <Private rota="admin"><Balanca/></Private>} />
+      
+      <Route path="/inicio-refeicao2" element={ <Private rota="admin"><Dashboard2/></Private> } />
+      <Route path="/relatorios-refeicao" element={ <Private rota="admin"><RelatoriosRefeicoes/></Private> } />      
       <Route path="/cardapio-nutricional" element={ <Private rota="admin"><CardapioNutricional/></Private> } />
-      <Route path="/configuracoes-refeicao" element={ <Private rota="admin"><ConfiguracoesRefeicoes/></Private> } />
+      
 
       <Route path="/menu-gestao" element={ <Private rota="admin"><MenuGestao/></Private> } />
       <Route path="/galeria-gestao" element={ <Private rota="admin"><GaleriaGestao/></Private> } />

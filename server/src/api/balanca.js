@@ -1,8 +1,187 @@
-
 import admin from "../firebaseAdmin.js";
 const db = admin.firestore();
 
+const dataHoraSP = () =>
+  new Date().toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" });
+
 export default async function handler(req, res) {
+
+ 
+  if (req.method === "GET" && req.query.tipo === "dashboardHoje") {
+    try {
+     
+      const estadoSnap = await db.collection("estadoBalanca").doc("atual").get();
+      const estado = estadoSnap.exists ? estadoSnap.data() : {};
+
+      const contagemAtiva = !!estado?.aberto;
+      const inicioContagem = estado?.dataInicioTexto || null;
+
+      let statusEstacao = "offline";
+      const atualizadoEm = estado?.atualizadoEm?.toDate ? estado.atualizadoEm.toDate() : null;
+      if (atualizadoEm) {
+        const diffMs = Date.now() - atualizadoEm.getTime();
+        statusEstacao = diffMs <= 2 * 60 * 1000 ? "online" : "offline";
+      }
+
+     
+      const nowSP = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Sao_Paulo" }));
+      const startSP = new Date(nowSP);
+      startSP.setHours(0, 0, 0, 0);
+
+      const regsSnap = await db
+        .collection("registrosBalanca")
+        .where("timestamp", ">=", admin.firestore.Timestamp.fromDate(startSP))
+        .orderBy("timestamp", "asc")
+        .get();
+
+    
+      let pessoasHoje = 0;
+      let pesoHoje = 0;
+      const porHora = {}; 
+
+      regsSnap.docs.forEach((doc) => {
+        const r = doc.data();
+        const pesoPrato = Number(r.pesoPrato) || 0;
+        if (pesoPrato <= 0) return;
+
+        pessoasHoje += 1;
+        pesoHoje += pesoPrato;
+
+        const t = r.timestamp?.toDate ? r.timestamp.toDate() : null;
+        if (!t) return;
+
+        const hh = t.toLocaleTimeString("pt-BR", {
+          timeZone: "America/Sao_Paulo",
+          hour: "2-digit",
+          minute: "2-digit",
+        }).slice(0, 2);
+
+        const hora = `${hh}:00`;
+        porHora[hora] = (porHora[hora] || 0) + 1;
+      });
+
+      const evolucaoHoraria = Object.keys(porHora)
+        .sort((a, b) => Number(a.slice(0, 2)) - Number(b.slice(0, 2)))
+        .map((hora) => ({ hora, quantidade: porHora[hora] }));
+
+      const pesoMedioHoje = pessoasHoje > 0 ? (pesoHoje / pessoasHoje) : 0;
+
+      return res.status(200).json({
+        sucesso: true,
+        contagemAtiva,
+        inicioContagem,
+        statusEstacao,
+
+        pessoasHoje,
+        pesoHoje: Number(pesoHoje.toFixed(2)),
+        pesoMedioHoje: Number(pesoMedioHoje.toFixed(3)),
+
+        evolucaoHoraria,
+      });
+    } catch (e) {
+      console.error("❌ [GET dashboardHoje] Falha:", e);
+      return res.status(500).json({ erro: "Erro ao buscar dashboard de hoje" });
+    }
+  }
+
+if (req.method === "GET" && req.query.tipo === "relatorio") {
+  try {
+    const { inicio, fim } = req.query;
+
+    if (!inicio || !fim) {
+      return res.status(400).json({ erro: "Informe inicio e fim (YYYY-MM-DD)" });
+    }
+
+  
+    const CUSTO_POR_REFEICAO = 8.5;
+
+   
+    const startSP = new Date(`${inicio}T00:00:00-03:00`);
+    const endSP = new Date(`${fim}T23:59:59-03:00`);
+
+    const regsSnap = await db
+      .collection("registrosBalanca")
+      .where("timestamp", ">=", admin.firestore.Timestamp.fromDate(startSP))
+      .where("timestamp", "<=", admin.firestore.Timestamp.fromDate(endSP))
+      .orderBy("timestamp", "asc")
+      .get();
+
+    
+    const porDia = {};
+
+    regsSnap.docs.forEach((doc) => {
+      const r = doc.data();
+      const pesoPrato = Number(r.pesoPrato) || 0;
+
+    
+      if (pesoPrato <= 0) return;
+
+      const t = r.timestamp?.toDate ? r.timestamp.toDate() : null;
+      if (!t) return;
+
+     
+      const ymd = t.toLocaleDateString("en-CA", { timeZone: "America/Sao_Paulo" });
+      if (!porDia[ymd]) porDia[ymd] = { refeicoes: 0, pesoTotal: 0 };
+
+      porDia[ymd].refeicoes += 1;
+      porDia[ymd].pesoTotal += pesoPrato;
+    });
+
+    
+    const diasOrdenados = Object.keys(porDia).sort();
+
+    const detalhes = diasOrdenados.map((ymd) => {
+      const d = porDia[ymd];
+      const pesoMedio = d.refeicoes > 0 ? d.pesoTotal / d.refeicoes : 0;
+
+    
+      const [ano, mes, dia] = ymd.split("-");
+      const dataCompleta = `${dia}/${mes}/${ano}`; 
+      const dataGrafico = `${dia}/${mes}`;         
+
+      return {
+        ymd,
+        data: dataCompleta,
+        dataGrafico,
+        refeicoes: d.refeicoes,
+        pesoTotal: Number(d.pesoTotal.toFixed(2)),
+        pesoMedio: Number(pesoMedio.toFixed(3)),
+      };
+    });
+
+    const totalRefeicoes = detalhes.reduce((acc, d) => acc + d.refeicoes, 0);
+    const totalKg = detalhes.reduce((acc, d) => acc + d.pesoTotal, 0);
+    const pesoMedioGeral = totalRefeicoes > 0 ? totalKg / totalRefeicoes : 0;
+
+    const resumo = {
+      totalRefeicoes,
+      totalKg: Number(totalKg.toFixed(2)),
+      pesoMedio: Number(pesoMedioGeral.toFixed(3)),
+      custoEstimado: Number((totalRefeicoes * CUSTO_POR_REFEICAO).toFixed(2)),
+    };
+
+    const grafico = detalhes.map((d) => ({
+      data: d.dataGrafico,
+      quantidade: d.refeicoes,
+      peso: d.pesoTotal,
+    }));
+
+    return res.status(200).json({
+      sucesso: true,
+      resumo,
+      grafico,
+      detalhes: detalhes.map(({ ymd, data, refeicoes, pesoTotal, pesoMedio }) => ({
+        data,
+        refeicoes,
+        pesoTotal,
+        pesoMedio,
+      })),
+    });
+  } catch (e) {
+    console.error("❌ [GET relatorio] Falha:", e);
+    return res.status(500).json({ erro: "Falha ao gerar relatório" });
+  }
+}
 
   if (req.method === "POST" && req.query.tipo === "cicloManual") {
     try {
@@ -12,7 +191,6 @@ export default async function handler(req, res) {
         criadoManual: true,
         timestamp: admin.firestore.FieldValue.serverTimestamp(),
       });
-      console.log("📦 [MANUAL] Ciclo salvo:", ciclo);
       return res.status(200).json({ sucesso: true, ciclo });
     } catch (e) {
       console.error("❌ [MANUAL] Falha:", e);
@@ -20,43 +198,64 @@ export default async function handler(req, res) {
     }
   }
 
- 
+
   if (req.method === "POST") {
+    const { pesoPrato = 0, pesoTotal = 0, pessoas = 0, acao = null } = req.body;
+    const dataHora = dataHoraSP(); 
+
+    const estadoRef = db.collection("estadoBalanca").doc("atual");
+
+    
+    if (acao === "START") {
+      await estadoRef.set(
+        {
+          aberto: true,
+          dataInicio: admin.firestore.FieldValue.serverTimestamp(),
+          dataInicioTexto: dataHora, 
+          atualizadoEm: admin.firestore.FieldValue.serverTimestamp(),
+        },
+        { merge: true }
+      );
+      return res.status(200).json({ sucesso: true, mensagem: "Contagem iniciada" });
+    }
+
+   
+    if (acao === "STOP") {
+      await estadoRef.set(
+        {
+          aberto: false,
+          atualizadoEm: admin.firestore.FieldValue.serverTimestamp(),
+        },
+        { merge: true }
+      );
+      return res.status(200).json({ sucesso: true, mensagem: "Contagem parada" });
+    }
+
     try {
-      const { pesoPrato = 0, pesoTotal = 0, pessoas = 0 } = req.body;
-      const dataHora = new Date().toLocaleString("pt-BR");
       const nPesoPrato = Number(pesoPrato) || 0;
       const nPesoTotal = Number(pesoTotal) || 0;
       const nPessoas = Number(pessoas) || 0;
 
- 
+    
       await db.collection("registrosBalanca").add({
-        dataHora,
+        dataHora: dataHora, 
         pesoPrato: nPesoPrato,
         pesoTotal: nPesoTotal,
         pessoas: nPessoas,
         timestamp: admin.firestore.FieldValue.serverTimestamp(),
       });
-      console.log("🧾 [REG] registro:", { dataHora, nPesoPrato, nPesoTotal, nPessoas });
 
-      const estadoRef = db.collection("estadoBalanca").doc("atual");
-
-      
+     
       if (nPesoTotal === 0 && nPessoas === 0) {
-        console.log("🔁 [RESET] recebido");
         await db.runTransaction(async (tx) => {
           const snap = await tx.get(estadoRef);
-          if (!snap.exists) {
-            console.log("ℹ️ [RESET] estado inexistente, nada a fechar");
-            return;
-          }
-          const estado = snap.data();
-          if (!estado.aberto) {
-            console.log("ℹ️ [RESET] já fechado, ignorando");
-            return;
-          }
+          if (!snap.exists) return;
 
-          const dataFim = dataHora;
+          const estado = snap.data();
+          if (!estado.aberto) return;
+
+          const dataFim = dataHora; 
+
           const ciclo = {
             dataInicio: estado.dataInicioTexto || dataFim,
             dataFim,
@@ -67,7 +266,6 @@ export default async function handler(req, res) {
           };
 
           await db.collection("ciclosBalanca").add(ciclo);
-          console.log("✅ [CLOSE] ciclo salvo:", ciclo);
 
           tx.set(
             estadoRef,
@@ -86,29 +284,21 @@ export default async function handler(req, res) {
         return res.status(200).json({ sucesso: true, mensagem: "Ciclo encerrado" });
       }
 
-      
+     
       await db.runTransaction(async (tx) => {
         const snap = await tx.get(estadoRef);
 
         if (!snap.exists || !snap.data().aberto) {
-         
-          console.log("🚀 [OPEN] abrindo ciclo");
           tx.set(estadoRef, {
             aberto: true,
             dataInicio: admin.firestore.FieldValue.serverTimestamp(),
-            dataInicioTexto: dataHora,
+            dataInicioTexto: dataHora, 
             totalPessoas: 1,
             pesoTotal: nPesoPrato,
             atualizadoEm: admin.firestore.FieldValue.serverTimestamp(),
           });
         } else {
-        
           const estado = snap.data();
-          console.log("➕ [ADD] acumulando", {
-            prevPessoas: estado.totalPessoas,
-            prevPeso: estado.pesoTotal,
-            add: nPesoPrato,
-          });
           tx.set(
             estadoRef,
             {
@@ -125,80 +315,6 @@ export default async function handler(req, res) {
     } catch (error) {
       console.error("❌ [POST] Falha:", error);
       return res.status(500).json({ erro: "Falha ao salvar no Firestore" });
-    }
-  }
-
-  if (req.method === "GET" && req.query.tipo === "ciclos") {
-    try {
-      const snapshot = await db
-        .collection("ciclosBalanca")
-        .orderBy("timestamp", "desc")
-        .get();
-      const ciclos = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-      return res.status(200).json({ sucesso: true, ciclos });
-    } catch (e) {
-      console.error("❌ [GET ciclos] Falha:", e);
-      return res.status(500).json({ erro: "Erro ao buscar ciclos" });
-    }
-  }
-
-  
-  if (req.method === "GET" && req.query.tipo === "relatorio") {
-    try {
-      const ciclosSnap = await db.collection("ciclosBalanca").get();
-      const registrosSnap = await db.collection("registrosBalanca").get();
-
-      const ciclos = ciclosSnap.docs.map((d) => d.data());
-      const registros = registrosSnap.docs.map((d) => d.data());
-
-      const totalCiclos = ciclos.length;
-      const totalRegistros = registros.length;
-
-      const pesoTotal = [
-        ...ciclos.map((c) => Number(c.pesoTotal) || 0),
-        ...registros.map((r) => Number(r.pesoPrato) || 0),
-      ].reduce((a, b) => a + b, 0);
-
-      const pessoasTotal = ciclos.reduce((a, c) => a + (Number(c.totalPessoas) || 0), 0);
-      const mediaPeso = pesoTotal / (totalRegistros || 1);
-
-      const dataset = ciclos.map((c) => ({
-        data: c.dataFim || c.dataInicio,
-        total: Number(c.totalPessoas) || 0,
-        peso: Number(c.pesoTotal) || 0,
-        tipo: c.criadoManual ? "Manual" : "Automático",
-      }));
-
-      return res.status(200).json({
-        sucesso: true,
-        dataset,
-        estatisticas: {
-          totalCiclos,
-          totalRegistros,
-          pesoTotal: Number(pesoTotal.toFixed(2)),
-          pessoasTotal,
-          mediaPeso: Number(mediaPeso.toFixed(2)),
-        },
-      });
-    } catch (e) {
-      console.error("❌ [GET relatorio] Falha:", e);
-      return res.status(500).json({ erro: "Falha ao gerar relatório" });
-    }
-  }
-
-  
-  if (req.method === "GET") {
-    try {
-      const snapshot = await db
-        .collection("registrosBalanca")
-        .orderBy("timestamp", "desc")
-        .limit(50)
-        .get();
-      const registros = snapshot.docs.map((doc) => doc.data());
-      return res.status(200).json(registros);
-    } catch (e) {
-      console.error("❌ [GET registros] Falha:", e);
-      return res.status(500).json({ erro: "Erro ao buscar dados" });
     }
   }
 

@@ -79,6 +79,19 @@
   color: #666;
   font-size: 14px;
 }
+.periodo-inputs {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(3, minmax(200px, 1fr));
+  align-items: end;
+}
+
+@media (max-width: 900px) {
+  .periodo-inputs {
+    grid-template-columns: 1fr;
+  }
+}
+
 
 .input-group input {
   padding: 12px 15px;

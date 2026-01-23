@@ -320,7 +320,7 @@ export default function CardapioNutricional() {
     return (
       <div style={{ padding: 20 }}>
         <div className="inicio-menug">
-            <Link to="/inicio-refeicao" className="voltar-adm"><IoIosArrowBack />Voltar</Link>
+            <Link to="/inicio-refeicao2" className="voltar-adm"><IoIosArrowBack />Voltar</Link>
             <div className="titulo-menug">
                 <img src={logo} alt="Logo" />
                 <p>Analisador Nutricional</p>
@@ -337,7 +337,7 @@ export default function CardapioNutricional() {
     <div style={{ padding: 20 }}>
       <br />
        <div className="inicio-menug">
-            <Link to="/inicio-refeicao" className="voltar-adm"><IoIosArrowBack />Voltar</Link>
+            <Link to="/inicio-refeicao2" className="voltar-adm"><IoIosArrowBack />Voltar</Link>
             <div className="titulo-menug">
                 <img src={logo} alt="Logo" />
                 <p>Analisador Nutricional</p>
