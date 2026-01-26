@@ -161,16 +161,24 @@
   gap: 10px;
 }
 
-.resumo-card:nth-child(2) {
-  background: linear-gradient(135deg, #46a1d1 0%, #2d408e 100%);
+.resumo-card-manual {
+ background: #e8db61;
+background: linear-gradient(102deg,rgba(232, 219, 97, 1) 0%, rgba(253, 187, 45, 1) 100%);
 }
 
-.resumo-card:nth-child(3) {
-  background: linear-gradient(135deg, #46a1d1 0%, #0a2e52 100%);
-}
-
-.resumo-card:nth-child(4) {
+.resumo-card-total {
   background: linear-gradient(135deg, #cc3f43 0%, #0a2e52 100%);
+}
+
+
+.th-manual {
+  background: rgba(255, 193, 7, 0.14) !important;
+}
+
+.td-manual {
+  background: rgba(255, 193, 7, 0.10);
+  font-weight: 800;
+  color: #8a5b00;
 }
 
 .resumo-label {
