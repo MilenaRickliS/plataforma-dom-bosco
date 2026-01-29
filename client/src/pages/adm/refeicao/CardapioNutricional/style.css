@@ -138,6 +138,23 @@
 }
 .nutri-item-title{ font-weight: 800; font-size: 14px; color: var(--navy); }
 
+.nutri-food-scroll{
+  max-height: 320px;     
+  overflow-y: auto;
+  padding-right: 6px;
+  display: grid;
+  gap: 10px;
+}
+
+.nutri-food-scroll::-webkit-scrollbar{ width: 8px; }
+.nutri-food-scroll::-webkit-scrollbar-thumb{
+  background: rgba(45,64,142,0.22);
+  border-radius: 999px;
+}
+.nutri-food-scroll::-webkit-scrollbar-track{
+  background: transparent;
+}
+
 /* semana */
 .nutri-week{
   display: flex;

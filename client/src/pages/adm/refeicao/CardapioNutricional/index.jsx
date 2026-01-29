@@ -315,6 +315,12 @@ export default function CardapioNutricional() {
     }
   }
 
+  const foodsSorted = useMemo(() => {
+    return [...foods].sort((a, b) =>
+      (a.name || "").localeCompare((b.name || ""), "pt-BR", { sensitivity: "base" })
+    );
+  }, [foods]);
+
 
   if (!uid) {
     return (
@@ -350,10 +356,11 @@ export default function CardapioNutricional() {
       <div className="nutri-layout">
         <div className="nutri-left">
           <FoodForm uid={uid} />
-          <FoodList uid={uid} foods={foods} onPickFood={(food) => {
-            
-            console.log("selecionado", food);
-          }} />
+          <FoodList
+              uid={uid}
+              foods={foodsSorted}
+              onPickFood={(food) => console.log("selecionado", food)}
+            />
 
           <PlateTester foods={foods} />
         </div>
