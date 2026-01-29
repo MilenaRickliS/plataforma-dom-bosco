@@ -427,8 +427,28 @@ export default function RelatoriosRefeicoes() {
       </div>
 
       {loading ? (
-        <div className="loading-relatorio">Gerando relatório...</div>
+        <div className="loading-relatorio">
+          <div className="loading-topo">
+            <div className="sk sk-title"></div>
+            <div className="sk sk-sub"></div>
+          </div>
+
+          <div className="loading-cards">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="sk sk-card"></div>
+            ))}
+          </div>
+
+          <div className="loading-chart">
+            <div className="sk sk-chart"></div>
+          </div>
+
+          <div className="loading-table">
+            <div className="sk sk-table"></div>
+          </div>
+        </div>
       ) : dadosPeriodo ? (
+
         <div>
           <div className="resumo-periodo">
             <h2>Resumo do Período</h2>
@@ -500,6 +520,8 @@ export default function RelatoriosRefeicoes() {
 
           <div className="tabela-detalhada">
             <h2>Dados Detalhados</h2>
+
+        
             <div className="tabela-wrapper">
               <table>
                 <thead>
@@ -526,7 +548,41 @@ export default function RelatoriosRefeicoes() {
                 </tbody>
               </table>
             </div>
+
+            <div className="cards-wrapper">
+              {dadosDetalhados.map((item, idx) => (
+                <div className="dado-card" key={idx}>
+                  <div className="dado-card-topo">
+                    <span className="dado-data">{item.data}</span>
+                    <span className="dado-pill">Total: {item.refeicoesGeral}</span>
+                  </div>
+
+                  <div className="dado-grid">
+                    <div className="dado-item">
+                      <span className="dado-label">Refeições (balança)</span>
+                      <span className="dado-value">{item.refeicoesAuto}</span>
+                    </div>
+
+                    <div className="dado-item dado-item-manual">
+                      <span className="dado-label">Refeições (manual)</span>
+                      <span className="dado-value">{item.refeicoesManual}</span>
+                    </div>
+
+                    <div className="dado-item">
+                      <span className="dado-label">Peso total (kg)</span>
+                      <span className="dado-value">{Number(item.pesoGeral || 0).toFixed(2)}</span>
+                    </div>
+
+                    <div className="dado-item">
+                      <span className="dado-label">Peso médio (kg)</span>
+                      <span className="dado-value">{Number(item.pesoMedioGeral || 0).toFixed(3)}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
+
         </div>
       ) : (
         <div className="sem-dados">

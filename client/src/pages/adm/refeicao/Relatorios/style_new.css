@@ -1,4 +1,3 @@
-
 .relatorios-container {
   padding: 30px;
   width: 70%;
@@ -37,6 +36,7 @@
   font-family: "Montserrat", sans-serif;
 }
 
+/* periodo */
 .seletor-periodo {
   background: white;
   border-radius: 15px;
@@ -66,12 +66,12 @@
   flex-wrap: wrap;
 }
 
+/* inputs */
 .input-group {
   display: flex;
   flex-direction: column;
   gap: 8px;
   flex: 1;
-  min-width: 200px;
 }
 
 .input-group label {
@@ -79,6 +79,8 @@
   color: #666;
   font-size: 14px;
 }
+
+
 .periodo-inputs {
   display: grid;
   gap: 14px;
@@ -86,28 +88,49 @@
   align-items: end;
 }
 
-@media (max-width: 900px) {
-  .periodo-inputs {
-    grid-template-columns: 1fr;
-  }
-}
-
 
 .input-group input {
   padding: 12px 15px;
-  background-color: #0a2e52;
-  border: 2px solid #e0e0e0;
+  padding-left: 44px;            
+  background-color: #fff;
+  border: 2px solid #2d408e;
   border-radius: 8px;
   font-size: 14px;
   transition: all 0.3s;
+  color: #000;
+
+  background-repeat: no-repeat;
+  background-position: 14px center;
+  background-size: 18px;
 }
+
+
+.input-group input[type="date"] {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%232d408e' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'/%3E%3C/svg%3E");
+}
+
+
+.input-group input[type="number"] {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%232d408e' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-10V6m0 12v-2M21 12a9 9 0 11-18 0 9 9 0 0118 0z'/%3E%3C/svg%3E");
+}
+
 
 .input-group input:focus {
   outline: none;
-  border-color: #2d408e;
+  border-color: #46a1d1;
   box-shadow: 0 0 0 3px rgba(45, 64, 142, 0.1);
 }
+.input-group input[type="date"]:hover,
+.input-group input[type="date"]:focus{
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2346a1d1' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'/%3E%3C/svg%3E");
+}
+.input-group input[type="number"]:hover,
+.input-group input[type="number"]:focus{
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2346a1d1' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-10V6m0 12v-2M21 12a9 9 0 11-18 0 9 9 0 0118 0z'/%3E%3C/svg%3E");
+}
 
+
+/* botoes */
 .btn-buscar {
   display: flex;
   align-items: center;
@@ -129,6 +152,70 @@
 }
 
 
+/* loading */
+
+.loading-relatorio {
+  background: #fff;
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.loading-topo {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.loading-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.loading-chart,
+.loading-table {
+  margin-top: 18px;
+}
+
+
+.sk {
+  border-radius: 14px;
+  background: linear-gradient(
+    90deg,
+    rgba(230, 230, 230, 0.95) 25%,
+    rgba(245, 245, 245, 0.98) 37%,
+    rgba(230, 230, 230, 0.95) 63%
+  );
+  background-size: 400% 100%;
+  animation: sk-shimmer 1.25s ease infinite;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+@keyframes sk-shimmer {
+  0% { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
+
+
+.sk-title { height: 26px; width: min(420px, 80%); }
+.sk-sub   { height: 14px; width: min(260px, 60%); opacity: 0.9; }
+
+.sk-card  { height: 110px; }
+.sk-chart { height: 320px; border-radius: 18px; }
+.sk-table { height: 280px; border-radius: 18px; }
+
+
+@media (max-width: 768px) {
+  .loading-relatorio {
+    padding: 18px;
+  }
+  .sk-chart { height: 260px; }
+  .sk-table { height: 240px; }
+}
+
+/* resumo */
 .resumo-periodo {
   background: white;
   border-radius: 15px;
@@ -162,23 +249,13 @@
 }
 
 .resumo-card-manual {
- background: #e8db61;
-background: linear-gradient(102deg,rgba(232, 219, 97, 1) 0%, rgba(253, 187, 45, 1) 100%);
+  color: #333;
+  background: #e8db61;
+  background: linear-gradient(102deg, rgba(232, 219, 97, 1) 0%, rgba(253, 187, 45, 1) 100%);
 }
 
 .resumo-card-total {
   background: linear-gradient(135deg, #cc3f43 0%, #0a2e52 100%);
-}
-
-
-.th-manual {
-  background: rgba(255, 193, 7, 0.14) !important;
-}
-
-.td-manual {
-  background: rgba(255, 193, 7, 0.10);
-  font-weight: 800;
-  color: #8a5b00;
 }
 
 .resumo-label {
@@ -193,6 +270,55 @@ background: linear-gradient(102deg,rgba(232, 219, 97, 1) 0%, rgba(253, 187, 45, 
   font-weight: bold;
 }
 
+@media (max-width: 900px) {
+  .periodo-inputs {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 680px) {
+  .relatorios-header {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 768px) {
+  .relatorios-container {
+    padding: 15px;
+  }
+
+  .periodo-inputs {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn-buscar {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .resumo-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .grafico-content {
+    height: 300px;
+  }
+
+  .titulo-relatorios h1 {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 440px) {
+  .relatorios-container{
+    width: 100%;
+    padding: 12px;
+  }
+}
+
+
+/* tabela */
 .btn-exportar {
   display: flex;
   align-items: center;
@@ -317,5 +443,88 @@ background: linear-gradient(102deg,rgba(232, 219, 97, 1) 0%, rgba(253, 187, 45, 
 
   .titulo-relatorios h1 {
     font-size: 20px;
+  }
+}
+
+.cards-wrapper {
+  display: none;
+  margin-top: 16px;
+  gap: 12px;
+}
+
+
+.dado-card {
+  background: #fff;
+  border: 1px solid #eef0f4;
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.04);
+}
+
+.dado-card-topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.dado-data {
+  font-weight: 800;
+  color: #0a2e52;
+  font-size: 14px;
+}
+
+.dado-pill {
+  background: rgba(45, 64, 142, 0.10);
+  color: #2d408e;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+
+.dado-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.dado-item {
+  border-top: 1px dashed #eef0f4;
+  padding-top: 10px;
+}
+
+.dado-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 800;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin-bottom: 4px;
+}
+
+.dado-value {
+  font-size: 14px;
+  font-weight: 800;
+  color: #222;
+}
+
+
+.dado-item-manual .dado-value {
+  color: #8a5b00;
+}
+
+
+@media (max-width: 950px) {
+  .tabela-wrapper {
+    display: none;
+  }
+
+  .cards-wrapper {
+    display: grid;
   }
 }

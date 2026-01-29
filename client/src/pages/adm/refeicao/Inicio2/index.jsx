@@ -498,6 +498,49 @@ const chartData = useMemo(() => {
     scales: { y: { beginAtZero: true, ticks: { stepSize: 10 } } },
   };
 
+  function DashboardLoading() {
+    return (
+      <div className="dash-skeleton">
+       
+        <div className="dash-skel-top">
+          <div className="skel skel-btn"></div>
+          <div className="skel skel-title"></div>
+          <div className="skel skel-sub"></div>
+        </div>
+
+        
+        <div className="skel skel-resumo"></div>
+
+       
+        <div className="dash-skel-grid">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <div key={i} className="skel skel-widget"></div>
+          ))}
+        </div>
+
+       
+        <div className="dash-skel-section">
+          <div className="skel skel-h2"></div>
+          <div className="skel skel-row"></div>
+          <div className="skel skel-row"></div>
+        </div>
+
+       
+        <div className="dash-skel-section">
+          <div className="skel skel-h2"></div>
+          <div className="skel skel-chart"></div>
+        </div>
+
+       
+        <div className="dash-skel-section">
+          <div className="skel skel-h2"></div>
+          <div className="skel skel-table"></div>
+        </div>
+      </div>
+    );
+  }
+
+
   return (
     <div className="dashboard-container">
       <div className="dashboard-header">
@@ -523,9 +566,10 @@ const chartData = useMemo(() => {
       </div>
 
       {loading ? (
-        <div className="loading-dashboard">Carregando dados...</div>
-      ) : (
-        <>
+          <DashboardLoading />
+        ) : (
+          <>
+
          
           <div className="widget widget-primary widget-resumo">
             <div className="widget-icon">
@@ -618,7 +662,7 @@ const chartData = useMemo(() => {
                 <FiSettings />
               </div>
 
-              <div className="widget-content">
+              <div className="widget-content-manual">
                 <h3>Ciclo Manual</h3>
                 <p className="widget-value">Adicionar</p>
                 <span className="widget-label">Criar uma refeição nova</span>
@@ -722,7 +766,7 @@ const chartData = useMemo(() => {
               <h2>Registros da Balança</h2>
 
               <div className="tabela-refeicoes-filtros">
-                <div className="filtro-refeicoes-item">
+                <div className="filtro-refeicoes-item grow">
                   <label>Início</label>
                  <input
                     type="datetime-local"
@@ -732,7 +776,7 @@ const chartData = useMemo(() => {
 
                 </div>
 
-                <div className="filtro-refeicoes-item">
+                <div className="filtro-refeicoes-item grow">
                   <label>Fim</label>
                   <input
                       type="datetime-local"
@@ -742,46 +786,78 @@ const chartData = useMemo(() => {
                 </div>
 
 
-                <button className="btn-refeicoes-primary" onClick={buscarRegistros}>
+                <button className="btn-refeicoes-primary btn-refeicoes-buscar" onClick={buscarRegistros}>
                   Buscar
                 </button>
               </div>
             </div>
 
             {loadingRegistros ? (
-              <div className="loading-dashboard">Carregando registros...</div>
-            ) : (
-              <div className="tabela-refeicoes-wrap">
-                <table className="tabela-refeicoes">
-                  <thead>
-                    <tr>
-                      <th>Data/Hora</th>
-                      <th>Pessoas</th>
-                      <th>Peso prato (kg)</th>
-                      <th>Peso total (kg)</th>
-                    </tr>
-                  </thead>
-                  <tbody>
+                <div className="loading-dashboard">Carregando registros...</div>
+              ) : (
+                <>
+                  
+                  <div className="registros-cards">
                     {registros.length === 0 ? (
-                      <tr>
-                        <td colSpan={4} style={{ textAlign: "center", opacity: 0.7 }}>
-                          Nenhum registro encontrado.
-                        </td>
-                      </tr>
+                      <div className="manuais-vazio">Nenhum registro encontrado.</div>
                     ) : (
                       registros.map((r) => (
-                        <tr key={r.id}>
-                          <td>{r.dataHora}</td>
-                          <td>{r.pessoas}</td>
-                          <td>{Number(r.pesoPrato).toFixed(3)}</td>
-                          <td>{Number(r.pesoTotal).toFixed(2)}</td>
-                        </tr>
+                        <div className="registro-card" key={r.id}>
+                          <div className="registro-topo">
+                            <span className="registro-data">{r.dataHora}</span>
+                            <span className="registro-pill">{r.pessoas} pessoas</span>
+                          </div>
+
+                          <div className="registro-grid">
+                            <div className="registro-item">
+                              <span className="registro-label">Peso prato</span>
+                              <span className="registro-value">{Number(r.pesoPrato).toFixed(3)} kg</span>
+                            </div>
+
+                            <div className="registro-item">
+                              <span className="registro-label">Peso total</span>
+                              <span className="registro-value">{Number(r.pesoTotal).toFixed(2)} kg</span>
+                            </div>
+                          </div>
+                        </div>
                       ))
                     )}
-                  </tbody>
-                </table>
-              </div>
-            )}
+                  </div>
+
+                 
+                  <div className="tabela-refeicoes-wrap">
+                    <table className="tabela-refeicoes">
+                      <thead>
+                        <tr>
+                          <th>Data/Hora</th>
+                          <th>Pessoas</th>
+                          <th>Peso prato (kg)</th>
+                          <th>Peso total (kg)</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {registros.length === 0 ? (
+                          <tr>
+                            <td colSpan={4} style={{ textAlign: "center", opacity: 0.7 }}>
+                              Nenhum registro encontrado.
+                            </td>
+                          </tr>
+                        ) : (
+                          registros.map((r) => (
+                            <tr key={r.id}>
+                              <td>{r.dataHora}</td>
+                              <td>{r.pessoas}</td>
+                              <td>{Number(r.pesoPrato).toFixed(3)}</td>
+                              <td>{Number(r.pesoTotal).toFixed(2)}</td>
+                            </tr>
+                          ))
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                </>
+              )}
+
           </div>
 
          
