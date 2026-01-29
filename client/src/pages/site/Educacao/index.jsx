@@ -7,6 +7,8 @@ import "slick-carousel/slick/slick-theme.css";
 import './style.css';
 import { FaLongArrowAltRight } from "react-icons/fa";
 import axios from "axios";
+import Slider from "react-slick";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 export default function Educacao() {
   const API = import.meta.env.VITE_API_URL || "https://plataforma-dom-bosco-backend-krq4dua7f-milenaricklis-projects.vercel.app";
@@ -14,6 +16,44 @@ export default function Educacao() {
   const sliderRef = useRef(null);
   const [cursos, setCursos] = useState([]);
   const [aberta, setAberta] = useState(null);
+
+  const PrevArrow = ({ onClick }) => (
+    <button className="arrow-cursos prev" onClick={onClick}>
+      <IoIosArrowBack />
+    </button>
+  );
+
+  const NextArrow = ({ onClick }) => (
+    <button className="arrow-cursos next" onClick={onClick}>
+      <IoIosArrowForward />
+    </button>
+  );
+
+  const sliderSettings = {
+    dots: false,
+    arrows: true,
+    infinite: cursos.length > 3,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    prevArrow: <PrevArrow />,
+    nextArrow: <NextArrow />,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
+  };
+
 
   useEffect(() => {
     axios
@@ -75,18 +115,22 @@ export default function Educacao() {
         <h1>Cursos</h1>
 
         <div className="menu-cursos">
-          {cursos.map((curso) => (
-            <div
-              key={curso.id}
-              className="card-curso"
-              style={{ background: getCursoGradient(curso.nome) }}
-            >
-              <h4>{curso.nome}</h4>
-              <p>{curso.descricao?.split(" ").slice(0, 15).join(" ")}...</p>
-              <Link to={`/detalhes-curso/${curso.id}`}>Saiba mais!</Link>
-            </div>
-          ))}
+          <Slider {...sliderSettings} ref={sliderRef}>
+            {cursos.map((curso) => (
+              <div key={curso.id}>
+                <div
+                  className="card-curso"
+                  style={{ background: getCursoGradient(curso.nome) }}
+                >
+                  <h4>{curso.nome}</h4>
+                  <p>{curso.descricao?.split(" ").slice(0, 15).join(" ")}...</p>
+                  <Link to={`/detalhes-curso/${curso.id}`}>Saiba mais!</Link>
+                </div>
+              </div>
+            ))}
+          </Slider>
         </div>
+
 
 
         <br/>

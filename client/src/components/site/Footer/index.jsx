@@ -50,7 +50,7 @@ export default function Footer() {
             <div>
                 {!signed ? (
                     <Link id="login-footer" to="/login">
-                        Portal do Aluno 
+                        Login
                     </Link>
                     ) : (
                       <span>Bem-vindo!</span>

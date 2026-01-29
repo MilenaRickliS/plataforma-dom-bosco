@@ -29,12 +29,12 @@
 
 }
 .fazer-parte h2{
-  color: #f94144;
+  color: #fff;
   font-family: "Montserrat Bold", sans-serif;
 }
 .fazer-parte a{
-  color: #f94144;
-  background-color: #fff;
+  color: #fff;
+  background-color: #0DB39E;
   text-decoration: none;
   font-family: "Montserrat Bold", sans-serif;
   padding: 20px;
@@ -44,7 +44,7 @@
   transform: translateY(-2px);
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   color: #fff;
-  background-color: #0DB39E;
+  background-color: #0e5f54;
 }
 /* história */
 
@@ -162,7 +162,7 @@
 
 /* filosofia salensiana */
 .filosofia{
-  background-color: #CC3F43;
+  background-color: #2D408E;
   color: #fff;
   display: flex;
   justify-content: center;
