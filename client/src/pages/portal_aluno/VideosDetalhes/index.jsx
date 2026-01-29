@@ -17,7 +17,7 @@ export default function DetalhesVideo() {
   const [video, setVideo] = useState(null);
   const [loading, setLoading] = useState(true);
   const [assistirVideo, setAssistiuVideo] = useState(false);
-  usePenalidadeSaida(assistirVideo, user, API, regrasPontuacao.sairVideo, "Saiu sem ver vídeo 📄");
+  
 
 
   useEffect(() => {
@@ -34,7 +34,37 @@ export default function DetalhesVideo() {
     carregar();
   }, [id]);
 
-  if (loading) return <p>Carregando...</p>;
+  function LoadingVideo() {
+    return (
+      <div className="loading-video-page">
+        <div className="loading-header skeleton"></div>
+
+        <div className="loading-player skeleton">
+          <div className="spinner"></div>
+        </div>
+
+        <div className="loading-desc">
+          <div className="skeleton line"></div>
+          <div className="skeleton line"></div>
+          <div className="skeleton line short"></div>
+        </div>
+      </div>
+    );
+  }
+
+
+  if (loading) {
+    return (
+      <div className="layout">
+        <MenuLateralAluno />
+        <div className="page2">
+          <MenuTopoAluno />
+          <LoadingVideo />
+        </div>
+      </div>
+    );
+  }
+
   if (!video) return <p>Vídeo não encontrado.</p>;
 
   const isYouTube = video?.url?.includes("youtube.com") || video?.url?.includes("youtu.be");
