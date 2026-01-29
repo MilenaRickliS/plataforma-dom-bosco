@@ -52,13 +52,13 @@ export default function Login() {
       <ToastContainer />
       <div className="voltar-home-wrapper">
         <Link to="/" className="voltar-home">
-          <IoIosArrowBack /> Voltar para Home
+          <IoIosArrowBack /> Voltar 
         </Link>
       </div>
 
       <a href="/" className="titulo-login">
         <img src={logo} alt="Logo" />
-        <p>Instituto Assistencial Dom Bosco - Portal do Aluno</p>
+        <p>Instituto Assistencial Dom Bosco - Login</p>
       </a>
 
       <div className="bemvindo-login">
