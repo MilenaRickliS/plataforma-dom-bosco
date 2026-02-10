@@ -11,7 +11,7 @@ export default function MenuPortais() {
                 <Link to="/inicio-adm" className="voltar-adm"><IoIosArrowBack />Voltar</Link>
                 <div className="titulo-menug">
                     <img src={logo} alt="Logo" />
-                    <p>Gestão dos Portais</p>
+                    <p>Gestão de Usuarios</p>
                 </div>
                 <div className="menu-portais">
                     <Link to="/usuarios" className="link-usuarios">Usuários</Link>

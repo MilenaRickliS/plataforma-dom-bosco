@@ -1,332 +1,587 @@
-.usuarios-container {
-  padding: 40px;
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-}
-.titulo-usuarios{
-  font-family: "Montserrat bold", sans-serif;
-
-}
-.form-usuarios {
-  margin: auto;
-  background: #fff;
-  padding: 24px;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  width: 100%;
-
-}
-.adicionar-usuario{
-  text-align: center;
-  font-family: "Montserrat bold", sans-serif;
-  color: #46A1D1;
-}
-.form-usuarios form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  
-  
-}
-.form-usuarios input{
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  padding: 10px;
-  color: #000;
-}
-.form-usuarios input:focus{
-  border-color: #46A1D1;
-  box-shadow: 0 0 10px rgba(34, 36, 173, 0.3);
-  outline: none;
-}
-.select-usuarios {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  padding: 10px;
+/* ===== PAGE ===== */
+.gu-page {
+  padding: 32px 40px;
+  background-color: #f5f7fa;
+  min-height: 100vh;
   font-family: "Montserrat", sans-serif;
-  color: #000;
-  cursor: pointer;
-  transition: 0.3s;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg fill='%232c71f6' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-  background-size: 18px;
+  color: #1a1a2e;
 }
 
-.select-usuarios:focus {
-  border-color: #46A1D1;
-  box-shadow: 0 0 10px rgba(44, 113, 246, 0.3);
-  outline: none;
+/* ===== HEADER ===== */
+.gu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 28px;
 }
 
-.select-usuarios option {
-  padding: 10px;
+.gu-header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-.upload-label-usuarios {
+.gu-voltar {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #0A2E52;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 8px;
+  transition: color 0.2s;
+}
+
+.gu-voltar:hover {
+  color: #2D408E;
+}
+
+.gu-titulo {
+  font-family: "Montserrat Bold", sans-serif;
+  font-size: 1.8rem;
+  color: #0A2E52;
+  margin: 0;
+}
+
+.gu-subtitulo {
+  font-size: 0.95rem;
+  color: #666;
+  margin: 4px 0 0 0;
+}
+
+.gu-btn-novo {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: #fff;
-  color: #000;
-  border: 1px solid #000;
+  background-color: #0A2E52;
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
   border-radius: 8px;
-  padding: 7px 18px;
-  cursor: pointer;
+  font-family: "Montserrat", sans-serif;
   font-weight: 600;
-  transition: all 0.3s ease;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  white-space: nowrap;
 }
 
-.upload-label-usuarios:hover {
-  background: #46A1D1;
-  color: #fff;
-  border-color: #46A1D1;
-}
-.foto-usuario-preview {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-top: 10px;
-}
-.btn-salvar-usuario { 
-  background: #46A1D1; 
-  color: white; 
-  border: none; 
-  padding: 10px; 
-  border-radius: 10px; 
-  cursor: pointer; 
-  transition: 0.3s; 
-} 
-.btn-salvar-usuario:hover { 
-  background: #1a4dc9; 
+.gu-btn-novo:hover {
+  background-color: #2D408E;
 }
 
-.usuarios-lista {
-  width: 100%;
-  overflow-x: auto;
+/* ===== FILTROS ===== */
+.gu-filtros-card {
   background: #fff;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  padding: 20px;
+  padding: 20px 24px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  margin-bottom: 24px;
 }
 
-.usuarios-lista h2 {
-  text-align: center;
-  font-family: "Montserrat bold", sans-serif;
-  color: #46A1D1;
-  margin-bottom: 20px;
-}
-
-.usuarios-lista table {
-  width: 100%;
-  border-collapse: collapse;
-  border-radius: 12px;
-  overflow: hidden;
-  
-}
-
-.usuarios-lista thead {
-  background: linear-gradient(135deg, #2c71f6, #1a4dc9);
-  color: #fff;
-  text-transform: uppercase;
-  font-size: 0.9rem;
-  letter-spacing: 0.5px;
-}
-
-.usuarios-lista th {
-  padding: 14px 10px;
-  font-family: "Montserrat", sans-serif;
-}
-
-.usuarios-lista tbody tr {
-  background-color: #fff;
-  transition: all 0.2s ease-in-out;
-}
-
-.usuarios-lista tbody tr:nth-child(even) {
-  background-color: #f8faff;
-}
-
-.usuarios-lista tbody tr:hover {
-  background-color: #e9f0ff;
-  transform: scale(1.01);
-}
-
-.usuarios-lista td {
-  padding: 12px 8px;
-  text-align: center;
-  color: #333;
-  font-family: "Montserrat", sans-serif;
-  vertical-align: middle;
-}
-
-
-.foto-tabela {
-  width: 55px;
-  height: 55px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #2c71f6;
-}
-
-
-.btn-excluir-usuario {
-  background: #CC3F43;
-  color: #fff;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-family: "Montserrat", sans-serif;
-  font-weight: 500;
-  width: 100%;
-}
-
-.btn-excluir-usuario:hover {
-  background: #c0392b;
-  transform: translateY(-2px);
-}
-.btn-editar-usuario {
-  background: #0DB39E;
-  color: #fff;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-family: "Montserrat", sans-serif;
-  font-weight: 500;
-  width: 100%;
-}
-.btn-editar-usuario:hover {
-  background: #0a8877;
-  transform: translateY(-2px);
-}
-.btn-cancelar {
-  background: #790101;
-  color: #fff;
-  border: none;
-  padding: 10px;
-  border-radius: 10px;
-  margin-top: 8px;
-  cursor: pointer;
-}
-.btn-cancelar:hover {
-  background: #8a0000;
-}
-.filtros-usuarios {
+.gu-filtros-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin: 25px 0;
-  gap: 10px;
+  gap: 8px;
+  font-family: "Montserrat Bold", sans-serif;
+  font-size: 1rem;
+  color: #0A2E52;
+  margin-bottom: 16px;
 }
 
-.input-busca {
+.gu-filtros-row {
+  display: flex;
+  gap: 24px;
+}
+
+.gu-filtro-group {
   flex: 1;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #fff;
-  color: #000;
-}
-.input-busca:focus {
-  border-color: #46A1D1;
-  box-shadow: 0 0 10px rgba(44, 113, 246, 0.3);
-  outline: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
-.select-filtro-usuarios {
-   appearance: none;
+.gu-filtro-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.gu-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #dce1e8;
+  border-radius: 8px;
+  background: #f8f9fb;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.9rem;
+  color: #1a1a2e;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.gu-input:focus {
+  outline: none;
+  border-color: #2D408E;
+  box-shadow: 0 0 0 3px rgba(45, 64, 142, 0.1);
+}
+
+.gu-input:disabled {
+  background: #e9ecef;
+  cursor: not-allowed;
+}
+
+.gu-select {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #dce1e8;
+  border-radius: 8px;
+  background: #f8f9fb;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.9rem;
+  color: #1a1a2e;
+  cursor: pointer;
+  appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  padding: 10px;
-  border: 1px solid #ccc;
-  background-color: #fff;
-  border-radius: 10px;
-  font-family: "Montserrat", sans-serif;
-  color: #000;
-  cursor: pointer;
-  transition: 0.3s;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg fill='%232c71f6' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg fill='%230A2E52' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 10px center;
   background-size: 18px;
-  width: 30%;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
 }
 
-.select-filtro-usuarios:focus {
-  border-color: #46A1D1;
-  box-shadow: 0 0 10px rgba(44, 113, 246, 0.3);
+.gu-select:focus {
   outline: none;
+  border-color: #2D408E;
+  box-shadow: 0 0 0 3px rgba(45, 64, 142, 0.1);
 }
 
-.select-usuarios option {
-  padding: 10px;
+/* ===== TABELA ===== */
+.gu-tabela-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
 }
 
-/* responsividade */
+.gu-tabela {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.gu-tabela thead {
+  border-bottom: 2px solid #eef0f4;
+}
+
+.gu-tabela th {
+  padding: 16px 20px;
+  text-align: left;
+  font-family: "Montserrat Bold", sans-serif;
+  font-size: 0.75rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 700;
+}
+
+.gu-tabela tbody tr {
+  border-bottom: 1px solid #f2f3f5;
+  transition: background-color 0.15s;
+}
+
+.gu-tabela tbody tr:last-child {
+  border-bottom: none;
+}
+
+.gu-tabela tbody tr:hover {
+  background-color: #f8f9fb;
+}
+
+.gu-tabela td {
+  padding: 16px 20px;
+  font-size: 0.9rem;
+  color: #444;
+  vertical-align: middle;
+}
+
+/* ===== USUARIO INFO (avatar + nome + email) ===== */
+.gu-usuario-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.gu-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2D408E, #46A1D1);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.gu-avatar-img {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #2D408E;
+  flex-shrink: 0;
+}
+
+.gu-usuario-texto {
+  display: flex;
+  flex-direction: column;
+}
+
+.gu-usuario-nome {
+  font-weight: 600;
+  color: #1a1a2e;
+  font-size: 0.9rem;
+}
+
+.gu-usuario-email {
+  color: #888;
+  font-size: 0.8rem;
+}
+
+/* ===== BADGES ===== */
+.gu-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.badge-aluno {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.badge-professor {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+.badge-admin {
+  background: #fce4ec;
+  color: #c62828;
+}
+
+/* ===== ACOES ===== */
+.gu-acoes {
+  display: flex;
+  gap: 8px;
+}
+
+.gu-btn-editar {
+  background: none;
+  border: none;
+  color: #2D408E;
+  cursor: pointer;
+  font-size: 1.15rem;
+  padding: 6px;
+  border-radius: 6px;
+  transition: background-color 0.2s, color 0.2s;
+  display: flex;
+  align-items: center;
+}
+
+.gu-btn-editar:hover {
+  background: #e8eaf6;
+  color: #0A2E52;
+}
+
+.gu-btn-excluir {
+  background: none;
+  border: none;
+  color: #CC3F43;
+  cursor: pointer;
+  font-size: 1.05rem;
+  padding: 6px;
+  border-radius: 6px;
+  transition: background-color 0.2s, color 0.2s;
+  display: flex;
+  align-items: center;
+}
+
+.gu-btn-excluir:hover {
+  background: #fce4ec;
+  color: #a02020;
+}
+
+.gu-vazio {
+  text-align: center;
+  padding: 32px 10px;
+  color: #999;
+}
+
+/* ===== MODAL OVERLAY ===== */
+.gu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.gu-modal {
+  background: #fff;
+  border-radius: 14px;
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  animation: gu-fadeIn 0.2s ease;
+}
+
+@keyframes gu-fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.gu-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 28px 0;
+}
+
+.gu-modal-header h2 {
+  font-family: "Montserrat Bold", sans-serif;
+  font-size: 1.3rem;
+  color: #0A2E52;
+  margin: 0;
+}
+
+.gu-modal-fechar {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  color: #888;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  transition: color 0.2s, background 0.2s;
+  display: flex;
+  align-items: center;
+}
+
+.gu-modal-fechar:hover {
+  color: #333;
+  background: #f0f0f0;
+}
+
+/* ===== MODAL FORM ===== */
+.gu-modal-form {
+  padding: 20px 28px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.gu-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.gu-form-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.gu-senha-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.gu-senha-wrapper .gu-input {
+  padding-right: 42px;
+}
+
+.gu-btn-senha {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+}
+
+.gu-btn-senha:hover {
+  color: #333;
+}
+
+.gu-upload-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: 1px dashed #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #555;
+  font-size: 0.9rem;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.gu-upload-label:hover {
+  border-color: #2D408E;
+  background: #f8f9fb;
+  color: #2D408E;
+}
+
+.gu-foto-preview {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-top: 4px;
+  border: 2px solid #2D408E;
+}
+
+/* ===== MODAL BOTOES ===== */
+.gu-modal-botoes {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.gu-btn-cancelar {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #dce1e8;
+  border-radius: 8px;
+  background: #fff;
+  color: #333;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.gu-btn-cancelar:hover {
+  background: #f5f5f5;
+  border-color: #bbb;
+}
+
+.gu-btn-salvar {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: #0A2E52;
+  color: #fff;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.gu-btn-salvar:hover {
+  background: #2D408E;
+}
+
+/* ===== RESPONSIVIDADE ===== */
 @media (max-width: 900px) {
-  .usuarios-lista table, 
-  .usuarios-lista thead, 
-  .usuarios-lista tbody, 
-  .usuarios-lista th, 
-  .usuarios-lista td, 
-  .usuarios-lista tr {
+  .gu-page {
+    padding: 20px 16px;
+  }
+
+  .gu-header {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .gu-btn-novo {
+    align-self: flex-start;
+  }
+
+  .gu-filtros-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .gu-tabela thead {
+    display: none;
+  }
+
+  .gu-tabela,
+  .gu-tabela tbody,
+  .gu-tabela tr,
+  .gu-tabela td {
     display: block;
   }
 
-  .usuarios-lista thead {
-    display: none; 
-  }
-
-  .usuarios-lista tbody tr {
-    background: #fff;
-    margin-bottom: 15px;
+  .gu-tabela tbody tr {
+    padding: 16px;
+    margin-bottom: 8px;
+    border-bottom: none;
     border-radius: 10px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-    padding: 12px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
   }
 
-  .usuarios-lista td {
+  .gu-tabela td {
+    padding: 6px 0;
     text-align: left;
-    padding: 8px 10px;
-    position: relative;
-    font-size: 0.95rem;
   }
 
-  .usuarios-lista td::before {
+  .gu-tabela td::before {
     content: attr(data-label);
     font-weight: 600;
-    color: #46A1D1;
+    color: #2D408E;
     display: block;
-    margin-bottom: 4px;
+    margin-bottom: 2px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
   }
 
-  .foto-tabela {
-    width: 70px;
-    height: 70px;
-    margin: 10px 0;
-  }
-
-  .btn-excluir-usuario {
-    
-    text-align: center;
+  .gu-acoes {
+    justify-content: flex-start;
+    margin-top: 8px;
   }
 }
-@media (max-width: 600px) {
-  .filtros-usuarios {
-    flex-direction: column;
+
+@media (max-width: 480px) {
+  .gu-titulo {
+    font-size: 1.3rem;
   }
-  .select-filtro-usuarios, .input-busca{
-    width: 100%;
+
+  .gu-modal {
+    max-width: 100%;
+    border-radius: 12px;
+  }
+
+  .gu-modal-form {
+    padding: 16px 20px 20px;
+  }
+
+  .gu-modal-header {
+    padding: 20px 20px 0;
   }
 }

@@ -4,17 +4,17 @@ import { toast } from "react-toastify";
 import "./style.css";
 import { Link } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
-import { FiUpload } from "react-icons/fi";
+import { FiUpload, FiFilter } from "react-icons/fi";
 import { MdEdit } from "react-icons/md";
-import { FaRegTrashAlt } from "react-icons/fa";
-import { IoEye, IoEyeOff } from "react-icons/io5"; 
+import { FaRegTrashAlt, FaPlus } from "react-icons/fa";
+import { IoEye, IoEyeOff, IoClose } from "react-icons/io5";
 
 export default function Usuarios() {
- const API = import.meta.env.VITE_API_URL || "https://plataforma-dom-bosco-backend-krq4dua7f-milenaricklis-projects.vercel.app";
-
+  const API = import.meta.env.VITE_API_URL || "https://plataforma-dom-bosco-backend-krq4dua7f-milenaricklis-projects.vercel.app";
 
   const [usuarios, setUsuarios] = useState([]);
   const [editando, setEditando] = useState(null);
+  const [modalAberto, setModalAberto] = useState(false);
   const [form, setForm] = useState({
     nome: "",
     email: "",
@@ -23,7 +23,7 @@ export default function Usuarios() {
     foto: null,
   });
   const [preview, setPreview] = useState(null);
-  const [mostrarSenha, setMostrarSenha] = useState(false); 
+  const [mostrarSenha, setMostrarSenha] = useState(false);
 
   const [busca, setBusca] = useState("");
   const [filtroRole, setFiltroRole] = useState("todos");
@@ -31,14 +31,16 @@ export default function Usuarios() {
   async function carregarUsuarios() {
     try {
       const res = await axios.get(`${API}/api/usuarios`);
-      
-      const listaNormalizada = (res.data || []).map((u) => ({
-        nome: u.nome?.trim() || "Sem nome",
-        email: u.email || "—",
-        role: u.role || "indefinido",
-        foto: u.foto || "/src/assets/user-placeholder.png",
-        ...u,
-      }));
+
+      const listaNormalizada = (res.data || [])
+        .filter((u) => u.email && u.email.trim() !== "")
+        .map((u) => ({
+          ...u,
+          nome: u.nome?.trim() || "Sem nome",
+          email: u.email,
+          role: u.role || "indefinido",
+          foto: u.foto || "/src/assets/user-placeholder.png",
+        }));
       setUsuarios(listaNormalizada);
     } catch (err) {
       console.error(err);
@@ -94,11 +96,6 @@ export default function Usuarios() {
       return false;
     }
 
-    if (!editando && !form.foto) {
-      toast.error("A foto do usuário é obrigatória.");
-      return false;
-    }
-
     if (form.foto && form.foto.type && !form.foto.type.startsWith("image/")) {
       toast.error("A foto deve ser uma imagem válida (JPG, PNG, etc).");
       return false;
@@ -128,6 +125,7 @@ export default function Usuarios() {
       setForm({ nome: "", email: "", senha: "", role: "aluno", foto: null });
       setPreview(null);
       setEditando(null);
+      setModalAberto(false);
       carregarUsuarios();
     } catch (err) {
       console.error(err);
@@ -145,6 +143,21 @@ export default function Usuarios() {
       foto: null,
     });
     setPreview(u.foto);
+    setModalAberto(true);
+  }
+
+  function handleFecharModal() {
+    setModalAberto(false);
+    setEditando(null);
+    setForm({ nome: "", email: "", senha: "", role: "aluno", foto: null });
+    setPreview(null);
+  }
+
+  function handleAbrirNovo() {
+    setEditando(null);
+    setForm({ nome: "", email: "", senha: "", role: "aluno", foto: null });
+    setPreview(null);
+    setModalAberto(true);
   }
 
   async function handleExcluir(email) {
@@ -159,7 +172,6 @@ export default function Usuarios() {
     }
   }
 
- 
   const usuariosFiltrados = usuarios.filter((u) => {
     const nomeSeguro = (u?.nome || "").toString().toLowerCase();
     const buscaNormalizada = (busca || "").toString().toLowerCase();
@@ -168,163 +180,119 @@ export default function Usuarios() {
     return nomeMatch && roleMatch;
   });
 
+  function getIniciais(nome) {
+    if (!nome) return "?";
+    const partes = nome.trim().split(" ");
+    if (partes.length === 1) return partes[0][0]?.toUpperCase() || "?";
+    return (partes[0][0] + partes[partes.length - 1][0]).toUpperCase();
+  }
+
+  function getRoleLabel(role) {
+    const labels = { aluno: "Aluno", professor: "Professor", admin: "Administrador" };
+    return labels[role] || role;
+  }
+
+  function getRoleBadgeClass(role) {
+    const classes = { aluno: "badge-aluno", professor: "badge-professor", admin: "badge-admin" };
+    return classes[role] || "";
+  }
+
   return (
-    <div className="usuarios-container">
-      <div className="inicio-menug">
-        <Link to="/gestao-portais" className="voltar-adm">
-          <IoIosArrowBack /> Voltar
-        </Link>
-        <h1 className="titulo-usuarios">Gerenciar Usuários</h1>
-      </div>
-
-      <div className="form-usuarios">
-        <h2 className="adicionar-usuario">
-          {editando ? "Editar Usuário" : "Adicionar Usuário"}
-        </h2>
-        <form onSubmit={handleSalvar}>
-          <input
-            type="text"
-            placeholder="Nome"
-            value={form.nome}
-            onChange={(e) => setForm({ ...form, nome: e.target.value })}
-          />
-          <input
-            type="email"
-            placeholder="E-mail"
-            value={form.email}
-            onChange={(e) => setForm({ ...form, email: e.target.value })}
-            disabled={!!editando}
-          />
-
-          
-          <div className="senha-wrapper">
-            <input
-              type={mostrarSenha ? "text" : "password"}
-              placeholder={editando ? "Nova Senha (opcional)" : "Senha"}
-              value={form.senha}
-              onChange={(e) => setForm({ ...form, senha: e.target.value })}
-            />
-            <button
-              type="button"
-              className="btn-mostrar-senha"
-              onClick={() => setMostrarSenha(!mostrarSenha)}
-            >
-              {mostrarSenha ? <IoEyeOff /> : <IoEye />}
-            </button>
+    <div className="gu-page">
+      {/* Header */}
+      <div className="gu-header">
+        <div className="gu-header-left">
+          <Link to="/inicio-adm" className="gu-voltar">
+            <IoIosArrowBack /> Voltar
+          </Link>
+          <div>
+            <h1 className="gu-titulo">Gerenciamento de Usuários</h1>
+            <p className="gu-subtitulo">Gerencie os usuários do sistema, edite permissões e status</p>
           </div>
+        </div>
+        <button className="gu-btn-novo" onClick={handleAbrirNovo}>
+          <FaPlus /> Novo Usuário
+        </button>
+      </div>
 
-          <select
-            value={form.role}
-            onChange={(e) => setForm({ ...form, role: e.target.value })}
-            className="select-usuarios"
-          >
-            <option value="aluno">Aluno</option>
-            <option value="professor">Professor</option>
-            <option value="admin">Administrador</option>
-          </select>
-
-          <label htmlFor="file-upload" className="upload-label-usuarios">
-            <span className="upload-text">
-              <FiUpload size={20} />{" "}
-              {form.foto ? form.foto.name : "Escolher foto"}
-            </span>
-          </label>
-          <input
-            id="file-upload"
-            type="file"
-            accept="image/*"
-            onChange={handleFile}
-            style={{ display: "none" }}
-          />
-          {preview && <img src={preview} className="foto-usuario-preview" />}
-          <button type="submit" className="btn-salvar-usuario">
-            {editando ? "Salvar Alterações" : "Adicionar Usuário"}
-          </button>
-          {editando && (
-            <button
-              type="button"
-              className="btn-cancelar"
-              onClick={() => {
-                setEditando(null);
-                setForm({
-                  nome: "",
-                  email: "",
-                  senha: "",
-                  role: "aluno",
-                  foto: null,
-                });
-                setPreview(null);
-              }}
+      {/* Filtros */}
+      <div className="gu-filtros-card">
+        <div className="gu-filtros-header">
+          <FiFilter /> <span>Filtros</span>
+        </div>
+        <div className="gu-filtros-row">
+          <div className="gu-filtro-group">
+            <label>Buscar por Nome</label>
+            <input
+              type="text"
+              placeholder="Digite o nome..."
+              value={busca}
+              onChange={(e) => setBusca(e.target.value)}
+              className="gu-input"
+            />
+          </div>
+          <div className="gu-filtro-group">
+            <label>Filtrar por Função</label>
+            <select
+              value={filtroRole}
+              onChange={(e) => setFiltroRole(e.target.value)}
+              className="gu-select"
             >
-              Cancelar
-            </button>
-          )}
-        </form>
+              <option value="todos">Todas as funções</option>
+              <option value="aluno">Alunos</option>
+              <option value="professor">Professores</option>
+              <option value="admin">Administradores</option>
+            </select>
+          </div>
+        </div>
       </div>
 
-      <div className="filtros-usuarios">
-        <input
-          type="text"
-          placeholder="Buscar por nome..."
-          value={busca}
-          onChange={(e) => setBusca(e.target.value)}
-          className="input-busca"
-        />
-        <select
-          value={filtroRole}
-          onChange={(e) => setFiltroRole(e.target.value)}
-          className="select-filtro-usuarios"
-        >
-          <option value="todos">Todos</option>
-          <option value="aluno">Alunos</option>
-          <option value="professor">Professores</option>
-          <option value="admin">Administradores</option>
-        </select>
-      </div>
-
-      <div className="usuarios-lista">
-        <h2>Lista de Usuários</h2>
-        <table>
+      {/* Tabela */}
+      <div className="gu-tabela-card">
+        <table className="gu-tabela">
           <thead>
             <tr>
-              <th>Foto</th>
-              <th>Nome</th>
-              <th>Email</th>
-              <th>Função</th>
-              <th>Ações</th>
+              <th>USUÁRIO</th>
+              <th>FUNÇÃO</th>
+              <th>AÇÕES</th>
             </tr>
           </thead>
           <tbody>
             {usuariosFiltrados.map((u) => (
               <tr key={u.email}>
                 <td>
-                  <img
-                    src={u.foto || "/src/assets/user-placeholder.png"}
-                    className="foto-tabela"
-                  />
+                  <div className="gu-usuario-info">
+                    {u.foto && u.foto !== "/src/assets/user-placeholder.png" ? (
+                      <img src={u.foto} className="gu-avatar-img" alt={u.nome} />
+                    ) : (
+                      <div className="gu-avatar">{getIniciais(u.nome)}</div>
+                    )}
+                    <div className="gu-usuario-texto">
+                      <span className="gu-usuario-nome">{u.nome}</span>
+                      <span className="gu-usuario-email">{u.email}</span>
+                    </div>
+                  </div>
                 </td>
-                <td>{u.nome}</td>
-                <td>{u.email}</td>
-                <td>{u.role}</td>
                 <td>
-                  <button
-                    onClick={() => handleEditar(u)}
-                    className="btn-editar-usuario"
-                  >
-                    <MdEdit /> Editar
-                  </button>
-                  <button
-                    onClick={() => handleExcluir(u.email)}
-                    className="btn-excluir-usuario"
-                  >
-                    <FaRegTrashAlt /> Excluir
-                  </button>
+                  <span className={`gu-badge ${getRoleBadgeClass(u.role)}`}>
+                    {getRoleLabel(u.role)}
+                  </span>
+                </td>
+                <td>
+                  <div className="gu-acoes">
+                    <button onClick={() => handleEditar(u)} className="gu-btn-editar" title="Editar">
+                      <MdEdit />
+                    </button>
+                    <button onClick={() => handleExcluir(u.email)} className="gu-btn-excluir" title="Excluir">
+                      <FaRegTrashAlt />
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}
             {usuariosFiltrados.length === 0 && (
               <tr>
-                <td colSpan="5" style={{ textAlign: "center", padding: "10px" }}>
+                <td colSpan="4" className="gu-vazio">
                   Nenhum usuário encontrado.
                 </td>
               </tr>
@@ -332,6 +300,97 @@ export default function Usuarios() {
           </tbody>
         </table>
       </div>
+
+      {/* Modal */}
+      {modalAberto && (
+        <div className="gu-overlay" onClick={handleFecharModal}>
+          <div className="gu-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="gu-modal-header">
+              <h2>{editando ? "Editar Usuário" : "Novo Usuário"}</h2>
+              <button className="gu-modal-fechar" onClick={handleFecharModal}>
+                <IoClose />
+              </button>
+            </div>
+            <form onSubmit={handleSalvar} className="gu-modal-form">
+              <div className="gu-form-group">
+                <label>Nome Completo *</label>
+                <input
+                  type="text"
+                  placeholder="Digite o nome completo"
+                  value={form.nome}
+                  onChange={(e) => setForm({ ...form, nome: e.target.value })}
+                  className="gu-input"
+                />
+              </div>
+              <div className="gu-form-group">
+                <label>Email *</label>
+                <input
+                  type="email"
+                  placeholder="usuario@email.com"
+                  value={form.email}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
+                  disabled={!!editando}
+                  className="gu-input"
+                />
+              </div>
+              <div className="gu-form-group">
+                <label>{editando ? "Nova Senha (opcional)" : "Senha *"}</label>
+                <div className="gu-senha-wrapper">
+                  <input
+                    type={mostrarSenha ? "text" : "password"}
+                    placeholder={editando ? "Nova senha (opcional)" : "Mínimo 6 caracteres"}
+                    value={form.senha}
+                    onChange={(e) => setForm({ ...form, senha: e.target.value })}
+                    className="gu-input"
+                  />
+                  <button
+                    type="button"
+                    className="gu-btn-senha"
+                    onClick={() => setMostrarSenha(!mostrarSenha)}
+                  >
+                    {mostrarSenha ? <IoEyeOff /> : <IoEye />}
+                  </button>
+                </div>
+              </div>
+              <div className="gu-form-group">
+                <label>Função</label>
+                <select
+                  value={form.role}
+                  onChange={(e) => setForm({ ...form, role: e.target.value })}
+                  className="gu-select"
+                >
+                  <option value="aluno">Aluno</option>
+                  <option value="professor">Professor</option>
+                  <option value="admin">Administrador</option>
+                </select>
+              </div>
+              <div className="gu-form-group">
+                <label>Foto</label>
+                <label htmlFor="gu-file-upload" className="gu-upload-label">
+                  <FiUpload size={18} />
+                  {form.foto ? form.foto.name : "Escolher foto"}
+                </label>
+                <input
+                  id="gu-file-upload"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFile}
+                  style={{ display: "none" }}
+                />
+                {preview && <img src={preview} className="gu-foto-preview" alt="Preview" />}
+              </div>
+              <div className="gu-modal-botoes">
+                <button type="button" className="gu-btn-cancelar" onClick={handleFecharModal}>
+                  Cancelar
+                </button>
+                <button type="submit" className="gu-btn-salvar">
+                  {editando ? "Salvar Alterações" : "Criar Usuário"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
