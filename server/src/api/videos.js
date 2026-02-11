@@ -39,7 +39,6 @@ export default async function handler(req, res) {
     }
     
     if (method === "GET" && !id) {
-      console.log("📋 Listando todos os vídeos...");
       const snapshot = await db
         .collection("videos")
         .orderBy("createdAt", "desc")

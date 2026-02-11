@@ -1,292 +1,794 @@
+/* ========================================
+   DASHBOARD DO PROFESSOR - NOVO DESIGN
+   ======================================== */
 
-.frase{
-    background: #46A1D1;
-    background: linear-gradient(90deg,#46A1D1 0%, #0DB39E 100%);
-    color: #000;
-    font-weight: 500;
-    border-radius: 20px;
-    padding: 30px;
-    text-align: center;
-    margin: 15px;
-}
-.inicio-dashboard{
-        flex-direction: column; 
-        padding-bottom: 30px;
-    }
-/* agenda */
-
-.mini-semana {
-  background: linear-gradient(135deg, #15b9cc, #2D408E);
+/* Banner com frase motivacional */
+.banner-frase {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   border-radius: 20px;
+  padding: 30px 40px;
+  margin: 20px;
   color: #fff;
-  margin: 15px;
-  padding: 20px;
   font-family: "Montserrat", sans-serif;
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+}
+
+.banner-frase p {
+  font-size: 1.1rem;
+  font-weight: 500;
+  line-height: 1.6;
+  margin: 0;
+  text-align: center;
+}
+
+/* Container principal com 2 colunas */
+.da-container {
+  display: grid;
+  grid-template-columns: 1fr 540px;
+  align-items: stretch;
+  gap: 20px;
+  padding: 0 20px 20px;
+  font-family: "Montserrat", sans-serif;
+}
+
+/* Coluna Esquerda */
+.da-coluna-esquerda {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  box-shadow: rgba(0, 0, 0, 0.2) 0px 8px 20px;
-}
-
-.topo-mini h3 {
-  text-transform: capitalize;
-  font-weight: 700;
-  font-size: 18px;
-  margin-bottom: 15px;
-  text-align: center;
-}
-
-.semana-atual {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
-  overflow-x: auto;
-  padding: 5px 0 15px 0;
-}
-
-.dia-semana {
-  flex: 1;
-  min-width: 50px;
-  text-align: center;
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 12px;
-  padding: 8px;
-  transition: all 0.3s ease;
-  cursor: pointer;
-}
-
-.dia-semana:hover {
-  background: rgba(255, 255, 255, 0.3);
-  
-}
-
-.nome-dia {
-  display: block;
-  font-size: 13px;
-  color: #cce6f5;
-  font-weight: 500;
-}
-
-.numero-dia {
-  font-size: 20px;
-  font-weight: 700;
-  color: #fff;
-}
-
-.hoje-semana {
-  background: #ffffff;
-  color: #2D408E;
-  box-shadow: 0 0 10px rgba(255,255,255,0.4);
-  transform: scale(1.1);
-}
-
-.hoje-semana .nome-dia {
-  color: #2D408E;
-}
-.hoje-semana .numero-dia {
-  color: #2D408E;
-}
-
-.botao-mini-agenda {
-  font-size: 14px;
-  text-decoration: none;
-  color: #fff;
-  border: 1px solid #fff;
-  border-radius: 10px;
-  padding: 6px 12px;
-  transition: all 0.3s ease;
-}
-
-.botao-mini-agenda:hover {
-  background: #fff;
-  color: #2D408E;
-  transform: scale(1.05);
-}
-
-@media (max-width: 600px) {
-  .semana-atual {
-    gap: 8px;
-  }
-  .dia-semana {
-    min-width: 44px;
-    padding: 6px;
-  }
-  .numero-dia {
-    font-size: 18px;
-  }
-}
-
-/* estudo */
-.sessao-estudo {
-  margin: 20px;
-  padding: 24px;
-  border-radius: 24px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   gap: 20px;
+}
 
-  background: linear-gradient(
-    135deg,
-    #702b2d 0%,
-    #cc3f43 55%,
-    #f94144 100%
-  );
+/* Coluna Direita */
+.da-coluna-direita {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-height: 100%;
+}
 
-  color: #fff;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+/* Cards de seção */
+.secao-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Agenda ocupa apenas o espaço necessário */
+.agenda-card {
+  flex-shrink: 0;
+}
+
+/* Tarefas preenche o resto */
+.tarefas-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-self: stretch;
+  overflow: hidden;
+  min-width: 0;
+}
+
+/* Header das seções */
+.secao-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.secao-icon {
+  font-size: 1.4rem;
+  color: #e63946;
+}
+
+.agenda-icon {
+  color: #4361ee;
+}
+
+.tarefas-icon {
+  color: #9333ea;
+}
+
+.secao-header h2 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+/* Vídeo em Destaque */
+.video-destaque-content {
+  width: 100%;
+}
+
+.video-embed {
   position: relative;
+  width: 100%;
+  padding-bottom: 50%;
+  max-height: 380px;
+  background: #f5f5f5;
+  border-radius: 12px;
   overflow: hidden;
 }
 
-.sessao-estudo::after {
-  content: "";
+.video-embed iframe {
   position: absolute;
-  top: -50%;
-  right: -30%;
-  width: 300px;
-  height: 300px;
-  background: rgba(255, 255, 255, 0.12);
-  border-radius: 50%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
 }
 
-.sessao-texto {
-  max-width: 70%;
-  z-index: 1;
+/* Agenda de Hoje */
+.agenda-card {
+  min-height: auto;
 }
 
-.badge {
+.data-atual {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+
+.agenda-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.agenda-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 12px;
+  background: #f9fafb;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+}
+
+.agenda-item:hover {
+  background: #f3f4f6;
+  transform: translateX(2px);
+}
+
+.agenda-horario {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: #6b7280;
+  font-weight: 600;
+  min-width: 80px;
+}
+
+.agenda-info {
+  flex: 1;
+}
+
+.agenda-badge {
   display: inline-block;
-  background: rgba(255, 255, 255, 0.2);
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-size: 13px;
+  background: #1f2937;
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
   font-weight: 700;
-  margin-bottom: 10px;
+  text-transform: lowercase;
+  margin-bottom: 6px;
 }
 
-.sessao-estudo h2 {
-  font-size: 22px;
-  margin-bottom: 8px;
-  font-weight: 800;
-}
-
-.sessao-estudo p {
-  font-size: 15px;
-  opacity: 0.95;
+.agenda-titulo {
+  font-size: 0.95rem;
+  color: #1a1a1a;
+  font-weight: 500;
+  margin: 0;
   line-height: 1.4;
 }
 
-.btn-estudo {
-  z-index: 1;
-  text-decoration: none;
-  background: #2d408e;
-  color: #fff;
-  padding: 14px 22px;
-  border-radius: 14px;
-  font-weight: 800;
-  font-size: 15px;
-  white-space: nowrap;
-
-  display: flex;
-  align-items: center;
-  gap: 8px;
-
-  transition: all 0.25s ease;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+/* Tarefas Pendentes */
+.tarefas-card .tarefas-lista {
+  flex: 1;
 }
 
-.btn-estudo:hover {
-  background: #1f2f73;
-  transform: translateY(-3px) scale(1.03);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+.tarefas-header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.tarefas-count {
+  font-size: 0.85rem;
+  color: #6b7280;
+  font-weight: 600;
+}
+
+.tarefas-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.tarefa-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px;
+  background: #f9fafb;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.tarefa-item:hover {
+  background: #f3f4f6;
+  transform: translateX(2px);
+}
+
+.tarefa-checkbox {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  cursor: pointer;
+  accent-color: #9333ea;
+}
+
+.tarefa-info {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.tarefa-titulo {
+  font-size: 0.95rem;
+  color: #1a1a1a;
+  font-weight: 500;
+  margin: 0 0 8px 0;
+  line-height: 1.4;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.tarefa-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.tarefa-materia {
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.tarefa-prazo {
+  color: #9ca3af;
+}
+
+/* Conteúdo vazio */
+.conteudo-vazio {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  color: #9ca3af;
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+.conteudo-vazio p {
+  margin: 0;
+}
+
+/* Responsividade */
+@media (max-width: 1200px) {
+  .da-container {
+    grid-template-columns: 1fr;
+  }
+
+  .da-coluna-direita {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+  }
+
+  .da-coluna-direita .secao-card {
+    flex: 1;
+  }
 }
 
 @media (max-width: 768px) {
-  .sessao-estudo {
+  .banner-frase {
+    padding: 20px 24px;
+    margin: 15px;
+  }
+
+  .banner-frase p {
+    font-size: 1rem;
+  }
+
+  .da-container {
+    padding: 0 15px 15px;
+    gap: 15px;
+  }
+
+  .da-coluna-direita {
     flex-direction: column;
-    align-items: flex-start;
   }
 
-  .sessao-texto {
-    max-width: 100%;
+  .secao-card {
+    padding: 20px;
   }
 
-  .btn-estudo {
-    width: 100%;
-    justify-content: center;
+  .secao-header h2 {
+    font-size: 1rem;
   }
 }
 
+@media (max-width: 480px) {
+  .banner-frase {
+    border-radius: 12px;
+    padding: 16px 20px;
+  }
 
-/* video */
-.video-destaque-wrapper {
+  .banner-frase p {
+    font-size: 0.9rem;
+  }
+
+  .secao-card {
+    padding: 16px;
+    border-radius: 12px;
+  }
+
+  .agenda-item,
+  .tarefa-item {
+    padding: 10px;
+  }
+
+  .tarefa-titulo,
+  .agenda-titulo {
+    font-size: 0.85rem;
+  }
+}
+
+/* ========================================
+   AVISOS IMPORTANTES
+   ======================================== */
+
+.avisos-icon {
+  color: #1a1a1a;
+}
+
+.avisos-lista {
   display: flex;
   flex-direction: column;
+  gap: 14px;
+}
+
+.aviso-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 16px 20px;
+  border-radius: 10px;
+  border-left: 4px solid transparent;
+  transition: transform 0.2s ease;
+}
+
+.aviso-item:hover {
+  transform: translateX(2px);
+}
+
+/* Urgente - vermelho */
+.aviso-urgente {
+  background: #fde8e8;
+  border-left-color: #e53e3e;
+}
+
+.aviso-urgente .aviso-titulo {
+  color: #c53030;
+}
+
+/* Info - azul */
+.aviso-info {
+  background: #e8f0fe;
+  border-left-color: #3b82f6;
+}
+
+.aviso-info .aviso-titulo {
+  color: #1e40af;
+}
+
+/* Importante - amarelo */
+.aviso-importante {
+  background: #fefce8;
+  border-left-color: #eab308;
+}
+
+.aviso-importante .aviso-titulo {
+  color: #b45309;
+}
+
+.aviso-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.aviso-titulo {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin: 0 0 6px 0;
+  line-height: 1.3;
+}
+
+.aviso-descricao {
+  font-size: 0.85rem;
+  color: #4a5568;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.aviso-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 6px;
+  white-space: nowrap;
+  margin-left: 12px;
+  flex-shrink: 0;
+  align-self: center;
+}
+
+.aviso-badge-urgente {
+  background: #fff5f5;
+  color: #c53030;
+  border: 1px solid #feb2b2;
+}
+
+.aviso-badge-info {
+  background: #f0f5ff;
+  color: #2b6cb0;
+  border: 1px solid #bee3f8;
+}
+
+.aviso-badge-importante {
+  background: #fffff0;
+  color: #b7791f;
+  border: 1px solid #fefcbf;
+}
+
+@media (max-width: 480px) {
+  .aviso-item {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .aviso-badge {
+    margin-left: 0;
+    align-self: flex-start;
+  }
+}
+
+/* ========================================
+   TAREFAS DO PROFESSOR - CRIAR & LISTAR
+   ======================================== */
+
+/* Botão Criar Tarefa */
+.btn-criar-tarefa {
+  display: flex;
   align-items: center;
-  background-color: #fff;
-  border-radius: 16px;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
-  padding: 20px;
-  width: 97%;
-  margin: 15px;
-}
-.video-destaque-wrapper > p {
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #000;
-}
-.video-destaque { 
-    width: 100%;
-}
-.video-destaque .titulo-video { 
-    margin: 0 0 10px; 
-    font-weight: 600; 
-}
-.video-destaque .descricao-video { 
-    margin-top: 10px; 
-    opacity: .9; 
-    text-align: justify;
-    font-weight: 500;
-}
-.video-destaque .chip { 
-    display:inline-block; 
-    margin-top:10px; 
-    padding:6px 10px; 
-    border-radius:999px; 
-    background:#f3f4f6; 
-    color: #000;
-    font-size:.85rem; 
-}
-.video-destaque.vazio { 
-    display:flex; 
-    align-items:center; 
-    justify-content:center; 
-    min-height:160px; 
-    background:#f9fafb; 
-    border-radius:16px; 
-}
-.video-iframe iframe {
+  justify-content: center;
+  gap: 8px;
   width: 100%;
-  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, #9333ea, #7c3aed);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: "Montserrat", sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(147, 51, 234, 0.3);
 }
 
-
-/* responsividade */
-@media (max-width: 800px) {
-    .dashboard{
-        flex-direction: column;
-    }
-    .video-destaque-wrapper{
-        width: 90%;
-    }
-    
+.btn-criar-tarefa:hover {
+  background: linear-gradient(135deg, #7c3aed, #6d28d9);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(147, 51, 234, 0.4);
 }
-@media (max-width: 370px) {
-    .video-destaque-wrapper{
-        width: 80%;
-    }
-    
+
+/* Descrição da tarefa na lista */
+.tarefa-descricao {
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin: 0 0 6px 0;
+  line-height: 1.4;
+}
+
+/* Contagem de anexos */
+.tarefa-anexos-count {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #9333ea;
+  font-weight: 500;
+}
+
+/* Ações da tarefa (editar + deletar) */
+.tarefa-acoes {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+  align-self: flex-start;
+  margin-top: 2px;
+}
+
+/* Botão editar tarefa */
+.btn-editar-tarefa {
+  background: none;
+  border: none;
+  color: #d1d5db;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+}
+
+.btn-editar-tarefa:hover {
+  color: #4361ee;
+  background: #eef2ff;
+}
+
+/* Botão deletar tarefa */
+.btn-deletar-tarefa {
+  background: none;
+  border: none;
+  color: #d1d5db;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+}
+
+.btn-deletar-tarefa:hover {
+  color: #ef4444;
+  background: #fef2f2;
+}
+
+/* ========================================
+   MODAL - FORMULÁRIO DE NOVA TAREFA
+   ======================================== */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal-form {
+  background: #fff;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 520px;
+  padding: 32px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  animation: modalEntrada 0.25s ease;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+@keyframes modalEntrada {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.modal-header h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+  font-family: "Montserrat", sans-serif;
+}
+
+.modal-fechar {
+  background: none;
+  border: none;
+  color: #9ca3af;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.modal-fechar:hover {
+  color: #1a1a1a;
+  background: #f3f4f6;
+}
+
+/* Grupos do formulário */
+.form-grupo {
+  margin-bottom: 20px;
+}
+
+.form-grupo label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 8px;
+  font-family: "Montserrat", sans-serif;
+}
+
+.form-grupo input[type="text"],
+.form-grupo textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-family: "Montserrat", sans-serif;
+  color: #1a1a1a;
+  transition: border-color 0.2s;
+  outline: none;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.form-grupo input[type="text"]:focus,
+.form-grupo textarea:focus {
+  border-color: #9333ea;
+  box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.1);
+}
+
+.form-grupo input::placeholder,
+.form-grupo textarea::placeholder {
+  color: #9ca3af;
+}
+
+/* Área de anexo */
+.anexo-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px;
+  border: 2px dashed #d1d5db;
+  border-radius: 10px;
+  cursor: pointer;
+  color: #6b7280;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+  font-family: "Montserrat", sans-serif;
+}
+
+.anexo-area:hover {
+  border-color: #9333ea;
+  color: #9333ea;
+  background: #faf5ff;
+}
+
+/* Lista de anexos adicionados */
+.anexos-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.anexo-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: #f3f4f6;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  color: #374151;
+  font-family: "Montserrat", sans-serif;
+}
+
+.anexo-item span {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.anexo-item button {
+  background: none;
+  border: none;
+  color: #9ca3af;
+  cursor: pointer;
+  padding: 2px;
+  border-radius: 4px;
+  transition: color 0.2s;
+  display: flex;
+}
+
+.anexo-item button:hover {
+  color: #ef4444;
+}
+
+/* Anexo já salvo na edição */
+.anexo-existente a {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #9333ea;
+  text-decoration: none;
+  font-size: 0.85rem;
+}
+
+.anexo-existente a:hover {
+  text-decoration: underline;
+}
+
+/* Botão enviar */
+.btn-enviar-tarefa {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #9333ea, #7c3aed);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: "Montserrat", sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 4px;
+}
+
+.btn-enviar-tarefa:hover:not(:disabled) {
+  background: linear-gradient(135deg, #7c3aed, #6d28d9);
+  transform: translateY(-1px);
+}
+
+.btn-enviar-tarefa:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 480px) {
+  .modal-form {
+    padding: 24px 20px;
+  }
+
+  .modal-header h3 {
+    font-size: 1.1rem;
+  }
 }
