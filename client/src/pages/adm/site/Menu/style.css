@@ -9,6 +9,7 @@
     justify-content: center;
     align-items: center;
     padding: 20px 0;
+    width: 100%;
 }
 .titulo-menug img{
     height: 70px;
@@ -16,6 +17,8 @@
 .titulo-menug p{
     font-family: "Montserrat", sans-serif;
     color: #1E3B7D;
+    font-size: 1.5rem;
+    font-weight: 600;
 }
 .voltar-adm{
     background-color: white;
@@ -35,7 +38,15 @@
 .p-opcoes{
     font-family: "Montserrat", sans-serif;
     color: #1E3B7D;
-    margin: 20px;
+    text-align: center;
+    margin: 20px auto;
+    font-size: 1.1rem;
+}
+.container-opcoes-menug{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 }
 .opcoes-menug{
     background-color: #fff;
@@ -46,16 +57,22 @@
     padding: 30px;
     margin: 20px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 500px;
 }
 .opcoes-menug a{
     text-decoration: none;
     width: 100%;
     text-align: center;
-    padding: 10px;
+    padding: 15px 20px;
     margin: 10px 0;
     background-color: #0A2E52;
     color: #fff;
     transition: all 0.3s ease;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
 }
 .opcoes-menug a:hover{
   background-color: #0DB39E;

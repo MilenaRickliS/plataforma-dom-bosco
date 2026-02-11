@@ -165,16 +165,17 @@ export default function MenuGestao() {
              {toast.message && <div className={`toast ${toast.type}`}>{toast.message}</div>}
             <div className="inicio-menug">
                 <Link to="/inicio-adm" className="voltar-adm"><IoIosArrowBack />Voltar</Link>
-                <div className="titulo-menug">
-                    <img src={logo} alt="Logo" />
-                    <p>Gestão Site Instituto</p>
-                </div>
-                
+            </div>
+            <div className="titulo-menug">
+                <img src={logo} alt="Logo" />
+                <p>Gestão Site Institucional</p>
             </div>
             <p className="p-opcoes">Bem-vindo! Escolha uma das opções abaixo a editar:</p>
-            <div className="opcoes-menug">
-                <Link to="/galeria-gestao">GALERIA</Link> 
-                <Link to="/cursos-gestao">CURSOS</Link>                  
+            <div className="container-opcoes-menug">
+                <div className="opcoes-menug">
+                    <Link to="/galeria-gestao">GALERIA</Link> 
+                    <Link to="/cursos-gestao">CURSOS</Link>                  
+                </div>
             </div>
 
             {/* ===== SEÇÃO EQUIPE REDESENHADA ===== */}
