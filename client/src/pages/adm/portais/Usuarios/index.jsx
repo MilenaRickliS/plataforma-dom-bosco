@@ -171,7 +171,7 @@ export default function Usuarios() {
   return (
     <div className="usuarios-container">
       <div className="inicio-menug">
-        <Link to="/gestao-portais" className="voltar-adm">
+        <Link to="/inicio-adm" className="voltar-adm">
           <IoIosArrowBack /> Voltar
         </Link>
         <h1 className="titulo-usuarios">Gerenciar Usuários</h1>

@@ -18,7 +18,7 @@ export default function Inicio() {
                 <p>Instituto Assistencial Dom Bosco - Portal do Administrador</p>
             </div>
             <div className="bemvindo-admin">
-                <Link to="/gestao-portais" className="link-gestao"><FaBookReader />  Gestão dos Portais</Link>
+                <Link to="/usuarios" className="link-gestao"><FaBookReader />  Gestão de Usuários</Link>
                 <Link to="/inicio-refeicao2" className="link-gestao"><BiSolidDish />  Controle Refeições do Instituto </Link>
                 <Link to="/menu-gestao" className="link-gestao"><FaUserLock />  Gestão Site Institucional</Link>
                 <button onClick={logout} className="logout"> <IoIosLogOut /> Sair</button>                       

@@ -8,6 +8,7 @@ import "./style.css";
 import { FaQuoteLeft } from "react-icons/fa";
 import frases from "../../../data/frases.json";
 import "react-toastify/dist/ReactToastify.css";
+import { MdPlayArrow } from "react-icons/md";
 
 export default function Inicio() {
   const { user } = useContext(AuthContext);
@@ -165,17 +166,7 @@ const toEmbed = (url) => {
                 </div>          
             </div>
 
-            <div className="sessao-estudo">
-            <div className="sessao-texto">
-              <span className="badge">🎯 Estudo ativo</span>
-              <h2>Bora estudar e subir de nível?</h2>
-              <p>Responda os cards e avance no seu caminho de aprendizado!</p>
-            </div>
-
-            <Link to="" className="btn-estudo">
-              Acessar →
-            </Link>
-          </div>
+          
 
             
 
@@ -183,11 +174,14 @@ const toEmbed = (url) => {
             
 
                <div className="video-destaque-wrapper">
-                <p>Vídeo Destaque</p>
+                <div className="secao-header">
+                  <MdPlayArrow className="secao-icon" />
+                  <h2>Vídeo em Destaque</h2>
+                </div>
 
               {videoDestaque ? (
                 <div className="video-destaque">
-                  <h4 className="titulo-video">{videoDestaque.titulo}</h4>
+                  
 
                   
                   {(() => {
@@ -247,16 +241,8 @@ const toEmbed = (url) => {
                     );
                   })()}
 
-                  {videoDestaque.descricao ? (
-                    <p className="descricao-video">{videoDestaque.descricao}</p>
-                  ) : null}
-
                  
-                  <div className="meta-video">
-                    {videoDestaque.categoria && (
-                      <span className="chip">{videoDestaque.categoria}</span>
-                    )}
-                  </div>
+                 
                 </div>
               ) : (
                 <div className="video-destaque vazio">

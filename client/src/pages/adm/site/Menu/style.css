@@ -9,6 +9,7 @@
     justify-content: center;
     align-items: center;
     padding: 20px 0;
+    width: 100%;
 }
 .titulo-menug img{
     height: 70px;
@@ -16,6 +17,8 @@
 .titulo-menug p{
     font-family: "Montserrat", sans-serif;
     color: #1E3B7D;
+    font-size: 1.5rem;
+    font-weight: 600;
 }
 .voltar-adm{
     background-color: white;
@@ -35,7 +38,15 @@
 .p-opcoes{
     font-family: "Montserrat", sans-serif;
     color: #1E3B7D;
-    margin: 20px;
+    text-align: center;
+    margin: 20px auto;
+    font-size: 1.1rem;
+}
+.container-opcoes-menug{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 }
 .opcoes-menug{
     background-color: #fff;
@@ -46,167 +57,452 @@
     padding: 30px;
     margin: 20px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 500px;
 }
 .opcoes-menug a{
     text-decoration: none;
     width: 100%;
     text-align: center;
-    padding: 10px;
+    padding: 15px 20px;
     margin: 10px 0;
     background-color: #0A2E52;
     color: #fff;
     transition: all 0.3s ease;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
 }
 .opcoes-menug a:hover{
   background-color: #0DB39E;
 }
-/* gerenciar equipe */
-.gestao-equipe{
-    background-color: #333;
-    padding: 10px;
-}
-.gestao-equipe h2{
-    text-align: center;
-    color: #fff;
-}
-.form-equipe {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  background-color: #ffffff;
-  padding: 30px;
-  margin: 40px auto;
-  max-width: 500px;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.form-equipe input[type="text"],
-.form-equipe input[type="file"] {
-  padding: 10px 14px;
-  border: 2px solid #2D408E;
-  border-radius: 10px;
-  font-size: 1rem;
-  outline: none;
-  transition: border-color 0.3s ease;
-  background-color: #fff;
-  color: #000;
-}
-
-.form-equipe input:focus {
-  border-color: #395D9A;
-}
-
-.form-equipe button {
-  background-color: #2D408E;
-  color: #fff;
-  border: none;
-  border-radius: 30px;
-  padding: 12px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.form-equipe button:hover {
-  background-color: #004bce;
-}
-.form-equipe input:focus{
-  border-color: #004bce;
-  box-shadow: 0 0 8px rgba(24, 114, 216, 0.4);
-}
-.label-foto {
-    display: inline-block;
-    background-color: #fff;
-    border: 2px solid #2D408E;
-    color: #4b4b4b;
-    border-radius: 25px;
-    padding: 10px 20px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: border-color 0.3s ease;
-    text-align: center;
-    margin: 10px 0;
-}
-
-.label-foto:hover {
-  border-color: #004bce;
-  box-shadow: 0 0 8px rgba(24, 114, 216, 0.4);
-}
-.nome-arquivo {
-  font-size: 0.9rem;
-  color: #333;
-  text-align: center;
-  margin-bottom: 10px;
-}
-
-.lista-equipe {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 25px;
-  margin: 40px;
-}
-.card-equipe-admin {
-  background-color: #fff;
-  border-radius: 16px;
-  padding: 20px;
-  text-align: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.card-equipe-admin:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
-}
-
-.card-equipe-admin img {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-bottom: 15px;
-  border: 3px solid #2D408E;
-}
-
-.card-equipe-admin p {
-  margin: 5px 0;
+/* gerenciar equipe — redesign cards */
+.ge-section {
+  padding: 32px 40px;
+  background-color: #f5f7fa;
   font-family: "Montserrat", sans-serif;
+}
+
+.ge-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.ge-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ge-count {
+  font-family: "Montserrat Bold", sans-serif;
+  font-size: 1.6rem;
   color: #2D408E;
 }
 
-.card-equipe-admin p strong {
-  font-size: 1.1rem;
-}
-.acoes {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 15px;
+.ge-titulo {
+  font-family: "Montserrat Bold", sans-serif;
+  font-size: 1.6rem;
+  color: #0A2E52;
+  margin: 0;
 }
 
-.acoes button {
-  border: none;
-  border-radius: 20px;
-  padding: 8px 16px;
+.ge-header-right {
+  display: flex;
+  gap: 10px;
+}
+
+.ge-btn-filtro {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  border: 1px solid #dce1e8;
+  border-radius: 8px;
+  background: #fff;
+  color: #333;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
   font-size: 0.9rem;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: border-color 0.2s, background 0.2s;
 }
-.acoes button:first-child {
-  background-color: #0DB39E;
+
+.ge-btn-filtro:hover {
+  border-color: #0A2E52;
+  background: #f8f9fb;
+}
+
+.ge-btn-novo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background: #0A2E52;
   color: #fff;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s;
 }
-.acoes button:first-child:hover {
-  background-color: #0a8373;
+
+.ge-btn-novo:hover {
+  background: #2D408E;
 }
-.acoes button:last-child {
-  background-color: #CC3F43;
+
+.ge-filtro-bar {
+  margin-bottom: 20px;
+}
+
+.ge-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #dce1e8;
+  border-radius: 8px;
+  background: #f8f9fb;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.9rem;
+  color: #1a1a2e;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.ge-input:focus {
+  outline: none;
+  border-color: #2D408E;
+  box-shadow: 0 0 0 3px rgba(45, 64, 142, 0.1);
+}
+
+/* Grid de cards */
+.ge-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.ge-card {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #e8eaef;
+  padding: 20px;
+  transition: box-shadow 0.2s;
+}
+
+.ge-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.ge-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.ge-card-avatar-img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #2D408E;
+}
+
+.ge-card-avatar {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2D408E, #46A1D1);
   color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1rem;
+  flex-shrink: 0;
 }
-.acoes button:last-child:hover {
-  background-color: #af0000;
+
+.ge-card-menu-wrapper {
+  position: relative;
+}
+
+.ge-card-menu-btn {
+  background: none;
+  border: none;
+  color: #999;
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 4px;
+  border-radius: 6px;
+  transition: color 0.2s, background 0.2s;
+  display: flex;
+  align-items: center;
+}
+
+.ge-card-menu-btn:hover {
+  color: #333;
+  background: #f0f0f0;
+}
+
+.ge-dropdown {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background: #fff;
+  border: 1px solid #e8eaef;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  z-index: 10;
+  min-width: 120px;
+  overflow: hidden;
+}
+
+.ge-dropdown button {
+  display: block;
+  width: 100%;
+  padding: 10px 16px;
+  border: none;
+  background: none;
+  text-align: left;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.85rem;
+  cursor: pointer;
+  color: #333;
+  transition: background 0.15s;
+}
+
+.ge-dropdown button:hover {
+  background: #f5f7fa;
+}
+
+.ge-dropdown-excluir {
+  color: #CC3F43 !important;
+}
+
+.ge-dropdown-excluir:hover {
+  background: #fce4ec !important;
+}
+
+.ge-card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ge-card-nome {
+  font-family: "Montserrat Bold", sans-serif;
+  font-size: 1rem;
+  color: #0A2E52;
+  margin: 0;
+}
+
+.ge-card-cargo {
+  font-size: 0.85rem;
+  color: #888;
+  margin: 0;
+}
+
+.ge-vazio {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: #999;
+  padding: 40px 0;
+}
+
+/* Modal equipe */
+.ge-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.ge-modal {
+  background: #fff;
+  border-radius: 14px;
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  animation: ge-fadeIn 0.2s ease;
+}
+
+@keyframes ge-fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.ge-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 28px 0;
+}
+
+.ge-modal-header h2 {
+  font-family: "Montserrat Bold", sans-serif;
+  font-size: 1.3rem;
+  color: #0A2E52;
+  margin: 0;
+}
+
+.ge-modal-fechar {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  color: #888;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  transition: color 0.2s, background 0.2s;
+  display: flex;
+  align-items: center;
+}
+
+.ge-modal-fechar:hover {
+  color: #333;
+  background: #f0f0f0;
+}
+
+.ge-modal-form {
+  padding: 20px 28px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ge-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ge-form-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.ge-upload-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: 1px dashed #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #555;
+  font-size: 0.9rem;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.ge-upload-label:hover {
+  border-color: #2D408E;
+  background: #f8f9fb;
+  color: #2D408E;
+}
+
+.ge-foto-preview {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-top: 4px;
+  border: 2px solid #2D408E;
+}
+
+.ge-nome-arquivo {
+  font-size: 0.8rem;
+  color: #666;
+  margin: 0;
+}
+
+.ge-modal-botoes {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.ge-btn-cancelar {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #dce1e8;
+  border-radius: 8px;
+  background: #f0f0f0;
+  color: #333;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.ge-btn-cancelar:hover {
+  background: #e5e5e5;
+  border-color: #bbb;
+}
+
+.ge-btn-salvar {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: #2D408E;
+  color: #fff;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.ge-btn-salvar:hover {
+  background: #0A2E52;
+}
+
+/* Responsividade equipe */
+@media (max-width: 900px) {
+  .ge-section {
+    padding: 20px 16px;
+  }
+  .ge-header {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .ge-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .ge-grid {
+    grid-template-columns: 1fr;
+  }
+  .ge-header-right {
+    flex-direction: column;
+    width: 100%;
+  }
+  .ge-btn-filtro, .ge-btn-novo {
+    width: 100%;
+    justify-content: center;
+  }
+  .ge-modal {
+    max-width: 100%;
+  }
 }
 .toast {
   position: fixed;

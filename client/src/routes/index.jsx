@@ -20,7 +20,6 @@ import PerfilAluno from '../pages/portal_aluno/Perfil';
 
 import InicioAdm from '../pages/adm/Inicio';
 import Usuarios from '../pages/adm/portais/Usuarios';
-import MenuPortais from '../pages/adm/portais/Menu';
 
 import InicioProfessor from '../pages/portal_professor/Inicio';
 import AgendaProfessor from '../pages/portal_professor/Agenda';
@@ -58,7 +57,6 @@ function RoutesApp(){
       <Route path="/contato" element={<Contato/>}/>  
 
       <Route path="/inicio-adm" element={ <Private rota="admin"><InicioAdm/></Private> } />
-      <Route path="/gestao-portais" element={ <Private rota="admin"><MenuPortais/></Private> } />
       <Route path="/usuarios" element={ <Private rota="admin"><Usuarios/></Private> } />
       
       

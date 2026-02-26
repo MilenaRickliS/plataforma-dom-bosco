@@ -1,9 +1,7 @@
 # Plataforma do Instituto Assitencial Dom Bosco - Guarapuava PR
 
-Aplicação web desenvolvida em **React + Vite** com **backend em Node.js + Firebase + Cloudinary.**
-A plataforma foi criada para facilitar a gestão, a divulgação e integração das atividades do Instituto Assitencial Dom Bosco - Guarapuava PR, promovendo a comunicação entre alunos, professores e comunidade.
-
-O projeto ainda está em desenvolvimento...
+Aplicação web desenvolvida em **React + Vite** com **backend em Node.js + Firebase + Cloudinary.**, criada para realizar o controle e o gerenciamento das refeições de forma automatizada e em tempo real.
+O sistema foi desenvolvido para atender às necessidades do Instituto Assistencial Dom Bosco, promovendo a modernização do processo de controle alimentar e oferecendo uma solução digital eficiente para nutricionistas, gestores e colaboradores envolvidos no serviço de alimentação. A plataforma permite o monitoramento da quantidade de refeições servidas por meio da integração com uma balança desevolvida pelo grupo com Esp32.
 
 ---
 
@@ -39,10 +37,10 @@ plataforma-dom-bosco/
 │   │   ├── contexts/           # Contextos (ex: autenticação)
 │   │   ├── data/               # Json frases salensianas
 │   │   ├── fonts/              # Fontes personalizadas
-│   │   ├── hooks/              # Penalidade gamificação
 │   │   ├── pages/              # Páginas principais
 │   │   ├── routes/             # Rotas da aplicação
 │   │   ├── services/           # Conexão com Firebase e API
+│   │   ├── utils/              # Cálculos para cardápio nutricional
 │   │   ├── index.css           # Estilo global
 │   │   └── App.jsx             # Componente raiz
 │   ├── package.json
@@ -176,13 +174,13 @@ plataforma-dom-bosco/
 🙋‍♀️ Desenvolvedores
 
 Bruno Thomé
-🔗 GitHub
+🔗 [GitHub](https://github.com/BrunoFhome)
 
 Milena Rickli Silvério Kriger
-🔗 GitHub
+🔗 [GitHub](https://github.com/MilenaRickliS)
 
 Paulo Cesar Matsuda Almeida
-🔗 GitHub
+🔗 [GitHub](https://github.com/PauloCMatsudaA)
 
 ---
 ## 📜 Licença

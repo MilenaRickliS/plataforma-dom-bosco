@@ -1,14 +1,21 @@
 
 
 .frase{
-    background: #46A1D1;
-    background: linear-gradient(90deg,#46A1D1 0%, #0DB39E 100%);
-    color: #000;
-    font-weight: 500;
-    border-radius: 20px;
-    padding: 30px;
-    text-align: center;
-    margin: 15px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 20px;
+  padding: 30px 40px;
+  margin: 20px;
+  text-align: center;
+  color: #fff;
+  font-family: "Montserrat", sans-serif;
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+}
+.frase p {
+  font-size: 1.1rem;
+  font-weight: 500;
+  line-height: 1.6;
+  margin: 0;
+  text-align: center;
 }
 .inicio-dashboard{
         flex-direction: column; 
@@ -224,6 +231,18 @@
 
 
 /* video */
+.secao-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  color: #000;
+}
+.secao-icon {
+  font-size: 1.4rem;
+  color: #e63946;
+}
+
 .video-destaque-wrapper {
   display: flex;
   flex-direction: column;

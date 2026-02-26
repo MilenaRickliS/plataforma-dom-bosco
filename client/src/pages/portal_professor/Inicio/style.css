@@ -1,14 +1,4 @@
 
-.frase{
-    background: #46A1D1;
-    background: linear-gradient(90deg,#46A1D1 0%, #0DB39E 100%);
-    color: #000;
-    font-weight: 500;
-    border-radius: 20px;
-    padding: 30px;
-    text-align: center;
-    margin: 15px;
-}
 .inicio-dashboard{
         flex-direction: column; 
         padding-bottom: 30px;
