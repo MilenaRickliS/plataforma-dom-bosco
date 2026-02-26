@@ -1,6 +1,6 @@
 # Plataforma do Instituto Assitencial Dom Bosco - Guarapuava PR
 
-Aplicação web desenvolvida em **React + Vite** com **backend em Node.js + Firebase + Cloudinary.**, criada para realizar o controle e o gerenciamento das refeições de forma automatizada e em tempo real.
+Aplicação web desenvolvida em **React + Vite** com **backend em Node.js + Firebase + Cloudinary**, criada para realizar o controle e o gerenciamento das refeições de forma automatizada e em tempo real.
 O sistema foi desenvolvido para atender às necessidades do Instituto Assistencial Dom Bosco, promovendo a modernização do processo de controle alimentar e oferecendo uma solução digital eficiente para nutricionistas, gestores e colaboradores envolvidos no serviço de alimentação. A plataforma permite o monitoramento da quantidade de refeições servidas por meio da integração com uma balança desevolvida pelo grupo com Esp32.
 
 ---
