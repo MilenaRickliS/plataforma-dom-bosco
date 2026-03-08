@@ -21,6 +21,17 @@
     justify-content: center;
     align-items: center;
 }
+.sem-curso{
+
+  text-align: center;
+  font-size: 18px;
+  color: #000;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
 .adicionar-curso{
     text-decoration: none;
     text-align: center;

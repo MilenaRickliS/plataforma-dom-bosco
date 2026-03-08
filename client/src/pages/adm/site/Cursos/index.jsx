@@ -6,6 +6,7 @@ import Toast from "../../../../components/Toast";
 import "./style.css";
 import { MdOutlineEdit } from "react-icons/md";
 import { FaRegTrashAlt } from "react-icons/fa";
+import { RiEmotionSadFill } from "react-icons/ri";
 
 export default function CursosGestao() {
   
@@ -69,7 +70,7 @@ export default function CursosGestao() {
             </div>
           </div>
         ))}
-        {cursos.length === 0 && <p>Nenhum curso cadastrado ainda.</p>}
+        {cursos.length === 0 && <p className="sem-curso"> <RiEmotionSadFill size={30} />Nenhum curso cadastrado ainda.</p>}
       </div>
     </div>
   );

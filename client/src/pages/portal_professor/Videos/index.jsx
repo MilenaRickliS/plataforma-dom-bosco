@@ -8,6 +8,7 @@ import "./style.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import MenuTopoProfessor from "../../../components/portais/MenuTopoProfessor";
+import { RiEmotionSadFill } from "react-icons/ri";
 
 export default function Videos() {
   const API =
@@ -89,6 +90,11 @@ export default function Videos() {
                   </div>
                 </section>
               ))}
+            </div>
+          ) : videos.length === 0 ? (
+            <div className="sem-videos">
+              <RiEmotionSadFill size={28} />
+              <p>Nenhum vídeo foi publicado ainda.</p>
             </div>
           ) : (
             Object.entries(videosPorCategoria).map(([categoria, lista]) => (

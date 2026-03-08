@@ -27,7 +27,15 @@
   padding: 0 40px;
   overflow: hidden;
 }
-
+.sem-videos{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 18px;
+  color: #666;
+  margin-top: 40px;
+}
 .slick-track {
   display: flex !important;
   align-items: stretch;

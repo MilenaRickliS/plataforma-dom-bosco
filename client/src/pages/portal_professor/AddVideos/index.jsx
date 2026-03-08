@@ -182,6 +182,40 @@ export default function AddVideos() {
     setWordCount(0);
   };
 
+  const handleEditarCategoria = async (categoriaAntiga) => {
+    const novoNome = prompt("Novo nome da categoria:", categoriaAntiga);
+    if (!novoNome) return;
+
+    try {
+      await axios.put(`${API}/api/videos/categoria`, {
+        antiga: categoriaAntiga,
+        nova: novoNome,
+      });
+
+      setCategorias((prev) =>
+        prev.map((c) => (c === categoriaAntiga ? novoNome : c))
+      );
+
+      toast.success("Categoria atualizada!");
+    } catch {
+      toast.error("Erro ao editar categoria");
+    }
+  };
+
+  const handleExcluirCategoria = async (categoria) => {
+    if (!confirm("Deseja excluir esta categoria?")) return;
+
+    try {
+      await axios.delete(`${API}/api/videos/categoria?nome=${categoria}`);
+
+      setCategorias((prev) => prev.filter((c) => c !== categoria));
+
+      toast.success("Categoria excluída!");
+    } catch {
+      toast.error("Erro ao excluir categoria");
+    }
+  };
+
   return (
     <div className="layout">
       
@@ -260,6 +294,34 @@ export default function AddVideos() {
               value={novaCategoria}
               onChange={(e) => setNovaCategoria(e.target.value)}
             />
+
+            <div className="lista-categorias">
+                {categorias.map((cat, i) => {
+                  const nome = typeof cat === "string" ? cat : cat.nome;
+
+                  return (
+                    <div key={i} className="item-categoria">
+                      <span>{nome}</span>
+
+                      <div className="acoes-categoria">
+                        <button
+                          type="button"
+                          onClick={() => handleEditarCategoria(nome)}
+                        >
+                          ✏️
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => handleExcluirCategoria(nome)}
+                        >
+                          🗑️
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
 
             {modo === "upload" ? (
               <>

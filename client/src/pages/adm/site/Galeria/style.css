@@ -31,6 +31,16 @@
 .h1-galeria{
     color: #fff;
 }
+.sem-fotos{
+  text-align: center;
+  font-size: 18px;
+  color: #000;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
 
 
 .upload-form {

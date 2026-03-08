@@ -65,7 +65,26 @@
   margin-top: 10px;
   border-radius: 10px;
 }
+.lista-categorias{
+  margin-top:10px;
+}
 
+.item-categoria{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:6px 10px;
+  border-bottom:1px solid #eee;
+}
+
+.acoes-categoria button{
+  margin-left:5px;
+  border:none;
+  background:#f3f3f3;
+  padding:4px 8px;
+  cursor:pointer;
+  border-radius:4px;
+}
 .duracao {
   font-size: 0.9rem;
   color: #555;

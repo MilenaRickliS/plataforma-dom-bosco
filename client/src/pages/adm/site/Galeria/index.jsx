@@ -6,6 +6,7 @@ import axios from "axios";
 import "./style.css";
 import { MdModeEditOutline } from "react-icons/md";
 import { IoMdTrash } from "react-icons/io";
+import { RiEmotionSadFill } from "react-icons/ri";
 
 export default function GaleriaGestao() {
   const API = import.meta.env.VITE_API_URL || "https://plataforma-dom-bosco-backend-krq4dua7f-milenaricklis-projects.vercel.app";
@@ -167,36 +168,45 @@ export default function GaleriaGestao() {
         <br/>
         
         <div className="lista-fotos">
-          {fotos.map((foto) => (
-            <div key={foto.id} className="foto-item">
-              <img src={foto.imageUrl} alt={foto.title} />
-              {editando === foto.id ? (
-                <div className="edit-form">
-                  <input
-                    type="text"
-                    value={novoTitulo}
-                    onChange={(e) => setNovoTitulo(e.target.value)}
-                  />
-                  <button onClick={() => handleEdit(foto.id)}>Salvar</button>
-                </div>
-              ) : (
-                <>
-                  <p>{foto.title}</p>
-                  <div className="botoes">
-                    <button
-                      onClick={() => {
-                        setEditando(foto.id);
-                        setNovoTitulo(foto.title);
-                      }}
-                    >
-                      <MdModeEditOutline /> Editar
-                    </button>
-                    <button onClick={() => handleDelete(foto.id)}><IoMdTrash /> Excluir</button>
+          {fotos.length === 0 ? (
+            <p className="sem-fotos">
+              <RiEmotionSadFill /> Nenhuma foto foi adicionada ainda.
+            </p>
+          ) : (
+            fotos.map((foto) => (
+              <div key={foto.id} className="foto-item">
+                <img src={foto.imageUrl} alt={foto.title} />
+
+                {editando === foto.id ? (
+                  <div className="edit-form">
+                    <input
+                      type="text"
+                      value={novoTitulo}
+                      onChange={(e) => setNovoTitulo(e.target.value)}
+                    />
+                    <button onClick={() => handleEdit(foto.id)}>Salvar</button>
                   </div>
-                </>
-              )}
-            </div>
-          ))}
+                ) : (
+                  <>
+                    <p>{foto.title}</p>
+                    <div className="botoes">
+                      <button
+                        onClick={() => {
+                          setEditando(foto.id);
+                          setNovoTitulo(foto.title);
+                        }}
+                      >
+                        <MdModeEditOutline /> Editar
+                      </button>
+                      <button onClick={() => handleDelete(foto.id)}>
+                        <IoMdTrash /> Excluir
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>

@@ -4,6 +4,7 @@ import Header from "../../../components/site/Header";
 import Footer from "../../../components/site/Footer";
 import { IoIosArrowBack, IoIosArrowForward, IoIosClose } from "react-icons/io";
 import { FiZoomIn, FiZoomOut } from "react-icons/fi";
+import { RiEmotionSadFill } from "react-icons/ri";
 import "./style.css";
 
 export default function Galeria() {
@@ -138,7 +139,7 @@ export default function Galeria() {
               <p>Carregando fotos...</p>
             </div>
           ) : fotos.length === 0 ? (
-            <p className="sem-fotos">Nenhuma foto foi adicionada ainda.</p>
+            <p className="sem-fotos"><RiEmotionSadFill /> Nenhuma foto foi adicionada ainda.</p>
           ) : (
             <>
               <div className="galeria-grid">

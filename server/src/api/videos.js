@@ -37,6 +37,40 @@ export default async function handler(req, res) {
 
       return res.status(200).json({ id: doc.id, ...doc.data() });
     }
+
+    if (method === "PUT" && url.includes("/categoria")) {
+      const { antiga, nova } = req.body;
+
+      const snap = await db.collection("videos").where("categoria", "==", antiga).get();
+
+      for (const doc of snap.docs) {
+        await doc.ref.update({ categoria: nova });
+      }
+
+      const catSnap = await db.collection("categorias_videos")
+        .where("nome", "==", antiga)
+        .get();
+
+      for (const doc of catSnap.docs) {
+        await doc.ref.update({ nome: nova });
+      }
+
+      return res.status(200).json({ message: "Categoria atualizada" });
+    }
+
+    if (method === "DELETE" && url.includes("/categoria")) {
+      const { nome } = req.query;
+
+      const snap = await db.collection("categorias_videos")
+        .where("nome", "==", nome)
+        .get();
+
+      for (const doc of snap.docs) {
+        await doc.ref.delete();
+      }
+
+      return res.status(200).json({ message: "Categoria excluída" });
+    }
     
     if (method === "GET" && !id) {
       console.log("📋 Listando todos os vídeos...");

@@ -115,20 +115,26 @@ export default function Educacao() {
         <h1>Cursos</h1>
 
         <div className="menu-cursos">
-          <Slider {...sliderSettings} ref={sliderRef}>
-            {cursos.map((curso) => (
-              <div key={curso.id}>
-                <div
-                  className="card-curso"
-                  style={{ background: getCursoGradient(curso.nome) }}
-                >
-                  <h4>{curso.nome}</h4>
-                  <p>{curso.descricao?.split(" ").slice(0, 15).join(" ")}...</p>
-                  <Link to={`/detalhes-curso/${curso.id}`}>Saiba mais!</Link>
+          {cursos.length === 0 ? (
+            <p className="sem-cursos">
+              Nenhum curso disponível no momento.
+            </p>
+          ) : (
+            <Slider {...sliderSettings} ref={sliderRef}>
+              {cursos.map((curso) => (
+                <div key={curso.id}>
+                  <div
+                    className="card-curso"
+                    style={{ background: getCursoGradient(curso.nome) }}
+                  >
+                    <h4>{curso.nome}</h4>
+                    <p>{curso.descricao?.split(" ").slice(0, 15).join(" ")}...</p>
+                    <Link to={`/detalhes-curso/${curso.id}`}>Saiba mais!</Link>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </Slider>
+              ))}
+            </Slider>
+          )}
         </div>
 
 
@@ -155,7 +161,7 @@ export default function Educacao() {
 
         <section className="perguntas">
           <h2>Perguntas frequentes</h2>
-          <ul>
+          {/* <ul>
             {perguntas.map((item, i) => (
               <li
                 key={i}
@@ -166,7 +172,7 @@ export default function Educacao() {
                 {aberta === i && <p className="resposta">{item.resposta}</p>}
               </li>
             ))}
-          </ul>
+          </ul> */}
         </section>
       </main>
       <Footer />

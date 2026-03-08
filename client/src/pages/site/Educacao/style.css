@@ -14,7 +14,12 @@ h1{
 .menu-cursos .slick-slide {
   padding: 0 10px;
 }
-
+.sem-cursos{
+  text-align: center;
+  font-size: 18px;
+  color: #666;
+  margin: 30px 0;
+}
 
 .arrow-cursos {
   position: absolute;
