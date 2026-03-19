@@ -75,6 +75,14 @@
 .nutri-input-sm{ width: 180px; }
 @media (max-width: 520px){ .nutri-input-sm{ width: 100%; } }
 
+.nutri-error {
+  display: block;
+  margin-top: 6px;
+  color: #d32f2f;
+  font-size: 12px;
+  font-weight: 600;
+}
+
 /* grid */
 .nutri-grid-2{ display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 @media (max-width: 520px){ .nutri-grid-2{ grid-template-columns: 1fr; } }

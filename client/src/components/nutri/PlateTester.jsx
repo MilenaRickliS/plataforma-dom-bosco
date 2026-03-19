@@ -5,7 +5,8 @@ export default function PlateTester({ foods }) {
   const [q, setQ] = useState("");
   const [selectedFoodId, setSelectedFoodId] = useState("");
   const [portionUsed, setPortionUsed] = useState("");
-  const [plateItems, setPlateItems] = useState([]); 
+  const [plateItems, setPlateItems] = useState([]);
+  const [portionError, setPortionError] = useState("");
 
   const filtered = useMemo(() => {
     const s = q.trim().toLowerCase();
@@ -18,19 +19,52 @@ export default function PlateTester({ foods }) {
     [foods, selectedFoodId]
   );
 
+  function handlePortionChange(value) {
+    const clean = value.replace(/\D/g, "").slice(0, 6);
+    setPortionUsed(clean);
+
+    if (clean.trim()) {
+      setPortionError("");
+    }
+  }
+
   function pickFood(food) {
     setSelectedFoodId(food.id);
-    setPortionUsed(String(food.portion_g ?? 100));
+    setPortionUsed(String(food.portion_g ?? 100).replace(/\D/g, "").slice(0, 6));
+    setPortionError("");
+  }
+
+  function validatePortion(value) {
+    const v = String(value).trim();
+
+    if (!v) {
+      return "A porção é obrigatória.";
+    }
+
+    if (!/^\d{1,6}$/.test(v)) {
+      return "A porção deve conter apenas números (máx. 6 dígitos).";
+    }
+
+    if (Number(v) <= 0) {
+      return "A porção deve ser maior que zero.";
+    }
+
+    return "";
   }
 
   function addToPlate() {
     if (!selectedFood) return;
 
+    const error = validatePortion(portionUsed);
+    if (error) {
+      setPortionError(error);
+      return;
+    }
+
     const g = Number(portionUsed);
-    if (!g || g <= 0) return;
 
     const item = {
-      id: `${selectedFood.id}-${Date.now()}`, 
+      id: `${selectedFood.id}-${Date.now()}`,
       foodId: selectedFood.id,
       foodNameSnapshot: selectedFood.name,
       portionBase_g: Number(selectedFood.portion_g),
@@ -42,27 +76,37 @@ export default function PlateTester({ foods }) {
 
     setPlateItems((prev) => [...prev, item]);
 
-    
     setSelectedFoodId("");
     setPortionUsed("");
     setQ("");
+    setPortionError("");
   }
 
   function removeItem(id) {
     setPlateItems((prev) => prev.filter((x) => x.id !== id));
   }
 
-  function changePortion(id, newG) {
-    const g = Number(newG);
-    if (!g || g <= 0) return;
+  function changePortion(id, newValue) {
+    const clean = newValue.replace(/\D/g, "").slice(0, 6);
 
     setPlateItems((prev) =>
-      prev.map((x) => (x.id === id ? { ...x, portionUsed_g: g } : x))
+      prev.map((x) =>
+        x.id === id
+          ? {
+              ...x,
+              portionUsed_g: clean === "" ? "" : Number(clean),
+            }
+          : x
+      )
     );
   }
 
   const totalKcal = useMemo(
-    () => plateItems.reduce((s, it) => s + kcalFromItemSnapshot(it), 0),
+    () =>
+      plateItems.reduce(
+        (s, it) => s + (it.portionUsed_g ? kcalFromItemSnapshot(it) : 0),
+        0
+      ),
     [plateItems]
   );
 
@@ -75,7 +119,6 @@ export default function PlateTester({ foods }) {
         </div>
       </div>
 
-      
       <div className="plate-tester-top">
         <div className="plate-search">
           <input
@@ -121,21 +164,30 @@ export default function PlateTester({ foods }) {
             Porção no prato (g)
             <input
               className="nutri-input"
-              type="number"
-              min="1"
+              type="text"
+              inputMode="numeric"
+              maxLength={6}
               value={portionUsed}
-              onChange={(e) => setPortionUsed(e.target.value)}
+              onChange={(e) => handlePortionChange(e.target.value)}
               disabled={!selectedFood}
+              placeholder="Ex: 100"
             />
+            {portionError && (
+              <small className="nutri-error">{portionError}</small>
+            )}
           </label>
 
-          <button className="nutri-btn" onClick={addToPlate} disabled={!selectedFood}>
+          <button
+            className="nutri-btn"
+            onClick={addToPlate}
+            disabled={!selectedFood}
+            type="button"
+          >
             Adicionar ao prato
           </button>
         </div>
       </div>
 
-     
       <div className="plate-area">
         <div className="plate-circle">
           {plateItems.length === 0 ? (
@@ -156,7 +208,8 @@ export default function PlateTester({ foods }) {
           <h4 style={{ marginTop: 0 }}>Itens do prato</h4>
 
           {plateItems.map((it) => {
-            const kcal = kcalFromItemSnapshot(it);
+            const kcal = it.portionUsed_g ? kcalFromItemSnapshot(it) : 0;
+
             return (
               <div key={it.id} className="plate-list-item">
                 <div>
@@ -167,12 +220,17 @@ export default function PlateTester({ foods }) {
                 <div className="plate-actions">
                   <input
                     className="nutri-input plate-portion-input"
-                    type="number"
-                    min="1"
+                    type="text"
+                    inputMode="numeric"
+                    maxLength={6}
                     value={it.portionUsed_g}
                     onChange={(e) => changePortion(it.id, e.target.value)}
                   />
-                  <button className="nutri-btn-danger" onClick={() => removeItem(it.id)}>
+                  <button
+                    className="nutri-btn-danger"
+                    onClick={() => removeItem(it.id)}
+                    type="button"
+                  >
                     Excluir
                   </button>
                 </div>

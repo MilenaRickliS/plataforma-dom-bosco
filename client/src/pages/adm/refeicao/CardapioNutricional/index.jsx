@@ -15,6 +15,7 @@ import FoodForm from "../../../../components/nutri/FoodForm";
 import FoodList from "../../../../components/nutri/FoodList";
 import MealModal from "../../../../components/nutri/MealModal";
 import PlateTester from "../../../../components/nutri/PlateTester";
+import MealNameModal from "../../../../components/nutri/MealNameModal";
 
 
 import { getWeekDays } from "../../../../utils/week";
@@ -46,6 +47,32 @@ export default function CardapioNutricional() {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalTarget, setModalTarget] = useState({ dateId: null, mealId: null });
 
+  const [mealNameModalOpen, setMealNameModalOpen] = useState(false);
+  const [mealNameSaving, setMealNameSaving] = useState(false);
+  const [mealNameMode, setMealNameMode] = useState("create"); 
+  const [mealNameValue, setMealNameValue] = useState("");
+  const [mealNameTarget, setMealNameTarget] = useState({ dateId: null, meal: null });
+
+  const [portionModalOpen, setPortionModalOpen] = useState(false);
+  const [portionValue, setPortionValue] = useState("");
+  const [portionError, setPortionError] = useState("");
+  const [portionTarget, setPortionTarget] = useState({
+    dateId: null,
+    mealId: null,
+    item: null,
+  });
+  const [portionSaving, setPortionSaving] = useState(false);
+
+  const [confirmModalOpen, setConfirmModalOpen] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
+  const [confirmConfig, setConfirmConfig] = useState({
+    title: "",
+    message: "",
+    confirmText: "Confirmar",
+    type: "danger",
+    onConfirm: null,
+  });
+  
   function prevWeek() {
     setWeekBaseDate((d) => addDays(d, -7));
   }
@@ -85,14 +112,15 @@ export default function CardapioNutricional() {
 
     week.forEach(({ dateId }) => {
       const meals = mealsByDay[dateId] || [];
+
       meals.forEach((m) => {
         const key = `${dateId}|${m.id}`;
 
-       
-        if (itemsByMeal[key] !== undefined) return;
-
         const unsubItems = listenMealItems(uid, dateId, m.id, (items) => {
-          setItemsByMeal((prev) => ({ ...prev, [key]: items }));
+          setItemsByMeal((prev) => ({
+            ...prev,
+            [key]: items,
+          }));
         });
 
         unsubs.push(unsubItems);
@@ -100,24 +128,67 @@ export default function CardapioNutricional() {
     });
 
     return () => unsubs.forEach((fn) => fn && fn());
-   
   }, [uid, mealsByDay, week]);
 
-  async function handleAddMeal(dateId) {
-    const name = prompt("Nome da refeição (ex: Café da manhã, Almoço)");
-    if (!name?.trim()) return;
-    await addMeal(uid, dateId, name.trim());
+  function handleAddMeal(dateId) {
+    setMealNameMode("create");
+    setMealNameValue("");
+    setMealNameTarget({ dateId, meal: null });
+    setMealNameModalOpen(true);
   }
 
-  async function handleRenameMeal(dateId, meal) {
-    const name = prompt("Novo nome da refeição:", meal.name || "");
-    if (!name?.trim()) return;
-    await renameMeal(uid, dateId, meal.id, name.trim());
+  function handleRenameMeal(dateId, meal) {
+    setMealNameMode("rename");
+    setMealNameValue(meal?.name || "");
+    setMealNameTarget({ dateId, meal });
+    setMealNameModalOpen(true);
   }
 
-  async function handleDeleteMeal(dateId, meal) {
-    if (!window.confirm(`Excluir a refeição "${meal.name}"?`)) return;
-    await deleteMeal(uid, dateId, meal.id);
+  async function handleConfirmMealName(name) {
+    const { dateId, meal } = mealNameTarget;
+    if (!uid || !dateId) return;
+
+    setMealNameSaving(true);
+    try {
+      if (mealNameMode === "create") {
+        await addMeal(uid, dateId, name);
+      } else if (mealNameMode === "rename" && meal?.id) {
+        await renameMeal(uid, dateId, meal.id, name);
+      }
+
+      setMealNameModalOpen(false);
+      setMealNameValue("");
+      setMealNameTarget({ dateId: null, meal: null });
+    } finally {
+      setMealNameSaving(false);
+    }
+  }
+
+  
+
+  function handleDeleteMeal(dateId, meal) {
+    setConfirmConfig({
+      title: "Excluir refeição?",
+      message: `Tem certeza que deseja excluir a refeição "${meal.name}"? Essa ação não poderá ser desfeita.`,
+      confirmText: "Excluir refeição",
+      type: "danger",
+      onConfirm: async () => {
+        await deleteMeal(uid, dateId, meal.id);
+      },
+    });
+    setConfirmModalOpen(true);
+  }
+
+  async function handleConfirmModalAction() {
+    if (!confirmConfig?.onConfirm) return;
+
+    setConfirmLoading(true);
+    try {
+      await confirmConfig.onConfirm();
+      setConfirmModalOpen(false);
+    } finally {
+      setConfirmLoading(false);
+    }
   }
 
   function openAddFoodModal(dateId, mealId) {
@@ -151,17 +222,77 @@ export default function CardapioNutricional() {
     return meals.reduce((sum, m) => sum + mealTotalKcal(dateId, m.id), 0);
   }
 
-  async function handleChangeItemPortion(dateId, mealId, item) {
-    const g = prompt("Nova porção (g) para este item:", String(item.portionUsed_g ?? ""));
-    if (!g) return;
-    const n = Number(g);
-    if (!n || n <= 0) return;
-    await updateMealItemPortion(uid, dateId, mealId, item.id, n);
+  function handleChangeItemPortion(dateId, mealId, item) {
+    setPortionTarget({ dateId, mealId, item });
+    setPortionValue(String(item.portionUsed_g ?? ""));
+    setPortionError("");
+    setPortionModalOpen(true);
+  }
+  function handlePortionInputChange(value) {
+    const clean = value.replace(/\D/g, "").slice(0, 6);
+    setPortionValue(clean);
+    setPortionError("");
   }
 
-  async function handleDeleteItem(dateId, mealId, item) {
-    if (!window.confirm(`Remover "${item.foodNameSnapshot}" desta refeição?`)) return;
-    await deleteMealItem(uid, dateId, mealId, item.id);
+  function validatePortionModal() {
+    const v = String(portionValue).trim();
+
+    if (!v) {
+      setPortionError("A porção é obrigatória.");
+      return false;
+    }
+
+    if (!/^\d{1,6}$/.test(v)) {
+      setPortionError("A porção deve conter apenas números (máx. 6 dígitos).");
+      return false;
+    }
+
+    if (Number(v) <= 0) {
+      setPortionError("A porção deve ser maior que zero.");
+      return false;
+    }
+
+    return true;
+  }
+
+  async function confirmChangeItemPortion() {
+    if (!validatePortionModal()) return;
+    if (!uid || !portionTarget?.dateId || !portionTarget?.mealId || !portionTarget?.item?.id) return;
+
+    setPortionSaving(true);
+    try {
+      await updateMealItemPortion(
+        uid,
+        portionTarget.dateId,
+        portionTarget.mealId,
+        portionTarget.item.id,
+        Number(portionValue)
+      );
+
+      setPortionModalOpen(false);
+      setPortionValue("");
+      setPortionError("");
+      setPortionTarget({
+        dateId: null,
+        mealId: null,
+        item: null,
+      });
+    } finally {
+      setPortionSaving(false);
+    }
+  }
+
+  function handleDeleteItem(dateId, mealId, item) {
+    setConfirmConfig({
+      title: "Remover alimento?",
+      message: `Tem certeza que deseja remover "${item.foodNameSnapshot}" desta refeição?`,
+      confirmText: "Remover",
+      type: "danger",
+      onConfirm: async () => {
+        await deleteMealItem(uid, dateId, mealId, item.id);
+      },
+    });
+    setConfirmModalOpen(true);
   }
 
   async function exportWeekPdf() {
@@ -365,6 +496,19 @@ export default function CardapioNutricional() {
           <PlateTester foods={foods} />
         </div>
 
+        <MealNameModal
+          open={mealNameModalOpen}
+          title={mealNameMode === "create" ? "Nova refeição" : "Renomear refeição"}
+          initialValue={mealNameValue}
+          confirmLabel={mealNameMode === "create" ? "Criar refeição" : "Salvar nome"}
+          loading={mealNameSaving}
+          onClose={() => {
+            if (mealNameSaving) return;
+            setMealNameModalOpen(false);
+          }}
+          onConfirm={handleConfirmMealName}
+        />
+
         <div className="nutri-right">
           <div className="nutri-week">
             {week.map((d) => {
@@ -487,11 +631,105 @@ export default function CardapioNutricional() {
       <MealModal
         open={modalOpen}
         onClose={() => setModalOpen(false)}
-        foods={foods}
+        foods={foodsSorted}
         onAdd={handleAddFoodToMeal}
       />
 
-      
+      {portionModalOpen && (
+        <div
+          className="nutri-modal-backdrop"
+          onClick={() => {
+            if (portionSaving) return;
+            setPortionModalOpen(false);
+          }}
+        >
+          <div className="nutri-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="nutri-modal-icon">⚖️</div>
+
+            <h3 className="nutri-modal-title">Alterar porção</h3>
+
+            <p className="nutri-modal-text">
+              Informe a nova porção em gramas para{" "}
+              <strong>{portionTarget?.item?.foodNameSnapshot}</strong>.
+            </p>
+
+            <label className="nutri-label" style={{ textAlign: "left", marginTop: 12 }}>
+              Nova porção (g)
+              <input
+                className={`nutri-input ${portionError ? "nutri-input-error" : ""}`}
+                type="text"
+                inputMode="numeric"
+                maxLength={6}
+                value={portionValue}
+                onChange={(e) => handlePortionInputChange(e.target.value)}
+                placeholder="Ex: 100"
+                autoFocus
+              />
+              {portionError && <small className="nutri-error">{portionError}</small>}
+            </label>
+
+            <div className="nutri-modal-actions">
+              <button
+                type="button"
+                className="nutri-btn-outline"
+                onClick={() => setPortionModalOpen(false)}
+                disabled={portionSaving}
+              >
+                Cancelar
+              </button>
+
+              <button
+                type="button"
+                className="nutri-btn"
+                onClick={confirmChangeItemPortion}
+                disabled={portionSaving}
+              >
+                {portionSaving ? "Salvando..." : "Salvar porção"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {confirmModalOpen && (
+        <div
+          className="nutri-modal-backdrop"
+          onClick={() => {
+            if (confirmLoading) return;
+            setConfirmModalOpen(false);
+          }}
+        >
+          <div className="nutri-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="nutri-modal-icon">🗑️</div>
+
+            <h3 className="nutri-modal-title">{confirmConfig.title}</h3>
+
+            <p className="nutri-modal-text">{confirmConfig.message}</p>
+
+            <div className="nutri-modal-actions">
+              <button
+                type="button"
+                className="nutri-btn-outline"
+                onClick={() => setConfirmModalOpen(false)}
+                disabled={confirmLoading}
+              >
+                Cancelar
+              </button>
+
+              <button
+                type="button"
+                className="nutri-btn-danger"
+                onClick={handleConfirmModalAction}
+                disabled={confirmLoading}
+              >
+                {confirmLoading ? "Processando..." : confirmConfig.confirmText}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
+
+  
 }
