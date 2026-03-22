@@ -227,40 +227,66 @@ if (req.method === "GET" && req.query.tipo === "ciclosManuais") {
       return res.status(400).json({ erro: "fim não pode ser antes de inicio" });
     }
 
-    let query = db
+    const snap = await db
       .collection("ciclosBalanca")
-      .where("criadoManual", "==", true);
+      .where("criadoManual", "==", true)
+      .orderBy("timestamp", "desc")
+      .get();
 
-    if (startSP) {
-      query = query.where(
-        "timestamp",
-        ">=",
-        admin.firestore.Timestamp.fromDate(startSP)
+    const parseBRDateTime = (s) => {
+      if (!s) return null;
+
+      const m = String(s).match(
+        /^(\d{2})\/(\d{2})\/(\d{4}),\s*(\d{2}):(\d{2})(?::(\d{2}))?$/
       );
-    }
 
-    if (endSP) {
-      query = query.where(
-        "timestamp",
-        "<=",
-        admin.firestore.Timestamp.fromDate(endSP)
+      if (!m) return null;
+
+      const [, dd, mm, yyyy, hh, mi, ss = "00"] = m;
+
+      const d = new Date(
+        Number(yyyy),
+        Number(mm) - 1,
+        Number(dd),
+        Number(hh),
+        Number(mi),
+        Number(ss),
+        0
       );
-    }
 
-    const snap = await query.orderBy("timestamp", "desc").get();
+      return isNaN(d.getTime()) ? null : d;
+    };
 
-    const ciclos = snap.docs.map((d) => {
-      const c = d.data();
-      return {
-        id: d.id,
-        dataInicio: c.dataInicio || "",
-        dataFim: c.dataFim || "",
-        totalPessoas: Number(c.totalPessoas || 0),
-        pesoTotal: Number(Number(c.pesoTotal || 0).toFixed(3)),
-        criadoManual: true,
-        timestampISO: c.timestamp?.toDate ? c.timestamp.toDate().toISOString() : null,
-      };
-    });
+    const ciclos = snap.docs
+      .map((d) => {
+        const c = d.data();
+        const inicioData = parseBRDateTime(c.dataInicio);
+        const fimData = parseBRDateTime(c.dataFim);
+
+        return {
+          id: d.id,
+          dataInicio: c.dataInicio || "",
+          dataFim: c.dataFim || "",
+          totalPessoas: Number(c.totalPessoas || 0),
+          pesoTotal: Number(Number(c.pesoTotal || 0).toFixed(3)),
+          criadoManual: c.criadoManual === true,
+          timestampISO: c.timestamp?.toDate ? c.timestamp.toDate().toISOString() : null,
+          _inicioDate: inicioData,
+          _fimDate: fimData,
+        };
+      })
+      .filter((c) => {
+        if (!startSP && !endSP) return true;
+
+        const ref = c._inicioDate || c._fimDate;
+        if (!ref) return false;
+
+        if (startSP && ref.getTime() < startSP.getTime()) return false;
+        if (endSP && ref.getTime() > endSP.getTime()) return false;
+
+        return true;
+      })
+      .map(({ _inicioDate, _fimDate, ...rest }) => rest);
 
     return res.status(200).json({
       sucesso: true,
