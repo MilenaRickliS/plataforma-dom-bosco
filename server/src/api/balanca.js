@@ -39,44 +39,159 @@ const dataHoraSP = () =>
 
 export default async function handler(req, res) {
 
- if (req.method === "GET" && req.query.tipo === "ciclosHoje") {
-  try {
-    const nowSP = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Sao_Paulo" }));
-    const startSP = new Date(nowSP); startSP.setHours(0, 0, 0, 0);
-    const endSP = new Date(nowSP); endSP.setHours(23, 59, 59, 999);
+//  if (req.method === "GET" && req.query.tipo === "ciclosHoje") {
+//   try {
+//     const nowSP = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Sao_Paulo" }));
+//     const startSP = new Date(nowSP); startSP.setHours(0, 0, 0, 0);
+//     const endSP = new Date(nowSP); endSP.setHours(23, 59, 59, 999);
 
    
+//     const snap = await db
+//       .collection("ciclosBalanca")
+//       .where("timestamp", ">=", admin.firestore.Timestamp.fromDate(startSP))
+//       .where("timestamp", "<=", admin.firestore.Timestamp.fromDate(endSP))
+//       .orderBy("timestamp", "desc")
+//       .get();
+
+//     let pessoasManual = 0;
+//     let pesoManual = 0;
+
+//     const ciclos = snap.docs
+//       .map((d) => ({ id: d.id, ...d.data() }))
+//       .filter((c) => c.criadoManual === true)
+//       .map((c) => {
+//         const totalPessoas = Number(c.totalPessoas || 0);
+//         const pesoTotal = Number(c.pesoTotal || 0);
+
+//         pessoasManual += totalPessoas;
+//         pesoManual += pesoTotal;
+
+//         return {
+//           id: c.id,
+//           dataInicio: c.dataInicio || "",
+//           dataFim: c.dataFim || "",
+//           totalPessoas,
+//           pesoTotal,
+//           criadoManual: true,
+//         };
+//       });
+
+//     const pesoMedioManual = pessoasManual > 0 ? (pesoManual / pessoasManual) : 0;
+
+//     return res.status(200).json({
+//       sucesso: true,
+//       resumoManual: {
+//         pessoasManual,
+//         pesoManual: Number(pesoManual.toFixed(2)),
+//         pesoMedioManual: Number(pesoMedioManual.toFixed(3)),
+//       },
+//       ciclos,
+//     });
+//   } catch (e) {
+//     console.error("❌ [GET ciclosHoje] Falha:", e);
+//     return res.status(500).json({ erro: String(e?.message || e) });
+//   }
+// }
+
+if (req.method === "GET" && req.query.tipo === "ciclosHoje") {
+  try {
+    const nowSP = new Date(
+      new Date().toLocaleString("en-US", { timeZone: "America/Sao_Paulo" })
+    );
+    const startSP = new Date(nowSP);
+    startSP.setHours(0, 0, 0, 0);
+
+    const endSP = new Date(nowSP);
+    endSP.setHours(23, 59, 59, 999);
+
+    const parseBRDateTime = (s) => {
+      if (!s) return null;
+
+      const m = String(s).match(
+        /^(\d{2})\/(\d{2})\/(\d{4}),\s*(\d{2}):(\d{2})(?::(\d{2}))?$/
+      );
+
+      if (!m) return null;
+
+      const [, dd, mm, yyyy, hh, mi, ss = "00"] = m;
+
+      const d = new Date(
+        Number(yyyy),
+        Number(mm) - 1,
+        Number(dd),
+        Number(hh),
+        Number(mi),
+        Number(ss),
+        0
+      );
+
+      return isNaN(d.getTime()) ? null : d;
+    };
+
+    const isSameDaySP = (date) => {
+      if (!date) return false;
+
+      const y1 = date.getFullYear();
+      const m1 = date.getMonth();
+      const d1 = date.getDate();
+
+      const y2 = startSP.getFullYear();
+      const m2 = startSP.getMonth();
+      const d2 = startSP.getDate();
+
+      return y1 === y2 && m1 === m2 && d1 === d2;
+    };
+
     const snap = await db
       .collection("ciclosBalanca")
-      .where("timestamp", ">=", admin.firestore.Timestamp.fromDate(startSP))
-      .where("timestamp", "<=", admin.firestore.Timestamp.fromDate(endSP))
-      .orderBy("timestamp", "desc")
+      .where("criadoManual", "==", true)
       .get();
 
     let pessoasManual = 0;
     let pesoManual = 0;
 
     const ciclos = snap.docs
-      .map((d) => ({ id: d.id, ...d.data() }))
-      .filter((c) => c.criadoManual === true)
-      .map((c) => {
-        const totalPessoas = Number(c.totalPessoas || 0);
-        const pesoTotal = Number(c.pesoTotal || 0);
+      .map((d) => {
+        const c = d.data();
+        const inicioDate = parseBRDateTime(c.dataInicio);
+        const fimDate = parseBRDateTime(c.dataFim);
 
-        pessoasManual += totalPessoas;
-        pesoManual += pesoTotal;
+        return {
+          id: d.id,
+          dataInicio: c.dataInicio || "",
+          dataFim: c.dataFim || "",
+          totalPessoas: Number(c.totalPessoas || 0),
+          pesoTotal: Number(c.pesoTotal || 0),
+          criadoManual: true,
+          timestampISO: c.timestamp?.toDate
+            ? c.timestamp.toDate().toISOString()
+            : null,
+          _inicioDate: inicioDate,
+          _fimDate: fimDate,
+        };
+      })
+      .filter((c) => isSameDaySP(c._inicioDate))
+      .sort((a, b) => {
+        const ta = a._inicioDate ? a._inicioDate.getTime() : 0;
+        const tb = b._inicioDate ? b._inicioDate.getTime() : 0;
+        return tb - ta;
+      })
+      .map(({ _inicioDate, _fimDate, ...c }) => {
+        pessoasManual += c.totalPessoas;
+        pesoManual += c.pesoTotal;
 
         return {
           id: c.id,
-          dataInicio: c.dataInicio || "",
-          dataFim: c.dataFim || "",
-          totalPessoas,
-          pesoTotal,
+          dataInicio: c.dataInicio,
+          dataFim: c.dataFim,
+          totalPessoas: c.totalPessoas,
+          pesoTotal: c.pesoTotal,
           criadoManual: true,
+          timestampISO: c.timestampISO,
         };
       });
 
-    const pesoMedioManual = pessoasManual > 0 ? (pesoManual / pessoasManual) : 0;
+    const pesoMedioManual = pessoasManual > 0 ? pesoManual / pessoasManual : 0;
 
     return res.status(200).json({
       sucesso: true,
@@ -92,7 +207,6 @@ export default async function handler(req, res) {
     return res.status(500).json({ erro: String(e?.message || e) });
   }
 }
-
 
  
   if (req.method === "GET" && req.query.tipo === "dashboardHoje") {
