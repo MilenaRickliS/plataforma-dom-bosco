@@ -1097,6 +1097,9 @@ export default function Dashboard2() {
   const [manualFimHora, setManualFimHora] = useState("");
   const [manualPessoas, setManualPessoas] = useState("");
   const [manualPesoTotal, setManualPesoTotal] = useState("");
+  const [openDeleteManual, setOpenDeleteManual] = useState(false);
+  const [manualToDelete, setManualToDelete] = useState(null);
+  const [deletingManual, setDeletingManual] = useState(false);
 
   const formatHora = (valor) => {
     if (!valor) return "--:--";
@@ -1334,26 +1337,43 @@ export default function Dashboard2() {
     setOpenManual(true);
   };
 
-  const excluirManual = async (id) => {
-    const ok = window.confirm("Deseja excluir este ciclo manual?");
-    if (!ok) return;
+  const excluirManual = async () => {
+  if (!manualToDelete?.id) return;
 
-    try {
-      const resp = await fetch(`${BASE}/api/pesagem?tipo=cicloManual&id=${id}`, {
+  setDeletingManual(true);
+
+  try {
+    const resp = await fetch(
+      `${BASE}/api/pesagem?tipo=cicloManual&id=${manualToDelete.id}`,
+      {
         method: "DELETE",
-      });
+      }
+    );
 
-      const data = await resp.json();
-      if (!resp.ok) throw new Error(data?.erro || "Falha ao excluir");
+    const data = await resp.json();
+    if (!resp.ok) throw new Error(data?.erro || "Falha ao excluir");
 
-      await buscarCiclosManuais();
-      await buscarDadosDashboard(false);
+    await buscarCiclosManuais();
+    await buscarDadosDashboard(false);
 
-      alert("🗑️ Ciclo manual excluído!");
-    } catch (e) {
-      console.error(e);
-      alert("❌ Não foi possível excluir.");
-    }
+    fecharExcluirManual();
+    alert("🗑️ Ciclo manual excluído!");
+  } catch (e) {
+    console.error(e);
+    alert("❌ Não foi possível excluir.");
+  } finally {
+    setDeletingManual(false);
+  }
+};
+
+  const abrirExcluirManual = (ciclo) => {
+    setManualToDelete(ciclo);
+    setOpenDeleteManual(true);
+  };
+  const fecharExcluirManual = () => {
+    if (deletingManual) return;
+    setOpenDeleteManual(false);
+    setManualToDelete(null);
   };
 
   const salvarCicloManual = async () => {
@@ -1782,7 +1802,7 @@ export default function Dashboard2() {
                       <button className="btn-manual-edit" onClick={() => abrirEditarManual(c)}>
                         Editar
                       </button>
-                      <button className="btn-manual-del" onClick={() => excluirManual(c.id)}>
+                      <button className="btn-manual-del" onClick={() => abrirExcluirManual(c)}>
                         Excluir
                       </button>
                     </div>
@@ -1870,8 +1890,209 @@ export default function Dashboard2() {
               </>
             )}
           </div>
+            {openManual && (
+            <div className="modal-refeicoes-backdrop">
+              <div className="modal-refeicoes-card">
+                <div className="modal-refeicoes-header">
+                  <h2>{editId ? "Editar Refeição" : "Nova Refeição"}</h2>
+                  <button className="modal-refeicoes-close" onClick={fecharModal}>
+                    ✕
+                  </button>
+                </div>
+
+                <div className="modal-refeicoes-body">
+                  <div className="form-refeicoes-row-2">
+                    <div className="form-refeicoes-row">
+                      <label>Data Início (DD/MM/AAAA)</label>
+                      <input
+                        inputMode="numeric"
+                        value={manualInicioData}
+                        onKeyDown={blockNonNumericKeys}
+                        onPaste={(e) => {
+                          e.preventDefault();
+                          const txt = e.clipboardData.getData("text");
+                          setManualInicioData(maskDateBR(txt));
+                        }}
+                        onChange={(e) => setManualInicioData(maskDateBR(e.target.value))}
+                        placeholder="05/11/2025"
+                        maxLength={10}
+                      />
+                    </div>
+
+                    <div className="form-refeicoes-row">
+                      <label>Hora Início (HH:MM)</label>
+                      <input
+                        inputMode="numeric"
+                        value={manualInicioHora}
+                        onKeyDown={blockNonNumericKeys}
+                        onPaste={(e) => {
+                          e.preventDefault();
+                          const txt = e.clipboardData.getData("text");
+                          setManualInicioHora(maskTimeHM(txt));
+                        }}
+                        onChange={(e) => setManualInicioHora(maskTimeHM(e.target.value))}
+                        placeholder="15:57"
+                        maxLength={5}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-refeicoes-row-2">
+                    <div className="form-refeicoes-row">
+                      <label>Data Fim (DD/MM/AAAA)</label>
+                      <input
+                        inputMode="numeric"
+                        value={manualFimData}
+                        onKeyDown={blockNonNumericKeys}
+                        onPaste={(e) => {
+                          e.preventDefault();
+                          const txt = e.clipboardData.getData("text");
+                          setManualFimData(maskDateBR(txt));
+                        }}
+                        onChange={(e) => setManualFimData(maskDateBR(e.target.value))}
+                        placeholder="05/11/2025"
+                        maxLength={10}
+                      />
+                    </div>
+
+                    <div className="form-refeicoes-row">
+                      <label>Hora Fim (HH:MM)</label>
+                      <input
+                        inputMode="numeric"
+                        value={manualFimHora}
+                        onKeyDown={blockNonNumericKeys}
+                        onPaste={(e) => {
+                          e.preventDefault();
+                          const txt = e.clipboardData.getData("text");
+                          setManualFimHora(maskTimeHM(txt));
+                        }}
+                        onChange={(e) => setManualFimHora(maskTimeHM(e.target.value))}
+                        placeholder="19:58"
+                        maxLength={5}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-refeicoes-row-2">
+                    <div className="form-refeicoes-row">
+                      <label>Total Pessoas</label>
+                      <input
+                        inputMode="numeric"
+                        value={manualPessoas}
+                        onKeyDown={blockNonNumericKeys}
+                        onPaste={(e) => {
+                          e.preventDefault();
+                          const txt = e.clipboardData.getData("text");
+                          setManualPessoas(onlyDigits(txt));
+                        }}
+                        onChange={(e) => setManualPessoas(onlyDigits(e.target.value))}
+                        placeholder="Ex: 120"
+                      />
+                    </div>
+
+                    <div className="form-refeicoes-row">
+                      <label>Peso Total (kg)</label>
+                      <input
+                        inputMode="decimal"
+                        value={manualPesoTotal}
+                        onKeyDown={blockNonNumericKeysDecimal}
+                        onPaste={(e) => {
+                          e.preventDefault();
+                          const txt = e.clipboardData.getData("text");
+                          setManualPesoTotal(
+                            String(txt)
+                              .replace(",", ".")
+                              .replace(/[^\d.]/g, "")
+                              .replace(/(\..*)\./g, "$1")
+                          );
+                        }}
+                        onChange={(e) =>
+                          setManualPesoTotal(
+                            String(e.target.value)
+                              .replace(",", ".")
+                              .replace(/[^\d.]/g, "")
+                              .replace(/(\..*)\./g, "$1")
+                          )
+                        }
+                        placeholder="Ex: 82.350"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="modal-refeicoes-footer">
+                  <button className="btn-refeicoes-secondary" onClick={fecharModal}>
+                    Cancelar
+                  </button>
+                  <button className="btn-refeicoes-primary" disabled={savingManual} onClick={salvarCicloManual}>
+                    {savingManual ? "Salvando..." : editId ? "Atualizar" : "Salvar"}
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {openDeleteManual && (
+            <div className="modal-overlay" onClick={fecharExcluirManual}>
+              <div className="modal-delete" onClick={(e) => e.stopPropagation()}>
+                <div className="modal-delete-icon">🗑️</div>
+
+                <h3>Excluir ciclo manual?</h3>
+
+                <p>
+                  Essa ação removerá permanentemente o ciclo manual selecionado.
+                </p>
+
+                {manualToDelete && (
+                  <div className="modal-delete-info">
+                    <div className="delete-info-row">
+                      <span className="delete-label">Pessoas</span>
+                      <strong>{manualToDelete.totalPessoas}</strong>
+                    </div>
+
+                    <div className="delete-info-row">
+                      <span className="delete-label">Peso total</span>
+                      <strong>{Number(manualToDelete.pesoTotal).toFixed(2)} kg</strong>
+                    </div>
+
+                    <div className="delete-info-row">
+                      <span className="delete-label">Início</span>
+                      <strong>{manualToDelete.dataInicio}</strong>
+                    </div>
+
+                    <div className="delete-info-row">
+                      <span className="delete-label">Fim</span>
+                      <strong>{manualToDelete.dataFim}</strong>
+                    </div>
+                  </div>
+                )}
+
+                <div className="modal-delete-actions">
+                  <button
+                    className="btn-delete-cancel"
+                    onClick={fecharExcluirManual}
+                    disabled={deletingManual}
+                  >
+                    Cancelar
+                  </button>
+
+                  <button
+                    className="btn-delete-confirm"
+                    onClick={excluirManual}
+                    disabled={deletingManual}
+                  >
+                    {deletingManual ? "Excluindo..." : "Sim, excluir"}
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </>
       )}
     </div>
+
+    
   );
 }
+     
+        
