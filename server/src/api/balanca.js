@@ -39,15 +39,6 @@ const dataHoraSP = () =>
 
 export default async function handler(req, res) {
 
-   res.setHeader("Access-Control-Allow-Origin", "https://plataforma-dom-bosco.vercel.app");
-  res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,PATCH,OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-
-  // 🔥 RESPONDE PREFLIGHT
-  if (req.method === "OPTIONS") {
-    return res.status(200).end();
-  }
-
  if (req.method === "GET" && req.query.tipo === "ciclosHoje") {
   try {
     const nowSP = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Sao_Paulo" }));
@@ -181,7 +172,7 @@ export default async function handler(req, res) {
     }
   }
 
-if (req.method === "GET" && req.query.tipo === "ciclosManuais") {
+  if (req.method === "GET" && req.query.tipo === "ciclosManuais") {
   try {
     const { inicio, fim } = req.query;
 
@@ -197,47 +188,23 @@ if (req.method === "GET" && req.query.tipo === "ciclosManuais") {
     const snap = await db
       .collection("ciclosBalanca")
       .where("criadoManual", "==", true)
+      .where("timestamp", ">=", admin.firestore.Timestamp.fromDate(startSP))
+      .where("timestamp", "<=", admin.firestore.Timestamp.fromDate(endSP))
+      .orderBy("timestamp", "desc")
       .get();
 
-    const ciclos = snap.docs
-      .map((d) => {
-        const c = d.data();
-
-        return {
-          id: d.id,
-          dataInicio: c.dataInicio || "",
-          dataFim: c.dataFim || "",
-          totalPessoas: Number(c.totalPessoas || 0),
-          pesoTotal: Number(Number(c.pesoTotal || 0).toFixed(3)),
-          criadoManual: true,
-        };
-      })
-      .filter((c) => {
-        if (!c.dataInicio) return false;
-
-        const [data, hora] = c.dataInicio.split(",");
-        if (!data || !hora) return false;
-
-        const [dd, mm, yyyy] = data.trim().split("/").map(Number);
-        const [hh, mi] = hora.trim().split(":").map(Number);
-
-        const dataObj = new Date(yyyy, mm - 1, dd, hh, mi);
-
-        return dataObj >= startSP && dataObj <= endSP;
-      })
-      .sort((a, b) => {
-        const getDate = (str) => {
-          const [data, hora] = str.split(",");
-          if (!data || !hora) return 0;
-
-          const [dd, mm, yyyy] = data.trim().split("/").map(Number);
-          const [hh, mi] = hora.trim().split(":").map(Number);
-
-          return new Date(yyyy, mm - 1, dd, hh, mi).getTime();
-        };
-
-        return getDate(b.dataInicio) - getDate(a.dataInicio);
-      });
+    const ciclos = snap.docs.map((d) => {
+      const c = d.data();
+      return {
+        id: d.id,
+        dataInicio: c.dataInicio || "",
+        dataFim: c.dataFim || "",
+        totalPessoas: Number(c.totalPessoas || 0),
+        pesoTotal: Number(Number(c.pesoTotal || 0).toFixed(3)),
+        criadoManual: true,
+        timestampISO: c.timestamp?.toDate ? c.timestamp.toDate().toISOString() : null,
+      };
+    });
 
     return res.status(200).json({
       sucesso: true,
