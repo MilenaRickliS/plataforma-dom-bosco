@@ -39,6 +39,15 @@ const dataHoraSP = () =>
 
 export default async function handler(req, res) {
 
+   res.setHeader("Access-Control-Allow-Origin", "https://plataforma-dom-bosco.vercel.app");
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,PATCH,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+  // 🔥 RESPONDE PREFLIGHT
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+
  if (req.method === "GET" && req.query.tipo === "ciclosHoje") {
   try {
     const nowSP = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Sao_Paulo" }));
