@@ -3,6 +3,18 @@ import admin from "../firebaseAdmin.js";
 const db = admin.firestore();
 
 export default async function handler(req, res) {
+
+  // 🔥 CORS MANUAL (OBRIGATÓRIO no Vercel serverless)
+  res.setHeader("Access-Control-Allow-Origin", "https://plataforma-dom-bosco.vercel.app");
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,PATCH,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+  // 🔥 RESPONDE PREFLIGHT
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+
+  // 🚫 BLOQUEIO DE MÉTODO
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Método não permitido" });
   }
@@ -33,6 +45,7 @@ export default async function handler(req, res) {
       foto: userData.foto || null,
       ultimoLogin: userData.ultimoLogin || null,
     });
+
   } catch (err) {
     console.error("Erro ao verificar token:", err);
     res.status(401).json({ message: "Token inválido" });
