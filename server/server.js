@@ -84,8 +84,8 @@ app.get("/api/teste", (req, res) => {
 
 // app.use("/api/auth", authRoutes);
 // app.use("/api/depoimentos", depoimentosRoutes);
-app.use("/api/equipe", equipeRoutes);
-// app.use("/api/email", emailRoutes);
+// app.use("/api/equipe", equipeRoutes);
+app.use("/api/email", emailRoutes);
 // app.use("/api/galeria", galeriaRoutes);
 // app.use("/api/cursos", cursosRoutes);
 // app.use("/api/usuarios", usuariosRoutes);
