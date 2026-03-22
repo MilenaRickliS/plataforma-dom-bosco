@@ -230,7 +230,6 @@ if (req.method === "GET" && req.query.tipo === "ciclosManuais") {
     const snap = await db
       .collection("ciclosBalanca")
       .where("criadoManual", "==", true)
-      .orderBy("timestamp", "desc")
       .get();
 
     const parseBRDateTime = (s) => {
@@ -270,7 +269,9 @@ if (req.method === "GET" && req.query.tipo === "ciclosManuais") {
           totalPessoas: Number(c.totalPessoas || 0),
           pesoTotal: Number(Number(c.pesoTotal || 0).toFixed(3)),
           criadoManual: c.criadoManual === true,
-          timestampISO: c.timestamp?.toDate ? c.timestamp.toDate().toISOString() : null,
+          timestampISO: c.timestamp?.toDate
+            ? c.timestamp.toDate().toISOString()
+            : null,
           _inicioDate: inicioData,
           _fimDate: fimData,
         };
@@ -285,6 +286,11 @@ if (req.method === "GET" && req.query.tipo === "ciclosManuais") {
         if (endSP && ref.getTime() > endSP.getTime()) return false;
 
         return true;
+      })
+      .sort((a, b) => {
+        const ta = a._inicioDate ? a._inicioDate.getTime() : 0;
+        const tb = b._inicioDate ? b._inicioDate.getTime() : 0;
+        return tb - ta; // mais recente primeiro
       })
       .map(({ _inicioDate, _fimDate, ...rest }) => rest);
 

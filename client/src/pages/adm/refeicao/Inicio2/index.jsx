@@ -1073,11 +1073,11 @@ export default function Dashboard2() {
 
   const nowLocal = useMemo(() => toLocalDateTimeInputValue(new Date()), []);
 
-  // filtros da tabela de registros
+ 
   const [filtroInicio, setFiltroInicio] = useState(startOfToday);
   const [filtroFim, setFiltroFim] = useState(nowLocal);
 
-  // filtros próprios da lista de ciclos manuais
+ 
   const [manualFiltroInicio, setManualFiltroInicio] = useState("");
   const [manualFiltroFim, setManualFiltroFim] = useState("");
 

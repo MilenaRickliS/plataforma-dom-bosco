@@ -360,121 +360,301 @@
 }
 
 /* ciclos manuais */
-.manuais-container{
+.manuais-container {
   margin-top: 28px;
-  background: #fff;
-  border-radius: 15px;
-  padding: 26px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  background: #ffffff;
+  border-radius: 22px;
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(10, 46, 82, 0.08);
+  border: 1px solid rgba(10, 46, 82, 0.06);
 }
 
-.manuais-header{
-  display:flex;
-  align-items: baseline;
+.manuais-header {
+  display: flex;
   justify-content: space-between;
-  gap: 12px;
-  padding-bottom: 14px;
-  border-bottom: 2px solid #f0f0f0;
+  align-items: flex-end;
+  gap: 18px;
+  flex-wrap: wrap;
+  padding-bottom: 16px;
+  margin-bottom: 18px;
+  border-bottom: 1px solid #e8edf5;
 }
 
-.manuais-header h2{
-  margin:0;
-  font-size: 20px;
-  color:#333;
+.manuais-header h2 {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #0a2e52;
+  line-height: 1.2;
 }
 
-.manuais-sub{
-  font-size: 12px;
-  color:#666;
+.manuais-sub {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 0.82rem;
+  color: #6b7280;
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: .3px;
+  letter-spacing: 0.3px;
 }
 
-.manuais-vazio{
-  padding: 18px 0;
-  color:#666;
+.manuais-vazio {
+  padding: 20px 0;
+  color: #6b7280;
+  font-size: 0.98rem;
 }
 
-.manuais-lista{
-  max-height: 400px; /* ajusta como quiser */
-  overflow-y: auto;
-  margin-top: 16px;
-  display:flex;
-  flex-direction: column;
+
+.manuais-filtros {
+  display: flex;
   gap: 12px;
+  flex-wrap: wrap;
+  align-items: flex-end;
 }
 
-.manual-card{
-  display:flex;
-  align-items: stretch;
+.filtro-manuais-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 210px;
+}
+
+.filtro-manuais-item label {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #0a2e52;
+}
+
+.filtro-manuais-item input {
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid #cfd8e6;
+  padding: 0 12px;
+  background: #f7f9fc;
+  color: #1f2937;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.filtro-manuais-item input:focus {
+  border-color: #2d408e;
+  box-shadow: 0 0 0 4px rgba(45, 64, 142, 0.10);
+  background: #ffffff;
+}
+
+
+.btn-refeicoes-secondary {
+  height: 44px;
+  padding: 0 18px;
+  border: none;
+  border-radius: 12px;
+  background: #e9eef6;
+  color: #0a2e52;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-refeicoes-secondary:hover {
+  background: #dbe4f0;
+}
+
+
+.manuais-lista {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-height: 720px; 
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+.manuais-lista::-webkit-scrollbar {
+  width: 8px;
+}
+
+.manuais-lista::-webkit-scrollbar-track {
+  background: #eef2f7;
+  border-radius: 999px;
+}
+
+.manuais-lista::-webkit-scrollbar-thumb {
+  background: #c4cede;
+  border-radius: 999px;
+}
+
+.manuais-lista::-webkit-scrollbar-thumb:hover {
+  background: #aebacf;
+}
+
+.manual-card {
+  display: flex;
   justify-content: space-between;
-  gap: 16px;
-  border: 1px solid #f0f0f0;
-  border-radius: 14px;
-  padding: 16px;
-  background: #fbfcff;
+  align-items: stretch;
+  gap: 18px;
+  border: 1px solid #e7edf5;
+  border-radius: 18px;
+  padding: 18px;
+  background: linear-gradient(180deg, #fbfcff 0%, #f7f9fd 100%);
+  transition: all 0.2s ease;
 }
 
-.manual-top{
-  display:flex;
+.manual-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(10, 46, 82, 0.08);
+  border-color: #d8e2ef;
+}
+
+.manual-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.manual-top {
+  display: flex;
   flex-wrap: wrap;
   gap: 10px 14px;
   align-items: center;
-  color:#0a2e52;
+  margin-bottom: 10px;
+  color: #0a2e52;
 }
 
-.manual-top strong{
-  font-size: 16px;
+.manual-top strong {
+  font-size: 1rem;
+  font-weight: 800;
 }
 
-.manual-med{
-  color:#2d408e;
-  font-weight: 700;
+.manual-top span {
+  font-size: 0.95rem;
+  color: #334155;
 }
 
-.manual-datas{
-  margin-top: 8px;
-  display:flex;
+.manual-med {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(45, 64, 142, 0.08);
+  color: #2d408e !important;
+  font-weight: 800;
+}
+
+.manual-datas {
+  display: flex;
   flex-direction: column;
   gap: 6px;
-  color:#333;
-  font-size: 13px;
+  color: #475569;
+  font-size: 0.92rem;
 }
 
-.manual-actions{
-  display:flex;
+.manual-datas span b {
+  color: #0a2e52;
+}
+
+.manual-actions {
+  display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 10px;
-  min-width: 120px;
+  min-width: 130px;
 }
 
-.btn-manual-edit, .btn-manual-del{
-  border:0;
-  padding: 10px 12px;
-  border-radius: 10px;
-  cursor:pointer;
+.btn-manual-edit,
+.btn-manual-del {
+  border: 0;
+  padding: 11px 14px;
+  border-radius: 12px;
+  cursor: pointer;
   font-weight: 800;
-  font-size: 13px;
-  transition: all .2s ease;
+  font-size: 0.88rem;
+  transition: all 0.2s ease;
 }
 
-.btn-manual-edit{
-  background:#2d408e;
-  color:#fff;
+.btn-manual-edit {
+  background: #2d408e;
+  color: #ffffff;
 }
 
-.btn-manual-edit:hover{
-  background:#0a2e52;
+.btn-manual-edit:hover {
+  background: #1f3178;
+  transform: translateY(-1px);
 }
 
-.btn-manual-del{
-  background:#cc3f43;
-  color:#fff;
+.btn-manual-del {
+  background: #d94b50;
+  color: #ffffff;
 }
 
-.btn-manual-del:hover{
-  filter: brightness(0.95);
+.btn-manual-del:hover {
+  background: #bf383d;
+  transform: translateY(-1px);
+}
+
+
+@media (max-width: 900px) {
+  .manuais-container {
+    padding: 20px;
+  }
+
+  .manuais-header {
+    align-items: stretch;
+  }
+
+  .manuais-filtros {
+    width: 100%;
+  }
+
+  .filtro-manuais-item {
+    flex: 1 1 220px;
+    min-width: 180px;
+  }
+
+  .manual-card {
+    flex-direction: column;
+  }
+
+  .manual-actions {
+    flex-direction: row;
+    min-width: 100%;
+  }
+
+  .btn-manual-edit,
+  .btn-manual-del {
+    flex: 1;
+  }
+}
+
+@media (max-width: 640px) {
+  .manuais-container {
+    padding: 16px;
+    border-radius: 18px;
+  }
+
+  .manuais-header h2 {
+    font-size: 1.15rem;
+  }
+
+  .manuais-sub {
+    font-size: 0.78rem;
+  }
+
+  .manuais-filtros {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filtro-manuais-item {
+    min-width: 100%;
+  }
+
+  .manual-top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .manual-actions {
+    flex-direction: column;
+  }
 }
 
 /* grafico */
