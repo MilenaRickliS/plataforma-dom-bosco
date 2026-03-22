@@ -83,13 +83,15 @@
 // export default router;
 
 import express from "express";
+import admin from "../firebaseAdmin.js";
 
 const router = express.Router();
 
-router.post("/login", async (req, res) => {
+router.get("/", (req, res) => {
   return res.status(200).json({
     ok: true,
-    message: "rota auth funcionando sem firebase",
+    message: "auth carregou com firebase",
+    apps: admin.apps.length,
   });
 });
 
