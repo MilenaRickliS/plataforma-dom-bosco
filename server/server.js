@@ -53,6 +53,8 @@
 import express from "express";
 import dotenv from "dotenv";
 import corsMiddleware from "./src/middlewares/cors.js";
+import authRoutes from "./src/api/auth.js";
+
 
 dotenv.config();
 
@@ -68,5 +70,6 @@ app.get("/", (req, res) => {
 app.get("/api/teste", (req, res) => {
   res.status(200).json({ ok: true, rota: "teste funcionando" });
 });
+app.use("/api/auth", authRoutes);
 
 export default app;
