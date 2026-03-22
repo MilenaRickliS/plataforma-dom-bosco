@@ -48,7 +48,6 @@ export default function Dashboard2() {
 
   const pad2 = (n) => String(n).padStart(2, "0");
   const [busca, setBusca] = useState("");
-  const [limiteManuais, setLimiteManuais] = useState(5);
 
 
   const toLocalDateTimeInputValue = (d) => {
@@ -281,29 +280,26 @@ const buscarRegistros = async () => {
 };
 
 
- const buscarCiclosManuais = async () => {
-  setLoadingManuais(true);
-  try {
-    const inicioISO = filtroInicio ? new Date(filtroInicio).toISOString() : "";
-    const fimISO = filtroFim ? new Date(filtroFim).toISOString() : "";
+  const buscarCiclosManuais = async () => {
+    setLoadingManuais(true);
+    try {
+      const qs = new URLSearchParams({
+        tipo: "ciclosManuais",
+        inicio: filtroInicio,
+        fim: filtroFim,
+      });
 
-    const qs = new URLSearchParams({
-      tipo: "ciclosManuais",
-      inicio: inicioISO,
-      fim: fimISO,
-    });
-    console.log("Filtro:", inicioISO, fimISO);
-    const resp = await fetch(`${BASE}/api/pesagem?${qs.toString()}`);
-    const data = await resp.json();
+      const resp = await fetch(`${BASE}/api/pesagem?${qs.toString()}`);
+      const data = await resp.json();
 
-    setCiclosManuais(Array.isArray(data.ciclos) ? data.ciclos : []);
-  } catch (e) {
-    console.error("Erro ao buscar ciclos manuais:", e);
-    setCiclosManuais([]);
-  } finally {
-    setLoadingManuais(false);
-  }
-};
+      setCiclosManuais(Array.isArray(data.ciclos) ? data.ciclos : []);
+    } catch (e) {
+      console.error("Erro ao buscar ciclos manuais:", e);
+      setCiclosManuais([]);
+    } finally {
+      setLoadingManuais(false);
+    }
+  };
 
   const abrirEditarManual = (c) => {
     setEditId(c.id);
@@ -354,6 +350,9 @@ const buscarRegistros = async () => {
     if (!isValidDateBR(manualFimData)) return alert("Data Fim inválida. Use DD/MM/AAAA.");
     if (!isValidTimeHM(manualFimHora)) return alert("Hora Fim inválida. Use HH:MM.");
 
+   
+    const dtInicio = parseDateTimeBR(manualInicioData, manualInicioHora);
+    const dtFim = parseDateTimeBR(manualFimData, manualFimHora);
     const agora = new Date();
 
     if (dtFim.getTime() < dtInicio.getTime()) return alert("A Data/Hora Fim não pode ser antes da Data/Hora Início.");
@@ -366,11 +365,8 @@ const buscarRegistros = async () => {
     if (!Number.isFinite(totalPessoasNum) || totalPessoasNum <= 0) return alert("Total de pessoas deve ser maior que 0.");
     if (!Number.isFinite(pesoTotalNum) || pesoTotalNum <= 0) return alert("Peso total deve ser maior que 0.");
 
-    const dtInicio = parseDateTimeBR(manualInicioData, manualInicioHora);
-    const dtFim = parseDateTimeBR(manualFimData, manualFimHora);
-
-    const manualInicio = dtInicio.toISOString();
-    const manualFim = dtFim.toISOString();
+    const manualInicio = joinDateTime(manualInicioData, manualInicioHora);
+    const manualFim = joinDateTime(manualFimData, manualFimHora);
 
     setSavingManual(true);
     try {
@@ -426,12 +422,6 @@ const buscarRegistros = async () => {
     buscarCiclosManuais();
     
   }, [filtroInicio, filtroFim]);
-
-  const ciclosOrdenados = useMemo(() => {
-    return [...ciclosManuais].sort((a, b) => {
-      return new Date(b.dataInicio) - new Date(a.dataInicio);
-    });
-  }, [ciclosManuais]);
 
 
 const manualPorHora = useMemo(() => {
@@ -712,28 +702,9 @@ const chartData = useMemo(() => {
           <div className="manuais-container">
             <div className="manuais-header">
               <h2>Ciclos Manuais</h2>
-              <div className="manuais-filtros">
-                <label>Data início</label>
-                <input
-                  type="datetime-local"
-                  value={filtroInicio}
-                  onChange={(e) => setFiltroInicio(e.target.value)}
-                />
-                <label>Data fim</label>
-                <input
-                  type="datetime-local"
-                  value={filtroFim}
-                  onChange={(e) => setFiltroFim(e.target.value)}
-                />
-              </div>
-              <button
-                onClick={() => {
-                  setFiltroInicio(startOfToday);
-                  setFiltroFim(nowLocal);
-                }}
-              >
-                Limpar filtro
-              </button>
+              <span className="manuais-sub">
+                {filtroInicio} até {filtroFim}
+              </span>
             </div>
 
             {loadingManuais ? (
@@ -742,7 +713,7 @@ const chartData = useMemo(() => {
               <div className="manuais-vazio">Nenhum ciclo manual no período.</div>
             ) : (
               <div className="manuais-lista">
-               {ciclosOrdenados.slice(0, limiteManuais).map((c) => (
+                {ciclosManuais.map((c) => (
                   <div className="manual-card" key={c.id}>
                     <div className="manual-info">
                       <div className="manual-top">
