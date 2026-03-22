@@ -82,10 +82,10 @@ app.get("/api/teste", (req, res) => {
   res.status(200).json({ ok: true, rota: "teste funcionando" });
 });
 
-// app.use("/api/auth", authRoutes);
+app.use("/api/auth", authRoutes);
 // app.use("/api/depoimentos", depoimentosRoutes);
 // app.use("/api/equipe", equipeRoutes);
-app.use("/api/email", emailRoutes);
+// app.use("/api/email", emailRoutes);
 // app.use("/api/galeria", galeriaRoutes);
 // app.use("/api/cursos", cursosRoutes);
 // app.use("/api/usuarios", usuariosRoutes);

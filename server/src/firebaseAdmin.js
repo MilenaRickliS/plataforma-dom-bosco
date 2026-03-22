@@ -11,9 +11,9 @@ if (!admin.apps.length) {
   try {
     admin.initializeApp({
       credential: admin.credential.cert({
-        project_id: process.env.FIREBASE_PROJECT_ID,
-        client_email: process.env.FIREBASE_CLIENT_EMAIL,
-        private_key: privateKey,
+        projectid: process.env.FIREBASE_PROJECT_ID,
+        clientemail: process.env.FIREBASE_CLIENT_EMAIL,
+        privatekey: privateKey,
       }),
     });
   } catch (error) {
