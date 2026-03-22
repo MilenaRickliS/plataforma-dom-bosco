@@ -172,26 +172,82 @@ export default async function handler(req, res) {
     }
   }
 
-  if (req.method === "GET" && req.query.tipo === "ciclosManuais") {
+//   if (req.method === "GET" && req.query.tipo === "ciclosManuais") {
+//   try {
+//     const { inicio, fim } = req.query;
+
+//     const { startSP: defaultStart, endSP: defaultEnd } = getDefaultSPRangeToday();
+
+//     const startSP = parseRangeDate(inicio, "start") || defaultStart;
+//     const endSP = parseRangeDate(fim, "end") || defaultEnd;
+
+//     if (endSP.getTime() < startSP.getTime()) {
+//       return res.status(400).json({ erro: "fim não pode ser antes de inicio" });
+//     }
+
+//     const snap = await db
+//       .collection("ciclosBalanca")
+//       .where("criadoManual", "==", true)
+//       .where("timestamp", ">=", admin.firestore.Timestamp.fromDate(startSP))
+//       .where("timestamp", "<=", admin.firestore.Timestamp.fromDate(endSP))
+//       .orderBy("timestamp", "desc")
+//       .get();
+
+//     const ciclos = snap.docs.map((d) => {
+//       const c = d.data();
+//       return {
+//         id: d.id,
+//         dataInicio: c.dataInicio || "",
+//         dataFim: c.dataFim || "",
+//         totalPessoas: Number(c.totalPessoas || 0),
+//         pesoTotal: Number(Number(c.pesoTotal || 0).toFixed(3)),
+//         criadoManual: true,
+//         timestampISO: c.timestamp?.toDate ? c.timestamp.toDate().toISOString() : null,
+//       };
+//     });
+
+//     return res.status(200).json({
+//       sucesso: true,
+//       range: { inicio: startSP.toISOString(), fim: endSP.toISOString() },
+//       ciclos,
+//     });
+//   } catch (e) {
+//     console.error("❌ [GET ciclosManuais] Falha:", e);
+//     return res.status(500).json({ erro: String(e?.message || e) });
+//   }
+// }
+if (req.method === "GET" && req.query.tipo === "ciclosManuais") {
   try {
     const { inicio, fim } = req.query;
 
-    const { startSP: defaultStart, endSP: defaultEnd } = getDefaultSPRangeToday();
+    const startSP = parseRangeDate(inicio, "start");
+    const endSP = parseRangeDate(fim, "end");
 
-    const startSP = parseRangeDate(inicio, "start") || defaultStart;
-    const endSP = parseRangeDate(fim, "end") || defaultEnd;
-
-    if (endSP.getTime() < startSP.getTime()) {
+    if (startSP && endSP && endSP.getTime() < startSP.getTime()) {
       return res.status(400).json({ erro: "fim não pode ser antes de inicio" });
     }
 
-    const snap = await db
+    let query = db
       .collection("ciclosBalanca")
-      .where("criadoManual", "==", true)
-      .where("timestamp", ">=", admin.firestore.Timestamp.fromDate(startSP))
-      .where("timestamp", "<=", admin.firestore.Timestamp.fromDate(endSP))
-      .orderBy("timestamp", "desc")
-      .get();
+      .where("criadoManual", "==", true);
+
+    if (startSP) {
+      query = query.where(
+        "timestamp",
+        ">=",
+        admin.firestore.Timestamp.fromDate(startSP)
+      );
+    }
+
+    if (endSP) {
+      query = query.where(
+        "timestamp",
+        "<=",
+        admin.firestore.Timestamp.fromDate(endSP)
+      );
+    }
+
+    const snap = await query.orderBy("timestamp", "desc").get();
 
     const ciclos = snap.docs.map((d) => {
       const c = d.data();
@@ -208,7 +264,10 @@ export default async function handler(req, res) {
 
     return res.status(200).json({
       sucesso: true,
-      range: { inicio: startSP.toISOString(), fim: endSP.toISOString() },
+      range: {
+        inicio: startSP ? startSP.toISOString() : null,
+        fim: endSP ? endSP.toISOString() : null,
+      },
       ciclos,
     });
   } catch (e) {
@@ -216,7 +275,6 @@ export default async function handler(req, res) {
     return res.status(500).json({ erro: String(e?.message || e) });
   }
 }
-
 
 if (req.method === "GET" && req.query.tipo === "relatorio") {
   try {
