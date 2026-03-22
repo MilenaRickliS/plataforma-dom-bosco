@@ -397,6 +397,8 @@
 }
 
 .manuais-lista{
+  max-height: 400px; /* ajusta como quiser */
+  overflow-y: auto;
   margin-top: 16px;
   display:flex;
   flex-direction: column;
