@@ -48,38 +48,17 @@ plataforma-dom-bosco/
 │
 └── server/                     # Backend Node.js + Express
     ├── src/
-    │   ├── api/     
-    │   │   ├── atividades.js   # Principais Rotas
+    │   ├── api/       # Principais Rotas
     │   │   ├── auth.js
-    │   │   ├── avaliacoes.js
-    │   │   ├── avisos.js
     │   │   ├── balanca.js
-    │   │   ├── chat.js
-    │   │   ├── chatPrivado.js
-    │   │   ├── contarEsp32.js
-    │   │   ├── conteudo.js
     │   │   ├── cursos.js
     │   │   ├── depoimentos.js
     │   │   ├── email.js
-    │   │   ├── entregas.js
     │   │   ├── equipe.js
-    │   │   ├── eventos.js
     │   │   ├── galeria.js
-    │   │   ├── gamificacao.js
-    │   │   ├── gestaoTurmas.js
-    │   │   ├── medalhas.js
-    │   │   ├── notas.js
-    │   │   ├── oficinas.js
-    │   │   ├── projetos.js
-    │   │   ├── publicacoes.js
-    │   │   ├── questoes.js
     │   │   ├── refeicoes.js
     │   │   ├── relatorios.js
-    │   │   ├── respostas.js
-    │   │   ├── search.js
     │   │   ├── tarefas.js
-    │   │   ├── turmas.js
-    │   │   ├── uploads.js
     │   │   ├── usuarios.js
     │   │   └── videos.js
     │   ├── cloudinary.js        # Banco de dados (Fotos e Vídeos)
