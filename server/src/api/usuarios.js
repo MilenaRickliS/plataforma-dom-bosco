@@ -93,6 +93,17 @@ export default async function handler(req, res) {
 
     
       let userRecord;
+      // try {
+      //   userRecord = await admin.auth().createUser({
+      //     email,
+      //     password: senha,
+      //     displayName: nome,
+      //   });
+      //   console.log("✅ Usuário criado no Auth:", email);
+      // } catch (e) {
+      //   console.warn("Usuário já existe no Auth, sincronizando...");
+      //   userRecord = await admin.auth().getUserByEmail(email);
+      // }
       try {
         userRecord = await admin.auth().createUser({
           email,
@@ -101,8 +112,17 @@ export default async function handler(req, res) {
         });
         console.log("✅ Usuário criado no Auth:", email);
       } catch (e) {
-        console.warn("Usuário já existe no Auth, sincronizando...");
-        userRecord = await admin.auth().getUserByEmail(email);
+        if (e.code === "auth/email-already-exists") {
+          console.warn("Usuário já existe no Auth, sincronizando...");
+          userRecord = await admin.auth().getUserByEmail(email);
+        } else {
+          console.error("❌ Erro real ao criar no Auth:", e);
+          return res.status(400).json({
+            message: "Não foi possível criar o usuário.",
+            error: e.message,
+            code: e.code || null,
+          });
+        }
       }
 
       

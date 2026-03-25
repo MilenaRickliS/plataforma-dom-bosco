@@ -94,11 +94,6 @@ export default function Usuarios() {
       return false;
     }
 
-    if (!editando && !form.foto) {
-      toast.error("A foto do usuário é obrigatória.");
-      return false;
-    }
-
     if (form.foto && form.foto.type && !form.foto.type.startsWith("image/")) {
       toast.error("A foto deve ser uma imagem válida (JPG, PNG, etc).");
       return false;
@@ -130,8 +125,13 @@ export default function Usuarios() {
       setEditando(null);
       carregarUsuarios();
     } catch (err) {
-      console.error(err);
-      toast.error("Erro ao salvar usuário");
+      console.error("Erro completo:", err);
+      console.error("Resposta do servidor:", err?.response?.data);
+      toast.error(
+        err?.response?.data?.message ||
+        err?.response?.data?.error ||
+        "Erro ao salvar usuário"
+      );
     }
   }
 
