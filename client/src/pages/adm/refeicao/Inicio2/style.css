@@ -946,7 +946,8 @@
 
 /* registros */
 .registros-cards {
-  display: none; 
+  display: flex;
+  flex-direction: column;
   margin-top: 18px;
   gap: 12px;
 }
