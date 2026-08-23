@@ -1,64 +1,562 @@
-.fundo-admin{
-    
-    border-radius: 20px;
-    margin: 20px;
-    min-height: 60%;
-    display: flex;
-    flex-direction: column;
-}
-.titulo-admin{
-    border-bottom: 3px solid #ffffff;
+/* =========================================
+   FUNDO
+========================================= */
+
+.fundo-admin {
+    min-height: 100vh;
+    padding: 30px;
+    box-sizing: border-box;
+
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px 0;
+
+    background: linear-gradient(
+        135deg,
+        #0A2E52 0%,
+        #2D408E 100%
+    );
 }
-.titulo-admin img{
-    height: 70px;
-}
-.titulo-admin p{
-    font-family: "Montserrat bold", sans-serif;
-    color: #2D408E;
-}
-.bemvindo-admin{
-    flex: 1; 
+
+
+/* =========================================
+   PAINEL PRINCIPAL
+========================================= */
+
+.painel-admin {
+    width: 100%;
+    max-width: 1050px;
+    min-height: 700px;
+
+    background-color: #ffffff;
+
+    border-radius: 25px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 25px 60px rgba(0, 0, 0, 0.30);
+
     display: flex;
     flex-direction: column;
-    justify-content: center; 
-    align-items: center;     
+}
+
+
+/* =========================================
+   CABEÇALHO
+========================================= */
+
+.titulo-admin {
+    min-height: 125px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 20px 45px;
+
+    box-sizing: border-box;
+
+    background-color: #ffffff;
+
+    border-bottom: 1px solid #e5e5e5;
+}
+
+
+.logo-container {
+    width: 85px;
+    height: 85px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-right: 25px;
+}
+
+
+.titulo-admin img {
+    max-width: 85px;
+    max-height: 85px;
+
+    object-fit: contain;
+}
+
+
+.titulo-texto {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.titulo-pequeno {
+    font-family: "Montserrat", sans-serif;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    letter-spacing: 2px;
+
+    color: #2D408E;
+
+    margin-bottom: 5px;
+}
+
+
+.titulo-admin p {
+    margin: 0;
+
+    font-family: "Montserrat", sans-serif;
+
+    font-size: 24px;
+    font-weight: 700;
+
+    color: #0A2E52;
+}
+
+
+.subtitulo {
+    margin-top: 5px;
+
+    font-family: "Montserrat", sans-serif;
+
+    font-size: 13px;
+
+    color: #777;
+}
+
+
+/* =========================================
+   CONTEÚDO
+========================================= */
+
+.conteudo-admin {
+    flex: 1;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 45px 30px;
+}
+
+
+.bemvindo-admin {
+    width: 100%;
+    max-width: 800px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
     text-align: center;
 }
 
-.link-gestao{
-    border: 2px solid black;
-    background-color: #0A2E52;
-    font-family: "Montserrat bold", sans-serif;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 20px;
-    padding: 30px;
-    margin: 20px;
-    transition: all 0.3s ease;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-}
-.link-gestao:hover{
-    background-color: #2D408E;
-    color: #ffffff;
+
+.bemvindo-admin h1 {
+    margin: 0;
+
+    font-family: "Montserrat", sans-serif;
+
+    font-size: 32px;
+    font-weight: 700;
+
+    color: #0A2E52;
 }
 
-.logout{
-    border: 2px solid black;
+
+.descricao-admin {
+    margin: 10px 0 35px;
+
     font-family: "Montserrat", sans-serif;
-    color: #fff;
-    background-color: #CC3F43;
-    font-size: 20px;
-    padding: 10px;
-    border-radius: 10px;
-    transition: all 0.3s ease;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    cursor: pointer;
+
+    font-size: 14px;
+
+    color: #777;
 }
-.logout:hover{
-    background-color: #833732;
+
+
+/* =========================================
+   OPÇÕES
+========================================= */
+
+.opcoes-admin {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 20px;
+}
+
+
+.link-gestao {
+    min-height: 190px;
+
+    padding: 25px 20px;
+
+    box-sizing: border-box;
+
+    border-radius: 18px;
+
+    border: 2px solid #0A2E52;
+
+    background-color: #0A2E52;
+
     color: #ffffff;
+
+    text-decoration: none;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        background-color 0.25s ease;
+
+    box-shadow:
+        0 8px 20px rgba(10, 46, 82, 0.20);
+}
+
+
+.link-gestao:hover {
+    background-color: #2D408E;
+
+    transform: translateY(-7px);
+
+    box-shadow:
+        0 15px 30px rgba(10, 46, 82, 0.30);
+}
+
+
+.link-gestao:active {
+    transform: translateY(-2px);
+}
+
+
+/* =========================================
+   ÍCONES
+========================================= */
+
+.icone-gestao {
+    width: 65px;
+    height: 65px;
+
+    border-radius: 50%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-bottom: 18px;
+
+    background-color: rgba(255, 255, 255, 0.15);
+
+    font-size: 31px;
+
+    transition: transform 0.25s ease;
+}
+
+
+.link-gestao:hover .icone-gestao {
+    transform: scale(1.1);
+}
+
+
+/* =========================================
+   TEXTO DOS CARDS
+========================================= */
+
+.texto-gestao {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.texto-gestao strong {
+    font-family: "Montserrat", sans-serif;
+
+    font-size: 16px;
+
+    margin-bottom: 8px;
+}
+
+
+.texto-gestao span {
+    font-family: "Montserrat", sans-serif;
+
+    font-size: 12px;
+
+    line-height: 1.5;
+
+    opacity: 0.85;
+
+    max-width: 180px;
+}
+
+
+/* =========================================
+   BOTÃO SAIR
+========================================= */
+
+.logout {
+    margin-top: 35px;
+
+    min-width: 150px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+
+    padding: 12px 22px;
+
+    border: none;
+    border-radius: 10px;
+
+    background-color: #CC3F43;
+
+    color: #ffffff;
+
+    font-family: "Montserrat", sans-serif;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.25s ease,
+        background-color 0.25s ease,
+        box-shadow 0.25s ease;
+
+    box-shadow:
+        0 5px 15px rgba(204, 63, 67, 0.25);
+}
+
+
+.logout svg {
+    font-size: 21px;
+}
+
+
+.logout:hover {
+    background-color: #833732;
+
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 8px 20px rgba(131, 55, 50, 0.30);
+}
+
+
+/* =========================================
+   RODAPÉ
+========================================= */
+
+.rodape-admin {
+    min-height: 55px;
+
+    padding: 0 35px;
+
+    box-sizing: border-box;
+
+    border-top: 1px solid #eeeeee;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    font-family: "Montserrat", sans-serif;
+
+    font-size: 11px;
+
+    color: #888;
+}
+
+
+/* =========================================
+   RESPONSIVO
+========================================= */
+
+@media (max-width: 800px) {
+
+    .fundo-admin {
+        padding: 15px;
+    }
+
+
+    .painel-admin {
+        min-height: calc(100vh - 30px);
+
+        border-radius: 20px;
+    }
+
+
+    .titulo-admin {
+        padding: 20px 25px;
+    }
+
+
+    .titulo-admin p {
+        font-size: 19px;
+    }
+
+
+    .logo-container {
+        width: 65px;
+        height: 65px;
+
+        margin-right: 15px;
+    }
+
+
+    .titulo-admin img {
+        max-width: 65px;
+        max-height: 65px;
+    }
+
+
+    .opcoes-admin {
+        grid-template-columns: 1fr;
+
+        max-width: 450px;
+    }
+
+
+    .link-gestao {
+        min-height: 130px;
+
+        flex-direction: row;
+
+        justify-content: flex-start;
+
+        text-align: left;
+
+        padding: 20px;
+    }
+
+
+    .icone-gestao {
+        flex-shrink: 0;
+
+        margin-bottom: 0;
+        margin-right: 18px;
+    }
+
+
+    .texto-gestao {
+        align-items: flex-start;
+    }
+
+
+    .texto-gestao span {
+        max-width: none;
+    }
+
+
+    .rodape-admin {
+        padding: 15px 25px;
+
+        flex-direction: column;
+
+        gap: 5px;
+    }
+}
+
+
+/* =========================================
+   CELULAR
+========================================= */
+
+@media (max-width: 480px) {
+
+    .fundo-admin {
+        padding: 0;
+    }
+
+
+    .painel-admin {
+        min-height: 100vh;
+
+        border-radius: 0;
+    }
+
+
+    .titulo-admin {
+        padding: 20px;
+
+        min-height: 105px;
+    }
+
+
+    .titulo-pequeno {
+        font-size: 9px;
+    }
+
+
+    .titulo-admin p {
+        font-size: 16px;
+    }
+
+
+    .subtitulo {
+        font-size: 11px;
+    }
+
+
+    .logo-container {
+        width: 55px;
+        height: 55px;
+    }
+
+
+    .titulo-admin img {
+        max-width: 55px;
+        max-height: 55px;
+    }
+
+
+    .conteudo-admin {
+        padding: 35px 20px;
+    }
+
+
+    .bemvindo-admin h1 {
+        font-size: 27px;
+    }
+
+
+    .descricao-admin {
+        font-size: 13px;
+
+        margin-bottom: 25px;
+    }
+
+
+    .link-gestao {
+        min-height: 115px;
+    }
+
+
+    .icone-gestao {
+        width: 55px;
+        height: 55px;
+
+        font-size: 26px;
+    }
+
+
+    .texto-gestao strong {
+        font-size: 14px;
+    }
+
+
+    .texto-gestao span {
+        font-size: 11px;
+    }
 }

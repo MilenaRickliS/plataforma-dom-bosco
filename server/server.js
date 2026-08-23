@@ -50,6 +50,8 @@
 
 
 // export default app;
+
+
 import express from "express";
 import dotenv from "dotenv";
 import corsMiddleware from "./src/middlewares/cors.js";
@@ -70,6 +72,7 @@ import balancaRoutes from "./src/api/balanca.js";
 dotenv.config();
 
 const app = express();
+// const PORT = process.env.PORT || 3000;
 
 app.use(corsMiddleware);
 app.use(express.json());
@@ -81,6 +84,7 @@ app.get("/", (req, res) => {
 app.get("/api/teste", (req, res) => {
   res.status(200).json({ ok: true, rota: "teste funcionando" });
 });
+
 
 app.use("/api/auth", authRoutes);
 app.use("/api/depoimentos", depoimentosRoutes);
@@ -94,5 +98,9 @@ app.use("/api/refeicoes", refeicoesRoutes);
 app.use("/api/relatorios", relatoriosRoutes);
 app.use("/api/tarefas", tarefasRoutes);
 app.use("/api/pesagem", balancaRoutes);
+
+// app.listen(PORT, () => {
+//   console.log(`🚀 Servidor rodando em http://localhost:${PORT}`);
+// });
 
 export default app;

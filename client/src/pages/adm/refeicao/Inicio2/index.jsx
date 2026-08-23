@@ -7,6 +7,7 @@ import { MdOutlineScale, MdRestaurantMenu } from "react-icons/md";
 import { TbWeight, TbChartPie4 } from "react-icons/tb";
 import { FiSettings, FiActivity, FiClock } from "react-icons/fi";
 import { BiLineChart } from "react-icons/bi";
+import { FaTrash } from "react-icons/fa";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -91,6 +92,10 @@ export default function Dashboard2() {
   const [openDeleteManual, setOpenDeleteManual] = useState(false);
   const [manualToDelete, setManualToDelete] = useState(null);
   const [deletingManual, setDeletingManual] = useState(false);
+  const [openDeleteRegistro, setOpenDeleteRegistro] = useState(false);
+  const [registroToDelete, setRegistroToDelete] = useState(null);
+  const [senhaExclusao, setSenhaExclusao] = useState("");
+  const [deletingRegistro, setDeletingRegistro] = useState(false);
 
   const formatHora = (valor) => {
     if (!valor) return "--:--";
@@ -527,6 +532,71 @@ export default function Dashboard2() {
     },
   };
 
+  const abrirExcluirRegistro = (registro) => {
+    setRegistroToDelete(registro);
+    setSenhaExclusao("");
+    setOpenDeleteRegistro(true);
+  };
+  const fecharExcluirRegistro = () => {
+    if (deletingRegistro) return;
+
+    setOpenDeleteRegistro(false);
+    setRegistroToDelete(null);
+    setSenhaExclusao("");
+  };
+
+  const excluirRegistro = async () => {
+    if (!registroToDelete?.id) {
+      return;
+    }
+
+    if (!senhaExclusao.trim()) {
+      return alert("Digite a senha para excluir o registro.");
+    }
+
+    setDeletingRegistro(true);
+
+    try {
+      const resp = await fetch(
+        `${BASE}/api/pesagem?tipo=registro&id=${registroToDelete.id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            senha: senhaExclusao,
+          }),
+        }
+      );
+
+      const data = await resp.json();
+
+      if (!resp.ok) {
+        throw new Error(data?.erro || "Falha ao excluir registro.");
+      }
+
+      fecharExcluirRegistro();
+
+      await buscarRegistros();
+      await buscarDadosDashboard(false);
+
+      alert("🗑️ Registro excluído com sucesso!");
+
+    } catch (e) {
+      console.error("Erro ao excluir registro:", e);
+
+      if (e.message === "Senha incorreta.") {
+        alert("❌ Senha incorreta.");
+      } else {
+        alert(`❌ ${e.message || "Não foi possível excluir o registro."}`);
+      }
+
+    } finally {
+      setDeletingRegistro(false);
+    }
+  };
+
   function DashboardLoading() {
     return (
       <div className="dash-skeleton">
@@ -874,6 +944,16 @@ export default function Dashboard2() {
                             <span className="registro-value">{Number(r.pesoTotal).toFixed(3)} kg</span>
                           </div>
                         </div>
+                         <div className="registro-actions">
+
+                          <button
+                            className="btn-registro-del"
+                            onClick={() => abrirExcluirRegistro(r)}
+                          >
+                            <FaTrash /> Excluir
+                          </button>
+
+                        </div>
                       </div>
                     ))
                   )}
@@ -1075,6 +1155,112 @@ export default function Dashboard2() {
                     {deletingManual ? "Excluindo..." : "Sim, excluir"}
                   </button>
                 </div>
+              </div>
+            </div>
+          )}
+
+          {openDeleteRegistro && (
+            <div
+              className="modal-overlay"
+              onClick={fecharExcluirRegistro}
+            >
+              <div
+                className="modal-delete"
+                onClick={(e) => e.stopPropagation()}
+              >
+
+                <div className="modal-delete-icon">
+                  🔐
+                </div>
+
+                <h3>
+                  Excluir registro da balança?
+                </h3>
+
+                <p>
+                  Essa ação removerá permanentemente o registro selecionado.
+                </p>
+
+                {registroToDelete && (
+                  <div className="modal-delete-info">
+
+                    <div className="delete-info-row">
+                      <span className="delete-label">
+                        Data/Hora
+                      </span>
+
+                      <strong>
+                        {registroToDelete.dataHora}
+                      </strong>
+                    </div>
+
+                    <div className="delete-info-row">
+                      <span className="delete-label">
+                        Peso
+                      </span>
+
+                      <strong>
+                        {Number(registroToDelete.pesoPrato).toFixed(3)} kg
+                      </strong>
+                    </div>
+
+                    <div className="delete-info-row">
+                      <span className="delete-label">
+                        Pessoas
+                      </span>
+
+                      <strong>
+                        {registroToDelete.pessoas}
+                      </strong>
+                    </div>
+
+                  </div>
+                )}
+
+                <div className="form-refeicoes-row">
+
+                  <label>
+                    Senha administrativa
+                  </label>
+
+                  <input
+                    type="password"
+                    value={senhaExclusao}
+                    onChange={(e) => setSenhaExclusao(e.target.value)}
+                    placeholder="Digite a senha"
+                    autoFocus
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        excluirRegistro();
+                      }
+                    }}
+                  />
+
+                </div>
+                <br/>
+
+                <div className="modal-delete-actions">
+
+                  <button
+                    className="btn-delete-cancel"
+                    onClick={fecharExcluirRegistro}
+                    disabled={deletingRegistro}
+                  >
+                    Cancelar
+                  </button>
+
+                  <button
+                    className="btn-delete-confirm"
+                    onClick={excluirRegistro}
+                    disabled={deletingRegistro}
+                  >
+                    {deletingRegistro
+                      ? "Excluindo..."
+                      : "Confirmar exclusão"}
+                  </button>
+
+                </div>
+
               </div>
             </div>
           )}

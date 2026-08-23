@@ -761,6 +761,67 @@ if (req.method === "DELETE" && req.query.tipo === "cicloManual") {
   }
 }
 
+if (req.method === "DELETE" && req.query.tipo === "registro") {
+  try {
+    const { id } = req.query;
+    const { senha } = req.body || {};
+
+    if (!id) {
+      return res.status(400).json({
+        erro: "Informe o id do registro",
+      });
+    }
+
+    if (!senha) {
+      return res.status(401).json({
+        erro: "Informe a senha administrativa",
+      });
+    }
+
+    const senhaCorreta = process.env.SENHA_EXCLUSAO_BALANCA;
+
+    if (!senhaCorreta) {
+      console.error("❌ SENHA_EXCLUSAO_BALANCA não configurada.");
+
+      return res.status(500).json({
+        erro: "Senha administrativa não configurada no servidor",
+      });
+    }
+
+    if (String(senha) !== String(senhaCorreta)) {
+      return res.status(403).json({
+        erro: "Senha incorreta.",
+      });
+    }
+
+    const registroRef = db
+      .collection("registrosBalanca")
+      .doc(id);
+
+    const registroSnap = await registroRef.get();
+
+    if (!registroSnap.exists) {
+      return res.status(404).json({
+        erro: "Registro não encontrado",
+      });
+    }
+
+    await registroRef.delete();
+
+    return res.status(200).json({
+      sucesso: true,
+      mensagem: "Registro da balança excluído com sucesso",
+    });
+
+  } catch (e) {
+    console.error("❌ [DELETE registro] Falha:", e);
+
+    return res.status(500).json({
+      erro: String(e?.message || e),
+    });
+  }
+}
+
 
   if (req.method === "POST" && req.query.tipo === "cicloManual") {
     try {
