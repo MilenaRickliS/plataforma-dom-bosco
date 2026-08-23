@@ -1,3 +1,11 @@
+console.log("========== DELETE REGISTRO ==========");
+console.log("Método:", req.method);
+console.log("Tipo:", req.query.tipo);
+console.log(
+  "SENHA_EXCLUSAO_BALANCA configurada:",
+  !!process.env.SENHA_EXCLUSAO_BALANCA
+);
+console.log("====================================");
 import admin from "../firebaseAdmin.js";
 const db = admin.firestore();
 const parseRangeDate = (value, mode) => {
